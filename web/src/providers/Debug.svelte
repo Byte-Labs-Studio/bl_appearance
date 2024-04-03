@@ -32,7 +32,7 @@ import { InitialiseDebugSenders } from '@utils/debug/init';
                     <span class="w-full">{label}</span>
 
                     {#each actions as action}
-                        <div class="flex flex-row flex-wrap gap-[0.5vw]">
+                        <div class="flex flex-wrap gap-[0.5vw]">
                             {#if action.type === 'text'}
                                 <span
                                     class="w-full px-[0.5vw] py-[0.25vw] flex flex-col gap-[0.2vw] bg-accent items-start"
@@ -56,7 +56,7 @@ import { InitialiseDebugSenders } from '@utils/debug/init';
                                 </span>
                             {:else if action.type === 'checkbox'}
                                 <span
-                                    class="w-full px-[0.5vw] py-[0.25vw] flex flex-row gap-[0.2vw] bg-accent items-center"
+                                    class="w-full px-[0.5vw] py-[0.25vw] flex  gap-[0.2vw] bg-accent items-center"
                                 >
                                     <p>{action.label}</p>
 

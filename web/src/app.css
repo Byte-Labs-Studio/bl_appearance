@@ -8,6 +8,10 @@
     font-smooth: auto;
 }
 
+div {
+    scrollbar-gutter: stable;
+}
+
 *:focus {
     outline: none;
 }
@@ -18,6 +22,9 @@
     --primary: theme('colors.primary');
     --secondary: theme('colors.secondary');
     --accent: theme('colors.accent');
+
+    --success: theme('colors.success');
+    --error: theme('colors.error');
 
     --text-primary: theme('colors.txt-primary');
     --text-secondary: theme('colors.txt-secondary');
@@ -31,3 +38,41 @@ html, body {
     font-size: 1.6rem;
     overflow: hidden;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* select all number input */
+input[type=number], input[type=text]  {
+    @apply text-txt-primary transition-all duration-300 ease-in-out hover:brightness-125 font-semibold text-[1.6vh] border border-secondary/50 bg-primary/50 text-center;
+}
+
+input::selection {
+    background: #8685ef80;
+}
+
+button.btn, .btn {
+    @apply bg-primary/50 border border-secondary/50 transition-all duration-300 ease-in-out hover:brightness-125;
+}
+
+button:disabled, .btn:disabled {
+    @apply brightness-50;
+}
+
+::-webkit-scrollbar{
+    @apply w-[0.5vh] h-[0.5vh] bg-primary/80
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    @apply hidden
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent
+  }

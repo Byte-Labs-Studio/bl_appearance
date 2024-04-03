@@ -1,4 +1,3 @@
-import { IsEnvBrowser } from '@utils/eventsHandlers';
 import { get, writable } from 'svelte/store';
 
 
@@ -32,3 +31,5 @@ export const IS_BROWSER = writable<boolean>(!(window as any).invokeNative);
  * @type {Writable<boolean>}
  */
 export const VISIBLE = writable<boolean>(false);
+
+

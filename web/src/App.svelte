@@ -2,7 +2,10 @@
     import { CONFIG, IS_BROWSER } from './stores/stores';
     import { InitialiseListen } from '@utils/listeners';
     import Visibility from '@providers/Visibility.svelte';
-    import ImageHolder from '@components/ImageHolder.svelte';
+    import Hexagon from '@components/micro/Hexagon.svelte';
+    import Nav from '@components/Nav.svelte';
+    import { fade } from 'svelte/transition';
+    import Menu from '@components/Menu.svelte';
 
     CONFIG.set({
         fallbackResourceName: 'debug',
@@ -10,10 +13,25 @@
     });
 
     InitialiseListen();
+
+    const radius = 95;
 </script>
 
 <Visibility>
-    <ImageHolder />
+    <div
+        class="w-screen h-screen absolute top-0 left-0 radial-background grid place-items-center -z-50"
+        transition:fade
+    >
+        <div
+            transition:fade|global
+            style="height: {radius}%;"
+            class="absolute aspect-square border-[0.25vh] border-primary/20 rounded-full pointer-events-none -z-50"
+        />
+
+        <Nav />
+
+        <Menu />
+    </div>
 </Visibility>
 
 {#if import.meta.env.DEV}
@@ -23,3 +41,15 @@
         {/await}
     {/if}
 {/if}
+
+<style>
+    .radial-background {
+        background: red;
+        background: radial-gradient(
+            circle,
+            rgba(241, 230, 219, 0) 0%,
+            rgba(0, 0, 0, 0.42) 40%,
+            rgba(0, 0, 0, 0.65) 50%
+        );
+    }
+</style>
