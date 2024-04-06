@@ -11,7 +11,9 @@
 
     let data: THeadBlend = $APPEARANCE.headBlend;
 
-    $: currentPedIndex = $APPEARANCE.modelIndex || 0;
+    let currentPedIndex = $APPEARANCE.modelIndex || 0;
+
+    let currentPed = $MODELS[currentPedIndex];
 
     $: firstShape = $APPEARANCE.headBlend?.shapeFirst || 0;
     $: secondShape = $APPEARANCE.headBlend?.shapeSecond || 0;
@@ -28,6 +30,7 @@
     let newData = data;
 
     function updateParents() {
+
         if (!(currentPedIndex === 0 || currentPedIndex === 1)) {
             return;
         }
@@ -56,6 +59,8 @@
         data.skinFirst = firstSkin;
         data.skinSecond = secondSkin;
         data.skinThird = thirdSkin;
+
+        APPEARANCE.setHeadBlend(newData);
     }
 
     let modelSearch: string = '';
@@ -80,10 +85,13 @@
             bind:index={currentPedIndex}
             list={$MODELS}
             on:change={() => {
-                // currentPed = $MODELS[currentPedIndex];
-                // setmodel
+                console.log('currentPedIndex', currentPedIndex);
+                currentPed = $MODELS[currentPedIndex];
+                APPEARANCE.setModel(currentPed).then(() => {
+                    updateParents();
+                });
             }}
-            display={$MODELS[currentPedIndex]}
+            display={currentPed}
         />
     </svelte:fragment>
 
@@ -102,7 +110,13 @@
             />
             {#each modelList as model, i}
                 <button
-                    on:click={() => (currentPedIndex = i)}
+                    on:click={() => {
+                        currentPed = model;
+                        currentPedIndex = modelList.indexOf(model);
+                        APPEARANCE.setModel(currentPed).then(() => {
+                            updateParents();
+                        });
+                    }}
                     class="w-full h-[3vh] flex items-center justify-start gap-[0.5vh] btn p-[0.5vh] font-semibold"
                 >
                     <p>{model}</p>

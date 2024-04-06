@@ -60,7 +60,7 @@
     }
 </script>
 
-<div class="flex w-full h-[3vh] justify-center items-center gap-[0.5vh]">
+<div  class="flex w-full h-[3vh] justify-center items-center gap-[0.5vh]">
     <button
     disabled={total === 0 || total === 1}
         on:click={decrement}
@@ -69,7 +69,9 @@
         <IconCaretLeft />
     </button>
 
-    <input type="number" class="w-full relative h-full" bind:value />
+    <input 
+    disabled={total === 0 || total === 1}
+    type="number" class="w-full relative h-full" bind:value />
 
     <button
     disabled={total === 0 || total === 1}

@@ -2,7 +2,6 @@
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
     import { APPEARANCE } from '@stores/appearance';
-    import type { TDrawables, TDrawTotal } from '@typings/apperance';
 
     $: drawables = $APPEARANCE.drawables || {};
     $: drawTotal = $APPEARANCE.drawTotal || {};
@@ -19,6 +18,9 @@
                 value={drawables.masks.value}
                 total={drawTotal.masks.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.masks);
+                }}
             />
         </svelte:fragment>
 
@@ -32,6 +34,9 @@
                 value={drawables.masks.texture}
                 total={drawTotal.masks.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.masks);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -48,6 +53,9 @@
                 value={drawables.jackets.value}
                 total={drawTotal.jackets.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.jackets);
+                }}
             />
         </svelte:fragment>
 
@@ -61,6 +69,9 @@
                 value={drawables.jackets.texture}
                 total={drawTotal.jackets.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.jackets);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -77,6 +88,9 @@
                 value={drawables.shirts.value}
                 total={drawTotal.shirts.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.shirts);
+                }}
             />
         </svelte:fragment>
 
@@ -90,6 +104,9 @@
                 value={drawables.shirts.texture}
                 total={drawTotal.shirts.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.shirts);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -106,6 +123,9 @@
                 value={drawables.torsos.value}
                 total={drawTotal.torsos.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.torsos);
+                }}
             />
         </svelte:fragment>
 
@@ -119,6 +139,9 @@
                 value={drawables.torsos.texture}
                 total={drawTotal.torsos.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.torsos);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -135,6 +158,9 @@
                 value={drawables.vest.value}
                 total={drawTotal.vest.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.vest);
+                }}
             />
         </svelte:fragment>
 
@@ -148,6 +174,9 @@
                 value={drawables.vest.texture}
                 total={drawTotal.vest.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.vest);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -164,6 +193,9 @@
                 value={drawables.legs.value}
                 total={drawTotal.legs.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.legs);
+                }}
             />
         </svelte:fragment>
 
@@ -177,6 +209,9 @@
                 value={drawables.legs.texture}
                 total={drawTotal.legs.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.legs);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -193,6 +228,9 @@
                 value={drawables.shoes.value}
                 total={drawTotal.shoes.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.shoes);
+                }}
             />
         </svelte:fragment>
 
@@ -206,6 +244,9 @@
                 value={drawables.shoes.texture}
                 total={drawTotal.shoes.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.shoes);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -222,6 +263,9 @@
                 value={drawables.bags.value}
                 total={drawTotal.bags.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.bags);
+                }}
             />
         </svelte:fragment>
 
@@ -235,6 +279,9 @@
                 value={drawables.bags.texture}
                 total={drawTotal.bags.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.bags);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -251,6 +298,9 @@
                 value={drawables.neck.value}
                 total={drawTotal.neck.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.neck);
+                }}
             />
         </svelte:fragment>
 
@@ -264,6 +314,9 @@
                 value={drawables.neck.texture}
                 total={drawTotal.neck.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.neck);
+                }}
             />
         </svelte:fragment>
     </Wrapper>
@@ -280,6 +333,9 @@
                 value={drawables.decals.value}
                 total={drawTotal.decals.total}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.decals);
+                }}
             />
         </svelte:fragment>
 
@@ -293,6 +349,9 @@
                 value={drawables.decals.texture}
                 total={drawTotal.decals.textures}
                 none={false}
+                on:change={() => {
+                    APPEARANCE.setDrawable(drawables.decals);
+                }}
             />
         </svelte:fragment>
     </Wrapper>

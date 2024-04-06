@@ -19,12 +19,22 @@ export type TDrawables = {
 	[key: string]: TValue
 }
 
+export type TReturnDrawables = {
+    drawable: TDrawables[keyof TDrawables]
+    drawTotal: TDrawTotal[keyof TDrawTotal]
+}
+
 export type TDrawTotal = {
 	[key: string]: TTotalValue
 }
 
 export type TProps = {
     [key: string]: TValue
+}
+
+export type TReturnProps =  {
+	prop: TProps[keyof TProps]
+	propTotal: TPropTotal[keyof TPropTotal]
 }
 
 export type TPropTotal = {
@@ -129,14 +139,16 @@ export type TAppearance = {
     tattoos: TTattoo[]
 }
 
+export type TOutfitData  = {
+    headOverlay: THeadOverlay | TEyeColor
+    drawables: TDrawables
+    props: TProps
+}
+
 export type TOutfit = {
     id: number;
     label: string;
-    outfit: {
-        headOverlay: THeadOverlay | TEyeColor
-        drawables: TDrawables
-        props: TProps
-    }
+    outfit: TOutfitData;
 }
 
 export type TBlacklistValues = {
@@ -154,14 +166,14 @@ export type TBlacklist = {
 	props?: TBlacklistValues
 }
 
-export type TModels = string[]
+export type TModel = string
 
 export type TMenuData = {
     appearance: TAppearance;
     tabs: TParamTab;
     outfits: TOutfit[];
     blacklist: TBlacklist;
-    models: TModels;
+    models: TModel[];
     tattoos: TZoneTattoo[];
 }
 
@@ -176,4 +188,15 @@ export type TTab = {
 export type TColors = {
 	label: string;
 	hex: string;
+}
+
+export interface TToggles {
+	hat: boolean
+	mask: boolean
+	glasses: boolean
+	shirt: boolean
+	jacket: boolean
+	vest: boolean
+	pants: boolean
+	shoes: boolean
 }

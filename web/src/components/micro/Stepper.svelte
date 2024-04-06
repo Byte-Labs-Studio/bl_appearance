@@ -18,9 +18,9 @@
         } else if (index === total) {
             index = 0;
         }
+        console.log('after', index);
 
         value = list[index];
-        console.log(value, index, list);
 
         dispatch('increment');
         dispatch('change', index);
@@ -34,7 +34,6 @@
         }
 
         value = list[index];
-        console.log(value, index, list);
 
         dispatch('decrement');
         dispatch('change', index);

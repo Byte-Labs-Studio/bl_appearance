@@ -21,6 +21,9 @@
                     value={props.hats.value}
                     total={propTotal.hats.total}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.hats);
+                    }}
                 />
             </svelte:fragment>
 
@@ -34,6 +37,9 @@
                     value={props.hats.value}
                     total={propTotal.hats.textures}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.hats);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -50,6 +56,9 @@
                     value={props.glasses.value}
                     total={propTotal.glasses.total}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.glasses);
+                    }}
                 />
             </svelte:fragment>
 
@@ -63,6 +72,9 @@
                     value={props.glasses.value}
                     total={propTotal.glasses.textures}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.glasses);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -79,6 +91,9 @@
                     value={props.earrings.value}
                     total={propTotal.earrings.total}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.earrings);
+                    }}
                 />
             </svelte:fragment>
 
@@ -92,6 +107,9 @@
                     value={props.earrings.value}
                     total={propTotal.earrings.textures}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.earrings);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -108,6 +126,9 @@
                     value={props.watches.value}
                     total={propTotal.watches.total}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.watches);
+                    }}
                 />
             </svelte:fragment>
 
@@ -121,6 +142,9 @@
                     value={props.watches.value}
                     total={propTotal.watches.textures}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.watches);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -137,6 +161,9 @@
                     value={props.braclets.value}
                     total={propTotal.braclets.total}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.braclets);
+                    }}
                 />
             </svelte:fragment>
 
@@ -150,6 +177,9 @@
                     value={props.braclets.value}
                     total={propTotal.braclets.textures}
                     none={false}
+                    on:change={() => {
+                        APPEARANCE.setProp(props.braclets);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>

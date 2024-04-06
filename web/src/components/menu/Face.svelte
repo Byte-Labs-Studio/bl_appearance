@@ -4,16 +4,12 @@
     import Slider from '@components/micro/Slider.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
     import { APPEARANCE } from '@stores/appearance';
-    import type {
-        TValue,
-        THeadOverlay
-    } from '@typings/apperance';
+    import type { TValue, THeadOverlay, TEyeColor } from '@typings/apperance';
 
     $: data = $APPEARANCE.headStructure || false;
-    let eyeColor =
-        ($APPEARANCE.headOverlay?.EyeColor as TValue) || null;
+    let eyeColor = ($APPEARANCE.headOverlay?.EyeColor as TValue) || null;
 
-    $: headOverlay = $APPEARANCE.headOverlay as THeadOverlay; 
+    $: headOverlay = $APPEARANCE.headOverlay as THeadOverlay;
 
     $: headOverlayTotal = $APPEARANCE.headOverlayTotal;
 </script>
@@ -30,6 +26,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Nose_Width']);
+                    }}
                 />
             </svelte:fragment>
 
@@ -42,6 +41,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Nose_Peak_Height']);
+                    }}
                 />
             </svelte:fragment>
 
@@ -53,6 +55,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Nose_Peak_Lenght']);
+                    }}
                 />
             </svelte:fragment>
 
@@ -66,6 +71,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Nose_Bone_Height']);
+                    }}
                 />
             </svelte:fragment>
 
@@ -78,6 +86,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Nose_Peak_Lowering']);
+                    }}
                 />
             </svelte:fragment>
 
@@ -89,6 +100,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Nose_Bone_Twist']);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -104,6 +118,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['EyeBrow_Height']);
+                    }}
                 />
             </svelte:fragment>
 
@@ -115,6 +132,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['EyeBrow_Forward']);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -130,6 +150,9 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Cheeks_Bone_High']);
+                    }}
                 />
             </svelte:fragment>
 
@@ -141,17 +164,23 @@
                     min={-1.0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Cheeks_Bone_Width']);
+                    }}
                 />
             </svelte:fragment>
 
             <svelte:fragment slot="extra_primary-start">Width</svelte:fragment>
             <svelte:fragment slot="extra_primary">
-                    <Slider
-                        bind:value={data['Cheeks_Width'].value}
-                        min={-1.0}
-                        max={1.0}
-                        step={0.01}
-                    />
+                <Slider
+                    bind:value={data['Cheeks_Width'].value}
+                    min={-1.0}
+                    max={1.0}
+                    step={0.01}
+                    on:change={() => {
+                        APPEARANCE.setHeadStructure(data['Cheeks_Width']);
+                    }}
+                />
             </svelte:fragment>
         </Wrapper>
 
@@ -165,6 +194,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Eyes_Openning']);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -177,7 +209,12 @@
                         >
                             <p>Colour</p>
                         </span>
-                        <ColourDropdown bind:index={eyeColor.value} />
+                        <ColourDropdown
+                            bind:index={eyeColor.value}
+                            on:change={() => {
+                                APPEARANCE.setEyeColor(eyeColor);
+                            }}
+                        />
                     </div>
                 </svelte:fragment>
             </Wrapper>
@@ -194,6 +231,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Lips_Thickness']);
+                        }}
                     />
                 </svelte:fragment>
             </Wrapper>
@@ -211,6 +251,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Jaw_Bone_Width']);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -224,6 +267,11 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(
+                                data['Jaw_Bone_Back_Lenght']
+                            );
+                        }}
                     />
                 </svelte:fragment>
             </Wrapper>
@@ -241,6 +289,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Chin_Bone_Lowering']);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -254,6 +305,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Chin_Bone_Length']);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -267,6 +321,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Chin_Bone_Width']);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -278,6 +335,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Chin_Hole']);
+                        }}
                     />
                 </svelte:fragment>
             </Wrapper>
@@ -294,6 +354,9 @@
                         min={-1.0}
                         max={1.0}
                         step={0.01}
+                        on:change={() => {
+                            APPEARANCE.setHeadStructure(data['Neck_Thikness']);
+                        }}
                     />
                 </svelte:fragment>
             </Wrapper>
@@ -308,6 +371,9 @@
                         value={headOverlay.Blemishes.overlayValue}
                         total={headOverlayTotal.Blemishes}
                         none={true}
+                        on:change={() => {
+                            APPEARANCE.setHeadOverlay(headOverlay.Blemishes);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -318,6 +384,9 @@
                         value={headOverlay.Ageing.overlayValue}
                         total={headOverlayTotal.Ageing}
                         none={true}
+                        on:change={() => {
+                            APPEARANCE.setHeadOverlay(headOverlay.Ageing);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -330,6 +399,9 @@
                         value={headOverlay.Complexion.overlayValue}
                         total={headOverlayTotal.Complexion}
                         none={true}
+                        on:change={() => {
+                            APPEARANCE.setHeadOverlay(headOverlay.Complexion);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -342,6 +414,9 @@
                         value={headOverlay.SunDamage.overlayValue}
                         total={headOverlayTotal.SunDamage}
                         none={true}
+                        on:change={() => {
+                            APPEARANCE.setHeadOverlay(headOverlay.SunDamage);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -354,6 +429,9 @@
                         value={headOverlay.MolesFreckles.overlayValue}
                         total={headOverlayTotal.MolesFreckles}
                         none={true}
+                        on:change={() => {
+                            APPEARANCE.setHeadOverlay(headOverlay.MolesFreckles);
+                        }}
                     />
                 </svelte:fragment>
 
@@ -366,6 +444,9 @@
                         value={headOverlay.BodyBlemishes.overlayValue}
                         total={headOverlayTotal.BodyBlemishes}
                         none={true}
+                        on:change={() => {
+                            APPEARANCE.setHeadOverlay(headOverlay.BodyBlemishes);
+                        }}
                     />
                 </svelte:fragment>
             </Wrapper>
