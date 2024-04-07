@@ -6,8 +6,9 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm run init",
-    "dev": "pnpm run init -dev",
-    "init": "rimraf ./dist && node build"
+    "dev": "concurrently \"pnpm:init -dev\" \"pnpm:dev-web\" -c \"green.bold,cyan.bold\"",
+    "init": "rimraf ./dist && node build",
+    "dev-web": "cd ./web && pnpm run dev"
   },
   "keywords": [],
   "author": "Byte Labs",
@@ -16,6 +17,7 @@
     "@citizenfx/client": "2.0.7827-1",
     "@citizenfx/server": "2.0.7827-1",
     "@types/node": "^20.12.5",
+    "concurrently": "^8.2.2",
     "esbuild": "^0.20.2",
     "rimraf": "^5.0.5",
     "typescript": "^5.4.4"

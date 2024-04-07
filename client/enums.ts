@@ -3,9 +3,7 @@ export enum send {
     data = 'appearance:data',
 }
 
-export enum receive {
-    close = 'appearance:close',
-
+export enum appearance {
     setModel = 'appearance:setModel',
     setHeadStructure = 'appearance:setHeadStructure',
     setHeadOverlay = 'appearance:setHeadOverlay',
@@ -13,6 +11,10 @@ export enum receive {
     setProp = 'appearance:setProp',
     setDrawable = 'appearance:setDrawable',
     setTattoos = 'appearance:setTattoos',
+}
+
+export enum receive {
+    close = 'appearance:close',
 
     getModelTattoos = 'appearance:getModelTattoos',
 

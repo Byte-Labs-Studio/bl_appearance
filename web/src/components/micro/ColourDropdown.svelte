@@ -29,8 +29,7 @@
             if (index === -1) {
                 index = 0;
             }
-
-            value = colours[index];
+            value = colours[index] || colours[0];
             display = value.label;
         }
     });

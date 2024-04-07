@@ -1,8 +1,19 @@
-import {send} from './enums'
+import { send } from '@enums'
+import getAppearance from './menu/appearance/appearance'
+import PEDS from '@data/peds';
 
 export let ped = 0
 export let isMenuOpen = false
 export const menuTypes = ['heritage', 'hair', 'clothes', 'accessories', 'face', 'makeup', 'outfits', 'tattoos']
+
+export function debugdata(data: any) {
+    console.log(JSON.stringify(data, (key, value) => {
+        if (typeof value === "string") {
+            return value.replace(/\n/g, "\\n");
+        }
+        return value;
+    }, 2))
+}
 
 export function sendNUIEvent(action: string, data: any) {
     SendNUIMessage({
@@ -26,16 +37,16 @@ export function openMenu(type: string) {
     if (!all && !menuTypes.includes(type)) {
         return console.error('Error: menu type not found');
     }
+
+    debugdata(getAppearance())
+
     sendNUIEvent(send.data, {
-      tabs: all ? menuTypes : [type]
+        tabs: all ? menuTypes : [type],
+        appearance: getAppearance(),
+        blacklist: [],
+        tattoos: [],
+        outfits: [],
+        models: PEDS,
     })
 
-    const tickFunction = setTick(async () => {
-        while (isMenuOpen) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            ped = PlayerPedId();
-        }
-
-        clearTick(tickFunction);
-    });
 }

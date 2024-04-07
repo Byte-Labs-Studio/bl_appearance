@@ -9,8 +9,8 @@ description 'Byte Labs Svelte / CFX Lua template.'
 repository 'https://github.com/Byte-Labs-Project/bl_svelte_template'
 
 
-ui_page 'build/index.html'
---ui_page 'http://localhost:3000/' --for dev
+--ui_page 'build/index.html'
+ui_page 'http://localhost:3000/' --for dev
 
 server_script 'dist/server/**/*.js'
 client_script 'dist/client/**/*.js'

@@ -1,4 +1,4 @@
-const HEAD_OVERLAYS = [
+export default [
     "Blemishes",
     "FacialHair",
     "Eyebrows",
@@ -14,5 +14,3 @@ const HEAD_OVERLAYS = [
     "AddBodyBlemishes",
     "EyeColor"
 ]
-
-export default HEAD_OVERLAYS

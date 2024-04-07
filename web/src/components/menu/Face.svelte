@@ -17,6 +17,8 @@
 {#if !data}
     <Wrapper label="You can't modify your face" />
 {:else}
+
+    {console.log(data['Nose_Width'].value)}
     {#if data['Nose_Width']}
         <Wrapper label="Nose">
             <svelte:fragment slot="primary-start">Width</svelte:fragment>
