@@ -1,7 +1,7 @@
 import { Receive } from "@enums/events"
 import type { DebugEventCallback } from "@typings/events"
 import { ReceiveEvent } from "./eventsHandlers"
-import type { TMenuData, TZoneTattoo } from "@typings/apperance"
+import type { TMenuData } from "@typings/apperance"
 import { configTabs } from "@components/micro/tabs"
 import { APPEARANCE, BLACKLIST, MODELS, ORIGINAL_APPEARANCE, OUTFITS, SELECTED_TAB, TABS, TATTOOS } from "@stores/appearance"
 import { deepCopy } from "./misc"

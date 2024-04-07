@@ -1,0 +1,23 @@
+{
+  "name": "bl_appearance",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm run init",
+    "dev": "pnpm run init -dev",
+    "init": "rimraf ./dist && node build"
+  },
+  "keywords": [],
+  "author": "Byte Labs",
+  "license": "ISC",
+  "devDependencies": {
+    "@citizenfx/client": "2.0.7827-1",
+    "@citizenfx/server": "2.0.7827-1",
+    "@types/node": "^20.12.5",
+    "esbuild": "^0.20.2",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.4"
+  }
+}

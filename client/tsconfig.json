@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "types": ["@citizenfx/client", "@types/node"],
+    "paths": {
+      "@data/*": ["./../data/*"]
+    }
+  },
+}

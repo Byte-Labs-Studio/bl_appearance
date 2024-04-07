@@ -1,0 +1,7 @@
+// server/init.ts
+on("onResourceStart", (resName) => {
+  if (resName === GetCurrentResourceName()) {
+    console.log("TypeScript boilerplate started!");
+  }
+});
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc2VydmVyL2luaXQudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbIm9uKCdvblJlc291cmNlU3RhcnQnLCAocmVzTmFtZTogc3RyaW5nKSA9PiB7XHJcbiAgICBpZiAocmVzTmFtZSA9PT0gR2V0Q3VycmVudFJlc291cmNlTmFtZSgpKSB7XHJcbiAgICAgIGNvbnNvbGUubG9nKCdUeXBlU2NyaXB0IGJvaWxlcnBsYXRlIHN0YXJ0ZWQhJylcclxuICAgIH1cclxufSkiXSwKICAibWFwcGluZ3MiOiAiO0FBQUEsR0FBRyxtQkFBbUIsQ0FBQyxZQUFvQjtBQUN2QyxNQUFJLFlBQVksdUJBQXVCLEdBQUc7QUFDeEMsWUFBUSxJQUFJLGlDQUFpQztBQUFBLEVBQy9DO0FBQ0osQ0FBQzsiLAogICJuYW1lcyI6IFtdCn0K
