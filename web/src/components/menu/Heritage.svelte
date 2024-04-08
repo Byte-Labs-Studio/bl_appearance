@@ -10,57 +10,19 @@
     import { onMount } from 'svelte';
 
     let data: THeadBlend = $APPEARANCE.headBlend;
-
     let currentPedIndex = $APPEARANCE.modelIndex || 0;
-
     let currentPed = $MODELS[currentPedIndex];
 
-    $: firstShape = $APPEARANCE.headBlend?.shapeFirst || 0;
-    $: secondShape = $APPEARANCE.headBlend?.shapeSecond || 0;
-    $: thirdShape = $APPEARANCE.headBlend?.shapeThird || 0;
-
-    $: firstSkin = $APPEARANCE.headBlend?.skinFirst || 0;
-    $: secondSkin = $APPEARANCE.headBlend?.skinSecond || 0;
-    $: thirdSkin = $APPEARANCE.headBlend?.skinThird || 0;
-
     onMount(() => {
-        updateParents();
+        APPEARANCE.setHeadBlend(data);
     });
 
-    let newData = data;
+    function updateParents(key: string, value: number) {
+        if (currentPedIndex !== 0 && currentPedIndex !== 1) return;
 
-    function updateParents() {
+        data[key] = value
 
-        if (!(currentPedIndex === 0 || currentPedIndex === 1)) {
-            return;
-        }
-
-        if (data?.shapeMix == null) {
-            return;
-        }
-
-        newData = {
-            ...data,
-            shapeFirst: firstShape,
-            shapeSecond: secondShape,
-            shapeThird: thirdShape,
-
-            skinFirst: firstSkin,
-            skinSecond: secondSkin,
-            skinThird: thirdSkin,
-            shapeMix: data.shapeMix,
-            skinMix: data.skinMix,
-        };
-
-        data.shapeFirst = firstShape;
-        data.shapeSecond = secondShape;
-        data.shapeThird = thirdShape;
-
-        data.skinFirst = firstSkin;
-        data.skinSecond = secondSkin;
-        data.skinThird = thirdSkin;
-
-        APPEARANCE.setHeadBlend(newData);
+        APPEARANCE.setHeadBlend(data);
     }
 
     let modelSearch: string = '';
@@ -79,17 +41,15 @@
 
 <Wrapper label="Model">
     <svelte:fragment slot="primary-start">Options</svelte:fragment>
-    <svelte:fragment slot="primary-end">Total: {$MODELS.length}</svelte:fragment>
+    <svelte:fragment slot="primary-end">Total: {$MODELS.length}</svelte:fragment
+    >
     <svelte:fragment slot="primary">
         <Stepper
             bind:index={currentPedIndex}
             list={$MODELS}
             on:change={() => {
-                console.log('currentPedIndex', currentPedIndex);
                 currentPed = $MODELS[currentPedIndex];
-                APPEARANCE.setModel(currentPed).then(() => {
-                    updateParents();
-                });
+                APPEARANCE.setModel(currentPed)
             }}
             display={currentPed}
         />
@@ -113,9 +73,7 @@
                     on:click={() => {
                         currentPed = model;
                         currentPedIndex = modelList.indexOf(model);
-                        APPEARANCE.setModel(currentPed).then(() => {
-                            updateParents();
-                        });
+                        APPEARANCE.setModel(currentPed);
                     }}
                     class="w-full h-[3vh] flex items-center justify-start gap-[0.5vh] btn p-[0.5vh] font-semibold"
                 >
@@ -126,196 +84,187 @@
     </svelte:fragment>
 </Wrapper>
 
-<Divider class="my-[1vh]" />
+{#if currentPedIndex === 0 || currentPedIndex === 1}
+    <Divider class="my-[1vh]" />
+    <Wrapper label="Mother">
+        <svelte:fragment slot="primary-start">Face</svelte:fragment>
+        <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
+        <svelte:fragment slot="primary">
+            <NumberStepper
+                value={data.shapeFirst || 0}
+                total={46}
+                none={false}
+                on:change={e => {
+                    updateParents('shapeFirst', e.detail);
+                }}
+            />
+        </svelte:fragment>
 
-<Wrapper label="Mother">
-    <svelte:fragment slot="primary-start">Face</svelte:fragment>
-    <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
-    <svelte:fragment slot="primary">
-        <NumberStepper
-            value={firstShape}
-            total={46}
-            none={false}
-            on:change={e => {
-                firstShape = e.detail;
-                updateParents();
-            }}
-        />
-    </svelte:fragment>
+        <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
+        <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
+        <svelte:fragment slot="secondary">
+            <NumberStepper
+                value={data.skinFirst || 0}
+                total={15}
+                none={false}
+                on:change={e => {
+                    updateParents('skinFirst', e.detail);
+                }}
+            />
+        </svelte:fragment>
+    </Wrapper>
 
-    <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
-    <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
-    <svelte:fragment slot="secondary">
-        <NumberStepper
-            value={firstSkin}
-            total={15}
-            none={false}
-            on:change={e => {
-                firstSkin = e.detail;
-                updateParents();
-            }}
-        />
-    </svelte:fragment>
-</Wrapper>
+    <Wrapper label="Father">
+        <svelte:fragment slot="primary-start">Face</svelte:fragment>
+        <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
+        <svelte:fragment slot="primary">
+            <NumberStepper
+                value={data.shapeSecond || 0}
+                total={46}
+                none={false}
+                on:change={e => {
+                    updateParents('shapeSecond', e.detail);
+                }}
+            />
+        </svelte:fragment>
 
-<Wrapper label="Father">
-    <svelte:fragment slot="primary-start">Face</svelte:fragment>
-    <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
-    <svelte:fragment slot="primary">
-        <NumberStepper
-            value={secondShape}
-            total={46}
-            none={false}
-            on:change={e => {
-                secondShape = e.detail;
-                updateParents();
-            }}
-        />
-    </svelte:fragment>
+        <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
+        <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
+        <svelte:fragment slot="secondary">
+            <NumberStepper
+                value={data.skinSecond || 0}
+                total={15}
+                none={false}
+                on:change={e => {
+                    updateParents('skinSecond', e.detail);
+                }}
+            />
+        </svelte:fragment>
+    </Wrapper>
 
-    <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
-    <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
-    <svelte:fragment slot="secondary">
-        <NumberStepper
-            value={secondSkin}
-            total={15}
-            none={false}
-            on:change={e => {
-                secondSkin = e.detail;
-                updateParents();
-            }}
-        />
-    </svelte:fragment>
-</Wrapper>
+    <Wrapper label="Third Parent">
+        <svelte:fragment slot="primary-start">Face</svelte:fragment>
+        <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
+        <svelte:fragment slot="primary">
+            <NumberStepper
+                value={data.shapeThird || 0}
+                total={46}
+                none={false}
+                on:change={e => {
+                    updateParents('shapeThird', e.detail);
+                }}
+            />
+        </svelte:fragment>
 
-<Wrapper label="Third Parent">
-    <svelte:fragment slot="primary-start">Face</svelte:fragment>
-    <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
-    <svelte:fragment slot="primary">
-        <NumberStepper
-            value={thirdShape}
-            total={46}
-            none={false}
-            on:change={e => {
-                thirdShape = e.detail;
-                updateParents();
-            }}
-        />
-    </svelte:fragment>
+        <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
+        <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
+        <svelte:fragment slot="secondary">
+            <NumberStepper
+                value={data.skinThird || 0}
+                total={15}
+                none={false}
+                on:change={e => {
+                    updateParents('skinThird', e.detail);
+                }}
+            />
+        </svelte:fragment>
+    </Wrapper>
 
-    <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
-    <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
-    <svelte:fragment slot="secondary">
-        <NumberStepper
-            value={thirdSkin}
-            total={15}
-            none={false}
-            on:change={e => {
-                thirdSkin = e.detail;
-                updateParents();
-            }}
-        />
-    </svelte:fragment>
-</Wrapper>
+    <Wrapper label="Resemblence">
+        <svelte:fragment slot="primary-start">Mother</svelte:fragment>
+        <svelte:fragment slot="primary-end">Father</svelte:fragment>
 
-<Wrapper label="Resemblence">
-    <svelte:fragment slot="primary-start">Mother</svelte:fragment>
-    <svelte:fragment slot="primary-end">Father</svelte:fragment>
+        <svelte:fragment slot="primary">
+            <div class="w-full h-fit flex flex-col items-center justify-center">
+                <Slider
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={data?.shapeMix || 0}
+                    on:change={e => {
+                        updateParents('shapeMix', e.detail);
+                    }}
+                >
+                    <svelte:fragment slot="before">
+                        <input
+                            type="text"
+                            disabled
+                            class="w-[6vh] relative h-full text-center"
+                            value={(Math.floor(data.shapeMix * 100) || 0) + '%'}
+                        />
+                    </svelte:fragment>
 
-    <svelte:fragment slot="primary">
-        <div class="w-full h-fit flex flex-col items-center justify-center">
+                    <svelte:fragment slot="after">
+                        <input
+                            type="text"
+                            disabled
+                            class="w-[6vh] relative h-full text-center"
+                            value={(100 - Math.floor(data.shapeMix * 100) ||
+                                0) + '%'}
+                        />
+                    </svelte:fragment>
+                </Slider>
+            </div>
+        </svelte:fragment>
+
+        <svelte:fragment slot="extra_primary-start">Third</svelte:fragment>
+        <svelte:fragment slot="extra_primary">
             <Slider
                 min={0}
                 max={1}
                 step={0.01}
-                value={data?.shapeMix || 0}
+                value={data?.thirdMix || 0}
                 on:change={e => {
-                    data.shapeMix = e.detail;
-                    updateParents();
+                    updateParents('thirdMix', e.detail);
                 }}
             >
-                <svelte:fragment slot="before">
-                    <input
-                        type="text"
-                        disabled
-                        class="w-[6vh] relative h-full text-center"
-                        value={(Math.floor(data.shapeMix * 100) || 0) + '%'}
-                    />
-                </svelte:fragment>
-
                 <svelte:fragment slot="after">
                     <input
                         type="text"
                         disabled
                         class="w-[6vh] relative h-full text-center"
-                        value={(100 - Math.floor(data.shapeMix * 100) || 0) +
-                            '%'}
+                        value={(Math.floor(data.thirdMix * 100) || 0) + '%'}
                     />
                 </svelte:fragment>
             </Slider>
-        </div>
-    </svelte:fragment>
+        </svelte:fragment>
+    </Wrapper>
 
+    <Wrapper label="Skin Mix">
+        <svelte:fragment slot="primary-start">Mother</svelte:fragment>
+        <svelte:fragment slot="primary-end">Father</svelte:fragment>
 
-    <svelte:fragment slot="extra_primary-start">Third</svelte:fragment>
-    <svelte:fragment slot="extra_primary">
-        <Slider
-            min={0}
-            max={1}
-            step={0.01}
-            value={data?.thirdMix || 0}
-            on:change={e => {
-                data.thirdMix = e.detail;
-                updateParents();
-            }}
-        >
-            <svelte:fragment slot="after">
-                <input
-                    type="text"
-                    disabled
-                    class="w-[6vh] relative h-full text-center"
-                    value={(Math.floor(data.thirdMix * 100) || 0) + '%'}
-                />
-            </svelte:fragment>
-        </Slider>
-    </svelte:fragment>
-</Wrapper>
+        <svelte:fragment slot="primary">
+            <div class="w-full h-fit flex flex-col items-center justify-center">
+                <Slider
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={data?.skinMix || 0}
+                    on:change={e => {
+                        updateParents('skinMix', e.detail);
+                    }}
+                >
+                    <svelte:fragment slot="before">
+                        <input
+                            type="text"
+                            disabled
+                            class="w-[6vh] relative h-full text-center"
+                            value={(Math.floor(data.skinMix * 100) || 0) + '%'}
+                        />
+                    </svelte:fragment>
 
-<Wrapper label="Skin Mix">
-    <svelte:fragment slot="primary-start">Mother</svelte:fragment>
-    <svelte:fragment slot="primary-end">Father</svelte:fragment>
-
-    <svelte:fragment slot="primary">
-        <div class="w-full h-fit flex flex-col items-center justify-center">
-            <Slider
-                min={0}
-                max={1}
-                step={0.01}
-                value={data?.skinMix || 0}
-                on:change={e => {
-                    data.skinMix = e.detail;
-                    updateParents();
-                }}
-            >
-                <svelte:fragment slot="before">
-                    <input
-                        type="text"
-                        disabled
-                        class="w-[6vh] relative h-full text-center"
-                        value={(Math.floor(data.skinMix * 100) || 0) + '%'}
-                    />
-                </svelte:fragment>
-
-                <svelte:fragment slot="after">
-                    <input
-                        type="text"
-                        disabled
-                        class="w-[6vh] relative h-full text-center"
-                        value={(100 - Math.floor(data.skinMix * 100) || 0) +
-                            '%'}
-                    />
-                </svelte:fragment>
-            </Slider>
-        </div>
-    </svelte:fragment>
-</Wrapper>
+                    <svelte:fragment slot="after">
+                        <input
+                            type="text"
+                            disabled
+                            class="w-[6vh] relative h-full text-center"
+                            value={(100 - Math.floor(data.skinMix * 100) || 0) +
+                                '%'}
+                        />
+                    </svelte:fragment>
+                </Slider>
+            </div>
+        </svelte:fragment>
+    </Wrapper>
+{/if}

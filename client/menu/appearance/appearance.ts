@@ -4,6 +4,8 @@ import FACE_FEATURES from '@data/face';
 import DRAWABLE_NAMES from '@data/drawable';
 import PROP_NAMES from '@data/props';
 import { HairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData } from '@dataTypes/appearance';
+import {ped} from './../';
+
 
 const findModelIndex = (model: PedHandle) => PEDS.findIndex(ped => GetHashKey(ped) === model);
 
@@ -15,6 +17,7 @@ const getPedHair = (pedHandle: PedModel): HairData => ({
 const getPedHeadBlendData = (pedHandle: PedHandle): Uint32Array => {
     const arr = new Uint32Array(new ArrayBuffer(10 * 8)); // int, int, int, int, int, int, float, float, float, bool
     Citizen.invokeNative("0x2746BD9D88C5C5D0", pedHandle, arr);
+    console.log(arr)
     return arr;
 };
 
@@ -118,13 +121,12 @@ const getProps = (pedHandle: PedModel): [Record<string, DrawableData>, Record<st
     return [props, totalProps]
 }
 
-export default () => {
-    const ped = PlayerPedId()
-    const model = GetEntityModel(ped)
+export default (model: number) => {
     const [headData, totals] = getHeadOverlay(ped)
     const [drawables, drawTotal] = getDrawables(ped)
     const [props, propTotal] = getProps(ped)
 
+    console.log(findModelIndex(model))
     return {
         modelIndex: findModelIndex(model),
         model: model,

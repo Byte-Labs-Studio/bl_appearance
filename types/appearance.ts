@@ -40,4 +40,17 @@ interface TotalData {
 type PedHandle = number;
 type PedModel = number;
 
-export {HairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData}
+interface THeadBlend  {
+	skinSecond: number
+	skinThird: number
+	shapeSecond: number
+	shapeThird: number
+	shapeFirst: number
+	hasParent: boolean
+	skinMix: number
+	shapeMix: number
+	thirdMix: number
+	skinFirst: number
+}
+
+export {THeadBlend, HairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData}

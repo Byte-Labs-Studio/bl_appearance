@@ -11,12 +11,12 @@ export enum appearance {
     setProp = 'appearance:setProp',
     setDrawable = 'appearance:setDrawable',
     setTattoos = 'appearance:setTattoos',
+    getModelTattoos = 'appearance:getModelTattoos',
 }
 
 export enum receive {
     close = 'appearance:close',
 
-    getModelTattoos = 'appearance:getModelTattoos',
 
     toggleItem = 'appearance:toggleItem',
 

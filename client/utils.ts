@@ -1,12 +1,4 @@
-import { send } from '@enums'
-import getAppearance from './menu/appearance/appearance'
-import PEDS from '@data/peds';
-
-export let ped = 0
-export let isMenuOpen = false
-export const menuTypes = ['heritage', 'hair', 'clothes', 'accessories', 'face', 'makeup', 'outfits', 'tattoos']
-
-export function debugdata(data: any) {
+export const debugdata = (data: any) => {
     console.log(JSON.stringify(data, (key, value) => {
         if (typeof value === "string") {
             return value.replace(/\n/g, "\\n");
@@ -15,38 +7,44 @@ export function debugdata(data: any) {
     }, 2))
 }
 
-export function sendNUIEvent(action: string, data: any) {
+export const sendNUIEvent = (action: string, data: any) => {
     SendNUIMessage({
         action: action,
         data: data
     });
 }
 
-export function closeMenu(save: boolean) {
-    isMenuOpen = false
-    SetNuiFocus(false, false)
-    sendNUIEvent(send.visible, false)
-}
+export const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-export function openMenu(type: string) {
-    isMenuOpen = true
-    sendNUIEvent(send.visible, true)
-    SetNuiFocus(true, true)
-    const all = type === 'all'
+export const requestModel = async (model: string | number): Promise<number> => {
+    let modelHash: number = typeof model === 'number' ? model : GetHashKey(model)
 
-    if (!all && !menuTypes.includes(type)) {
-        return console.error('Error: menu type not found');
+    if (!IsModelValid(modelHash)) {
+        exports.bl_bridge.notify()({
+            title: 'Invalid model!',
+            type: 'error',
+            duration: 1000
+        })
+
+        throw new Error(`attempted to load invalid model '${model}'`);
     }
 
-    debugdata(getAppearance())
+    if (HasModelLoaded(modelHash)) return modelHash
+    
+    RequestModel(modelHash);
 
-    sendNUIEvent(send.data, {
-        tabs: all ? menuTypes : [type],
-        appearance: getAppearance(),
-        blacklist: [],
-        tattoos: [],
-        outfits: [],
-        models: PEDS,
-    })
+    const waitForModelLoaded = (): Promise<void> => {
+        return new Promise(resolve => {
+            const interval = setInterval(() => {
+                if (HasModelLoaded(modelHash)) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 100);
+        });
+    };
 
-}
+    await waitForModelLoaded();
+
+    return modelHash;
+};
