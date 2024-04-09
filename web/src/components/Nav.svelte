@@ -7,6 +7,8 @@
     import { SELECTED_TAB, TABS } from '@stores/appearance';
     import IconCancel from './icons/IconCancel.svelte';
     import IconSave from './icons/IconSave.svelte';
+    import { SendEvent } from '@utils/eventsHandlers';
+    import { Send } from '@enums/events';
 
     const centerX = -5;
 
@@ -150,6 +152,7 @@ class="absolute w-full h-full  grid place-items-center bg-black/50 z-50">
             <button
                 class="btn w-[10vh] h-[5vh] grid place-items-center"
                 on:click={() => {
+                    SendEvent(Send.close, modal === 'save')
                     modal = null;
                 }}
             >

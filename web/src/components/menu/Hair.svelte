@@ -24,8 +24,8 @@
                 bind:value={drawables.hair.value}
                 total={drawTotal.hair.total}
                 none={false}
-                on:change={() => {
-                    APPEARANCE.setDrawable(drawables.hair);
+                on:change={e => {
+                    APPEARANCE.setDrawable(drawables.hair, e.detail);
                 }}
             />
         </svelte:fragment>
@@ -40,8 +40,8 @@
                 bind:value={drawables.hair.texture}
                 total={drawTotal.hair.textures}
                 none={false}
-                on:change={() => {
-                    APPEARANCE.setDrawable(drawables.hair);
+                on:change={e => {
+                    APPEARANCE.setDrawable(drawables.hair, e.detail, true);
                 }}
             />
         </svelte:fragment>

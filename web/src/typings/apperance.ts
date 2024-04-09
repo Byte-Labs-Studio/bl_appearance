@@ -3,14 +3,13 @@ export type TParamTab = string | string[]
 
 export type TValue = {
 	index: number
-	id: string
 	value: number
+	name?: string
     texture?: number
 }
 
 export type TTotalValue = {
     index: number
-    id: string
     total: number
     textures: number
 }

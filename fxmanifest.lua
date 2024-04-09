@@ -13,7 +13,10 @@ repository 'https://github.com/Byte-Labs-Project/bl_svelte_template'
 ui_page 'http://localhost:3000/' --for dev
 
 server_script 'dist/server/**/*.js'
-client_script 'dist/client/**/*.js'
+client_scripts {
+    'wrapper/HeadBlendData.net.dll',
+    'dist/client/**/*.js'
+}
 
 files {
     'build/**',

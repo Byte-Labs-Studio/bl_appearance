@@ -1,8 +1,9 @@
 import getAppearance from './appearance/appearance'
 import PEDS from '@data/peds';
 import menuTypes from '@data/menuTypes';
-import { send } from '@enums'
-import { sendNUIEvent } from '@utils'
+import { send, receive } from '@enums'
+import { sendNUIEvent, delay } from '@utils'
+import { startCamera, stopCamera } from './../camera'
 
 export let isMenuOpen = false
 export let ped = 0
@@ -13,9 +14,11 @@ const updatePed = () => {
     setTimeout(updatePed, 100);
 }
 
-export const openMenu = (type: string) => {
+export const openMenu = async (type: string) => {
     isMenuOpen = true
     updatePed()
+    await delay(150)
+    startCamera()
     sendNUIEvent(send.visible, true)
     SetNuiFocus(true, true)
     const all = type === 'all'
@@ -35,7 +38,14 @@ export const openMenu = (type: string) => {
 }
 
 export const closeMenu = (save: boolean) => {
+    console.log(save)
+    stopCamera()
     isMenuOpen = false
     SetNuiFocus(false, false)
     sendNUIEvent(send.visible, false)
 }
+
+RegisterNuiCallback(receive.close, (save: boolean, cb: Function) => {
+    cb(1)
+    closeMenu(save)
+});

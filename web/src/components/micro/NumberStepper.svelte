@@ -40,24 +40,6 @@
         dispatch('decrement');
         dispatch('change', value);
     }
-
-    $: {
-        if (none) {
-            if (value < -1) {
-                value = -1;
-            } else if (value > total) {
-                value = total;
-            }
-        } else {
-            if (value < 0) {
-                value = 0;
-            } else if (value > total) {
-                value = total;
-            }
-        }
-
-        dispatch('change', value);
-    }
 </script>
 
 <div  class="flex w-full h-[3vh] justify-center items-center gap-[0.5vh]">

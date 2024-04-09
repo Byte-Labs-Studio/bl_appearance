@@ -19,7 +19,7 @@ interface HeadOverlayData {
 
 // interface for head structure data
 interface HeadStructureData {
-    name: string;
+    name?: string;
     index: number;
     value: number;
 };
@@ -27,6 +27,7 @@ interface HeadStructureData {
 // interface for drawable data
 interface DrawableData extends HeadStructureData {
     texture: number;
+    isTexture?: boolean
 };
 
 // interface for total drawables and props

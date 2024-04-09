@@ -9,19 +9,33 @@ import {ped} from './../';
 
 const findModelIndex = (model: PedHandle) => PEDS.findIndex(ped => GetHashKey(ped) === model);
 
-const getPedHair = (pedHandle: PedModel): HairData => ({
-    color: GetPedHairColor(pedHandle),
-    highlight: GetPedHairHighlightColor(pedHandle)
+const getPedHair = (): HairData => ({
+    color: GetPedHairColor(ped),
+    highlight: GetPedHairHighlightColor(ped)
 });
 
-const getPedHeadBlendData = (pedHandle: PedHandle): Uint32Array => {
-    const arr = new Uint32Array(new ArrayBuffer(10 * 8)); // int, int, int, int, int, int, float, float, float, bool
-    Citizen.invokeNative("0x2746BD9D88C5C5D0", pedHandle, arr);
-    console.log(arr)
-    return arr;
+const getPedHeadBlendData = () => {
+    const headblendData = exports.bl_appearance.GetHeadBlendData(ped)
+
+    return {
+        shapeFirst: headblendData.FirstFaceShape,   // father
+        shapeSecond: headblendData.SecondFaceShape, // mother
+        shapeThird: headblendData.ThirdFaceShape,
+
+        skinFirst: headblendData.FirstSkinTone,
+        skinSecond: headblendData.SecondSkinTone,
+        skinThird: headblendData.ThirdSkinTone,
+
+        shapeMix: headblendData.ParentFaceShapePercent, // resemblance
+
+        thirdMix: headblendData.ParentThirdUnkPercent,
+        skinMix: headblendData.ParentSkinTonePercent,   // skinpercent
+
+        hasParent: headblendData.IsParentInheritance,
+    };
 };
 
-const getHeadOverlay = (pedHandle: PedHandle): [Record<string, HeadOverlayData>, Record<string, number>] => {
+const getHeadOverlay = (): [Record<string, HeadOverlayData>, Record<string, number>] => {
     let totals: Record<string, number> = {};
     let headData: Record<string, HeadOverlayData> = {};
 
@@ -33,10 +47,10 @@ const getHeadOverlay = (pedHandle: PedHandle): [Record<string, HeadOverlayData>,
             headData[overlay] = {
                 name: overlay,
                 index: i,
-                value: GetPedEyeColor(pedHandle)
+                value: GetPedEyeColor(ped)
             };
         } else {
-            const [_, overlayValue, colourType, firstColor, secondColor, overlayOpacity] = GetPedHeadOverlayData(pedHandle, i);
+            const [_, overlayValue, colourType, firstColor, secondColor, overlayOpacity] = GetPedHeadOverlayData(ped, i);
             headData[overlay] = {
                 name: overlay,
                 index: i - 1,
@@ -52,8 +66,8 @@ const getHeadOverlay = (pedHandle: PedHandle): [Record<string, HeadOverlayData>,
     return [headData, totals];
 };
 
-const getHeadStructure = (pedHandle: PedHandle): Record<string, HeadStructureData> | undefined => {
-    const pedModel = GetEntityModel(pedHandle)
+const getHeadStructure = (): Record<string, HeadStructureData> | undefined => {
+    const pedModel = GetEntityModel(ped)
 
     if (pedModel !== GetHashKey("mp_m_freemode_01") && pedModel !== GetHashKey("mp_f_freemode_01")) return
 
@@ -63,58 +77,58 @@ const getHeadStructure = (pedHandle: PedHandle): Record<string, HeadStructureDat
         faceStruct[overlay] = {
             name: overlay,
             index: i,
-            value: GetPedFaceFeature(pedHandle, i)
+            value: GetPedFaceFeature(ped, i)
         }
     }
 
     return faceStruct
 }
 
-const getDrawables = (pedHandle: PedModel): [Record<string, DrawableData>, Record<string, TotalData>] => {
+const getDrawables = (): [Record<string, DrawableData>, Record<string, TotalData>] => {
     let drawables = {}
     let totalDrawables = {}
 
     for (let i = 0; i < DRAWABLE_NAMES.length; i++) {
         const name = DRAWABLE_NAMES[i]
-        const current = GetPedDrawableVariation(pedHandle, i)
+        const current = GetPedDrawableVariation(ped, i)
 
         totalDrawables[name] = {
             name: name,
             index: i,
-            total: GetNumberOfPedDrawableVariations(pedHandle, i),
-            textures: GetNumberOfPedTextureVariations(pedHandle, i, current)
+            total: GetNumberOfPedDrawableVariations(ped, i),
+            textures: GetNumberOfPedTextureVariations(ped, i, current)
         }
         drawables[name] = {
             name: name,
             index: i,
-            value: GetPedDrawableVariation(pedHandle, i),
-            texture: GetPedTextureVariation(pedHandle, i)
+            value: GetPedDrawableVariation(ped, i),
+            texture: GetPedTextureVariation(ped, i)
         }
     }
 
     return [drawables, totalDrawables]
 }
 
-const getProps = (pedHandle: PedModel): [Record<string, DrawableData>, Record<string, TotalData>] => {
+const getProps = (): [Record<string, DrawableData>, Record<string, TotalData>] => {
     let props = {}
     let totalProps = {}
 
     for (let i = 0; i < PROP_NAMES.length; i++) {
         const name = PROP_NAMES[i]
-        const current = GetPedPropIndex(pedHandle, i)
+        const current = GetPedPropIndex(ped, i)
 
         totalProps[name] = {
             name: name,
             index: i,
-            total: GetNumberOfPedPropDrawableVariations(pedHandle, i),
-            textures: GetNumberOfPedPropTextureVariations(pedHandle, i, current)
+            total: GetNumberOfPedPropDrawableVariations(ped, i),
+            textures: GetNumberOfPedPropTextureVariations(ped, i, current)
         }
 
         props[name] = {
             name: name,
             index: i,
-            value: GetPedPropIndex(pedHandle, i),
-            texture: GetPedPropTextureIndex(pedHandle, i)
+            value: GetPedPropIndex(ped, i),
+            texture: GetPedPropTextureIndex(ped, i)
         }
     }
 
@@ -122,19 +136,18 @@ const getProps = (pedHandle: PedModel): [Record<string, DrawableData>, Record<st
 }
 
 export default (model: number) => {
-    const [headData, totals] = getHeadOverlay(ped)
-    const [drawables, drawTotal] = getDrawables(ped)
-    const [props, propTotal] = getProps(ped)
+    const [headData, totals] = getHeadOverlay()
+    const [drawables, drawTotal] = getDrawables()
+    const [props, propTotal] = getProps()
 
-    console.log(findModelIndex(model))
     return {
         modelIndex: findModelIndex(model),
         model: model,
-        hairColor: getPedHair(ped),
-        headBlend: getPedHeadBlendData(ped),
+        hairColor: getPedHair(),
+        headBlend: getPedHeadBlendData(),
         headOverlay: headData,
         headOverlayTotal: totals,
-        headStructure: getHeadStructure(ped),
+        headStructure: getHeadStructure(),
         drawables: drawables,
         props: props,
         tattoos: [],

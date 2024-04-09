@@ -3,7 +3,6 @@ import type {
     TAppearance,
     TBlacklist,
     TDrawables,
-    TEyeColor,
     THairColor,
     THeadBlend,
     THeadOverlay,
@@ -12,7 +11,6 @@ import type {
     TOutfit,
     TOutfitData,
     TProps,
-    TReturnDrawables,
     TReturnProps,
     TTab,
     TToggles,
@@ -20,7 +18,6 @@ import type {
     TZoneTattoo,
 } from '@typings/apperance';
 import { SendEvent } from '@utils/eventsHandlers';
-import { isObjectEmpty } from '@utils/misc';
 import { get, type Writable, writable } from 'svelte/store';
 
 export const TABS: Writable<TTab[]> = writable<TTab[]>([]);
@@ -183,19 +180,25 @@ const APPEARANCE_INIT = () => {
         },
 
         isPropFetching: false,
-        setProp: (prop: TProps[keyof TProps]) => {
+        setProp: (prop: TProps[keyof TProps], value: number, isTexture?: boolean) => {
             if (methods.isPropFetching) return;
             methods.isPropFetching = true;
 
-            const id = prop.id;
+            if (isTexture) prop.texture = value
+            else prop.value = value
 
-            SendEvent(Send.setProp, prop).then((data: TReturnProps) => {
-                if (isObjectEmpty(data)) return;
-
+            SendEvent(Send.setProp, {
+                value: prop.value,
+                index: prop.index,
+                texture: prop.texture,
+                isTexture: isTexture
+            }).then((propTotal: number) => {
                 store.update(appearance => {
-                    appearance.props[id] = data.prop;
-
-                    appearance.propTotal[id] = data.propTotal;
+                    if (!isTexture) {
+                        appearance.propTotal[prop.name].textures = propTotal
+                        prop.texture = 0
+                    }
+                    appearance.props[prop.name] = prop;
                     return appearance;
                 });
 
@@ -204,26 +207,29 @@ const APPEARANCE_INIT = () => {
         },
 
         isDrawableFetching: false,
-        setDrawable: (drawable: TDrawables[keyof TDrawables]) => {
+        setDrawable: async (drawable: TDrawables[keyof TDrawables], value: number, isTexture?: boolean) => {
             if (methods.isDrawableFetching) return;
             methods.isDrawableFetching = true;
 
-            const id = drawable.id;
-
-            SendEvent(Send.setDrawable, drawable).then(
-                (data: TReturnDrawables) => {
-                    if (isObjectEmpty(data)) return;
-
-                    store.update(appearance => {
-                        appearance.drawables[id] = data[id]
-                        appearance.drawTotal[id] = data.drawTotal
-
-                        return appearance;
-                    });
-
-                    methods.isDrawableFetching = false;
-                },
-            );
+            if (isTexture) drawable.texture = value
+            else drawable.value = value
+            
+            SendEvent(Send.setDrawable, {
+                value: drawable.value,
+                index: drawable.index,
+                texture: drawable.texture,
+                isTexture: isTexture
+            }).then((drawableTotal: number) => {
+                store.update(appearance => {
+                    if (!isTexture) {
+                        appearance.drawTotal[drawable.name].textures = drawableTotal
+                        drawable.texture = 0
+                    }
+                    appearance.drawables[drawable.name] = drawable
+                    return appearance;
+                });
+                methods.isDrawableFetching = false;
+            });
         },
     };
 

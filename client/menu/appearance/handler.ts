@@ -1,5 +1,6 @@
 import { appearance } from '@enums';
 import { debugdata, requestModel, delay} from '@utils';
+import { HeadOverlayData, HeadStructureData, DrawableData} from '@dataTypes/appearance';
 import getAppearance from './appearance'
 import {ped} from './../'
 
@@ -21,13 +22,19 @@ const actionHandlers = {
 
         return getAppearance(modelHash)
     },
-    [appearance.setHeadStructure]: (data: any) => {
-        console.log(data)
+    [appearance.setHeadStructure]: (data: HeadStructureData) => {
+        SetPedFaceFeature(ped, data.index, data.value)
         return data
     },
-    [appearance.setHeadOverlay]: (data: any) => {
-        console.log(data)
-        return data
+    [appearance.setHeadOverlay]: (data: HeadOverlayData) => {
+        if (data.index === 13) {
+            SetPedEyeColor(ped, data.value)
+            return
+        }
+        SetPedHeadOverlay(ped, data.index, data.value, data.overlayOpacity)
+        SetPedHeadOverlayColor(ped, data.index, 1, data.firstColor, data.secondColor)
+
+        return 1
     },
     [appearance.setHeadBlend]: (data: THeadBlend) => {
         SetPedHeadBlendData(
@@ -43,18 +50,33 @@ const actionHandlers = {
             data.thirdMix, 
             data.hasParent
         )
-        return true
+        return 1
     },
-    [appearance.setProp]: (data: any) => {
-        console.log(data)
-        return data
+    [appearance.setProp]: (data: DrawableData) => {
+        if (data.value === -1) {
+            ClearPedProp(ped, data.index)
+            return 1
+        }
+        SetPedPropIndex(ped, data.index, data.value, data.texture, false)
+        return data.isTexture ? 1 : GetNumberOfPedPropTextureVariations(ped, data.index, data.value) // if it texture why we would call a useless native 
     },
-    [appearance.setDrawable]: (data: any) => {
-        console.log(data)
-        return data
+    [appearance.setDrawable]: (data: DrawableData) => {
+        SetPedComponentVariation(ped, data.index, data.value, data.texture, 0)
+
+        return data.isTexture ? 1 : GetNumberOfPedTextureVariations(ped, data.index, data.value)-1
     },
     [appearance.setTattoos]: (data: any) => {
-        console.log(data)
+        if (!data) return 1
+
+        ClearPedDecorationsLeaveScars(ped)
+
+        for (const element of data) {
+            const tattoo = element.tattoo
+            if (tattoo) {
+                AddPedDecorationFromHashes(ped, GetHashKey(tattoo.dlc), tattoo.hash)
+            }
+        }
+        
         return data
     },
     [appearance.getModelTattoos]: (data: any) => {

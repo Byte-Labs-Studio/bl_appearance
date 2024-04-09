@@ -13,6 +13,7 @@
     let currentPedIndex = $APPEARANCE.modelIndex || 0;
     let currentPed = $MODELS[currentPedIndex];
 
+
     onMount(() => {
         APPEARANCE.setHeadBlend(data);
     });
@@ -50,6 +51,7 @@
             on:change={() => {
                 currentPed = $MODELS[currentPedIndex];
                 APPEARANCE.setModel(currentPed)
+                console.log(JSON.stringify(data))
             }}
             display={currentPed}
         />
