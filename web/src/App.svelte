@@ -6,6 +6,7 @@
     import Nav from '@components/Nav.svelte';
     import { fade } from 'svelte/transition';
     import Menu from '@components/Menu.svelte';
+	import CamDrag from '@components/micro/CamDrag.svelte'
 
     CONFIG.set({
         fallbackResourceName: 'debug',
@@ -29,8 +30,8 @@
         />
 
         <Nav />
-
         <Menu />
+        <CamDrag />
     </div>
 </Visibility>
 

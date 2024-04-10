@@ -5,12 +5,12 @@ const dev = process.argv[2] === '-dev'
 const ENTRIES = [
   {
     type: 'server',
-    entryPoints: ['server/init.ts'],
+    entryPoints: ['src/server/init.ts'],
     outfile: 'dist/server/init.js',
   },
   {
     type: 'client',
-    entryPoints: ["client/init.ts"],
+    entryPoints: ["src/client/init.ts"],
     outfile: "dist/client/init.js",
     platform: 'node',
   },

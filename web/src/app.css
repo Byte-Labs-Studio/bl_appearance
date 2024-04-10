@@ -32,7 +32,8 @@ div {
     color: var(--text-primary);
 }
 
-html, body {
+html,
+body {
     height: 100vh;
     width: 100vw;
     font-size: 1.6rem;
@@ -41,13 +42,14 @@ html, body {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 
 /* select all number input */
-input[type=number], input[type=text]  {
+input[type=number],
+input[type=text] {
     @apply text-txt-primary transition-all duration-300 ease-in-out hover:brightness-125 font-semibold text-[1.6vh] border border-secondary/50 bg-primary/50 text-center;
 }
 
@@ -55,24 +57,38 @@ input::selection {
     background: #8685ef80;
 }
 
-button.btn, .btn {
+button.btn,
+.btn {
     @apply bg-primary/50 border border-secondary/50 transition-all duration-300 ease-in-out hover:brightness-125;
 }
 
-button:disabled, .btn:disabled {
+button:disabled,
+.btn:disabled {
     @apply brightness-50;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     @apply w-[0.5vh] h-[0.5vh] bg-primary/80
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
     @apply hidden
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
     @apply bg-accent
-  }
+}
+
+.parent-container {
+    position: relative;
+    /* Ensure the parent container is positioned */
+}
+
+.absolute-centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

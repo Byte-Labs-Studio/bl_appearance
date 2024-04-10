@@ -2,7 +2,7 @@
   "compilerOptions": {
     "types": ["@citizenfx/client", "@types/node"],
     "paths": {
-      "@data/*": ["./../data/*"],
+      "@data/*": ["../src/data/*"],
       "@dataTypes/*": ["./../types/*"],
       "@enums": ["./enums.ts"],
       "@utils": ["./utils.ts"],

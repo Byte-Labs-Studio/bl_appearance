@@ -1,10 +1,10 @@
-import PEDS from '@data/peds';
-import HEAD_OVERLAYS from '@data/head';
-import FACE_FEATURES from '@data/face';
-import DRAWABLE_NAMES from '@data/drawable';
-import PROP_NAMES from '@data/props';
+import PEDS from '../../../data/peds';
+import HEAD_OVERLAYS from '../../../data/head';
+import FACE_FEATURES from '../../../data/face';
+import DRAWABLE_NAMES from '../../../data/drawable';
+import PROP_NAMES from '../../../data/props';
 import { HairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData } from '@dataTypes/appearance';
-import {ped} from './../';
+import {ped} from '..';
 
 
 const findModelIndex = (model: PedHandle) => PEDS.findIndex(ped => GetHashKey(ped) === model);

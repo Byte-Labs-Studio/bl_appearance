@@ -1,6 +1,6 @@
-import getAppearance from './appearance/appearance'
-import PEDS from '@data/peds';
-import menuTypes from '@data/menuTypes';
+import getAppearance from './appearance'
+import PEDS from '../../data/peds';
+import menuTypes from '../../data/menuTypes';
 import { send, receive } from '@enums'
 import { sendNUIEvent, delay } from '@utils'
 import { startCamera, stopCamera } from './../camera'

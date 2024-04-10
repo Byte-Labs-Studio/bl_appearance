@@ -1,5 +1,6 @@
 import { Camera, Vector3, CameraBones } from '@dataTypes/camera';
 import {ped} from './../menu';
+import { delay} from '@utils';
 
 let running: boolean = false;
 let camDistance: number = 1.2;
@@ -18,15 +19,24 @@ const CameraBones: CameraBones = {
     legs: 46078,
 };
 
-function cos(degrees: number): number {
+const cos = (degrees: number): number => {
     return Math.cos((degrees * Math.PI) / 180);
 }
 
-function sin(degrees: number): number {
+const sin = (degrees: number): number => {
     return Math.sin((degrees * Math.PI) / 180);
 }
 
-function setCamPosition(mouseX?: number, mouseY?: number): void {
+const getAngles = (): number[] => {
+    const x =((cos(angleZ) * cos(angleY)) + (cos(angleY) * cos(angleZ))) / 2 * camDistance;
+    const y = ((sin(angleZ) * cos(angleY)) + (cos(angleY) * sin(angleZ))) / 2 * camDistance;
+    const z = sin(angleY) * camDistance;
+
+    return [x, y, z]
+}
+
+
+const setCamPosition = (mouseX?: number, mouseY?: number): void => {
     if (!running || !targetCoords || changingCam) return;
 
     mouseX = mouseX ?? 0.0;
@@ -36,34 +46,23 @@ function setCamPosition(mouseX?: number, mouseY?: number): void {
     angleY += mouseY;
     angleY = Math.min(Math.max(angleY, 0.0), 89.0);
 
-    const x =
-        ((cos(angleZ) * cos(angleY)) + (cos(angleY) * cos(angleZ))) / 2 * camDistance;
-    const y =
-        ((sin(angleZ) * cos(angleY)) + (cos(angleY) * sin(angleZ))) / 2 * camDistance;
-    const z = sin(angleY) * camDistance;
+    const [x, y, z] = getAngles()
 
     SetCamCoord(cam, targetCoords.x + x, targetCoords.y + y, targetCoords.z + z)
     PointCamAtCoord(cam, targetCoords.x, targetCoords.y, targetCoords.z)
 }
 
-function moveCamera(coords: Vector3, heading?: number, distance?: number): void {
-    heading = heading ?? GetEntityHeading(ped) + 100;
+const moveCamera = async (coords: Vector3, distance?: number) => {
+    const heading: number = GetEntityHeading(ped) + 94;
     distance = distance ?? 1.0;
 
     changingCam = true;
     camDistance = distance;
+    angleZ = heading;
 
-    const heading2: number = GetEntityHeading(ped) + 100;
-    angleZ = heading ?? heading2;
+    const [x, y, z] = getAngles()
 
-    oldCam = cam;
-
-    const x =
-        ((cos(angleZ) * cos(angleY)) + (cos(angleY) * cos(angleZ))) / 2 * camDistance;
-    const y =
-        ((sin(angleZ) * cos(angleY)) + (cos(angleY) * sin(angleZ))) / 2 * camDistance;
-    const z = sin(angleY) * camDistance;
-
+    console.log(x, y, z)
     const newcam: Camera = CreateCamWithParams(
         "DEFAULT_SCRIPTED_CAMERA",
         coords.x + x,
@@ -77,24 +76,22 @@ function moveCamera(coords: Vector3, heading?: number, distance?: number): void 
         0
     );
 
-    PointCamAtCoord(newcam, coords.x, coords.y, coords.z);
-    SetCamActiveWithInterp(newcam, oldCam, 500, 1, 1);
-
-    Wait(500);
-
     targetCoords = coords;
     changingCam = false;
+    oldCam = cam
     cam = newcam;
 
-    SetCamUseShallowDofMode(cam, true);
-    SetCamNearDof(cam, 0.4);
-    SetCamFarDof(cam, 1.2);
-    SetCamDofStrength(cam, 0.3);
-    SetCamUseShallowDofMode(cam, true);
+    PointCamAtCoord(newcam, coords.x, coords.y, coords.z);
+    SetCamActiveWithInterp(newcam, oldCam, 500, 0, 0);
 
-    useHiDof(cam)
+    await delay(500)
 
-    setCamPosition();
+    SetCamUseShallowDofMode(newcam, true);
+    SetCamNearDof(newcam, 0.4);
+    SetCamFarDof(newcam, 1.2);
+    SetCamDofStrength(newcam, 0.3);
+    useHiDof(newcam);
+
     DestroyCam(oldCam, true);
 }
 
@@ -104,23 +101,18 @@ const useHiDof = (currentcam: Camera) => {
     setTimeout(useHiDof, 0);
 }
 
-export function startCamera(): void {
+export const startCamera = async () => {
     if (running) return;
     running = true;
-
-    const headingstart: number = GetEntityHeading(ped) + 100;
-
     camDistance = 1.2;
     cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
-
-    RenderScriptCams(true, true, 500, true, true);
-
     const [x, y, z]: number[] = GetEntityCoords(ped, false);
-    setCamPosition();
-    moveCamera({x: x, y: y, z: z + 0.5}, headingstart, camDistance);
+    SetCamCoord(cam, x, y, z)
+    RenderScriptCams(true, true, 500, true, true);
+    moveCamera({x: x, y: y, z: z + 0.5}, camDistance);
 }
 
-export function stopCamera(): void {
+export const stopCamera = (): void => {
     if (!running) return;
     running = false;
 
@@ -130,7 +122,7 @@ export function stopCamera(): void {
     targetCoords = null;
 }
 
-function setCamera(type?: keyof CameraBones): void {
+const setCamera = (type?: keyof CameraBones): void => {
     const bone: number | undefined = CameraBones[type];
     if (currentBone == type) return;
     const [x, y, z]: number[] = bone ? GetPedBoneCoords(ped, bone, 0.0, 0.0, 0.0) : GetEntityCoords(ped, false);
@@ -139,31 +131,19 @@ function setCamera(type?: keyof CameraBones): void {
         x: x, 
         y: y, 
         z: z + 0.0
-    }, GetEntityHeading(ped) + 100, 1.0);
+    }, 1.0);
 
     currentBone = type;
 }
 
-const setCameraByData = (data: any, cb: (result: number) => void): void => {
-    const bone: number | undefined = CameraBones[data.type];
-    const [x, y, z]: number[] = bone ? GetPedBoneCoords(ped, bone, 0.0, 0.0, 0.0) : GetEntityCoords(ped, false);
-
-    moveCamera({
-        x: x, 
-        y: y, 
-        z: z + 0.0
-    }, GetEntityHeading(ped) + 100, 1.0);
-    cb(1);
-};
-
 RegisterNuiCallback("cam:move", (data, cb) => {
+    cb(1)
     let heading: number = GetEntityHeading(ped);
     if (lastX == data.x) {
         return;
     }
     heading = data.x > lastX ? heading + 5 : heading - 5;
     SetEntityHeading(ped, heading);
-    cb(1);
 });
 
 RegisterNuiCallback("cam:scroll", (data, cb) => {
@@ -195,4 +175,3 @@ RegisterNuiCallback("cam:zoom", (data, cb) => {
     cb(1);
 });
 
-RegisterNuiCallback("cam:setCamera", setCameraByData);

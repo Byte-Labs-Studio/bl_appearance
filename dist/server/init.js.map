@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "sources": ["../../server/init.ts"],
+  "sources": ["../../src/server/init.ts"],
   "sourcesContent": ["on('onResourceStart', (resName: string) => {\r\n    if (resName === GetCurrentResourceName()) {\r\n      console.log('TypeScript boilerplate started!')\r\n    }\r\n})"],
   "mappings": ";AAAA,GAAG,mBAAmB,CAAC,YAAoB;AACvC,MAAI,YAAY,uBAAuB,GAAG;AACxC,YAAQ,IAAI,iCAAiC;AAAA,EAC/C;AACJ,CAAC;",
   "names": []

@@ -7,7 +7,7 @@
   "scripts": {
     "build": "pnpm run init",
     "dev": "concurrently \"pnpm:init -dev\" \"pnpm:dev-web\" -c \"green.bold,cyan.bold\"",
-    "init": "rimraf ./dist && node build",
+    "init": "rimraf ./dist && node ./src/build",
     "dev-web": "cd ./web && pnpm run dev"
   },
   "keywords": [],
