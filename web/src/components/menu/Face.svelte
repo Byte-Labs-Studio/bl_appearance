@@ -348,7 +348,7 @@
                 >
                 <svelte:fragment slot="primary">
                     <NumberStepper
-                        value={headOverlay.Blemishes.overlayValue}
+                        bind:value={headOverlay.Blemishes.overlayValue}
                         total={headOverlayTotal.Blemishes}
                         none={true}
                         on:change={() =>
@@ -360,7 +360,7 @@
 
                 <svelte:fragment slot="secondary">
                     <NumberStepper
-                        value={headOverlay.Ageing.overlayValue}
+                        bind:value={headOverlay.Ageing.overlayValue}
                         total={headOverlayTotal.Ageing}
                         none={true}
                         on:change={() =>
@@ -374,7 +374,7 @@
 
                 <svelte:fragment slot="tertiary">
                     <NumberStepper
-                        value={headOverlay.Complexion.overlayValue}
+                        bind:value={headOverlay.Complexion.overlayValue}
                         total={headOverlayTotal.Complexion}
                         none={true}
                         on:change={() =>
@@ -388,7 +388,7 @@
 
                 <svelte:fragment slot="quaternary">
                     <NumberStepper
-                        value={headOverlay.SunDamage.overlayValue}
+                        bind:value={headOverlay.SunDamage.overlayValue}
                         total={headOverlayTotal.SunDamage}
                         none={true}
                         on:change={() =>
@@ -402,7 +402,7 @@
 
                 <svelte:fragment slot="quinary">
                     <NumberStepper
-                        value={headOverlay.MolesFreckles.overlayValue}
+                        bind:value={headOverlay.MolesFreckles.overlayValue}
                         total={headOverlayTotal.MolesFreckles}
                         none={true}
                         on:change={() =>
@@ -418,7 +418,7 @@
 
                 <svelte:fragment slot="senary">
                     <NumberStepper
-                        value={headOverlay.BodyBlemishes.overlayValue}
+                        bind:value={headOverlay.BodyBlemishes.overlayValue}
                         total={headOverlayTotal.BodyBlemishes}
                         none={true}
                         on:change={() =>
