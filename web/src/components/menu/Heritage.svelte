@@ -13,7 +13,6 @@
     let currentPedIndex = $APPEARANCE.modelIndex || 0;
     let currentPed = $MODELS[currentPedIndex];
 
-
     onMount(() => {
         APPEARANCE.setHeadBlend(data);
     });
@@ -21,7 +20,7 @@
     function updateParents(key: string, value: number) {
         if (currentPedIndex !== 0 && currentPedIndex !== 1) return;
 
-        data[key] = value
+        data[key] = value;
 
         APPEARANCE.setHeadBlend(data);
     }
@@ -50,8 +49,7 @@
             list={$MODELS}
             on:change={() => {
                 currentPed = $MODELS[currentPedIndex];
-                APPEARANCE.setModel(currentPed)
-                console.log(JSON.stringify(data))
+                APPEARANCE.setModel(currentPed);
             }}
             display={currentPed}
         />
@@ -96,9 +94,7 @@
                 value={data.shapeFirst || 0}
                 total={46}
                 none={false}
-                on:change={e => {
-                    updateParents('shapeFirst', e.detail);
-                }}
+                on:change={e => updateParents('shapeFirst', e.detail)}
             />
         </svelte:fragment>
 
@@ -109,9 +105,7 @@
                 value={data.skinFirst || 0}
                 total={15}
                 none={false}
-                on:change={e => {
-                    updateParents('skinFirst', e.detail);
-                }}
+                on:change={e => updateParents('skinFirst', e.detail)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -124,9 +118,7 @@
                 value={data.shapeSecond || 0}
                 total={46}
                 none={false}
-                on:change={e => {
-                    updateParents('shapeSecond', e.detail);
-                }}
+                on:change={e => updateParents('shapeSecond', e.detail)}
             />
         </svelte:fragment>
 
@@ -137,9 +129,7 @@
                 value={data.skinSecond || 0}
                 total={15}
                 none={false}
-                on:change={e => {
-                    updateParents('skinSecond', e.detail);
-                }}
+                on:change={e => updateParents('skinSecond', e.detail)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -152,9 +142,7 @@
                 value={data.shapeThird || 0}
                 total={46}
                 none={false}
-                on:change={e => {
-                    updateParents('shapeThird', e.detail);
-                }}
+                on:change={e => updateParents('shapeThird', e.detail)}
             />
         </svelte:fragment>
 
@@ -165,9 +153,7 @@
                 value={data.skinThird || 0}
                 total={15}
                 none={false}
-                on:change={e => {
-                    updateParents('skinThird', e.detail);
-                }}
+                on:change={e => updateParents('skinThird', e.detail)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -183,9 +169,7 @@
                     max={1}
                     step={0.01}
                     value={data?.shapeMix || 0}
-                    on:change={e => {
-                        updateParents('shapeMix', e.detail);
-                    }}
+                    on:change={e => updateParents('shapeMix', e.detail)}
                 >
                     <svelte:fragment slot="before">
                         <input
@@ -216,9 +200,7 @@
                 max={1}
                 step={0.01}
                 value={data?.thirdMix || 0}
-                on:change={e => {
-                    updateParents('thirdMix', e.detail);
-                }}
+                on:change={e => updateParents('thirdMix', e.detail)}
             >
                 <svelte:fragment slot="after">
                     <input
@@ -243,9 +225,7 @@
                     max={1}
                     step={0.01}
                     value={data?.skinMix || 0}
-                    on:change={e => {
-                        updateParents('skinMix', e.detail);
-                    }}
+                    on:change={e => updateParents('skinMix', e.detail)}
                 >
                     <svelte:fragment slot="before">
                         <input
