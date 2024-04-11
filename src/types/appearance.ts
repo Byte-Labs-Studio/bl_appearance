@@ -10,7 +10,6 @@ interface HeadOverlayData {
     index: number;
     overlayValue?: number;
     colourinterface?: number;
-    value?: number;
     colourType?: number;
     firstColor?: number;
     secondColor?: number;

@@ -27,11 +27,15 @@ const actionHandlers = {
         return data
     },
     [appearance.setHeadOverlay]: (data: HeadOverlayData) => {
+        const value = data.overlayValue == -1 ? 255 : data.overlayValue
+
         if (data.index === 13) {
-            SetPedEyeColor(ped, data.value)
+            SetPedEyeColor(ped, value)
             return
         }
-        SetPedHeadOverlay(ped, data.index, data.value, data.overlayOpacity)
+
+        SetPedHeadOverlay(ped, data.index, value, data.overlayOpacity)
+        console.log('get', GetPedHeadOverlayData(ped, data.index))
         SetPedHeadOverlayColor(ped, data.index, 1, data.firstColor, data.secondColor)
 
         return 1
