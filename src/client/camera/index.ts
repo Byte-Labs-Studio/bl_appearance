@@ -1,6 +1,7 @@
 import { Camera, Vector3, CameraBones } from '@dataTypes/camera';
 import {ped} from './../menu';
 import { delay} from '@utils';
+import { receive } from '@enums';
 
 let running: boolean = false;
 let camDistance: number = 1.2;
@@ -136,7 +137,7 @@ const setCamera = (type?: keyof CameraBones): void => {
     currentBone = type;
 }
 
-RegisterNuiCallback("cam:move", (data, cb) => {
+RegisterNuiCallback(receive.camMove, (data, cb) => {
     cb(1)
     let heading: number = GetEntityHeading(ped);
     if (lastX == data.x) {
@@ -146,7 +147,7 @@ RegisterNuiCallback("cam:move", (data, cb) => {
     SetEntityHeading(ped, heading);
 });
 
-RegisterNuiCallback("cam:scroll", (data, cb) => {
+RegisterNuiCallback(receive.camScroll, (data, cb) => {
     switch (data) {
         case 2:
             setCamera();
@@ -161,7 +162,7 @@ RegisterNuiCallback("cam:scroll", (data, cb) => {
     cb(1);
 });
 
-RegisterNuiCallback("cam:zoom", (data, cb) => {
+RegisterNuiCallback(receive.camZoom, (data, cb) => {
     if (data === "down") {
         const newDistance: number = camDistance + 0.05;
         camDistance = newDistance >= 1.0 ? 1.0 : newDistance;

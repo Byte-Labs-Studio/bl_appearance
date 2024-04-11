@@ -17,7 +17,6 @@ export enum appearance {
 export enum receive {
     close = 'appearance:close',
 
-
     toggleItem = 'appearance:toggleItem',
 
     useOutfit = 'appearance:useOutfit',
@@ -27,4 +26,8 @@ export enum receive {
 
     save = 'appearance:save',
     cancel = 'appearance:cancel',
+
+    camZoom = 'appearance:camZoom',
+    camMove = 'appearance:camMove',
+    camScroll = 'appearance:camScroll',
 }

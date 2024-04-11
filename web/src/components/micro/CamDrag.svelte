@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Send } from '@enums/events';
     import { SendEvent } from '@utils/eventsHandlers';
 
     let canExecute = true;
@@ -10,7 +11,7 @@
         let x = moveX / 8;
         let y = moveY / 8;
 
-        if (isMouseDown) SendEvent('cam:move', { x: x, y: y });
+        if (isMouseDown) SendEvent(Send.camMove, { x: x, y: y });
     };
 
     function scrollHandler(e: WheelEvent) {
@@ -23,13 +24,13 @@
         if (level > 3) level = 3;
 
         if (e.shiftKey) {
-            SendEvent('cam:zoom', direction);
+            SendEvent(Send.camZoom, direction);
         } else {
             canExecute = false;
             setTimeout(function () {
                 canExecute = true;
             }, 500);
-            SendEvent('cam:scroll', level);
+            SendEvent(Send.camScroll, level);
         }
     }
 </script>
@@ -38,6 +39,7 @@
     on:mousemove={isMouseDown ? moveHandler : null}
     on:mouseup={() => (isMouseDown = false)}
 />
+
 <div
     class={`absolute-centered w-[103rem] h-[103rem] cursor-ew-resize active:cursor-ew-resize z-[1] rounded-full`}
     role="slider"

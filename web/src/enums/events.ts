@@ -26,4 +26,8 @@ export enum Send {
 
     save = 'appearance:save',
     cancel = 'appearance:cancel',
+
+    camZoom = 'appearance:camZoom',
+    camMove = 'appearance:camMove',
+    camScroll = 'appearance:camScroll',
 }
