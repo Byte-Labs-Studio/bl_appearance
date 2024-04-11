@@ -4,7 +4,7 @@ export type TParamTab = string | string[]
 export type TValue = {
 	index: number
 	value: number
-	name?: string
+	id?: string
     texture?: number
 }
 

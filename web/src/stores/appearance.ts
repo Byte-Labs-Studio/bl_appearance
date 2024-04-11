@@ -195,10 +195,10 @@ const APPEARANCE_INIT = () => {
             }).then((propTotal: number) => {
                 store.update(appearance => {
                     if (!isTexture) {
-                        appearance.propTotal[prop.name].textures = propTotal
+                        appearance.propTotal[prop.id].textures = propTotal
                         prop.texture = 0
                     }
-                    appearance.props[prop.name] = prop;
+                    appearance.props[prop.id] = prop;
                     return appearance;
                 });
 
@@ -222,10 +222,10 @@ const APPEARANCE_INIT = () => {
             }).then((drawableTotal: number) => {
                 store.update(appearance => {
                     if (!isTexture) {
-                        appearance.drawTotal[drawable.name].textures = drawableTotal
+                        appearance.drawTotal[drawable.id].textures = drawableTotal
                         drawable.texture = 0
                     }
-                    appearance.drawables[drawable.name] = drawable
+                    appearance.drawables[drawable.id] = drawable
                     return appearance;
                 });
                 methods.isDrawableFetching = false;
