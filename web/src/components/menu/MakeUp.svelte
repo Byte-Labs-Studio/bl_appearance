@@ -24,7 +24,8 @@
                     bind:value={headOverlay.Makeup.overlayValue}
                     total={headOverlayTotal.Makeup}
                     none={true}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
 
@@ -33,7 +34,8 @@
                 <ColourDropdown
                     colourType="makeup"
                     bind:index={headOverlay.Makeup.firstColor}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
 
@@ -44,7 +46,8 @@
                 <ColourDropdown
                     colourType="makeup"
                     bind:index={headOverlay.Makeup.secondColor}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
 
@@ -57,7 +60,8 @@
                     min={0}
                     max={1.0}
                     step={0.01}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -75,8 +79,8 @@
                     total={headOverlayTotal.Blush}
                     none={true}
                     on:change={() => {
-                        APPEARANCE.setHeadOverlay(headOverlay.Blush)
-                        }}
+                        APPEARANCE.setHeadOverlay(headOverlay.Blush);
+                    }}
                 />
             </svelte:fragment>
 
@@ -85,7 +89,8 @@
                 <ColourDropdown
                     colourType="makeup"
                     bind:index={headOverlay.Blush.firstColor}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Blush)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Blush)}
                 />
             </svelte:fragment>
 
@@ -96,7 +101,8 @@
                 <ColourDropdown
                     colourType="makeup"
                     bind:index={headOverlay.Blush.secondColor}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Blush)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Blush)}
                 />
             </svelte:fragment>
 
@@ -109,7 +115,8 @@
                     min={0}
                     max={1.0}
                     step={0.01}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Blush)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Blush)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -126,7 +133,8 @@
                     bind:value={headOverlay.Lipstick.overlayValue}
                     total={headOverlayTotal.Lipstick}
                     none={true}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
 
@@ -135,7 +143,8 @@
                 <ColourDropdown
                     colourType="makeup"
                     bind:index={headOverlay.Lipstick.firstColor}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
 
@@ -146,7 +155,8 @@
                 <ColourDropdown
                     colourType="makeup"
                     bind:index={headOverlay.Lipstick.secondColor}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
 
@@ -159,7 +169,8 @@
                     min={0}
                     max={1.0}
                     step={0.01}
-                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
+                    on:change={() =>
+                        APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
         </Wrapper>
