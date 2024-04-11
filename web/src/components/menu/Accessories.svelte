@@ -18,12 +18,10 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={props.hats.value}
+                    bind:value={props.hats.value}
                     total={propTotal.hats.total}
                     none={true}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.hats, e.detail);
-                    }}
+                    on:change={e => APPEARANCE.setProp(props.hats, e.detail)}
                 />
             </svelte:fragment>
 
@@ -34,12 +32,11 @@
 
             <svelte:fragment slot="secondary">
                 <NumberStepper
-                    value={props.hats.texture}
+                    bind:value={props.hats.texture}
                     total={propTotal.hats.textures}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.hats, e.detail, true);
-                    }}
+                    none={true}
+                    on:change={e =>
+                        APPEARANCE.setProp(props.hats, e.detail, true)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -53,12 +50,10 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={props.glasses.value}
+                    bind:value={props.glasses.value}
                     total={propTotal.glasses.total}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.glasses, e.detail);
-                    }}
+                    none={true}
+                    on:change={e => APPEARANCE.setProp(props.glasses, e.detail)}
                 />
             </svelte:fragment>
 
@@ -69,12 +64,11 @@
 
             <svelte:fragment slot="secondary">
                 <NumberStepper
-                    value={props.glasses.value}
+                    bind:value={props.glasses.value}
                     total={propTotal.glasses.textures}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.glasses, e.detail, true);
-                    }}
+                    none={true}
+                    on:change={e =>
+                        APPEARANCE.setProp(props.glasses, e.detail, true)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -88,12 +82,11 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={props.earrings.value}
+                    bind:value={props.earrings.value}
                     total={propTotal.earrings.total}
                     none={true}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.earrings, e.detail);
-                    }}
+                    on:change={e =>
+                        APPEARANCE.setProp(props.earrings, e.detail)}
                 />
             </svelte:fragment>
 
@@ -104,12 +97,11 @@
 
             <svelte:fragment slot="secondary">
                 <NumberStepper
-                    value={props.earrings.value}
+                    bind:value={props.earrings.value}
                     total={propTotal.earrings.textures}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.earrings, e.detail, true);
-                    }}
+                    none={true}
+                    on:change={e =>
+                        APPEARANCE.setProp(props.earrings, e.detail, true)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -123,12 +115,10 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={props.watches.value}
+                    bind:value={props.watches.value}
                     total={propTotal.watches.total}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.watches, e.detail);
-                    }}
+                    none={true}
+                    on:change={e => APPEARANCE.setProp(props.watches, e.detail)}
                 />
             </svelte:fragment>
 
@@ -139,12 +129,11 @@
 
             <svelte:fragment slot="secondary">
                 <NumberStepper
-                    value={props.watches.value}
+                    bind:value={props.watches.value}
                     total={propTotal.watches.textures}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.watches, e.detail, true);
-                    }}
+                    none={true}
+                    on:change={e =>
+                        APPEARANCE.setProp(props.watches, e.detail, true)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -158,12 +147,11 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={props.braclets.value}
+                    bind:value={props.braclets.value}
                     total={propTotal.braclets.total}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.braclets, e.detail);
-                    }}
+                    none={true}
+                    on:change={e =>
+                        APPEARANCE.setProp(props.braclets, e.detail)}
                 />
             </svelte:fragment>
 
@@ -174,12 +162,11 @@
 
             <svelte:fragment slot="secondary">
                 <NumberStepper
-                    value={props.braclets.value}
+                    bind:value={props.braclets.value}
                     total={propTotal.braclets.textures}
-                    none={false}
-                    on:change={e => {
-                        APPEARANCE.setProp(props.braclets, e.detail, true);
-                    }}
+                    none={true}
+                    on:change={e =>
+                        APPEARANCE.setProp(props.braclets, e.detail, true)}
                 />
             </svelte:fragment>
         </Wrapper>
