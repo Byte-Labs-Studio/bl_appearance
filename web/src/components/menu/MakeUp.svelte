@@ -21,17 +21,19 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={headOverlay.Makeup.overlayValue}
+                    bind:value={headOverlay.Makeup.overlayValue}
                     total={headOverlayTotal.Makeup}
-                    none={false}
+                    none={true}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
 
             <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
             <svelte:fragment slot="extra_primary">
                 <ColourDropdown
-                    colourType="hair"
-                    index={headOverlay.Makeup.firstColor}
+                    colourType="makeup"
+                    bind:index={headOverlay.Makeup.firstColor}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
 
@@ -40,8 +42,9 @@
             >
             <svelte:fragment slot="extra_secondary">
                 <ColourDropdown
-                    colourType="hair"
-                    index={headOverlay.Makeup.secondColor}
+                    colourType="makeup"
+                    bind:index={headOverlay.Makeup.secondColor}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
 
@@ -54,6 +57,7 @@
                     min={0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Makeup)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -67,17 +71,21 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={headOverlay.Blush.overlayValue}
+                    bind:value={headOverlay.Blush.overlayValue}
                     total={headOverlayTotal.Blush}
-                    none={false}
+                    none={true}
+                    on:change={() => {
+                        APPEARANCE.setHeadOverlay(headOverlay.Blush)
+                        }}
                 />
             </svelte:fragment>
 
             <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
             <svelte:fragment slot="extra_primary">
                 <ColourDropdown
-                    colourType="hair"
-                    index={headOverlay.Blush.firstColor}
+                    colourType="makeup"
+                    bind:index={headOverlay.Blush.firstColor}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Blush)}
                 />
             </svelte:fragment>
 
@@ -86,8 +94,9 @@
             >
             <svelte:fragment slot="extra_secondary">
                 <ColourDropdown
-                    colourType="hair"
-                    index={headOverlay.Blush.secondColor}
+                    colourType="makeup"
+                    bind:index={headOverlay.Blush.secondColor}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Blush)}
                 />
             </svelte:fragment>
 
@@ -100,6 +109,7 @@
                     min={0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Blush)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -113,17 +123,19 @@
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    value={headOverlay.Lipstick.overlayValue}
+                    bind:value={headOverlay.Lipstick.overlayValue}
                     total={headOverlayTotal.Lipstick}
-                    none={false}
+                    none={true}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
 
             <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
             <svelte:fragment slot="extra_primary">
                 <ColourDropdown
-                    colourType="hair"
-                    index={headOverlay.Lipstick.firstColor}
+                    colourType="makeup"
+                    bind:index={headOverlay.Lipstick.firstColor}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
 
@@ -132,8 +144,9 @@
             >
             <svelte:fragment slot="extra_secondary">
                 <ColourDropdown
-                    colourType="hair"
-                    index={headOverlay.Lipstick.secondColor}
+                    colourType="makeup"
+                    bind:index={headOverlay.Lipstick.secondColor}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
 
@@ -146,6 +159,7 @@
                     min={0}
                     max={1.0}
                     step={0.01}
+                    on:change={() => APPEARANCE.setHeadOverlay(headOverlay.Lipstick)}
                 />
             </svelte:fragment>
         </Wrapper>
