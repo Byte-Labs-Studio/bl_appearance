@@ -3,14 +3,17 @@
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Slider from '@components/micro/Slider.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST } from '@stores/appearance';
     import type { THeadOverlay } from '@typings/apperance';
+    import { draw } from 'svelte/transition';
 
     $: drawables = $APPEARANCE.drawables;
     $: drawTotal = $APPEARANCE.drawTotal;
     $: headOverlay = $APPEARANCE.headOverlay as THeadOverlay;
     $: headOverlayTotal = $APPEARANCE.headOverlayTotal;
     $: hairColor = $APPEARANCE.hairColor;
+
+    $: blacklist = $BLACKLIST.drawables;
 </script>
 
 {#if drawTotal?.hair?.total > 0}
@@ -24,8 +27,10 @@
                 bind:value={drawables.hair.value}
                 total={drawTotal.hair.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.hair, e.detail)}
+                blacklist={blacklist.hair.values}
+                on:change={e =>{
+                    drawables.hair.texture = 0;
+                    APPEARANCE.setDrawable(drawables.hair, e.detail)}}
             />
         </svelte:fragment>
 
@@ -39,6 +44,7 @@
                 bind:value={drawables.hair.texture}
                 total={drawTotal.hair.textures}
                 none={false}
+                blacklist={blacklist.hair.textures[drawables.hair.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.hair, e.detail, true)}
             />

@@ -1,10 +1,11 @@
 <script lang="ts">
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST } from '@stores/appearance';
 
     $: props = $APPEARANCE.props;
     $: propTotal = $APPEARANCE.propTotal;
+    $: blacklist = $BLACKLIST.props;
 </script>
 
 {#if !props}
@@ -21,7 +22,11 @@
                     bind:value={props.hats.value}
                     total={propTotal.hats.total}
                     none={true}
-                    on:change={e => APPEARANCE.setProp(props.hats, e.detail)}
+                    blacklist={blacklist.hats.values}
+                    on:change={e => {
+                        props.hats.texture = 0;
+                        APPEARANCE.setProp(props.hats, e.detail);
+                    }}
                 />
             </svelte:fragment>
 
@@ -34,6 +39,8 @@
                 <NumberStepper
                     bind:value={props.hats.texture}
                     total={propTotal.hats.textures}
+                    blacklist={blacklist.hats.textures[props.hats.value] ||
+                        null}
                     none={true}
                     on:change={e =>
                         APPEARANCE.setProp(props.hats, e.detail, true)}
@@ -53,7 +60,11 @@
                     bind:value={props.glasses.value}
                     total={propTotal.glasses.total}
                     none={true}
-                    on:change={e => APPEARANCE.setProp(props.glasses, e.detail)}
+                    blacklist={blacklist.glasses.values}
+                    on:change={e => {
+                        props.glasses.texture = 0;
+                        APPEARANCE.setProp(props.glasses, e.detail);
+                    }}
                 />
             </svelte:fragment>
 
@@ -67,6 +78,8 @@
                     bind:value={props.glasses.value}
                     total={propTotal.glasses.textures}
                     none={true}
+                    blacklist={blacklist.glasses.textures[props.glasses.value] ||
+                        null}
                     on:change={e =>
                         APPEARANCE.setProp(props.glasses, e.detail, true)}
                 />
@@ -85,8 +98,11 @@
                     bind:value={props.earrings.value}
                     total={propTotal.earrings.total}
                     none={true}
-                    on:change={e =>
-                        APPEARANCE.setProp(props.earrings, e.detail)}
+                    blacklist={blacklist.earrings.values}
+                    on:change={e => {
+                        props.earrings.texture = 0;
+                        APPEARANCE.setProp(props.earrings, e.detail);
+                    }}
                 />
             </svelte:fragment>
 
@@ -100,8 +116,12 @@
                     bind:value={props.earrings.value}
                     total={propTotal.earrings.textures}
                     none={true}
-                    on:change={e =>
-                        APPEARANCE.setProp(props.earrings, e.detail, true)}
+                    blacklist={blacklist.earrings.textures[props.earrings.value] ||
+                        null}
+                    on:change={e => {
+                        props.earrings.texture = 0;
+                        APPEARANCE.setProp(props.earrings, e.detail, true);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -118,7 +138,11 @@
                     bind:value={props.watches.value}
                     total={propTotal.watches.total}
                     none={true}
-                    on:change={e => APPEARANCE.setProp(props.watches, e.detail)}
+                    blacklist={blacklist.watches.values}
+                    on:change={e => {
+                        props.watches.texture = 0;
+                        APPEARANCE.setProp(props.watches, e.detail);
+                    }}
                 />
             </svelte:fragment>
 
@@ -132,8 +156,12 @@
                     bind:value={props.watches.value}
                     total={propTotal.watches.textures}
                     none={true}
-                    on:change={e =>
-                        APPEARANCE.setProp(props.watches, e.detail, true)}
+                    blacklist={blacklist.watches.textures[props.watches.value] ||
+                        null}
+                    on:change={e => {
+                        props.watches.texture = 0;
+                        APPEARANCE.setProp(props.watches, e.detail, true);
+                    }}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -150,8 +178,11 @@
                     bind:value={props.braclets.value}
                     total={propTotal.braclets.total}
                     none={true}
-                    on:change={e =>
-                        APPEARANCE.setProp(props.braclets, e.detail)}
+                    blacklist={blacklist.braclets.values}
+                    on:change={e => {
+                        props.braclets.texture = 0;
+                        APPEARANCE.setProp(props.braclets, e.detail);
+                    }}
                 />
             </svelte:fragment>
 
@@ -165,6 +196,8 @@
                     bind:value={props.braclets.value}
                     total={propTotal.braclets.textures}
                     none={true}
+                    blacklist={blacklist.braclets.textures[props.braclets.value] ||
+                        null}
                     on:change={e =>
                         APPEARANCE.setProp(props.braclets, e.detail, true)}
                 />

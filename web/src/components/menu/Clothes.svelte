@@ -1,10 +1,11 @@
 <script lang="ts">
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST } from '@stores/appearance';
 
     $: drawables = $APPEARANCE.drawables || {};
     $: drawTotal = $APPEARANCE.drawTotal || {};
+    $: blacklist = $BLACKLIST.drawables || {};
 </script>
 
 {#if drawTotal?.masks?.total > 0}
@@ -18,8 +19,11 @@
                 bind:value={drawables.masks.value}
                 total={drawTotal.masks.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.masks, e.detail)}
+                blacklist={blacklist.masks.values}
+                on:change={e => {
+                    drawables.masks.texture = 0;
+                    APPEARANCE.setDrawable(drawables.masks, e.detail);
+                }}
             />
         </svelte:fragment>
 
@@ -33,6 +37,7 @@
                 bind:value={drawables.masks.texture}
                 total={drawTotal.masks.textures}
                 none={false}
+                blacklist={blacklist.masks.textures[drawables.masks.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.masks, e.detail, true)}
             />
@@ -51,8 +56,10 @@
                 bind:value={drawables.jackets.value}
                 total={drawTotal.jackets.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.jackets, e.detail)}
+                blacklist={blacklist.jackets.values}
+                on:change={e =>{
+                    drawables.jackets.texture = 0;
+                    APPEARANCE.setDrawable(drawables.jackets, e.detail)}}
             />
         </svelte:fragment>
 
@@ -66,6 +73,7 @@
                 bind:value={drawables.jackets.texture}
                 total={drawTotal.jackets.textures}
                 none={false}
+                blacklist={blacklist.jackets.textures[drawables.jackets.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.jackets, e.detail, true)}
             />
@@ -84,8 +92,10 @@
                 bind:value={drawables.shirts.value}
                 total={drawTotal.shirts.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.shirts, e.detail)}
+                blacklist={blacklist.shirts.values}
+                on:change={e =>{
+                    drawables.shirts.texture = 0;
+                    APPEARANCE.setDrawable(drawables.shirts, e.detail)}}
             />
         </svelte:fragment>
 
@@ -99,6 +109,7 @@
                 bind:value={drawables.shirts.texture}
                 total={drawTotal.shirts.textures}
                 none={false}
+                blacklist={blacklist.shirts.textures[drawables.shirts.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.shirts, e.detail, true)}
             />
@@ -117,8 +128,10 @@
                 bind:value={drawables.torsos.value}
                 total={drawTotal.torsos.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.torsos, e.detail)}
+                blacklist={blacklist.torsos.values}
+                on:change={e =>{
+                    drawables.torsos.texture = 0;
+                    APPEARANCE.setDrawable(drawables.torsos, e.detail)}}
             />
         </svelte:fragment>
 
@@ -132,6 +145,7 @@
                 bind:value={drawables.torsos.texture}
                 total={drawTotal.torsos.textures}
                 none={false}
+                blacklist={blacklist.torsos.textures[drawables.torsos.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.torsos, e.detail, true)}
             />
@@ -150,8 +164,10 @@
                 bind:value={drawables.vest.value}
                 total={drawTotal.vest.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.vest, e.detail)}
+                blacklist={blacklist.vest.values}
+                on:change={e =>{
+                    drawables.vest.texture = 0;
+                    APPEARANCE.setDrawable(drawables.vest, e.detail)}}
             />
         </svelte:fragment>
 
@@ -165,6 +181,7 @@
                 bind:value={drawables.vest.texture}
                 total={drawTotal.vest.textures}
                 none={false}
+                blacklist={blacklist.vest.textures[drawables.vest.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.vest, e.detail, true)}
             />
@@ -183,8 +200,10 @@
                 bind:value={drawables.legs.value}
                 total={drawTotal.legs.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.legs, e.detail)}
+                blacklist={blacklist.legs.values}
+                on:change={e =>{
+                    drawables.legs.texture = 0;
+                    APPEARANCE.setDrawable(drawables.legs, e.detail)}}
             />
         </svelte:fragment>
 
@@ -198,6 +217,7 @@
                 bind:value={drawables.legs.texture}
                 total={drawTotal.legs.textures}
                 none={false}
+                blacklist={blacklist.legs.textures[drawables.legs.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.legs, e.detail, true)}
             />
@@ -216,8 +236,10 @@
                 bind:value={drawables.shoes.value}
                 total={drawTotal.shoes.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.shoes, e.detail)}
+                blacklist={blacklist.shoes.values}
+                on:change={e =>{
+                    drawables.shoes.texture = 0;
+                    APPEARANCE.setDrawable(drawables.shoes, e.detail)}}
             />
         </svelte:fragment>
 
@@ -231,6 +253,7 @@
                 bind:value={drawables.shoes.texture}
                 total={drawTotal.shoes.textures}
                 none={false}
+                blacklist={blacklist.shoes.textures[drawables.shoes.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.shoes, e.detail, true)}
             />
@@ -249,8 +272,10 @@
                 bind:value={drawables.bags.value}
                 total={drawTotal.bags.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.bags, e.detail)}
+                blacklist={blacklist.bags.values}
+                on:change={e =>{
+                    drawables.bags.texture = 0;
+                    APPEARANCE.setDrawable(drawables.bags, e.detail)}}
             />
         </svelte:fragment>
 
@@ -264,6 +289,7 @@
                 bind:value={drawables.bags.texture}
                 total={drawTotal.bags.textures}
                 none={false}
+                blacklist={blacklist.bags.textures[drawables.bags.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.bags, e.detail, true)}
             />
@@ -282,8 +308,10 @@
                 bind:value={drawables.neck.value}
                 total={drawTotal.neck.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.neck, e.detail)}
+                blacklist={blacklist.neck.values}
+                on:change={e =>{
+                    drawables.neck.texture = 0;
+                    APPEARANCE.setDrawable(drawables.neck, e.detail)}}
             />
         </svelte:fragment>
 
@@ -297,6 +325,7 @@
                 bind:value={drawables.neck.texture}
                 total={drawTotal.neck.textures}
                 none={false}
+                blacklist={blacklist.neck.textures[drawables.neck.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.neck, e.detail, true)}
             />
@@ -315,8 +344,10 @@
                 bind:value={drawables.decals.value}
                 total={drawTotal.decals.total}
                 none={false}
-                on:change={e =>
-                    APPEARANCE.setDrawable(drawables.decals, e.detail)}
+                blacklist={blacklist.decals.values}
+                on:change={e =>{
+                    drawables.decals.texture = 0;
+                    APPEARANCE.setDrawable(drawables.decals, e.detail)}}
             />
         </svelte:fragment>
 
@@ -330,6 +361,7 @@
                 bind:value={drawables.decals.texture}
                 total={drawTotal.decals.textures}
                 none={false}
+                blacklist={blacklist.decals.textures[drawables.decals.value] || null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.decals, e.detail, true)}
             />

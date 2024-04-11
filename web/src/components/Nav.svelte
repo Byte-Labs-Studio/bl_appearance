@@ -4,11 +4,13 @@
     import { tweened } from 'svelte/motion';
     import { cubicInOut } from 'svelte/easing';
     import { fade, scale } from 'svelte/transition';
-    import { SELECTED_TAB, TABS } from '@stores/appearance';
+    import { IS_VALID, SELECTED_TAB, TABS } from '@stores/appearance';
     import IconCancel from './icons/IconCancel.svelte';
     import IconSave from './icons/IconSave.svelte';
     import { SendEvent } from '@utils/eventsHandlers';
     import { Send } from '@enums/events';
+    import IconLock from './icons/IconLock.svelte';
+    import { checkValid } from '@utils/misc';
 
     const centerX = -5;
 
@@ -41,6 +43,20 @@
         setTimeout(() => {
             limit.set(90, { duration: 1000, easing: cubicInOut });
         }, 250);
+
+        let debounce: NodeJS.Timeout;
+
+        const unsubscribe = IS_VALID.subscribe(_ => {
+            clearTimeout(debounce);
+
+            debounce = setTimeout(() => {
+                checkValid();
+            }, 250);
+        });
+
+        return () => {
+            unsubscribe();
+        };
     });
 
     let modal: 'close' | 'save' = null;
@@ -115,52 +131,77 @@
         >
             <Hexagon active={false} variant="success" />
             <div class="w-[5vh] h-full absolute grid place-items-center">
-                <IconSave />
+                {#if $IS_VALID}
+                    <IconSave />
+                {:else}
+                    <IconLock />
+                {/if}
             </div>
         </div>
     </button>
 </div>
 
-
 {#if modal}
-<div 
-    transition:fade
-class="absolute w-full h-full  grid place-items-center bg-black/50 z-50">
     <div
-    transition:scale|global
-        class="max-w-[50vh] w-fit min-w-[30vh] h-fit btn drop-shadow gap-[2vh] flex flex-col items-center justify-center p-[0.5vh] px-[2vh]"
+        transition:fade
+        class="absolute w-full h-full grid place-items-center bg-black/50 z-50"
     >
-        <div class="w-full h-fit grid place-items-center">
-            <h1 class="text-[2vh] font-semibold uppercase">
-                {modal === 'close' ? 'Close' : 'Save'}
-            </h1>
-        </div>
-        <div class="w-full h-fit grid place-items-center">
-            <p class="text-[1.5vh] opacity-75">
-                Are you sure you want to {modal === 'close' ? 'close and lose' : 'save and apply'} your current appearance?
-            </p>
-        </div>
-        <div class="w-full h-[5vh] flex items-center justify-center gap-[2vh]">
-            <button
-                class="btn w-[10vh] h-[5vh] grid place-items-center"
-                on:click={() => {
-                    modal = null;
-                }}
+        <div
+            transition:scale|global
+            class="max-w-[50vh] w-fit min-w-[30vh] h-fit btn drop-shadow gap-[2vh] flex flex-col items-center justify-center p-[0.5vh] px-[2vh]"
+        >
+            <div class="w-full h-fit grid place-items-center">
+                <h1 class="text-[2vh] font-semibold uppercase">
+                    {#if $IS_VALID || modal === 'close'}
+                        {modal === 'close' ? 'Close' : 'Save'}
+                    {:else}
+                        Locked
+                    {/if}
+                </h1>
+            </div>
+            <div class="w-full h-fit grid place-items-center">
+                <p class="text-[1.5vh] opacity-75 text-center">
+                    {#if $IS_VALID || modal === 'close'}
+                        Are you sure you want to {modal === 'close'
+                            ? 'close and lose'
+                            : 'save and apply'} your current appearance?
+                    {:else}
+                        You cannot save your current appearance. You have
+                        selected a locked item.
+                    {/if}
+                </p>
+            </div>
+            <div
+                class="w-full h-[5vh] flex items-center justify-center gap-[2vh]"
             >
-                <p>Cancel</p>
-            </button>
-            <button
-                class="btn w-[10vh] h-[5vh] grid place-items-center"
-                on:click={() => {
-                    SendEvent(Send.close, modal === 'save')
-                    modal = null;
-                }}
-            >
-                <p>{modal === 'close' ? 'Close' : 'Save'}</p>
-            </button>
+                <button
+                    class="btn w-[10vh] h-[5vh] grid place-items-center"
+                    on:click={() => {
+                        modal = null;
+                    }}
+                >
+                    <p>
+                        {#if $IS_VALID || modal === 'close'}
+                            Cancel
+                        {:else}
+                            Ok
+                        {/if}
+                    </p>
+                </button>
+                {#if $IS_VALID || modal === 'close'}
+                    <button
+                        class="btn w-[10vh] h-[5vh] grid place-items-center"
+                        on:click={() => {
+                            SendEvent(Send.close, modal === 'save');
+                            modal = null;
+                        }}
+                    >
+                        <p>{modal === 'close' ? 'Close' : 'Save'}</p>
+                    </button>
+                {/if}
+            </div>
         </div>
     </div>
-</div>
 {/if}
 
 <style>

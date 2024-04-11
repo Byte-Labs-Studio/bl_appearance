@@ -6,7 +6,7 @@ interface HairData {
 // interface for head overlay data
 
 interface HeadOverlayData {
-    name: string;
+    id: string;
     index: number;
     overlayValue?: number;
     colourinterface?: number;
@@ -31,7 +31,7 @@ interface DrawableData extends HeadStructureData {
 
 // interface for total drawables and props
 interface TotalData {
-    name: string;
+    id: string;
     index: number;
     total: number;
     textures: number;

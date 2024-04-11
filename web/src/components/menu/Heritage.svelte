@@ -5,7 +5,7 @@
     import Slider from '@components/micro/Slider.svelte';
     import Stepper from '@components/micro/Stepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE, MODELS } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST, MODELS } from '@stores/appearance';
     import type { THeadBlend } from '@typings/apperance';
     import { onMount } from 'svelte';
 
@@ -47,6 +47,7 @@
         <Stepper
             bind:index={currentPedIndex}
             list={$MODELS}
+            blacklist={$BLACKLIST.models || null}
             on:change={() => {
                 currentPed = $MODELS[currentPedIndex];
                 APPEARANCE.setModel(currentPed);

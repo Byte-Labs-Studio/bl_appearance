@@ -45,14 +45,14 @@ const getHeadOverlay = (): [Record<string, HeadOverlayData>, Record<string, numb
 
         if (overlay === "EyeColor") {
             headData[overlay] = {
-                name: overlay,
+                id: overlay,
                 index: i,
-                value: GetPedEyeColor(ped)
+                overlayValue: GetPedEyeColor(ped)
             };
         } else {
             const [_, overlayValue, colourType, firstColor, secondColor, overlayOpacity] = GetPedHeadOverlayData(ped, i);
             headData[overlay] = {
-                name: overlay,
+                id: overlay,
                 index: i - 1,
                 overlayValue: overlayValue === 255 ? -1 : overlayValue,
                 colourType: colourType,
@@ -75,7 +75,7 @@ const getHeadStructure = (): Record<string, HeadStructureData> | undefined => {
     for (let i = 0; i < FACE_FEATURES.length; i++) {
         const overlay = FACE_FEATURES[i]
         faceStruct[overlay] = {
-            name: overlay,
+            id: overlay,
             index: i,
             value: GetPedFaceFeature(ped, i)
         }
@@ -93,13 +93,13 @@ const getDrawables = (): [Record<string, DrawableData>, Record<string, TotalData
         const current = GetPedDrawableVariation(ped, i)
 
         totalDrawables[name] = {
-            name: name,
+            id: name,
             index: i,
             total: GetNumberOfPedDrawableVariations(ped, i),
             textures: GetNumberOfPedTextureVariations(ped, i, current)
         }
         drawables[name] = {
-            name: name,
+            id: name,
             index: i,
             value: GetPedDrawableVariation(ped, i),
             texture: GetPedTextureVariation(ped, i)
@@ -118,14 +118,14 @@ const getProps = (): [Record<string, DrawableData>, Record<string, TotalData>] =
         const current = GetPedPropIndex(ped, i)
 
         totalProps[name] = {
-            name: name,
+            id: name,
             index: i,
             total: GetNumberOfPedPropDrawableVariations(ped, i),
             textures: GetNumberOfPedPropTextureVariations(ped, i, current)
         }
 
         props[name] = {
-            name: name,
+            id: name,
             index: i,
             value: GetPedPropIndex(ped, i),
             texture: GetPedPropTextureIndex(ped, i)
