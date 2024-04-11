@@ -4,7 +4,7 @@ import { delay} from '@utils';
 import { receive } from '@enums';
 
 let running: boolean = false;
-let camDistance: number = 1.2;
+let camDistance: number = 1.8;
 let cam: Camera | null = null;
 let angleY: number = 0.0;
 let angleZ: number = 0.0;
@@ -83,9 +83,9 @@ const moveCamera = async (coords: Vector3, distance?: number) => {
     cam = newcam;
 
     PointCamAtCoord(newcam, coords.x, coords.y, coords.z);
-    SetCamActiveWithInterp(newcam, oldCam, 500, 0, 0);
+    SetCamActiveWithInterp(newcam, oldCam, 250, 0, 0);
 
-    await delay(500)
+    await delay(250)
 
     SetCamUseShallowDofMode(newcam, true);
     SetCamNearDof(newcam, 0.4);
@@ -109,7 +109,7 @@ export const startCamera = async () => {
     cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
     const [x, y, z]: number[] = GetEntityCoords(ped, false);
     SetCamCoord(cam, x, y, z)
-    RenderScriptCams(true, true, 500, true, true);
+    RenderScriptCams(true, true, 1000, true, true);
     moveCamera({x: x, y: y, z: z + 0.5}, camDistance);
 }
 
@@ -117,7 +117,7 @@ export const stopCamera = (): void => {
     if (!running) return;
     running = false;
 
-    RenderScriptCams(false, true, 500, true, false);
+    RenderScriptCams(false, true, 250, true, false);
     DestroyCam(cam, true);
     cam = null;
     targetCoords = null;

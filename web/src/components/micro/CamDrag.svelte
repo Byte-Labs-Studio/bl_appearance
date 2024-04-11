@@ -2,9 +2,9 @@
     import { Send } from '@enums/events';
     import { SendEvent } from '@utils/eventsHandlers';
 
-    let canExecute = true;
     let isMouseDown = false;
     let level = 0;
+
     let moveHandler = (e: MouseEvent) => {
         let moveX = e.movementX;
         let moveY = e.movementY;
@@ -15,8 +15,6 @@
     };
 
     function scrollHandler(e: WheelEvent) {
-        if (!canExecute) return;
-
         let direction = e.deltaY > 0 ? 'down' : 'up';
         level = direction === 'up' ? level + 1 : level - 1;
 
@@ -26,10 +24,6 @@
         if (e.shiftKey) {
             SendEvent(Send.camZoom, direction);
         } else {
-            canExecute = false;
-            setTimeout(function () {
-                canExecute = true;
-            }, 500);
             SendEvent(Send.camScroll, level);
         }
     }
