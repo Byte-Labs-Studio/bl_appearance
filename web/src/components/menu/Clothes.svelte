@@ -15,12 +15,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.masks.value}
+                bind:value={drawables.masks.value}
                 total={drawTotal.masks.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.masks, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.masks, e.detail)}
             />
         </svelte:fragment>
 
@@ -31,12 +30,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.masks.texture}
+                bind:value={drawables.masks.texture}
                 total={drawTotal.masks.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.masks, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.masks, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -50,12 +48,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.jackets.value}
+                bind:value={drawables.jackets.value}
                 total={drawTotal.jackets.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.jackets, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.jackets, e.detail)}
             />
         </svelte:fragment>
 
@@ -66,12 +63,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.jackets.texture}
+                bind:value={drawables.jackets.texture}
                 total={drawTotal.jackets.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.jackets, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.jackets, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -85,12 +81,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.shirts.value}
+                bind:value={drawables.shirts.value}
                 total={drawTotal.shirts.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.shirts, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.shirts, e.detail)}
             />
         </svelte:fragment>
 
@@ -101,12 +96,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.shirts.texture}
+                bind:value={drawables.shirts.texture}
                 total={drawTotal.shirts.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.shirts, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.shirts, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -120,12 +114,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.torsos.value}
+                bind:value={drawables.torsos.value}
                 total={drawTotal.torsos.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.torsos, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.torsos, e.detail)}
             />
         </svelte:fragment>
 
@@ -136,12 +129,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.torsos.texture}
+                bind:value={drawables.torsos.texture}
                 total={drawTotal.torsos.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.torsos, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.torsos, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -155,12 +147,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.vest.value}
+                bind:value={drawables.vest.value}
                 total={drawTotal.vest.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.vest, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.vest, e.detail)}
             />
         </svelte:fragment>
 
@@ -171,12 +162,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.vest.texture}
+                bind:value={drawables.vest.texture}
                 total={drawTotal.vest.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.vest, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.vest, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -190,12 +180,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.legs.value}
+                bind:value={drawables.legs.value}
                 total={drawTotal.legs.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.legs, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.legs, e.detail)}
             />
         </svelte:fragment>
 
@@ -206,12 +195,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.legs.texture}
+                bind:value={drawables.legs.texture}
                 total={drawTotal.legs.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.legs, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.legs, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -225,12 +213,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.shoes.value}
+                bind:value={drawables.shoes.value}
                 total={drawTotal.shoes.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.shoes, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.shoes, e.detail)}
             />
         </svelte:fragment>
 
@@ -241,12 +228,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.shoes.texture}
+                bind:value={drawables.shoes.texture}
                 total={drawTotal.shoes.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.shoes, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.shoes, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -260,12 +246,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.bags.value}
+                bind:value={drawables.bags.value}
                 total={drawTotal.bags.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.bags, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.bags, e.detail)}
             />
         </svelte:fragment>
 
@@ -276,12 +261,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.bags.texture}
+                bind:value={drawables.bags.texture}
                 total={drawTotal.bags.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.bags, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.bags, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -295,12 +279,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.neck.value}
+                bind:value={drawables.neck.value}
                 total={drawTotal.neck.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.neck, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.neck, e.detail)}
             />
         </svelte:fragment>
 
@@ -311,12 +294,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.neck.texture}
+                bind:value={drawables.neck.texture}
                 total={drawTotal.neck.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.neck, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.neck, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
@@ -330,12 +312,11 @@
         >
         <svelte:fragment slot="primary">
             <NumberStepper
-                value={drawables.decals.value}
+                bind:value={drawables.decals.value}
                 total={drawTotal.decals.total}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.decals, e.detail);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.decals, e.detail)}
             />
         </svelte:fragment>
 
@@ -346,12 +327,11 @@
 
         <svelte:fragment slot="secondary">
             <NumberStepper
-                value={drawables.decals.texture}
+                bind:value={drawables.decals.texture}
                 total={drawTotal.decals.textures}
                 none={false}
-                on:change={e => {
-                    APPEARANCE.setDrawable(drawables.decals, e.detail, true);
-                }}
+                on:change={e =>
+                    APPEARANCE.setDrawable(drawables.decals, e.detail, true)}
             />
         </svelte:fragment>
     </Wrapper>
