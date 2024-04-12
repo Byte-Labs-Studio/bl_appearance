@@ -2,7 +2,7 @@ import getAppearance from './appearance'
 import PEDS from '../../data/peds';
 import menuTypes from '../../data/menuTypes';
 import { send, receive } from '@enums'
-import { sendNUIEvent, delay } from '@utils'
+import { sendNUIEvent, delay } from '../utils'
 import { startCamera, stopCamera } from './../camera'
 
 export let isMenuOpen = false

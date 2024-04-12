@@ -1,5 +1,5 @@
 import { appearance } from '@enums';
-import { debugdata, requestModel, delay} from '@utils';
+import { debugdata, requestModel, delay} from '../../utils';
 import { HeadOverlayData, HeadStructureData, DrawableData} from '@dataTypes/appearance';
 import getAppearance from '.'
 import {ped} from './../'

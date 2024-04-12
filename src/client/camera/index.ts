@@ -1,6 +1,6 @@
 import { Camera, Vector3, CameraBones } from '@dataTypes/camera';
 import {ped} from './../menu';
-import { delay} from '@utils';
+import { delay} from '../utils';
 import { receive } from '@enums';
 
 let running: boolean = false;
@@ -17,7 +17,7 @@ let currentBone: keyof CameraBones = 'head'
 const CameraBones: CameraBones = {
     head: 31086,
     torso: 24818,
-    legs: 46078,
+    legs: 14201,
 };
 
 const cos = (degrees: number): number => {
@@ -126,7 +126,8 @@ export const stopCamera = (): void => {
 const setCamera = (type?: keyof CameraBones): void => {
     const bone: number | undefined = CameraBones[type];
     if (currentBone == type) return;
-    const [x, y, z]: number[] = bone ? GetPedBoneCoords(ped, bone, 0.0, 0.0, 0.0) : GetEntityCoords(ped, false);
+    console.log(bone)
+    const [x, y, z]: number[] = bone ? GetPedBoneCoords(ped, bone, 0.0, 0.0, bone === 14201 ? 0.2 : 0.0) : GetEntityCoords(ped, false);
 
     moveCamera({
         x: x, 

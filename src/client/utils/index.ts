@@ -48,3 +48,50 @@ export const requestModel = async (model: string | number): Promise<number> => {
 
     return modelHash;
 };
+
+
+//callback
+//https://github.com/overextended/ox_lib/blob/master/package/client/resource/callback/index.ts
+
+const resourceName = GetCurrentResourceName()
+const eventTimers: Record<string, number> = {};
+const activeEvents: Record<string, (...args: any[]) => void> = {};
+
+function eventTimer(eventName: string, delay: number | null) {
+    if (delay && delay > 0) {
+        const currentTime = GetGameTimer();
+
+        if ((eventTimers[eventName] || 0) > currentTime) return false;
+
+        eventTimers[eventName] = currentTime + delay;
+    }
+
+    return true;
+}
+
+onNet(`__ox_cb_${resourceName}`, (key: string, ...args: any) => {
+    const resolve = activeEvents[key];
+    return resolve && resolve(...args);
+});
+
+export function triggerServerCallback<T = unknown>(
+    eventName: string,
+    delay: number | null,
+    ...args: any
+): Promise<T> | void {
+    if (!eventTimer(eventName, delay)) {
+        return;
+    }
+
+    let key: string;
+
+    do {
+        key = `${eventName}:${Math.floor(Math.random() * (100000 + 1))}`;
+    } while (activeEvents[key]);
+
+    emitNet(`__ox_cb_${eventName}`, resourceName, key, ...args);
+
+    return new Promise<T>((resolve) => {
+        activeEvents[key] = resolve;
+    });
+};

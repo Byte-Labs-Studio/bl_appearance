@@ -14,6 +14,11 @@ const ENTRIES = [
     outfile: "dist/client/init.js",
     platform: 'node',
   },
+  {
+    type: 'shared',
+    entryPoints: ["src/shared/init.ts"],
+    outfile: "dist/shared/init.js",
+  },
 ];
 
 const build = async (esbuildOptions, type) => {

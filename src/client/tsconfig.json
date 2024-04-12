@@ -5,7 +5,7 @@
       "@data/*": ["../src/data/*"],
       "@dataTypes/*": ["./../types/*"],
       "@enums": ["./enums.ts"],
-      "@utils": ["./utils.ts"],
+      "@utils": ["./utils/index.ts"],
     }
   },
 }

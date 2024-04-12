@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte';
+    import {  onMount } from 'svelte';
     import Hexagon from './micro/Hexagon.svelte';
     import { tweened } from 'svelte/motion';
     import { cubicInOut } from 'svelte/easing';
@@ -18,7 +18,6 @@
         return deg * (Math.PI / 180);
     };
 
-    //represents the maximum angle limit for the pie slice.
     let limit = tweened(0);
 
     const pointIcon = (centerX, centerY, radius, angle, limit) => {
@@ -29,14 +28,11 @@
         return [x.toPrecision(5), y.toPrecision(5)];
     };
 
-    // the arc length of each slice
     $: pieAngle =
         $limit / ($TABS.length < 4 ? 4 : $TABS.length > 8 ? 8 : $TABS.length);
 
-    // the radius of the inner circle that is cut out
     const innerSize = 120;
 
-    // the radius of the inner circle that is cut out
     const innerRadius = innerSize / 2;
 
     onMount(() => {

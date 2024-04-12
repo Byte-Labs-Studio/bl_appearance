@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "sources": ["../../src/server/init.ts"],
-  "sourcesContent": ["on('onResourceStart', (resName: string) => {\n    if (resName === GetCurrentResourceName()) {\n      console.log('TypeScript boilerplate started!')\n    }\n})"],
-  "mappings": ";AAAA,GAAG,mBAAmB,CAAC,YAAoB;AACvC,MAAI,YAAY,uBAAuB,GAAG;AACxC,YAAQ,IAAI,iCAAiC;AAAA,EAC/C;AACJ,CAAC;",
+  "sources": ["../../src/server/utils/index.ts", "../../src/server/init.ts"],
+  "sourcesContent": ["//https://github.com/overextended/ox_lib/blob/master/package/server/resource/callback/index.ts\r\n\r\nexport function onClientCallback(eventName: string, cb: (playerId: number, ...args: any[]) => any) {\r\n    onNet(`__ox_cb_${eventName}`, async (resource: string, key: string, ...args: any[]) => {\r\n        const src = source;\r\n        let response: any;\r\n\r\n        try {\r\n            response = await cb(src, ...args);\r\n        } catch (e: any) {\r\n            console.error(`an error occurred while handling callback event ${eventName}`);\r\n        }\r\n\r\n        emitNet(`__ox_cb_${resource}`, src, key, response);\r\n    });\r\n}", "import {onClientCallback} from './utils'\r\n\r\non('onResourceStart', (resName: string) => {\r\n    if (resName === GetCurrentResourceName()) {\r\n      console.log('TypeScript boilerplate started!')\r\n    }\r\n})\r\n\r\nonClientCallback('test:server', (playerId, ...args: [number, null, number, null, null, number]) => {\r\n  console.log('onClientCallback', playerId, ...args);\r\n  return {\r\n    serverValue: 3000,\r\n  };\r\n});"],
+  "mappings": ";;;;AAEO,SAAS,iBAAiB,WAAmB,IAA+C;AAC/F,QAAM,WAAW,SAAS,IAAI,OAAO,UAAkB,QAAgB,SAAgB;AACnF,UAAM,MAAM;AACZ,QAAI;AAEJ,QAAI;AACA,iBAAW,MAAM,GAAG,KAAK,GAAG,IAAI;AAAA,IACpC,SAAS,GAAQ;AACb,cAAQ,MAAM,mDAAmD,SAAS,EAAE;AAAA,IAChF;AAEA,YAAQ,WAAW,QAAQ,IAAI,KAAK,KAAK,QAAQ;AAAA,EACrD,CAAC;AACL;AAbgB;;;ACAhB,GAAG,mBAAmB,CAAC,YAAoB;AACvC,MAAI,YAAY,uBAAuB,GAAG;AACxC,YAAQ,IAAI,iCAAiC;AAAA,EAC/C;AACJ,CAAC;AAED,iBAAiB,eAAe,CAAC,aAAa,SAAqD;AACjG,UAAQ,IAAI,oBAAoB,UAAU,GAAG,IAAI;AACjD,SAAO;AAAA,IACL,aAAa;AAAA,EACf;AACF,CAAC;",
   "names": []
 }
