@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { APPEARANCE, TATTOOS } from '@stores/appearance';
+    import { APPEARANCE, TATTOOS, LOCALE } from '@stores/appearance';
     import type { TDLCTattoo, TTattooEntry } from '@typings/apperance';
     import Wrapper from '@components/micro/Wrapper.svelte';
     import IconPlus from '@components/icons/IconPlus.svelte';

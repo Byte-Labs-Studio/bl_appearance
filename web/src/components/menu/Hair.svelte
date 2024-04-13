@@ -5,7 +5,6 @@
     import Wrapper from '@components/micro/Wrapper.svelte';
     import { APPEARANCE, BLACKLIST, LOCALE } from '@stores/appearance';
     import type { THeadOverlay } from '@typings/apperance';
-    import { draw } from 'svelte/transition';
 
     $: drawables = $APPEARANCE.drawables;
     $: drawTotal = $APPEARANCE.drawTotal;
@@ -17,7 +16,7 @@
 </script>
 
 {#if drawTotal?.hair?.total > 0}
-    <Wrapper label="Hair">
+    <Wrapper label={$LOCALE.HAIR_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.hair.total}</svelte:fragment
@@ -50,7 +49,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
+        <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="extra_primary">
             <ColourDropdown
                 colourType="hair"
@@ -73,7 +72,7 @@
 {/if}
 
 {#if headOverlayTotal?.FacialHair && headOverlay.FacialHair?.overlayValue !== undefined}
-    <Wrapper label="Facial Hair">
+    <Wrapper label={$LOCALE.FACIALHAIR_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.FacialHair}</svelte:fragment
@@ -88,7 +87,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
+        <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="extra_primary">
             <ColourDropdown
                 colourType="hair"
@@ -110,7 +109,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="extra_tertiary-start">Opacity</svelte:fragment>
+        <svelte:fragment slot="extra_tertiary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="extra_tertiary">
             <Slider
                 bind:value={headOverlay.FacialHair.overlayOpacity}
@@ -125,7 +124,7 @@
 {/if}
 
 {#if headOverlayTotal?.ChestHair && headOverlay.ChestHair?.overlayValue !== undefined}
-    <Wrapper label="Chest Hair">
+    <Wrapper label={$LOCALE.CHESTHAIR_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.ChestHair}</svelte:fragment
@@ -140,7 +139,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
+        <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="extra_primary">
             <ColourDropdown
                 colourType="hair"
@@ -162,7 +161,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="extra_tertiary-start">Opacity</svelte:fragment>
+        <svelte:fragment slot="extra_tertiary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="extra_tertiary">
             <Slider
                 bind:value={headOverlay.ChestHair.overlayOpacity}
@@ -177,7 +176,7 @@
 {/if}
 
 {#if headOverlayTotal?.Eyebrows && headOverlay.Eyebrows?.overlayValue !== undefined}
-    <Wrapper label="Eyebrows">
+    <Wrapper label={$LOCALE.EYEBROWS_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Eyebrows}</svelte:fragment
@@ -192,7 +191,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
+        <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="extra_primary">
             <ColourDropdown
                 colourType="hair"
@@ -214,7 +213,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="extra_tertiary-start">Opacity</svelte:fragment>
+        <svelte:fragment slot="extra_tertiary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="extra_tertiary">
             <Slider
                 bind:value={headOverlay.Eyebrows.overlayOpacity}

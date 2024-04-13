@@ -5,7 +5,7 @@
     import Slider from '@components/micro/Slider.svelte';
     import Stepper from '@components/micro/Stepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE, BLACKLIST, MODELS, IS_VALID } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST, MODELS, IS_VALID, LOCALE } from '@stores/appearance';
     import type { THeadBlend } from '@typings/apperance';
     import { onMount } from 'svelte';
 
@@ -39,8 +39,8 @@
     }
 </script>
 
-<Wrapper label="Model">
-    <svelte:fragment slot="primary-start">Options</svelte:fragment>
+<Wrapper label={$LOCALE.MODEL_TITLE}>
+    <svelte:fragment slot="primary-start">{$LOCALE.OPTIONS_SUBTITLE}</svelte:fragment>
     <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: {$MODELS.length}</svelte:fragment
     >
     <svelte:fragment slot="primary">
@@ -63,13 +63,13 @@
             on:click={() => {
                 modelSearch = '';
             }}
-            display={'Model Options'}
+            display={$LOCALE.MODELOPT_SUBTITLE}
         >
             <input
                 type="text"
                 class="w-full h-[3vh] p-[0.5vh]"
                 bind:value={modelSearch}
-                placeholder="Search for a model..."
+                placeholder={$LOCALE.SEARCHMODEL_SUBTITLE}
             />
             {#each modelList as model, i}
                 <button
@@ -91,8 +91,8 @@
 
 {#if currentPedIndex === 0 || currentPedIndex === 1}
     <Divider class="my-[1vh]" />
-    <Wrapper label="Mother">
-        <svelte:fragment slot="primary-start">Face</svelte:fragment>
+    <Wrapper label={$LOCALE.MOTHER_SUBTITLE}>
+        <svelte:fragment slot="primary-start">{$LOCALE.FACE_TITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: 46</svelte:fragment>
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -103,7 +103,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.SKIN_TITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
@@ -115,8 +115,8 @@
         </svelte:fragment>
     </Wrapper>
 
-    <Wrapper label="Father">
-        <svelte:fragment slot="primary-start">Face</svelte:fragment>
+    <Wrapper label={$LOCALE.FATHER_SUBTITLE}>
+        <svelte:fragment slot="primary-start">{$LOCALE.FACE_TITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: 46</svelte:fragment>
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -127,7 +127,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.SKIN_TITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
@@ -139,8 +139,8 @@
         </svelte:fragment>
     </Wrapper>
 
-    <Wrapper label="Third Parent">
-        <svelte:fragment slot="primary-start">Face</svelte:fragment>
+    <Wrapper label={$LOCALE.THIRDPARENT_SUBTITLE}>
+        <svelte:fragment slot="primary-start">{$LOCALE.FACE_TITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: 46</svelte:fragment>
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -151,7 +151,7 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.SKIN_TITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
@@ -163,9 +163,9 @@
         </svelte:fragment>
     </Wrapper>
 
-    <Wrapper label="Resemblence">
-        <svelte:fragment slot="primary-start">Mother</svelte:fragment>
-        <svelte:fragment slot="primary-end">Father</svelte:fragment>
+    <Wrapper label={$LOCALE.RESEMBLENCE_TITLE}>
+        <svelte:fragment slot="primary-start">{$LOCALE.MOTHER_SUBTITLE}</svelte:fragment>
+        <svelte:fragment slot="primary-end">{$LOCALE.FATHER_SUBTITLE}</svelte:fragment>
 
         <svelte:fragment slot="primary">
             <div class="w-full h-fit flex flex-col items-center justify-center">
@@ -219,9 +219,9 @@
         </svelte:fragment>
     </Wrapper>
 
-    <Wrapper label="Skin Mix">
-        <svelte:fragment slot="primary-start">Mother</svelte:fragment>
-        <svelte:fragment slot="primary-end">Father</svelte:fragment>
+    <Wrapper label={$LOCALE.SKINMIX_TITLE}>
+        <svelte:fragment slot="primary-start">{$LOCALE.MOTHER_SUBTITLE}</svelte:fragment>
+        <svelte:fragment slot="primary-end">{$LOCALE.FATHER_SUBTITLE}</svelte:fragment>
 
         <svelte:fragment slot="primary">
             <div class="w-full h-fit flex flex-col items-center justify-center">

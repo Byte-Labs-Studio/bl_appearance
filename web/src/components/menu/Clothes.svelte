@@ -9,7 +9,7 @@
 </script>
 
 {#if drawTotal?.masks?.total > 0}
-    <Wrapper label="Mask">
+    <Wrapper label={$LOCALE.MASK_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.masks.total}</svelte:fragment
@@ -46,7 +46,7 @@
 {/if}
 
 {#if drawTotal?.jackets?.total > 0}
-    <Wrapper label="Jacket">
+    <Wrapper label={$LOCALE.JACKET_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.jackets.total}</svelte:fragment
@@ -82,7 +82,7 @@
 {/if}
 
 {#if drawTotal?.shirts?.total > 0}
-    <Wrapper label="Shirt">
+    <Wrapper label={$LOCALE.SHIRT_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.shirts.total}</svelte:fragment
@@ -118,7 +118,7 @@
 {/if}
 
 {#if drawTotal?.torsos?.total > 0}
-    <Wrapper label="Arms/Gloves">
+    <Wrapper label={$LOCALE.ARMS_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.torsos.total}</svelte:fragment
@@ -154,7 +154,7 @@
 {/if}
 
 {#if drawTotal?.vest?.total > 0}
-    <Wrapper label="Arms/Gloves">
+    <Wrapper label={$LOCALE.VEST_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.vest.total}</svelte:fragment
@@ -190,7 +190,7 @@
 {/if}
 
 {#if drawTotal?.legs?.total > 0}
-    <Wrapper label="Pants">
+    <Wrapper label={$LOCALE.PANTS_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.legs.total}</svelte:fragment
@@ -226,7 +226,7 @@
 {/if}
 
 {#if drawTotal?.shoes?.total > 0}
-    <Wrapper label="Shoes">
+    <Wrapper label={$LOCALE.SHOES_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.shoes.total}</svelte:fragment
@@ -262,7 +262,7 @@
 {/if}
 
 {#if drawTotal?.bags?.total > 0}
-    <Wrapper label="Bags">
+    <Wrapper label={$LOCALE.BAGS_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.bags.total}</svelte:fragment
@@ -298,7 +298,7 @@
 {/if}
 
 {#if drawTotal?.neck?.total > 0}
-    <Wrapper label="Neck Wearables">
+    <Wrapper label={$LOCALE.NECK_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.neck.total}</svelte:fragment
@@ -334,7 +334,7 @@
 {/if}
 
 {#if drawTotal?.decals?.total > 0}
-    <Wrapper label="Decals">
+    <Wrapper label={$LOCALE.DECALS_TITLE}>
         <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
             >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.decals.total}</svelte:fragment

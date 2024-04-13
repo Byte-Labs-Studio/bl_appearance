@@ -3,7 +3,7 @@
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Slider from '@components/micro/Slider.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE } from '@stores/appearance';
+    import { APPEARANCE, LOCALE } from '@stores/appearance';
     import type { TValue, THeadOverlay, TEyeColor } from '@typings/apperance';
 
     $: data = $APPEARANCE.headStructure;
@@ -15,11 +15,11 @@
 </script>
 
 {#if !data}
-    <Wrapper label="You can't modify your face" />
+    <Wrapper label={$LOCALE.NO_FACEMENU} />
 {:else}
     {#if data.Nose_Width}
-        <Wrapper label="Nose">
-            <svelte:fragment slot="primary-start">Width</svelte:fragment>
+        <Wrapper label={$LOCALE.NOSE_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.WIDTH_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary">
                 <Slider
                     bind:value={data.Nose_Width.value}
@@ -31,7 +31,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Peak Height</svelte:fragment
+            <svelte:fragment slot="secondary-start">{$LOCALE.PEAKHEIGHT_SUBTITLE}</svelte:fragment
             >
 
             <svelte:fragment slot="secondary">
@@ -45,7 +45,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="tertiary-start">Peak Length</svelte:fragment>
+            <svelte:fragment slot="tertiary-start">{$LOCALE.PEAKLENGTH_SUBTITLE}</svelte:fragment>
 
             <svelte:fragment slot="tertiary">
                 <Slider
@@ -59,7 +59,7 @@
             </svelte:fragment>
 
             <svelte:fragment slot="quaternary-start"
-                >Bone Height</svelte:fragment
+                >{$LOCALE.BONEHEIGHT_SUBTITLE}</svelte:fragment
             >
 
             <svelte:fragment slot="quaternary">
@@ -73,7 +73,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="quinary-start">Peak Lowering</svelte:fragment
+            <svelte:fragment slot="quinary-start">{$LOCALE.PEAKLOWERING_SUBTITLE}</svelte:fragment
             >
 
             <svelte:fragment slot="quinary">
@@ -87,7 +87,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="senary-start">Bone Twist</svelte:fragment>
+            <svelte:fragment slot="senary-start">{$LOCALE.BONETWIST_SUBTITLE}</svelte:fragment>
 
             <svelte:fragment slot="senary">
                 <Slider
@@ -103,8 +103,8 @@
     {/if}
 
     {#if data.EyeBrow_Height}
-        <Wrapper label="Eyebrow">
-            <svelte:fragment slot="primary-start">Height</svelte:fragment>
+        <Wrapper label={$LOCALE.EYEBROW_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.HEIGHT_SUBTITLE}</svelte:fragment>
 
             <svelte:fragment slot="primary">
                 <Slider
@@ -117,7 +117,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Depth</svelte:fragment>
+            <svelte:fragment slot="secondary-start">{$LOCALE.DEPTH_SUBTITLE}</svelte:fragment>
 
             <svelte:fragment slot="secondary">
                 <Slider
@@ -133,8 +133,8 @@
     {/if}
 
     {#if data.Cheeks_Bone_High}
-        <Wrapper label="Cheeks">
-            <svelte:fragment slot="primary-start">Bone Height</svelte:fragment>
+        <Wrapper label={$LOCALE.CHEEKS_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.BONEHEIGHT_SUBTITLE}</svelte:fragment>
 
             <svelte:fragment slot="primary">
                 <Slider
@@ -147,7 +147,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Bone Width</svelte:fragment>
+            <svelte:fragment slot="secondary-start">{$LOCALE.BONEWIDTH_SUBTITLE}</svelte:fragment>
 
             <svelte:fragment slot="secondary">
                 <Slider
@@ -160,7 +160,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="extra_primary-start">Width</svelte:fragment>
+            <svelte:fragment slot="extra_primary-start">{$LOCALE.WIDTH_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="extra_primary">
                 <Slider
                     bind:value={data.Cheeks_Width.value}
@@ -174,8 +174,8 @@
         </Wrapper>
 
         {#if data.Eyes_Openning}
-            <Wrapper label="Eyes">
-                <svelte:fragment slot="primary-start">Squint</svelte:fragment>
+            <Wrapper label={$LOCALE.EYES_TITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.SQUINT_SUBTITLE}</svelte:fragment>
 
                 <svelte:fragment slot="primary">
                     <Slider
@@ -207,8 +207,8 @@
         {/if}
 
         {#if data.Lips_Thickness}
-            <Wrapper label="Lips">
-                <svelte:fragment slot="primary-start">Thickness</svelte:fragment
+            <Wrapper label={$LOCALE.LIPS_TITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.THICKNESS_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="primary">
@@ -225,9 +225,9 @@
         {/if}
 
         {#if data.Jaw_Bone_Width}
-            <Wrapper label="Jaw">
+            <Wrapper label={$LOCALE.JAW_TITLE}>
                 <svelte:fragment slot="primary-start"
-                    >Bone Width</svelte:fragment
+                    >{$LOCALE.BONEWIDTH_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="primary">
@@ -242,7 +242,7 @@
                 </svelte:fragment>
 
                 <svelte:fragment slot="secondary-start"
-                    >Bone Length</svelte:fragment
+                    >{$LOCALE.BONELENGHT_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="secondary">
@@ -261,9 +261,9 @@
         {/if}
 
         {#if data.Chin_Bone_Lowering}
-            <Wrapper label="Chin">
+            <Wrapper label={$LOCALE.CHIN_TITLE}>
                 <svelte:fragment slot="primary-start"
-                    >Bone Lowering</svelte:fragment
+                    >{$LOCALE.BONELOWERING_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="primary">
@@ -280,7 +280,7 @@
                 </svelte:fragment>
 
                 <svelte:fragment slot="secondary-start"
-                    >Bone Length</svelte:fragment
+                    >{$LOCALE.BONELENGHT_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="secondary">
@@ -295,7 +295,7 @@
                 </svelte:fragment>
 
                 <svelte:fragment slot="tertiary-start"
-                    >Bone Width</svelte:fragment
+                    >{$LOCALE.BONEWIDTH_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="tertiary">
@@ -309,7 +309,7 @@
                     />
                 </svelte:fragment>
 
-                <svelte:fragment slot="quaternary-start">Hole</svelte:fragment>
+                <svelte:fragment slot="quaternary-start">{$LOCALE.HOLE_SUBTITLE}</svelte:fragment>
 
                 <svelte:fragment slot="quaternary">
                     <Slider
@@ -325,8 +325,8 @@
         {/if}
 
         {#if data.Neck_Thikness}
-            <Wrapper label="Jaw">
-                <svelte:fragment slot="primary-start">Thickness</svelte:fragment
+            <Wrapper label={$LOCALE.NECKTHICK_TITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.THICKNESS_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="primary">
@@ -343,8 +343,8 @@
         {/if}
 
         {#if headOverlay?.Blemishes?.overlayValue !== null}
-            <Wrapper label="Face Details">
-                <svelte:fragment slot="primary-start">Blemishes</svelte:fragment
+            <Wrapper label={$LOCALE.FACEDETAILS_TITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.BLEMISHES_SUBTITLE}</svelte:fragment
                 >
                 <svelte:fragment slot="primary">
                     <NumberStepper
@@ -356,7 +356,7 @@
                     />
                 </svelte:fragment>
 
-                <svelte:fragment slot="secondary-start">Ageing</svelte:fragment>
+                <svelte:fragment slot="secondary-start">{$LOCALE.AGEING_SUBTITLE}</svelte:fragment>
 
                 <svelte:fragment slot="secondary">
                     <NumberStepper
@@ -369,7 +369,7 @@
                 </svelte:fragment>
 
                 <svelte:fragment slot="tertiary-start"
-                    >Complexion</svelte:fragment
+                    >{$LOCALE.COMPLEXION_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="tertiary">
@@ -383,7 +383,7 @@
                 </svelte:fragment>
 
                 <svelte:fragment slot="quaternary-start"
-                    >Sun Damage</svelte:fragment
+                    >{$LOCALE.SUNDAMAGE_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="quaternary">
@@ -397,7 +397,7 @@
                 </svelte:fragment>
 
                 <svelte:fragment slot="quinary-start"
-                    >Moles Freckles</svelte:fragment
+                    >{$LOCALE.MOLESFRECKLES_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="quinary">
@@ -413,7 +413,7 @@
                 </svelte:fragment>
 
                 <svelte:fragment slot="senary-start"
-                    >Body Blemishes</svelte:fragment
+                    >{$LOCALE.BODYBLEMISHES_SUBTITLE}</svelte:fragment
                 >
 
                 <svelte:fragment slot="senary">

@@ -11,10 +11,10 @@
 </script>
 
 {#if !headOverlay}
-    <Wrapper label="You can't add Make Up" />
+    <Wrapper label={$LOCALE.NO_MAKEUP} />
 {:else}
     {#if headOverlay?.Makeup?.overlayValue !== undefined}
-        <Wrapper label="Make Up">
+        <Wrapper label={$LOCALE.MAKEUP_TITLE}>
             <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
                 >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Makeup}</svelte:fragment
@@ -29,7 +29,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
+            <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="extra_primary">
                 <ColourDropdown
                     colourType="makeup"
@@ -40,7 +40,7 @@
             </svelte:fragment>
 
             <svelte:fragment slot="extra_secondary-start"
-                >Hightlight</svelte:fragment
+                >{$LOCALE.HIGHLIGHT_SUBTITLE}</svelte:fragment
             >
             <svelte:fragment slot="extra_secondary">
                 <ColourDropdown
@@ -52,7 +52,7 @@
             </svelte:fragment>
 
             <svelte:fragment slot="extra_tertiary-start"
-                >Opacity</svelte:fragment
+                >{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment
             >
             <svelte:fragment slot="extra_tertiary">
                 <Slider
@@ -68,7 +68,7 @@
     {/if}
 
     {#if headOverlay?.Blush?.overlayValue !== undefined}
-        <Wrapper label="Blush">
+        <Wrapper label={$LOCALE.BLUSH_TITLE}>
             <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
                 >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Blush}</svelte:fragment
@@ -84,7 +84,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
+            <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="extra_primary">
                 <ColourDropdown
                     colourType="makeup"
@@ -95,7 +95,7 @@
             </svelte:fragment>
 
             <svelte:fragment slot="extra_secondary-start"
-                >Hightlight</svelte:fragment
+                >{$LOCALE.HIGHLIGHT_SUBTITLE}</svelte:fragment
             >
             <svelte:fragment slot="extra_secondary">
                 <ColourDropdown
@@ -107,7 +107,7 @@
             </svelte:fragment>
 
             <svelte:fragment slot="extra_tertiary-start"
-                >Opacity</svelte:fragment
+                >{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment
             >
             <svelte:fragment slot="extra_tertiary">
                 <Slider
@@ -123,7 +123,7 @@
     {/if}
 
     {#if headOverlay?.Lipstick?.overlayValue !== undefined}
-        <Wrapper label="Lipstick">
+        <Wrapper label={$LOCALE.LIPSTICK_TITLE}>
             <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
                 >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Lipstick}</svelte:fragment
@@ -138,7 +138,7 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="extra_primary-start">Colour</svelte:fragment>
+            <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="extra_primary">
                 <ColourDropdown
                     colourType="makeup"
@@ -149,7 +149,7 @@
             </svelte:fragment>
 
             <svelte:fragment slot="extra_secondary-start"
-                >Hightlight</svelte:fragment
+                >{$LOCALE.HIGHLIGHT_SUBTITLE}</svelte:fragment
             >
             <svelte:fragment slot="extra_secondary">
                 <ColourDropdown
@@ -161,7 +161,7 @@
             </svelte:fragment>
 
             <svelte:fragment slot="extra_tertiary-start"
-                >Opacity</svelte:fragment
+                >{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment
             >
             <svelte:fragment slot="extra_tertiary">
                 <Slider
