@@ -10,13 +10,13 @@
     import { SendEvent } from '@utils/eventsHandlers';
     import { Send } from '@enums/events';
     import IconLock from './icons/IconLock.svelte';
-    import { checkValid } from '@utils/misc';
 
     const centerX = -5;
 
     const degToRad = (deg: number) => {
         return deg * (Math.PI / 180);
     };
+    let isValid: boolean = true
 
     let limit = tweened(0);
 
@@ -28,8 +28,17 @@
         return [x.toPrecision(5), y.toPrecision(5)];
     };
 
-    $: pieAngle =
-        $limit / ($TABS.length < 4 ? 4 : $TABS.length > 8 ? 8 : $TABS.length);
+    $: pieAngle = $limit / ($TABS.length < 4 ? 4 : $TABS.length > 8 ? 8 : $TABS.length);
+    $: {
+        isValid = true
+        for (const key in $IS_VALID) {
+            const value = $IS_VALID[key];
+            if (!value) {
+                isValid = false
+                break
+            }
+        }
+    }
 
     const innerSize = 120;
 
@@ -39,20 +48,6 @@
         setTimeout(() => {
             limit.set(90, { duration: 1000, easing: cubicInOut });
         }, 250);
-
-        let debounce: NodeJS.Timeout;
-
-        const unsubscribe = IS_VALID.subscribe(_ => {
-            clearTimeout(debounce);
-
-            debounce = setTimeout(() => {
-                checkValid();
-            }, 250);
-        });
-
-        return () => {
-            unsubscribe();
-        };
     });
 
     let modal: 'close' | 'save' = null;
@@ -127,7 +122,7 @@
         >
             <Hexagon active={false} variant="success" />
             <div class="w-[5vh] h-full absolute grid place-items-center">
-                {#if $IS_VALID}
+                {#if isValid}
                     <IconSave />
                 {:else}
                     <IconLock />
@@ -148,7 +143,7 @@
         >
             <div class="w-full h-fit grid place-items-center">
                 <h1 class="text-[2vh] font-semibold uppercase">
-                    {#if $IS_VALID || modal === 'close'}
+                    {#if isValid || modal === 'close'}
                         {modal === 'close' ? 'Close' : 'Save'}
                     {:else}
                         Locked
@@ -157,7 +152,7 @@
             </div>
             <div class="w-full h-fit grid place-items-center">
                 <p class="text-[1.5vh] opacity-75 text-center">
-                    {#if $IS_VALID || modal === 'close'}
+                    {#if isValid || modal === 'close'}
                         Are you sure you want to {modal === 'close'
                             ? 'close and lose'
                             : 'save and apply'} your current appearance?
@@ -177,14 +172,14 @@
                     }}
                 >
                     <p>
-                        {#if $IS_VALID || modal === 'close'}
+                        {#if isValid || modal === 'close'}
                             Cancel
                         {:else}
                             Ok
                         {/if}
                     </p>
                 </button>
-                {#if $IS_VALID || modal === 'close'}
+                {#if isValid || modal === 'close'}
                     <button
                         class="btn w-[10vh] h-[5vh] grid place-items-center"
                         on:click={() => {

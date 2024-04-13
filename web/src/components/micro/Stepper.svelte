@@ -7,9 +7,9 @@
     import { scale } from 'svelte/transition';
     const dispatch = createEventDispatcher();
 
-    export let list: any[] = [];
+    export let list: any = [];
     export let index: number = 0;
-    export let value: any = list[index];
+    export let value: string = list[index];
     export let blacklist: string[] = null;
 
     export let isBlacklisted: boolean = false;
@@ -19,13 +19,7 @@
     $: total = list.length - 1;
 
     function checkBlacklist() {
-        if (!blacklist) {
-            isBlacklisted = false;
-        } else {
-            isBlacklisted = blacklist?.includes(value);
-        }
-
-        IS_VALID.set(!isBlacklisted);
+        IS_VALID.set({...$IS_VALID, models: blacklist ? !blacklist.includes(value): true});
     }
 
     function increment() {
@@ -34,8 +28,6 @@
         } else if (index === total) {
             index = 0;
         }
-        console.log('after', index);
-
         value = list[index];
 
         checkBlacklist();

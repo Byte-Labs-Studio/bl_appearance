@@ -168,6 +168,7 @@ export type TBlacklist = {
 export type TModel = string
 
 export type TMenuData = {
+	locale: string;
     appearance: TAppearance;
     tabs: TParamTab;
     outfits: TOutfit[];
@@ -198,4 +199,9 @@ export interface TToggles {
 	vest: boolean
 	pants: boolean
 	shoes: boolean
+}
+
+export interface Blacklist {
+    models: boolean,
+    drawables: boolean,
 }

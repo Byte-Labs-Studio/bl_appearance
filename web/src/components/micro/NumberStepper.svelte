@@ -12,29 +12,16 @@
     export let none: boolean = false;
     export let blacklist: number[] = null;
 
-    export let isBlacklisted: boolean = false;
-
-    $: {
-        if (blacklist || blacklist === null) {
-            checkBlacklist();
-        }
-    }
+    let isBlacklisted: boolean = false;
 
     function checkBlacklist() {
-        if (!blacklist) {
-            isBlacklisted = false;
-        } else {
-            console.log('blacklist', blacklist?.includes(value),  blacklist);
-            isBlacklisted = blacklist?.includes(value);
-        }
-
-        IS_VALID.set(!isBlacklisted);
+        isBlacklisted = blacklist ? blacklist.includes(value): false
+        IS_VALID.set({...$IS_VALID, drawables: !isBlacklisted});
     }
 
     function increment() {
-        if (value < total) {
-            value += 1;
-        } else if (value === total) {
+        if (value < total) value += 1;
+        else if (value === total) {
             if (none === false) {
                 value = 0;
             } else {
