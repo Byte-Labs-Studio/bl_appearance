@@ -1,7 +1,7 @@
 <script lang="ts">
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE, BLACKLIST } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST, LOCALE } from '@stores/appearance';
 
     $: drawables = $APPEARANCE.drawables || {};
     $: drawTotal = $APPEARANCE.drawTotal || {};
@@ -10,9 +10,9 @@
 
 {#if drawTotal?.masks?.total > 0}
     <Wrapper label="Mask">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.masks.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.masks.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -27,9 +27,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.masks.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.masks.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -47,9 +47,9 @@
 
 {#if drawTotal?.jackets?.total > 0}
     <Wrapper label="Jacket">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.jackets.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.jackets.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -63,9 +63,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.jackets.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.jackets.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -83,9 +83,9 @@
 
 {#if drawTotal?.shirts?.total > 0}
     <Wrapper label="Shirt">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.shirts.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.shirts.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -99,9 +99,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.shirts.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.shirts.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -119,9 +119,9 @@
 
 {#if drawTotal?.torsos?.total > 0}
     <Wrapper label="Arms/Gloves">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.torsos.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.torsos.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -135,9 +135,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.shirts.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.shirts.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -155,9 +155,9 @@
 
 {#if drawTotal?.vest?.total > 0}
     <Wrapper label="Arms/Gloves">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.vest.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.vest.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -171,9 +171,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.vest.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.vest.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -191,9 +191,9 @@
 
 {#if drawTotal?.legs?.total > 0}
     <Wrapper label="Pants">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.legs.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.legs.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -207,9 +207,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.legs.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.legs.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -227,9 +227,9 @@
 
 {#if drawTotal?.shoes?.total > 0}
     <Wrapper label="Shoes">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.shoes.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.shoes.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -243,9 +243,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.shoes.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.shoes.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -263,9 +263,9 @@
 
 {#if drawTotal?.bags?.total > 0}
     <Wrapper label="Bags">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.bags.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.bags.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -279,9 +279,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.bags.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.bags.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -299,9 +299,9 @@
 
 {#if drawTotal?.neck?.total > 0}
     <Wrapper label="Neck Wearables">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.neck.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.neck.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -315,9 +315,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.neck.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.neck.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -335,9 +335,9 @@
 
 {#if drawTotal?.decals?.total > 0}
     <Wrapper label="Decals">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.decals.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.decals.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -351,9 +351,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.decals.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.decals.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">

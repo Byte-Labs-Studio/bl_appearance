@@ -12,18 +12,23 @@ import {
     SELECTED_TAB,
     TABS,
     TATTOOS,
+    LOCALE
 } from '@stores/appearance';
 import { deepCopy } from './misc';
 
 const AlwaysListened: DebugEventCallback[] = [
     {
         action: Receive.visible,
-        handler: (data: string) => {},
+        handler: (data: string) => { },
     },
     {
         action: Receive.data,
         handler: (data: TMenuData) => {
             let tabs = [];
+
+            if (data.locale) {
+                LOCALE.set(JSON.parse(data.locale))
+            }
 
             if (data.tabs) {
                 if (!Array.isArray(data.tabs)) {
@@ -86,7 +91,7 @@ const AlwaysListened: DebugEventCallback[] = [
                     drawables: {
                         jackets: {
                             textures: { 3: [2, 3] },
-                            values: [ 5, 6],
+                            values: [5, 6],
                         },
                         torsos: {
                             textures: { 3: [2, 3] },

@@ -3,7 +3,7 @@
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import ColourDropdown from '@components/micro/ColourDropdown.svelte';
     import Slider from '@components/micro/Slider.svelte';
-    import { APPEARANCE } from '@stores/appearance';
+    import { APPEARANCE, LOCALE } from '@stores/appearance';
     import type { THeadOverlayTotal, THeadOverlay } from '@typings/apperance';
 
     $: headOverlay = $APPEARANCE.headOverlay as THeadOverlay;
@@ -15,9 +15,9 @@
 {:else}
     {#if headOverlay?.Makeup?.overlayValue !== undefined}
         <Wrapper label="Make Up">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {headOverlayTotal.Makeup}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Makeup}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
@@ -69,9 +69,9 @@
 
     {#if headOverlay?.Blush?.overlayValue !== undefined}
         <Wrapper label="Blush">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {headOverlayTotal.Blush}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Blush}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
@@ -124,9 +124,9 @@
 
     {#if headOverlay?.Lipstick?.overlayValue !== undefined}
         <Wrapper label="Lipstick">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {headOverlayTotal.Lipstick}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Lipstick}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper

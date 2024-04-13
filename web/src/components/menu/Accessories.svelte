@@ -1,7 +1,7 @@
 <script lang="ts">
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE, BLACKLIST } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST, LOCALE } from '@stores/appearance';
 
     $: props = $APPEARANCE.props;
     $: propTotal = $APPEARANCE.propTotal;
@@ -9,13 +9,13 @@
 </script>
 
 {#if !props}
-    <Wrapper label="You can't add accessorries" />
+    <Wrapper label={$LOCALE.NO_ACCESSORIES} />
 {:else}
     {#if propTotal?.hats?.total > 0}
-        <Wrapper label="Hats">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <Wrapper label={$LOCALE.HATS_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {propTotal.hats.total}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.hats.total}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
@@ -30,9 +30,9 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+            <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="secondary-end"
-                >Total: {propTotal.hats.textures}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.hats.textures}</svelte:fragment
             >
 
             <svelte:fragment slot="secondary">
@@ -50,10 +50,10 @@
     {/if}
 
     {#if propTotal?.glasses?.total > 0}
-        <Wrapper label="Glasses">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <Wrapper label={$LOCALE.GLASSES_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {propTotal.glasses.total}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.glasses.total}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
@@ -68,9 +68,9 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+            <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="secondary-end"
-                >Total: {propTotal.glasses.textures}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.glasses.textures}</svelte:fragment
             >
 
             <svelte:fragment slot="secondary">
@@ -88,10 +88,10 @@
     {/if}
 
     {#if propTotal?.earrings?.total > 0}
-        <Wrapper label="Earrings">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <Wrapper label={$LOCALE.EARRINGS_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {propTotal.earrings.total}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.earrings.total}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
@@ -106,9 +106,9 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+            <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="secondary-end"
-                >Total: {propTotal.earrings.textures}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.earrings.textures}</svelte:fragment
             >
 
             <svelte:fragment slot="secondary">
@@ -128,10 +128,10 @@
     {/if}
 
     {#if propTotal?.watches?.total > 0}
-        <Wrapper label="Watches">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <Wrapper label={$LOCALE.WATCHES_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {propTotal.watches.total}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.watches.total}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
@@ -146,9 +146,9 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+            <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="secondary-end"
-                >Total: {propTotal.watches.textures}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.watches.textures}</svelte:fragment
             >
 
             <svelte:fragment slot="secondary">
@@ -168,10 +168,10 @@
     {/if}
 
     {#if propTotal?.braclets?.total > 0}
-        <Wrapper label="Earrings">
-            <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <Wrapper label={$LOCALE.BRACLETS_TITLE}>
+            <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >Total: {propTotal.braclets.total}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.braclets.total}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
@@ -186,9 +186,9 @@
                 />
             </svelte:fragment>
 
-            <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+            <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="secondary-end"
-                >Total: {propTotal.braclets.textures}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.braclets.textures}</svelte:fragment
             >
 
             <svelte:fragment slot="secondary">

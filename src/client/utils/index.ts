@@ -97,36 +97,30 @@ export function triggerServerCallback<T = unknown>(
 };
 
 //locale
-const currentLan = 'en'
+const currentLan = 'br'
 
-function requestLocale(resourceSetName) {
-    return new Promise((resolve, reject) => {
-        function checkResourceFile() {
+export const requestLocale = (resourceSetName: string) => {
+    return new Promise((resolve) => {
+        const checkResourceFile = () => {
             if (RequestResourceFileSet(resourceSetName)) {
-                const localeFileContent = LoadResourceFile(GetCurrentResourceName(), `locale/${currentLan}.json`);
-                const parsedLocale = JSON.parse(localeFileContent);
-                resolve(parsedLocale);
+                let localeFileContent = LoadResourceFile(GetCurrentResourceName(), `locale/${currentLan}.json`);
+                if (!localeFileContent) {
+                    console.error(`${currentLan}.json not found in locale, please verify!, we used english for now!`)
+                    localeFileContent = LoadResourceFile(GetCurrentResourceName(), `locale/en.json`)
+                }
+                resolve(localeFileContent);
             } else {
                 setTimeout(checkResourceFile, 100);
             }
         }
-
         checkResourceFile();
     });
 }
-
 
 export const locale = async (id: string, ...args: string[]) => {
     const locale = await requestLocale('locale');
     let argIndex = 0;
 
-    const result = locale[id].replace(/%s/g, (match) => {
-        if (argIndex < args.length) {
-            const replacement = args[argIndex];
-            return replacement;
-        } else {
-            return match;
-        }
-    });
+    const result = locale[id].replace(/%s/g, (match: string) => argIndex < args.length ? args[argIndex] : match);
     return result
 }

@@ -11,25 +11,30 @@ import type {
     TOutfit,
     TOutfitData,
     TProps,
-    TReturnProps,
     TTab,
     TToggles,
     TValue,
     TZoneTattoo,
+    Blacklist
 } from '@typings/apperance';
 import { SendEvent } from '@utils/eventsHandlers';
 import { get, type Writable, writable } from 'svelte/store';
 
 export const TABS: Writable<TTab[]> = writable<TTab[]>([]);
+export const LOCALE: Writable<{[key:string]: string}> = writable<{[key:string]: string}>(null);
 
 export const SELECTED_TAB: Writable<TTab> = writable<TTab>(null);
 
-export const IS_VALID: Writable<boolean> = writable<boolean>(true);
+export const IS_VALID: Writable<Blacklist> = writable<Blacklist>({
+    models: true,
+    drawables: true,
+});
+
+export const BLACKLIST: Writable<TBlacklist> = writable<TBlacklist>(null);
 
 export const ORIGINAL_APPEARANCE: Writable<TAppearance> =
     writable<TAppearance>(null);
 
-export const BLACKLIST: Writable<TBlacklist> = writable<TBlacklist>(null);
 
 export const MODELS: Writable<TModel[]> = writable<TModel[]>(null);
 
@@ -140,10 +145,9 @@ const APPEARANCE_INIT = () => {
             SendEvent(Send.save, methods.get());
         },
 
-        setModel: async (model: TModel) => {
+        setModel: (model: TModel) => {
             SendEvent(Send.setModel, model).then((data: TAppearance) => {
                 store.set(data);
-                return data;
             });
 
             const tattooData = TATTOOS.get();

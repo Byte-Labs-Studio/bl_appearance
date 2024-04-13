@@ -24,6 +24,6 @@ setTimeout(async () => {
 // }, false)
 
 
-(async () => {
-  console.log(await locale('my_name_is', 'hamze'))
-})();
+// (async () => {
+//   console.log(await locale('my_name_is', 'hamze'))
+// })();

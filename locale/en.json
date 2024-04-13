@@ -1,5 +1,14 @@
 {
-    "hello": "hello %s",
-    "my_name_is": "my name is %s",
-    "hello_my_name_is": "${hello}! ${my_name_is}."
+    "HATS_TITLE": "Hats",
+    "GLASSES_TITLE": "Glasses",
+    "EARRINGS_TITLE": "Earrings",
+    "WATCHES_TITLE": "Watches",
+    "BRACLETS_TITLE": "Braclets",
+
+    "DESIGN_SUBTITLE": "Design",
+    "TEXTURE_SUBTITLE": "Texture",
+    "TOTAL_SUBTITLE": "Total",
+
+    "NO_ACCESSORIES": "You can't add accessorries"
+
 }

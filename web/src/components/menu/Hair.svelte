@@ -3,7 +3,7 @@
     import NumberStepper from '@components/micro/NumberStepper.svelte';
     import Slider from '@components/micro/Slider.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE, BLACKLIST } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST, LOCALE } from '@stores/appearance';
     import type { THeadOverlay } from '@typings/apperance';
     import { draw } from 'svelte/transition';
 
@@ -18,9 +18,9 @@
 
 {#if drawTotal?.hair?.total > 0}
     <Wrapper label="Hair">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {drawTotal.hair.total}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.hair.total}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -34,9 +34,9 @@
             />
         </svelte:fragment>
 
-        <svelte:fragment slot="secondary-start">Texture</svelte:fragment>
+        <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="secondary-end"
-            >Total: {drawTotal.hair.textures}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {drawTotal.hair.textures}</svelte:fragment
         >
 
         <svelte:fragment slot="secondary">
@@ -74,9 +74,9 @@
 
 {#if headOverlayTotal?.FacialHair && headOverlay.FacialHair?.overlayValue !== undefined}
     <Wrapper label="Facial Hair">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {headOverlayTotal.FacialHair}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.FacialHair}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -126,9 +126,9 @@
 
 {#if headOverlayTotal?.ChestHair && headOverlay.ChestHair?.overlayValue !== undefined}
     <Wrapper label="Chest Hair">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {headOverlayTotal.ChestHair}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.ChestHair}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper
@@ -178,9 +178,9 @@
 
 {#if headOverlayTotal?.Eyebrows && headOverlay.Eyebrows?.overlayValue !== undefined}
     <Wrapper label="Eyebrows">
-        <svelte:fragment slot="primary-start">Design</svelte:fragment>
+        <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
         <svelte:fragment slot="primary-end"
-            >Total: {headOverlayTotal.Eyebrows}</svelte:fragment
+            >{$LOCALE.TOTAL_SUBTITLE}: {headOverlayTotal.Eyebrows}</svelte:fragment
         >
         <svelte:fragment slot="primary">
             <NumberStepper

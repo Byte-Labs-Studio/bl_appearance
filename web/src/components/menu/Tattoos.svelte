@@ -147,7 +147,7 @@
                     >Zone</svelte:fragment
                 >
                 <svelte:fragment slot="extra_primary-end"
-                    >Total: {options.length}</svelte:fragment
+                    >{$LOCALE.TOTAL_SUBTITLE}: {options.length}</svelte:fragment
                 >
                 <svelte:fragment slot="extra_primary">
                     <Stepper
@@ -162,7 +162,7 @@
                     >DLC</svelte:fragment
                 >
                 <svelte:fragment slot="extra_secondary-end"
-                    >Total: {dlcList.length}</svelte:fragment
+                    >{$LOCALE.TOTAL_SUBTITLE}: {dlcList.length}</svelte:fragment
                 >
                 <svelte:fragment slot="extra_secondary">
                     <Stepper
@@ -209,7 +209,7 @@
                                 <p>Tattoo</p>
 
                                 <p>
-                                    Total: {dlc.tattoos.length}
+                                    {$LOCALE.TOTAL_SUBTITLE}: {dlc.tattoos.length}
                                 </p>
                             </span>
 

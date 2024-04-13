@@ -82,16 +82,15 @@ const actionHandlers = {
         return data
     },
     [appearance.getModelTattoos]: (data: any) => {
-        console.log(data)
         return data
     },
 };
 
 for (const action of Object.values(appearance)) {
-    RegisterNuiCallback(action, (data: any, cb: Function) => {
+    RegisterNuiCallback(action, async (data: any, cb: Function) => {
         const handler = actionHandlers[action];
         if (!handler) return
 
-        cb(handler(data))
+        cb(await handler(data))
     });
 }

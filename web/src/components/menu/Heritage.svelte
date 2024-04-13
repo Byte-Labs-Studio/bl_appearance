@@ -5,7 +5,7 @@
     import Slider from '@components/micro/Slider.svelte';
     import Stepper from '@components/micro/Stepper.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
-    import { APPEARANCE, BLACKLIST, MODELS } from '@stores/appearance';
+    import { APPEARANCE, BLACKLIST, MODELS, IS_VALID } from '@stores/appearance';
     import type { THeadBlend } from '@typings/apperance';
     import { onMount } from 'svelte';
 
@@ -41,16 +41,18 @@
 
 <Wrapper label="Model">
     <svelte:fragment slot="primary-start">Options</svelte:fragment>
-    <svelte:fragment slot="primary-end">Total: {$MODELS.length}</svelte:fragment
+    <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: {$MODELS.length}</svelte:fragment
     >
     <svelte:fragment slot="primary">
         <Stepper
             bind:index={currentPedIndex}
             list={$MODELS}
             blacklist={$BLACKLIST.models || null}
+            isBlacklisted = {$BLACKLIST.models.includes(currentPed)}
             on:change={() => {
                 currentPed = $MODELS[currentPedIndex];
                 APPEARANCE.setModel(currentPed);
+                IS_VALID.set({ ...$IS_VALID, drawables: true });
             }}
             display={currentPed}
         />
@@ -74,7 +76,9 @@
                     on:click={() => {
                         currentPed = model;
                         currentPedIndex = modelList.indexOf(model);
+                        IS_VALID.set({...$IS_VALID, models: $BLACKLIST.models ? !$BLACKLIST.models.includes(currentPed): true});
                         APPEARANCE.setModel(currentPed);
+                        IS_VALID.set({ ...$IS_VALID, drawables: true });
                     }}
                     class="w-full h-[3vh] flex items-center justify-start gap-[0.5vh] btn p-[0.5vh] font-semibold"
                 >
@@ -89,7 +93,7 @@
     <Divider class="my-[1vh]" />
     <Wrapper label="Mother">
         <svelte:fragment slot="primary-start">Face</svelte:fragment>
-        <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
+        <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: 46</svelte:fragment>
         <svelte:fragment slot="primary">
             <NumberStepper
                 value={data.shapeFirst || 0}
@@ -100,7 +104,7 @@
         </svelte:fragment>
 
         <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
-        <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
+        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
                 value={data.skinFirst || 0}
@@ -113,7 +117,7 @@
 
     <Wrapper label="Father">
         <svelte:fragment slot="primary-start">Face</svelte:fragment>
-        <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
+        <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: 46</svelte:fragment>
         <svelte:fragment slot="primary">
             <NumberStepper
                 value={data.shapeSecond || 0}
@@ -124,7 +128,7 @@
         </svelte:fragment>
 
         <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
-        <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
+        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
                 value={data.skinSecond || 0}
@@ -137,7 +141,7 @@
 
     <Wrapper label="Third Parent">
         <svelte:fragment slot="primary-start">Face</svelte:fragment>
-        <svelte:fragment slot="primary-end">Total: 46</svelte:fragment>
+        <svelte:fragment slot="primary-end">{$LOCALE.TOTAL_SUBTITLE}: 46</svelte:fragment>
         <svelte:fragment slot="primary">
             <NumberStepper
                 value={data.shapeThird || 0}
@@ -148,7 +152,7 @@
         </svelte:fragment>
 
         <svelte:fragment slot="secondary-start">Skin</svelte:fragment>
-        <svelte:fragment slot="secondary-end">Total: 15</svelte:fragment>
+        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
                 value={data.skinThird || 0}
