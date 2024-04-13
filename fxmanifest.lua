@@ -22,3 +22,7 @@ client_scripts {
 files {
     'build/**',
 }
+
+file_set 'locale' {
+    'locale/*'
+}

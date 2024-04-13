@@ -63,7 +63,6 @@ const moveCamera = async (coords: Vector3, distance?: number) => {
 
     const [x, y, z] = getAngles()
 
-    console.log(x, y, z)
     const newcam: Camera = CreateCamWithParams(
         "DEFAULT_SCRIPTED_CAMERA",
         coords.x + x,
@@ -105,12 +104,12 @@ const useHiDof = (currentcam: Camera) => {
 export const startCamera = async () => {
     if (running) return;
     running = true;
-    camDistance = 1.2;
+    camDistance = 1.0;
     cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true);
-    const [x, y, z]: number[] = GetEntityCoords(ped, false);
+    const [x, y, z]: number[] = GetPedBoneCoords(ped, 31086, 0.0, 0.0, 0.0)
     SetCamCoord(cam, x, y, z)
     RenderScriptCams(true, true, 1000, true, true);
-    moveCamera({x: x, y: y, z: z + 0.5}, camDistance);
+    moveCamera({x: x, y: y, z: z}, camDistance);
 }
 
 export const stopCamera = (): void => {
@@ -126,7 +125,6 @@ export const stopCamera = (): void => {
 const setCamera = (type?: keyof CameraBones): void => {
     const bone: number | undefined = CameraBones[type];
     if (currentBone == type) return;
-    console.log(bone)
     const [x, y, z]: number[] = bone ? GetPedBoneCoords(ped, bone, 0.0, 0.0, bone === 14201 ? 0.2 : 0.0) : GetEntityCoords(ped, false);
 
     moveCamera({
@@ -148,8 +146,8 @@ RegisterNuiCallback(receive.camMove, (data, cb) => {
     SetEntityHeading(ped, heading);
 });
 
-RegisterNuiCallback(receive.camScroll, (data, cb) => {
-    switch (data) {
+RegisterNuiCallback(receive.camScroll, (type: number, cb: Function) => {
+    switch (type) {
         case 2:
             setCamera();
             break;

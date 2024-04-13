@@ -1,0 +1,5 @@
+{
+    "hello": "hello %s",
+    "my_name_is": "my name is %s",
+    "hello_my_name_is": "${hello}! ${my_name_is}."
+}

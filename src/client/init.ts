@@ -1,5 +1,5 @@
 import { openMenu } from './menu'
-import { triggerServerCallback } from '@utils'
+import { triggerServerCallback, locale } from '@utils'
 import('./menu/appearance/handler')
 
 RegisterCommand('openMenu', () => {
@@ -10,7 +10,6 @@ setTimeout(async () => {
   const args = [1, null, 3, null, null, 6];
   const response = await triggerServerCallback<{ serverValue: number }>('test:server', 1, args);
   if (!response) return;
-  console.log('Response from server', response);
 }, 100);
 
 // function Export_GetPedHeadBlendData() {
@@ -23,3 +22,8 @@ setTimeout(async () => {
 //     // const data = Export_GetPedHeadBlendData()
 //     // console.log(data)
 // }, false)
+
+
+(async () => {
+  console.log(await locale('my_name_is', 'hamze'))
+})();

@@ -14,6 +14,9 @@ interface HeadOverlayData {
     firstColor?: number;
     secondColor?: number;
     overlayOpacity?: number;
+    hairColor?: number
+    hairHighlight?: number
+    eyeColor?: number
 };
 
 // interface for head structure data

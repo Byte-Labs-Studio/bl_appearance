@@ -29,14 +29,12 @@ const actionHandlers = {
     [appearance.setHeadOverlay]: (data: HeadOverlayData) => {
         const value = data.overlayValue == -1 ? 255 : data.overlayValue
 
-        if (data.index === 13) {
-            SetPedEyeColor(ped, value)
-            return
+        if (data.id === 'EyeColor') SetPedEyeColor(ped, data.eyeColor) 
+        else if (data.id === 'hairColor') SetPedHairColor(ped, data.hairColor, data.hairHighlight) 
+        else {
+            SetPedHeadOverlay(ped, data.index, value, data.overlayOpacity)
+            SetPedHeadOverlayColor(ped, data.index, 1, data.firstColor, data.secondColor)
         }
-
-        SetPedHeadOverlay(ped, data.index, value, data.overlayOpacity)
-        console.log('get', GetPedHeadOverlayData(ped, data.index))
-        SetPedHeadOverlayColor(ped, data.index, 1, data.firstColor, data.secondColor)
 
         return 1
     },

@@ -3,7 +3,7 @@
     import { SendEvent } from '@utils/eventsHandlers';
 
     let isMouseDown = false;
-    let level = 0;
+    let level = 3;
 
     let moveHandler = (e: MouseEvent) => {
         let moveX = e.movementX;
