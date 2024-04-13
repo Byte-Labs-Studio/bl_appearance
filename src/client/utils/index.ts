@@ -95,3 +95,38 @@ export function triggerServerCallback<T = unknown>(
         activeEvents[key] = resolve;
     });
 };
+
+//locale
+const currentLan = 'en'
+
+function requestLocale(resourceSetName) {
+    return new Promise((resolve, reject) => {
+        function checkResourceFile() {
+            if (RequestResourceFileSet(resourceSetName)) {
+                const localeFileContent = LoadResourceFile(GetCurrentResourceName(), `locale/${currentLan}.json`);
+                const parsedLocale = JSON.parse(localeFileContent);
+                resolve(parsedLocale);
+            } else {
+                setTimeout(checkResourceFile, 100);
+            }
+        }
+
+        checkResourceFile();
+    });
+}
+
+
+export const locale = async (id: string, ...args: string[]) => {
+    const locale = await requestLocale('locale');
+    let argIndex = 0;
+
+    const result = locale[id].replace(/%s/g, (match) => {
+        if (argIndex < args.length) {
+            const replacement = args[argIndex];
+            return replacement;
+        } else {
+            return match;
+        }
+    });
+    return result
+}
