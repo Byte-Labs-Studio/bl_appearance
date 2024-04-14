@@ -1,13 +1,11 @@
-import PEDS from '../../../data/peds';
 import HEAD_OVERLAYS from '../../../data/head';
 import FACE_FEATURES from '../../../data/face';
 import DRAWABLE_NAMES from '../../../data/drawable';
 import PROP_NAMES from '../../../data/props';
-import { HairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData } from '@dataTypes/appearance';
+import { HairData, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData } from '@dataTypes/appearance';
 import {ped} from '..';
 
-
-const findModelIndex = (model: PedHandle) => PEDS.findIndex(ped => GetHashKey(ped) === model);
+const findModelIndex = (model: PedHandle) => exports.bl_appearance.models().findIndex((ped: string) => GetHashKey(ped) === model);
 
 const getPedHair = (): HairData => ({
     color: GetPedHairColor(ped),

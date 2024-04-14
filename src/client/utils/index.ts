@@ -103,10 +103,10 @@ export const requestLocale = (resourceSetName: string) => {
     return new Promise((resolve) => {
         const checkResourceFile = () => {
             if (RequestResourceFileSet(resourceSetName)) {
-                let localeFileContent = LoadResourceFile(GetCurrentResourceName(), `locale/${currentLan}.json`);
+                let localeFileContent = LoadResourceFile(resourceName, `locale/${currentLan}.json`);
                 if (!localeFileContent) {
                     console.error(`${currentLan}.json not found in locale, please verify!, we used english for now!`)
-                    localeFileContent = LoadResourceFile(GetCurrentResourceName(), `locale/en.json`)
+                    localeFileContent = LoadResourceFile(resourceName, `locale/en.json`)
                 }
                 resolve(localeFileContent);
             } else {

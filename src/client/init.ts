@@ -1,5 +1,5 @@
 import { openMenu } from './menu'
-import { triggerServerCallback, locale } from '@utils'
+import { triggerServerCallback } from '@utils'
 import('./menu/appearance/handler')
 
 RegisterCommand('openMenu', () => {
@@ -22,8 +22,3 @@ setTimeout(async () => {
 //     // const data = Export_GetPedHeadBlendData()
 //     // console.log(data)
 // }, false)
-
-
-// (async () => {
-//   console.log(await locale('my_name_is', 'hamze'))
-// })();
