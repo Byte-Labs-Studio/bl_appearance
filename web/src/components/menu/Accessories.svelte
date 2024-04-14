@@ -75,7 +75,7 @@
 
             <svelte:fragment slot="secondary">
                 <NumberStepper
-                    bind:value={props.glasses.value}
+                    bind:value={props.glasses.texture}
                     total={propTotal.glasses.textures}
                     none={true}
                     blacklist={blacklist.glasses.textures[props.glasses.value] ||

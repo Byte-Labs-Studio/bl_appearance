@@ -2,9 +2,8 @@
     import Wrapper from '@components/micro/Wrapper.svelte';
     import Dropdown from '@components/micro/Dropdown.svelte';
     import Divider from '@components/micro/Divider.svelte';
-    import { OUTFITS } from '@stores/appearance';
+    import { OUTFITS, LOCALE } from '@stores/appearance';
     import IconCancel from '@components/icons/IconCancel.svelte';
-    import IconSave from '@components/icons/IconSave.svelte';
     import IconCheck from '@components/icons/IconCheck.svelte';
     import { slide } from 'svelte/transition';
     import IconPlus from '@components/icons/IconPlus.svelte';
@@ -31,14 +30,14 @@
                         on:click={() => {
                             // UseOutfit
                         }}
-                        class="btn w-full">Use</button
+                        class="btn w-full">{$LOCALE.USE_TITLE}</button
                     >
                     <button
                         on:click={() => {
                             renameIndex = i;
                             renameLabel = label;
                         }}
-                        class="btn w-full">Edit</button
+                        class="btn w-full">{$LOCALE.EDIT_TITLE}</button
                     >
                     <button
                         on:click={() => {
@@ -94,14 +93,14 @@
                     >
                         <button
                             class="btn w-full h-full"
-                            on:click={() => (deleteIndex = -1)}>Cancel</button
+                            on:click={() => (deleteIndex = -1)}>{$LOCALE.CANCEL_TITLE}</button
                         >
 
                         <button
                             class="btn w-full h-full"
                             on:click={() => {
                                 // RemoveOutfit
-                            }}>Confirm Remove</button
+                            }}>{$LOCALE.CONFIRMREM_SUBTITLE}</button
                         >
                     </div>
                 {/if}
@@ -111,7 +110,7 @@
         <Divider />
     </Wrapper>
 {:else}
-    <Wrapper label="You don't have outfits" />
+    <Wrapper label={$LOCALE.NO_OUTFITS} />
 {/each}
 
 <div class="w-full h-fit grid place-items-centyer">
@@ -120,7 +119,7 @@
     transition:slide
     class="w-full h-full">
 
-        <Wrapper label="New Outfit">
+        <Wrapper label={$LOCALE.NEWOUTFIT_TITLE}>
             <svelte:fragment slot="extra_primary">
                 <div
 
@@ -169,7 +168,7 @@
                 <IconPlus />
             </div>
 
-            <p>Add Outfit</p>
+            <p>{$LOCALE.ADDOUTFIT_TITLE}</p>
         </button>
     {/if}
 </div>

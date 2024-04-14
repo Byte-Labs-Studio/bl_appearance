@@ -69,6 +69,7 @@
         };
         // get the first valid tattoo in the list
         // get dlc with tattoos
+        console.log(JSON.stringify(options[0]))
         const dlcWithTattoos = options[0].dlcs.findIndex(
             dlc => dlc.tattoos.length > 0,
         );
@@ -144,7 +145,7 @@
         <div class="w-full h-fit" transition:slide|global>
             <Wrapper label={`Tattoo ${i + 1}`}>
                 <svelte:fragment slot="extra_primary-start"
-                    >Zone</svelte:fragment
+                    >{$LOCALE.ZONE_TITLE}</svelte:fragment
                 >
                 <svelte:fragment slot="extra_primary-end"
                     >{$LOCALE.TOTAL_SUBTITLE}: {options.length}</svelte:fragment
@@ -178,7 +179,7 @@
                             dlcSearch = '';
                             indexFocus = i;
                         }}
-                        display={'DLC Options'}
+                        display={$LOCALE.DLCOPT_TITLE}
                     >
                         <input
                             type="text"
@@ -206,7 +207,7 @@
                             <span
                                 class="opacity-75 w-full flex items-center justify-between gap-[0.5vh]"
                             >
-                                <p>Tattoo</p>
+                                <p>{$LOCALE.TATTOO_TITLE}</p>
 
                                 <p>
                                     {$LOCALE.TOTAL_SUBTITLE}: {dlc.tattoos.length}
@@ -230,13 +231,13 @@
                                     tattooSearch = '';
                                     indexFocus = i;
                                 }}
-                                display={'Tattoo Options'}
+                                display={$LOCALE.TATTOOPTIONS_SUBTITLE}
                             >
                                 <input
                                     type="text"
                                     class="w-full h-[3vh] p-[0.5vh]"
                                     bind:value={tattooSearch}
-                                    placeholder="Search for a Tattoo..."
+                                    placeholder={$LOCALE.SEARCHTATTOO_SUBTITLE}
                                 />
                                 {#each tattooSearchList as { label, hash }}
                                     <button
@@ -266,7 +267,7 @@
                                 <button
                                     class="btn w-full h-full"
                                     on:click={() => (deleteOptionIndex = null)}
-                                    >Cancel</button
+                                    >{$LOCALE.CANCEL_TITLE}</button
                                 >
 
                                 <button
@@ -275,7 +276,7 @@
                                         setTimeout(() => {
                                             removeTattooRow(deleteOptionIndex);
                                         }, 500);
-                                    }}>Confirm Remove</button
+                                    }}>{$LOCALE.CONFIRMREM_SUBTITLE}</button
                                 >
                             </div>
                         {:else}
@@ -290,7 +291,7 @@
                                     <IconCancel />
                                 </div>
 
-                                <p>Remove Tattoo</p></button
+                                <p>{$LOCALE.REMOVETATTOO_TITLE}</p></button
                             >
                         {/if}
                     </div>
@@ -301,7 +302,7 @@
         </div>
     {/key}
 {:else}
-    <Wrapper label="You have no current Tattoos"></Wrapper>
+    <Wrapper label={$LOCALE.NO_TATTOOS}></Wrapper>
 {/each}
 
 <button
@@ -312,5 +313,5 @@
         <IconPlus />
     </div>
 
-    <p>Add Tattoo</p>
+    <p>{$LOCALE.ADDTATTOO_TITLE}</p>
 </button>

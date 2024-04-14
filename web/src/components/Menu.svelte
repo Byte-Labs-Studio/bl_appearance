@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { fade, fly, scale } from 'svelte/transition';
     import Divider from './micro/Divider.svelte';
-    import { SELECTED_TAB } from '@stores/appearance';
+    import { SELECTED_TAB, LOCALE } from '@stores/appearance';
 
     let showContent: boolean = false;
 
@@ -29,7 +29,7 @@
                     </p>
                 {/key}
             </p>
-            <p class="text-accent">Menu</p>
+            <p class="text-accent">{$LOCALE.MENU_TITLE}</p>
 
             <div class="w-[10vh] h-[3vh] grid place-items-center pl-[1vh]">
                 {#key id}
