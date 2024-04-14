@@ -4,7 +4,7 @@
     import { tweened } from 'svelte/motion';
     import { cubicInOut } from 'svelte/easing';
     import { fade, scale } from 'svelte/transition';
-    import { IS_VALID, SELECTED_TAB, TABS } from '@stores/appearance';
+    import { IS_VALID, SELECTED_TAB, TABS, LOCALE } from '@stores/appearance';
     import IconCancel from './icons/IconCancel.svelte';
     import IconSave from './icons/IconSave.svelte';
     import { SendEvent } from '@utils/eventsHandlers';
@@ -144,21 +144,18 @@
             <div class="w-full h-fit grid place-items-center">
                 <h1 class="text-[2vh] font-semibold uppercase">
                     {#if isValid || modal === 'close'}
-                        {modal === 'close' ? 'Close' : 'Save'}
+                        {modal === 'close' ? $LOCALE.CLOSE_TITLE : $LOCALE.SAVE_TITLE}
                     {:else}
-                        Locked
+                        {$LOCALE.LOCKED_TITLE}
                     {/if}
                 </h1>
             </div>
             <div class="w-full h-fit grid place-items-center">
                 <p class="text-[1.5vh] opacity-75 text-center">
                     {#if isValid || modal === 'close'}
-                        Are you sure you want to {modal === 'close'
-                            ? 'close and lose'
-                            : 'save and apply'} your current appearance?
+                    {$LOCALE.CLOSE_SUBTITLE} {modal === 'close' ? $LOCALE.CLOSELOSE_SUBTITLE : $LOCALE.SAVEAPPLY_SUBTITLE} {$LOCALE.CLOSE2_SUBTITLE}
                     {:else}
-                        You cannot save your current appearance. You have
-                        selected a locked item.
+                        {$LOCALE.CANT_SAVE}
                     {/if}
                 </p>
             </div>
@@ -173,9 +170,9 @@
                 >
                     <p>
                         {#if isValid || modal === 'close'}
-                            Cancel
+                            {$LOCALE.CANCEL_TITLE}
                         {:else}
-                            Ok
+                            {$LOCALE.OK_TITLE}
                         {/if}
                     </p>
                 </button>
@@ -187,7 +184,7 @@
                             modal = null;
                         }}
                     >
-                        <p>{modal === 'close' ? 'Close' : 'Save'}</p>
+                        <p>{modal === 'close' ? $LOCALE.CLOSE_TITLE : $LOCALE.SAVE_TITLE}</p>
                     </button>
                 {/if}
             </div>
