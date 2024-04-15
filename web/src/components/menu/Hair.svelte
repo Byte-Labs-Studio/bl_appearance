@@ -26,7 +26,7 @@
                 bind:value={drawables.hair.value}
                 total={drawTotal.hair.total}
                 none={false}
-                blacklist={blacklist.hair.values}
+                blacklist={blacklist.hair ? blacklist.hair.values : null}
                 on:change={e =>{
                     drawables.hair.texture = 0;
                     APPEARANCE.setDrawable(drawables.hair, e.detail)}}
@@ -43,7 +43,7 @@
                 bind:value={drawables.hair.texture}
                 total={drawTotal.hair.textures}
                 none={false}
-                blacklist={blacklist.hair.textures[drawables.hair.value] || null}
+                blacklist={blacklist.hair ? blacklist.hair.textures[drawables.hair.value] || null : null}
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.hair, e.detail, true)}
             />

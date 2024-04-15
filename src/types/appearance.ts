@@ -1,3 +1,5 @@
+import { TTattoo } from '@dataTypes/tattoos';
+
 interface HairData { 
     color: number, 
     highlight: number 
@@ -54,6 +56,67 @@ interface THeadBlend  {
 	shapeMix: number
 	thirdMix: number
 	skinFirst: number
+}
+
+export type TValue = {
+	index: number
+	value: number
+	id?: string
+    texture?: number
+}
+
+export type TProps = {
+    [key: string]: TValue
+}
+
+export type TTotalValue = {
+    index: number
+    total: number
+    textures: number
+}
+
+export type TDrawTotal = {
+	[key: string]: TTotalValue
+}
+
+export type TDrawables = {
+	[key: string]: TValue
+}
+
+export type TPropTotal = {
+	[key: string]: TTotalValue
+}
+
+export type THeadOverlay = {
+	[key: string]: HeadOverlayData
+}
+export type THairColor = {
+	highlight: number
+	color: number
+}
+
+export type THeadStructure = {
+	[key: string]: TValue
+}
+
+export type THeadOverlayTotal = {
+	[key: string]: number
+}
+
+export type TAppearance = {
+    modelIndex: number
+	model: number
+	props: TProps
+	drawTotal: TDrawTotal
+	drawables: TDrawables
+	propTotal: TPropTotal
+	headOverlay: THeadOverlay
+	hairColor: THairColor
+	headBlend: THeadBlend
+	headStructure: THeadStructure
+	headOverlayTotal: THeadOverlayTotal
+    tattoos: TTattoo[]
+    currentTattoos?: TTattoo[];
 }
 
 export {THeadBlend, HairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData}

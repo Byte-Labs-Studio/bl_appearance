@@ -1,5 +1,6 @@
 import { ped } from './../'
 import { TZoneTattoo } from '@dataTypes/tattoos';
+import { debugdata } from '@utils';
 
 const getTattoos = (): TZoneTattoo[] => {
     const [TATTOO_LIST, TATTOO_CATEGORIES] = exports.bl_appearance.tattoos()
@@ -68,8 +69,6 @@ const getTattoos = (): TZoneTattoo[] => {
         }
     }
 
-
-    console.log(JSON.stringify(tattooZones))
     return tattooZones;
 }
 

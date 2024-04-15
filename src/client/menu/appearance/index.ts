@@ -2,8 +2,10 @@ import HEAD_OVERLAYS from '../../../data/head';
 import FACE_FEATURES from '../../../data/face';
 import DRAWABLE_NAMES from '../../../data/drawable';
 import PROP_NAMES from '../../../data/props';
-import { HairData, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData } from '@dataTypes/appearance';
+import { HairData, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData, TAppearance } from '@dataTypes/appearance';
+import { TTattoo } from '@dataTypes/tattoos';
 import {ped} from '..';
+import { triggerServerCallback } from '@utils'
 
 const findModelIndex = (model: PedHandle) => exports.bl_appearance.models().findIndex((ped: string) => GetHashKey(ped) === model);
 
@@ -133,10 +135,11 @@ const getProps = (): [Record<string, DrawableData>, Record<string, TotalData>] =
     return [props, totalProps]
 }
 
-export default (model: number) => {
+export default async (model: number): Promise<TAppearance> => {
     const [headData, totals] = getHeadOverlay()
     const [drawables, drawTotal] = getDrawables()
     const [props, propTotal] = getProps()
+    const config = exports.bl_appearance.config()
 
     return {
         modelIndex: findModelIndex(model),
@@ -148,7 +151,7 @@ export default (model: number) => {
         headStructure: getHeadStructure(),
         drawables: drawables,
         props: props,
-        tattoos: [],
+        tattoos: await triggerServerCallback<TTattoo[]>('bl_appearance:server:getTattoos', 1, config.useBridge ? exports.bl_bridge.core && exports.bl_bridge.core().getPlayerData().cid : null) as TTattoo[],
         drawTotal: drawTotal,
         propTotal: propTotal,
     }

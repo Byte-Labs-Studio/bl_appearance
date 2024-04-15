@@ -1,5 +1,6 @@
 <script lang="ts">
     import { APPEARANCE, TATTOOS, LOCALE } from '@stores/appearance';
+    import { Send } from '@enums/events';
     import type { TDLCTattoo, TTattooEntry } from '@typings/apperance';
     import Wrapper from '@components/micro/Wrapper.svelte';
     import IconPlus from '@components/icons/IconPlus.svelte';
@@ -9,6 +10,7 @@
     import Divider from '@components/micro/Divider.svelte';
     import IconCancel from '@components/icons/IconCancel.svelte';
     import { randomID } from '@utils/misc';
+    import { SendEvent } from '@utils/eventsHandlers';
 
     let deleteOptionIndex: number = null;
 
@@ -25,11 +27,11 @@
 
     $: {
         if (playerTattoos.length !== 0 && playerTattoos[indexFocus]) {
-            const { zoneIndex } = playerTattoos[indexFocus];
+            const { zoneIndex, dlcIndex } = playerTattoos[indexFocus];
             const dlcs = options[zoneIndex].dlcs;
-            if (dlcSearch.length > 0) {
-                console.log('dlcIndex', playerTattoos[indexFocus]);
+            const tattoos = dlcs[dlcIndex].tattoos;
 
+            if (dlcSearch.length > 0) {
                 if (dlcs !== null) {
                     dlcSearchList = dlcs.filter(dlc =>
                         dlc.label
@@ -40,13 +42,6 @@
             } else {
                 dlcSearchList = dlcs;
             }
-        }
-    }
-
-    $: {
-        if (playerTattoos.length !== 0 && playerTattoos[indexFocus]) {
-            const { zoneIndex, dlcIndex } = playerTattoos[indexFocus];
-            const tattoos = options[zoneIndex].dlcs[dlcIndex].tattoos;
 
             if (tattooSearch.length > 0) {
                 tattooSearchList = tattoos.filter(tattoo =>
@@ -69,12 +64,11 @@
         };
         // get the first valid tattoo in the list
         // get dlc with tattoos
-        console.log(JSON.stringify(options[0]))
         const dlcWithTattoos = options[0].dlcs.findIndex(
             dlc => dlc.tattoos.length > 0,
         );
 
-        if (dlcWithTattoos) {
+        if (dlcWithTattoos !== -1) {
             newTattoo.dlcIndex = dlcWithTattoos;
             newTattoo.tattoo = options[0].dlcs[dlcWithTattoos].tattoos[0];
         }
@@ -85,8 +79,7 @@
     function removeTattooRow(index: number) {
         playerTattoos = playerTattoos.filter((_, i) => i !== index);
         deleteOptionIndex = null;
-
-        // SetTattoos(playerTattoos)
+        SendEvent(Send.setTattoos, playerTattoos)
     }
 
     function changeZoneIndex(playerTattoosIndex: number, newZoneIndex: number) {
@@ -100,8 +93,6 @@
         } else {
             playerTattoos[playerTattoosIndex].tattoo = null;
         }
-
-        // SetTattoos(playerTattoos)
     }
 
     function changeDLCIndex(playerTattoosIndex: number, newDLCIndex: number) {
@@ -112,15 +103,11 @@
 
         const dlcTattoos = options[zoneIndex].dlcs[newDLCIndex]?.tattoos;
 
-        console.log('dlcTattoos', dlcTattoos);
-
         if (dlcTattoos?.length > 0) {
             playerTattoos[playerTattoosIndex].tattoo = dlcTattoos[0];
         } else {
             playerTattoos[playerTattoosIndex].tattoo = null;
         }
-
-        // SetTattoos(playerTattoos)
     }
 
     function changeSelected(playerTattoosIndex: number, index: number) {
@@ -131,7 +118,7 @@
         if (!tattoo) return;
 
         playerTattoos[playerTattoosIndex].tattoo = tattoo;
-        // SetTattoos(playerTattoos)
+        SendEvent(Send.setTattoos, playerTattoos)
     }
 </script>
 
@@ -210,7 +197,8 @@
                                 <p>{$LOCALE.TATTOO_TITLE}</p>
 
                                 <p>
-                                    {$LOCALE.TOTAL_SUBTITLE}: {dlc.tattoos.length}
+                                    {$LOCALE.TOTAL_SUBTITLE}: {dlc.tattoos
+                                        .length}
                                 </p>
                             </span>
 

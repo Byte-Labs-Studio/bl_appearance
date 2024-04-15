@@ -17,3 +17,10 @@ export type TZoneTattoo = {
     label: string
     dlcs: TDLCTattoo[]
 }
+
+export type TTattoo = {
+    zoneIndex: number
+    dlcIndex: number
+    tattoo: TTattooEntry
+    id: number
+}

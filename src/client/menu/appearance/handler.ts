@@ -1,8 +1,9 @@
 import { appearance } from '@enums';
 import { debugdata, requestModel, delay} from '../../utils';
 import { HeadOverlayData, HeadStructureData, DrawableData} from '@dataTypes/appearance';
+import { TTattoo} from '@dataTypes/tattoos';
 import getAppearance from '.'
-import {ped} from './../'
+import {ped, playerAppearance} from './../'
 
 import {THeadBlend} from '@dataTypes/appearance'
 
@@ -67,9 +68,10 @@ const actionHandlers = {
 
         return data.isTexture ? 1 : GetNumberOfPedTextureVariations(ped, data.index, data.value)-1
     },
-    [appearance.setTattoos]: (data: any) => {
+    [appearance.setTattoos]: (data: TTattoo[]) => {
         if (!data) return 1
 
+        playerAppearance.currentTattoos = data
         ClearPedDecorationsLeaveScars(ped)
 
         for (const element of data) {
@@ -79,7 +81,7 @@ const actionHandlers = {
             }
         }
         
-        return data
+        return 1
     },
     [appearance.getModelTattoos]: (data: any) => {
         return data
