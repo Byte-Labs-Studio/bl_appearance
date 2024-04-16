@@ -8,17 +8,17 @@
         $VISIBLE = visible;
     });
 
-    onMount(() => {
-        if (!$CONFIG.allowEscapeKey) return;
+    // onMount(() => {
+    //     if (!$CONFIG.allowEscapeKey) return;
 
-        const keyHandler = (e: KeyboardEvent) => {
-            if ($VISIBLE && ['Escape'].includes(e.code)) {
-                SendEvent(Send.close);
-            }
-        };
-        window.addEventListener('keydown', keyHandler);
-        return () => window.removeEventListener('keydown', keyHandler);
-    });
+    //     const keyHandler = (e: KeyboardEvent) => {
+    //         if ($VISIBLE && ['Escape'].includes(e.code)) {
+    //             SendEvent(Send.close);
+    //         }
+    //     };
+    //     window.addEventListener('keydown', keyHandler);
+    //     return () => window.removeEventListener('keydown', keyHandler);
+    // });
 </script>
 
 {#if $VISIBLE}

@@ -1,5 +1,6 @@
 local config = {
-    useBridge = true
+    useBridge = true,
+    locale = 'en'
 }
 
 exports('config', function()

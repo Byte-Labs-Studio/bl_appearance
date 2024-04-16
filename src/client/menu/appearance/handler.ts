@@ -4,7 +4,6 @@ import { HeadOverlayData, HeadStructureData, DrawableData} from '@dataTypes/appe
 import { TTattoo} from '@dataTypes/tattoos';
 import getAppearance from '.'
 import {ped, playerAppearance} from './../'
-
 import {THeadBlend} from '@dataTypes/appearance'
 
 const actionHandlers = {
@@ -21,7 +20,7 @@ const actionHandlers = {
         if (model === "mp_m_freemode_01") SetPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, false)
         else if (model === "mp_f_freemode_01") SetPedHeadBlendData(ped, 45, 21, 0, 20, 15, 0, 0.3, 0.1, 0, false)
 
-        return getAppearance(modelHash)
+        return getAppearance()
     },
     [appearance.setHeadStructure]: (data: HeadStructureData) => {
         SetPedFaceFeature(ped, data.index, data.value)

@@ -135,11 +135,11 @@ const getProps = (): [Record<string, DrawableData>, Record<string, TotalData>] =
     return [props, totalProps]
 }
 
-export default async (model: number): Promise<TAppearance> => {
+export default async (): Promise<TAppearance> => {
     const [headData, totals] = getHeadOverlay()
     const [drawables, drawTotal] = getDrawables()
     const [props, propTotal] = getProps()
-    const config = exports.bl_appearance.config()
+    const model = GetEntityModel(ped)
 
     return {
         modelIndex: findModelIndex(model),
@@ -151,7 +151,6 @@ export default async (model: number): Promise<TAppearance> => {
         headStructure: getHeadStructure(),
         drawables: drawables,
         props: props,
-        tattoos: await triggerServerCallback<TTattoo[]>('bl_appearance:server:getTattoos', 1, config.useBridge ? exports.bl_bridge.core && exports.bl_bridge.core().getPlayerData().cid : null) as TTattoo[],
         drawTotal: drawTotal,
         propTotal: propTotal,
     }

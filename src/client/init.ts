@@ -1,6 +1,7 @@
 import { openMenu } from './menu'
 import { triggerServerCallback } from '@utils'
 import('./menu/appearance/handler')
+import('./menu/outfits')
 
 RegisterCommand('openMenu', () => {
   openMenu('all')

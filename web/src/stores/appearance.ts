@@ -21,7 +21,7 @@ import { SendEvent } from '@utils/eventsHandlers';
 import { get, type Writable, writable } from 'svelte/store';
 
 export const TABS: Writable<TTab[]> = writable<TTab[]>([]);
-export const LOCALE: Writable<{[key:string]: string}> = writable<{[key:string]: string}>(null);
+export const LOCALE: Writable<{ [key: string]: string }> = writable<{ [key: string]: string }>(null);
 
 export const SELECTED_TAB: Writable<TTab> = writable<TTab>(null);
 
@@ -47,7 +47,7 @@ const OUTFITS_INIT = () => {
 
         reset: () => store.set(null),
 
-        save: (name: string) => {
+        save: (label: string) => {
             const appearance = APPEARANCE.get();
 
             const outfit: TOutfitData = {
@@ -56,10 +56,16 @@ const OUTFITS_INIT = () => {
                 headOverlay: appearance.headOverlay,
             };
 
-            SendEvent(Send.saveOutfit, { name, outfit }).then(
-                (outfits: TOutfit[]) => {
-                    store.set(outfits);
-                },
+            SendEvent(Send.saveOutfit, { label, outfit }).then((success: boolean) => {
+                if (!success) return
+                const currentOutfits = methods.get();
+                currentOutfits.push({
+                    id: currentOutfits.length + 1,
+                    label: label,
+                    outfit: JSON.parse(JSON.stringify(outfit))
+                });
+                store.set(currentOutfits)
+            },
             );
         },
 
@@ -91,13 +97,14 @@ const OUTFITS_INIT = () => {
         },
 
         use: (outfit: TOutfitData) => {
-            SendEvent(Send.useOutfit, outfit).then((data: TOutfitData) => {
+            SendEvent(Send.useOutfit, outfit).then((success: boolean) => {
+                if (!success) return;
                 APPEARANCE.update(state => {
                     return {
                         ...state,
-                        drawables: data.drawables,
-                        props: data.props,
-                        headOverlay: data.headOverlay,
+                        drawables: outfit.drawables,
+                        props: outfit.props,
+                        headOverlay: outfit.headOverlay,
                     };
                 });
             });
@@ -224,7 +231,7 @@ const APPEARANCE_INIT = () => {
 
             if (isTexture) drawable.texture = value
             else drawable.value = value
-            
+
             SendEvent(Send.setDrawable, {
                 value: drawable.value,
                 index: drawable.index,

@@ -14,15 +14,17 @@ export enum appearance {
     getModelTattoos = 'appearance:getModelTattoos',
 }
 
-export enum receive {
-    close = 'appearance:close',
-
-    toggleItem = 'appearance:toggleItem',
-
+export enum outfits {
     useOutfit = 'appearance:useOutfit',
     renameOutfit = 'appearance:renameOutfit',
     deleteOutfit = 'appearance:deleteOutfit',
     saveOutfit = 'appearance:saveOutfit',
+}
+
+export enum receive {
+    close = 'appearance:close',
+
+    toggleItem = 'appearance:toggleItem',
 
     save = 'appearance:save',
     cancel = 'appearance:cancel',

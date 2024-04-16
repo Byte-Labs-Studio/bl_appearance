@@ -97,12 +97,12 @@ export function triggerServerCallback<T = unknown>(
 };
 
 //locale
-const currentLan = 'br'
 
 export const requestLocale = (resourceSetName: string) => {
     return new Promise((resolve) => {
         const checkResourceFile = () => {
             if (RequestResourceFileSet(resourceSetName)) {
+                const currentLan = exports.bl_appearance.config().locale
                 let localeFileContent = LoadResourceFile(resourceName, `locale/${currentLan}.json`);
                 if (!localeFileContent) {
                     console.error(`${currentLan}.json not found in locale, please verify!, we used english for now!`)

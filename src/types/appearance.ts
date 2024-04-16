@@ -1,4 +1,5 @@
 import { TTattoo } from '@dataTypes/tattoos';
+import { Outfit} from '@dataTypes/outfits';
 
 interface HairData { 
     color: number, 
@@ -104,19 +105,20 @@ export type THeadOverlayTotal = {
 }
 
 export type TAppearance = {
-    modelIndex: number
-	model: number
+    modelIndex?: number
+	model?: number
 	props: TProps
-	drawTotal: TDrawTotal
+	drawTotal?: TDrawTotal
 	drawables: TDrawables
-	propTotal: TPropTotal
+	propTotal?: TPropTotal
 	headOverlay: THeadOverlay
-	hairColor: THairColor
-	headBlend: THeadBlend
-	headStructure: THeadStructure
-	headOverlayTotal: THeadOverlayTotal
-    tattoos: TTattoo[]
+	hairColor?: THairColor
+	headBlend?: THeadBlend
+	headStructure?: THeadStructure
+	headOverlayTotal?: THeadOverlayTotal
+    tattoos?: TTattoo[]
     currentTattoos?: TTattoo[];
+    outfits?: Outfit[];
 }
 
 export {THeadBlend, HairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData}

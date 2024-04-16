@@ -1,12 +1,14 @@
 <script lang="ts">
     import Wrapper from '@components/micro/Wrapper.svelte';
     import Dropdown from '@components/micro/Dropdown.svelte';
+    import { Send } from '@enums/events';
     import Divider from '@components/micro/Divider.svelte';
     import { OUTFITS, LOCALE } from '@stores/appearance';
     import IconCancel from '@components/icons/IconCancel.svelte';
     import IconCheck from '@components/icons/IconCheck.svelte';
     import { slide } from 'svelte/transition';
     import IconPlus from '@components/icons/IconPlus.svelte';
+    import { SendEvent } from '@utils/eventsHandlers';
 
     $: outfits = $OUTFITS;
 
@@ -19,7 +21,7 @@
     let newOutfitLabel: string = '';
 </script>
 
-{#each outfits as { label, outfit, id }, i}
+{#each outfits as { label, outfit }, i}
     <Wrapper {label}>
         <svelte:fragment slot="extra_primary">
             <Dropdown display="Options">
@@ -28,7 +30,7 @@
                 >
                     <button
                         on:click={() => {
-                            // UseOutfit
+                            OUTFITS.use(outfit)
                         }}
                         class="btn w-full">{$LOCALE.USE_TITLE}</button
                     >
@@ -142,7 +144,7 @@
                     <button
                         on:click={() => {
                             if (newOutfitLabel.length > 0) {
-                                // AddOutfit
+                                OUTFITS.save(newOutfitLabel)
                                 isAdding = false;
                                 newOutfitLabel = '';
                             }
