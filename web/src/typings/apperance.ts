@@ -175,6 +175,7 @@ export type TMenuData = {
     blacklist: TBlacklist;
     models: TModel[];
     tattoos: TZoneTattoo[];
+    allowExit: boolean;
 }
 
 export type TTab = {

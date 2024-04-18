@@ -1,10 +1,16 @@
 <script lang="ts">
-    import {  onMount } from 'svelte';
+    import { onMount } from 'svelte';
     import Hexagon from './micro/Hexagon.svelte';
     import { tweened } from 'svelte/motion';
     import { cubicInOut } from 'svelte/easing';
     import { fade, scale } from 'svelte/transition';
-    import { IS_VALID, SELECTED_TAB, TABS, LOCALE } from '@stores/appearance';
+    import {
+        IS_VALID,
+        SELECTED_TAB,
+        TABS,
+        LOCALE,
+        ALLOW_EXIT,
+    } from '@stores/appearance';
     import IconCancel from './icons/IconCancel.svelte';
     import IconSave from './icons/IconSave.svelte';
     import { SendEvent } from '@utils/eventsHandlers';
@@ -16,7 +22,7 @@
     const degToRad = (deg: number) => {
         return deg * (Math.PI / 180);
     };
-    let isValid: boolean = true
+    let isValid: boolean = true;
 
     let limit = tweened(0);
 
@@ -28,14 +34,15 @@
         return [x.toPrecision(5), y.toPrecision(5)];
     };
 
-    $: pieAngle = $limit / ($TABS.length < 4 ? 4 : $TABS.length > 8 ? 8 : $TABS.length);
+    $: pieAngle =
+        $limit / ($TABS.length < 4 ? 4 : $TABS.length > 8 ? 8 : $TABS.length);
     $: {
-        isValid = true
+        isValid = true;
         for (const key in $IS_VALID) {
             const value = $IS_VALID[key];
             if (!value) {
-                isValid = false
-                break
+                isValid = false;
+                break;
             }
         }
     }
@@ -94,22 +101,24 @@
 <div
     class="absolute left-[2vh] bottom-[2vh] flex flex-col items-center justify-center"
 >
-    <button
-        transition:scale|global={{ delay: 1250 }}
-        class="w-[5vh] aspect-square grid place-items-center overflow-visible translate-x-[120%] translate-y-[80%]"
-        on:click={() => {
-            modal = 'close';
-        }}
-    >
-        <div
-            class="w-full h-full grid place-items-center hover:scale-105 duration-150"
+    {#if $ALLOW_EXIT}
+        <button
+            transition:scale|global={{ delay: 1250 }}
+            class="w-[5vh] aspect-square grid place-items-center overflow-visible translate-x-[120%] translate-y-[80%]"
+            on:click={() => {
+                modal = 'close';
+            }}
         >
-            <Hexagon active={false} variant="error" strokeWidth="1vh" />
-            <div class="w-[2vh] h-full absolute grid place-items-center">
-                <IconCancel />
+            <div
+                class="w-full h-full grid place-items-center hover:scale-105 duration-150"
+            >
+                <Hexagon active={false} variant="error" strokeWidth="1vh" />
+                <div class="w-[2vh] h-full absolute grid place-items-center">
+                    <IconCancel />
+                </div>
             </div>
-        </div>
-    </button>
+        </button>
+    {/if}
     <button
         transition:scale|global={{ delay: 1000 }}
         class="w-[10vh] aspect-square grid place-items-center overflow-visible"
@@ -144,7 +153,9 @@
             <div class="w-full h-fit grid place-items-center">
                 <h1 class="text-[2vh] font-semibold uppercase">
                     {#if isValid || modal === 'close'}
-                        {modal === 'close' ? $LOCALE.CLOSE_TITLE : $LOCALE.SAVE_TITLE}
+                        {modal === 'close'
+                            ? $LOCALE.CLOSE_TITLE
+                            : $LOCALE.SAVE_TITLE}
                     {:else}
                         {$LOCALE.LOCKED_TITLE}
                     {/if}
@@ -153,7 +164,11 @@
             <div class="w-full h-fit grid place-items-center">
                 <p class="text-[1.5vh] opacity-75 text-center">
                     {#if isValid || modal === 'close'}
-                    {$LOCALE.CLOSE_SUBTITLE} {modal === 'close' ? $LOCALE.CLOSELOSE_SUBTITLE : $LOCALE.SAVEAPPLY_SUBTITLE} {$LOCALE.CLOSE2_SUBTITLE}
+                        {$LOCALE.CLOSE_SUBTITLE}
+                        {modal === 'close'
+                            ? $LOCALE.CLOSELOSE_SUBTITLE
+                            : $LOCALE.SAVEAPPLY_SUBTITLE}
+                        {$LOCALE.CLOSE2_SUBTITLE}
                     {:else}
                         {$LOCALE.CANT_SAVE}
                     {/if}
@@ -176,7 +191,7 @@
                         {/if}
                     </p>
                 </button>
-                {#if isValid || modal === 'close'}
+                {#if (isValid || modal === 'close')}
                     <button
                         class="btn w-[10vh] h-[5vh] grid place-items-center"
                         on:click={() => {
@@ -184,7 +199,11 @@
                             modal = null;
                         }}
                     >
-                        <p>{modal === 'close' ? $LOCALE.CLOSE_TITLE : $LOCALE.SAVE_TITLE}</p>
+                        <p>
+                            {modal === 'close'
+                                ? $LOCALE.CLOSE_TITLE
+                                : $LOCALE.SAVE_TITLE}
+                        </p>
                     </button>
                 {/if}
             </div>

@@ -24,6 +24,7 @@ const InitDebug: DebugAction[] = [
                 tattoos: debugTattoos,
                 outfits: debugOutfits,
                 models: debugModels,
+                locale: JSON.stringify({}),
             })
         },
     },

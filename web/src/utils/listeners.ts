@@ -12,7 +12,8 @@ import {
     SELECTED_TAB,
     TABS,
     TATTOOS,
-    LOCALE
+    LOCALE,
+    ALLOW_EXIT
 } from '@stores/appearance';
 import { deepCopy } from './misc';
 
@@ -62,6 +63,10 @@ const AlwaysListened: DebugEventCallback[] = [
 
             if (data.outfits) {
                 OUTFITS.set(data.outfits);
+            }
+
+            if (data.allowExit !== undefined) {
+                ALLOW_EXIT.set(data.allowExit);
             }
         },
     },

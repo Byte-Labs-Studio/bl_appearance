@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "types": ["@citizenfx/client", "@types/node"],
+    "paths": {
+      "@data/*": ["../src/data/*"],
+      "@dataTypes/*": ["./../types/*"],
+      "@enums": ["./enums.ts"],
+      "@utils": ["./utils/index.ts"],
+      "@locale": ["../locale/*"],
+    }
+  },
+}
