@@ -6,5 +6,5 @@ export default [
     "lhand",
     "rhand",
     "watches",
-    "braclets"
+    "bracelets"
 ]

@@ -5,7 +5,7 @@ import { Outfit} from '@dataTypes/outfits';
 import { TTattoo} from '@dataTypes/tattoos';
 import menuTypes from '../../data/menuTypes';
 import { send, receive } from '@enums'
-import { sendNUIEvent, delay, requestLocale, requestModel, triggerServerCallback } from '@utils'
+import { sendNUIEvent, delay, requestLocale, requestModel, triggerServerCallback, getFrameworkID } from '@utils'
 import { startCamera, stopCamera } from './../camera'
 
 export let playerAppearance: TAppearance | null = null
@@ -30,35 +30,43 @@ const validMenuTypes = (type: string[]) => {
     return true;
 }
 
+const getBlacklist = () => {
+    return bl_appearance.blacklist()
+
+}
+
 export const openMenu = async (type: string[] | string) => {
     isMenuOpen = true
     updatePed()
     await delay(150)
     startCamera()
-    sendNUIEvent(send.visible, true)
-    SetNuiFocus(true, true)
+
     const isArray = typeof type !== 'string'
 
     if (isArray && !validMenuTypes(type)) {
         return console.error('Error: menu type not found');
     }
-    const id = exports.bl_appearance.config().useBridge ? exports.bl_bridge.core && exports.bl_bridge.core().getPlayerData().cid : null;
-    const data = await triggerServerCallback<{ outfits: Outfit[], tattoos: TTattoo[] }>('bl_appearance:server:getTattoos&Outfits', 1, id) as { outfits: Outfit[], tattoos: TTattoo[] }
+    const frameworkdId = getFrameworkID()
+    const serverID = GetPlayerServerId(PlayerId())
+    const outfits = await triggerServerCallback<Outfit[]>('bl_appearance:server:getOutfits', frameworkdId) as Outfit[] 
+    const tattoos = await triggerServerCallback<TTattoo[]>('bl_appearance:server:getTattoos', frameworkdId) as TTattoo[]
 
     const appearance = await getAppearance()
     playerAppearance = appearance
-    playerAppearance.outfits = data.outfits
-    playerAppearance.tattoos = data.tattoos
+    playerAppearance.tattoos = tattoos
 
     sendNUIEvent(send.data, {
         tabs: isArray ? type : menuTypes.includes(type) ? type : menuTypes,
         appearance: appearance,
-        blacklist: bl_appearance.blacklist(),
+        blacklist: getBlacklist(),
         tattoos: getTattoos(),
-        outfits: data.outfits,
+        outfits: outfits,
         models: bl_appearance.models(),
         locale: await requestLocale('locale')
     })
+
+    sendNUIEvent(send.visible, true)
+    SetNuiFocus(true, true)
 }
 
 export const setAppearance = async (appearanceData: TAppearance) => {

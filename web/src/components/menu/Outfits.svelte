@@ -21,7 +21,7 @@
     let newOutfitLabel: string = '';
 </script>
 
-{#each outfits as { label, outfit }, i}
+{#each outfits as { label, outfit, id }, i}
     <Wrapper {label}>
         <svelte:fragment slot="extra_primary">
             <Dropdown display="Options">
@@ -74,11 +74,7 @@
                                 if (renameLabel.length > 0) {
                                     outfits[i].label = renameLabel;
                                     renameIndex = -1;
-                                    // EditOutfit({
-                                    // 				renameLabel,
-                                    // 				outfit,
-                                    // 				id,
-                                    // 			})
+                                    OUTFITS.edit(outfits[i])
                                 }
                             }}
                             class="btn h-full aspect-square p-[0.5vh]"
@@ -101,7 +97,7 @@
                         <button
                             class="btn w-full h-full"
                             on:click={() => {
-                                // RemoveOutfit
+                                OUTFITS.delete(id)
                             }}>{$LOCALE.CONFIRMREM_SUBTITLE}</button
                         >
                     </div>
@@ -144,6 +140,7 @@
                     <button
                         on:click={() => {
                             if (newOutfitLabel.length > 0) {
+                                
                                 OUTFITS.save(newOutfitLabel)
                                 isAdding = false;
                                 newOutfitLabel = '';

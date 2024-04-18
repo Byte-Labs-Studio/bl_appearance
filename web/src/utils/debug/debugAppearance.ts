@@ -22,9 +22,9 @@ export const debugAppearance: TAppearance = {
             texture: -1,
             value: -1,
         },
-        braclets: {
+        bracelets: {
             index: 7,
-            id: 'braclets',
+            id: 'bracelets',
             texture: -1,
             value: -1,
         },
@@ -78,8 +78,8 @@ export const debugAppearance: TAppearance = {
             textures: 0,
             total: 173,
         },
-        braclets: {
-            id: 'braclets',
+        bracelets: {
+            id: 'bracelets',
             index: 7,
             textures: 0,
             total: 10,
@@ -734,9 +734,9 @@ export const debugOutfits: TOutfit[] = [
                     texture: -1,
                     value: -1,
                 },
-                braclets: {
+                bracelets: {
                     index: 7,
-                    id: 'braclets',
+                    id: 'bracelets',
                     texture: -1,
                     value: -1,
                 },
@@ -988,9 +988,9 @@ export const debugOutfits: TOutfit[] = [
                     texture: -1,
                     value: -1,
                 },
-                braclets: {
+                bracelets: {
                     index: 7,
-                    id: 'braclets',
+                    id: 'bracelets',
                     texture: -1,
                     value: -1,
                 },
@@ -1242,9 +1242,9 @@ export const debugOutfits: TOutfit[] = [
                     texture: -1,
                     value: -1,
                 },
-                braclets: {
+                bracelets: {
                     index: 7,
-                    id: 'braclets',
+                    id: 'bracelets',
                     texture: -1,
                     value: -1,
                 },

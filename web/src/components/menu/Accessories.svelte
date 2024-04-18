@@ -167,39 +167,39 @@
         </Wrapper>
     {/if}
 
-    {#if propTotal?.braclets?.total > 0}
-        <Wrapper label={$LOCALE.BRACLETS_TITLE}>
+    {#if propTotal?.bracelets?.total > 0}
+        <Wrapper label={$LOCALE.BRACELETS_TITLE}>
             <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="primary-end"
-                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.braclets.total}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.bracelets.total}</svelte:fragment
             >
             <svelte:fragment slot="primary">
                 <NumberStepper
-                    bind:value={props.braclets.value}
-                    total={propTotal.braclets.total}
+                    bind:value={props.bracelets.value}
+                    total={propTotal.bracelets.total}
                     none={true}
-                    blacklist={blacklist.braclets.values}
+                    blacklist={blacklist.bracelets.values}
                     on:change={e => {
-                        props.braclets.texture = 0;
-                        APPEARANCE.setProp(props.braclets, e.detail);
+                        props.bracelets.texture = 0;
+                        APPEARANCE.setProp(props.bracelets, e.detail);
                     }}
                 />
             </svelte:fragment>
 
             <svelte:fragment slot="secondary-start">{$LOCALE.TEXTURE_SUBTITLE}</svelte:fragment>
             <svelte:fragment slot="secondary-end"
-                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.braclets.textures}</svelte:fragment
+                >{$LOCALE.TOTAL_SUBTITLE}: {propTotal.bracelets.textures}</svelte:fragment
             >
 
             <svelte:fragment slot="secondary">
                 <NumberStepper
-                    bind:value={props.braclets.value}
-                    total={propTotal.braclets.textures}
+                    bind:value={props.bracelets.value}
+                    total={propTotal.bracelets.textures}
                     none={true}
-                    blacklist={blacklist.braclets.textures[props.braclets.value] ||
+                    blacklist={blacklist.bracelets.textures[props.bracelets.value] ||
                         null}
                     on:change={e =>
-                        APPEARANCE.setProp(props.braclets, e.detail, true)}
+                        APPEARANCE.setProp(props.bracelets, e.detail, true)}
                 />
             </svelte:fragment>
         </Wrapper>

@@ -55,7 +55,7 @@ const OUTFITS_INIT = () => {
                 props: appearance.props,
                 headOverlay: appearance.headOverlay,
             };
-
+        
             SendEvent(Send.saveOutfit, { label, outfit }).then((success: boolean) => {
                 if (!success) return
                 const currentOutfits = methods.get();

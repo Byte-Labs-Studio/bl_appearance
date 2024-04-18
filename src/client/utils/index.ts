@@ -124,3 +124,7 @@ export const locale = async (id: string, ...args: string[]) => {
     const result = locale[id].replace(/%s/g, (match: string) => argIndex < args.length ? args[argIndex] : match);
     return result
 }
+
+export const getFrameworkID = () => {
+    return exports.bl_appearance.config().useBridge ? exports.bl_bridge.core && exports.bl_bridge.core().getPlayerData().cid : null;
+}

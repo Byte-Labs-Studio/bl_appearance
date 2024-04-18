@@ -8,7 +8,7 @@ export function onClientCallback(eventName: string, cb: (playerId: number, ...ar
         try {
             response = await cb(src, ...args);
         } catch (e: any) {
-            console.error(`an error occurred while handling callback event ${eventName}`);
+            console.error(`an error occurred while handling callback event ${eventName} | Error: `, e.message);
         }
 
         emitNet(`__ox_cb_${resource}`, src, key, response);

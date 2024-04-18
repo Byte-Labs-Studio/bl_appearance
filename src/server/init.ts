@@ -1,47 +1,151 @@
-import {onClientCallback} from './utils'
-import { oxmysql } from '@overextended/oxmysql'
+import { onClientCallback } from './utils';
+import { oxmysql } from '@overextended/oxmysql';
 import { Outfit } from '@dataTypes/outfits';
+import { captureRejectionSymbol } from 'events';
 
-onNet('bl_appearance:server:saveAppearances', async (data: any) => {
-  const src = source;
-  const id = data.id ? data.id : GetPlayerIdentifierByType(src, 'license')
+onClientCallback('bl_appearance:server:getOutfits', async (frameworkdId) => {
+	let response = await oxmysql.prepare(
+		'SELECT * FROM outfits WHERE player_id = ?',
+		[frameworkdId]
+	);
+	if (!response) return [];
 
-  const saveData = [JSON.stringify(data.skin), JSON.stringify(data.clothes), JSON.stringify(data.tattoos), id]
-
-  const affectedRows = await oxmysql.update('UPDATE bl_appearance SET skin = ?, clothes = ?, tattoos = ? WHERE id = ?', saveData)
-  if (affectedRows === 0) oxmysql.insert('INSERT INTO `bl_appearance` (skin, clothes, tattoos, id) VALUES (?, ?, ?, ?)', saveData, (id) => {
-    console.log(id)
-  })
-})
-
-onNet('bl_appearance:server:saveOutfit', async (data: Outfit) => {
-  try {
-    const src = source;
-    const id = data.id || GetPlayerIdentifierByType(src, 'license');
-
-    let outfitsJson = await oxmysql.scalar('SELECT `outfits` FROM `bl_appearance` WHERE `id` = ? LIMIT 1', [id]) as string;
-
-    let outfits: Outfit[] = outfitsJson ? JSON.parse(outfitsJson) : [];
-
-    outfits.push({ label: data.label, outfit: data.outfit });
-
-    outfitsJson = JSON.stringify(outfits);
-
-    const affectedRows = await oxmysql.update('UPDATE bl_appearance SET outfits = ? WHERE id = ?', [outfitsJson, id]);
-
-    if (affectedRows === 0) {
-      const newId = await oxmysql.insert('INSERT INTO `bl_appearance` (outfits, id) VALUES (?, ?)', [outfitsJson, id]);
-      console.log('Inserted new record with ID:', newId);
+    if (!Array.isArray(response)) {
+        response = [response]
     }
-  } catch (error) {
-    console.error('Error saving outfit:', error);
-  }
+
+	const outfits = response.map(
+		(outfit: { id: number; label: string; outfit: string }) => {
+			return {
+				id: outfit.id,
+				label: outfit.label,
+				outfit: JSON.parse(outfit.outfit),
+			};
+		}
+	);
+
+	return outfits;
 });
 
-onClientCallback('bl_appearance:server:getTattoos&Outfits', async (playerId, id: number | string) => {
-  const response = await oxmysql.prepare('SELECT `tattoos`, `outfits` FROM `bl_appearance` WHERE `id` = ?', [id])
-  return {
-    tattoos: JSON.parse(response.tattoos),
-    outfits: JSON.parse(response.outfits)
-  }
+onClientCallback(
+	'bl_appearance:server:renameOutfit',
+	async (frameworkdId, newName, id) => {
+		const result = await oxmysql.update(
+			'UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?',
+			[newName, frameworkdId, id]
+		);
+		return result;
+	}
+);
+
+onClientCallback(
+	'bl_appearance:server:deleteOutfit',
+	async (frameworkdId, id) => {
+		const result = await oxmysql.update(
+			'DELETE FROM outfits WHERE player_id = ? AND id = ?',
+			[frameworkdId, id]
+		);
+		return result > 0;
+	}
+);
+
+onClientCallback(
+	'bl_appearance:server:saveOutfit',
+	async (frameworkdId, data: Outfit) => {
+		console.log(frameworkdId, data.label, data.outfit, JSON.stringify(data.outfit))
+		const id = await oxmysql.insert(
+			'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
+			[frameworkdId, data.label, JSON.stringify(data.outfit)]
+		);
+        console.log('id', id)
+		return id;
+	}
+);
+
+onClientCallback(
+	'bl_appearance:server:saveSkin',
+	async (frameworkdId, skin) => {
+		const result = await oxmysql.update(
+			'UPDATE appearance SET skin = ? WHERE id = ?',
+			[JSON.stringify(skin), frameworkdId]
+		);
+		return result;
+	}
+);
+
+onClientCallback(
+	'bl_appearance:server:saveClothes',
+	async (frameworkdId, clothes) => {
+		const result = await oxmysql.update(
+			'UPDATE appearance SET clothes = ? WHERE id = ?',
+			[JSON.stringify(clothes), frameworkdId]
+		);
+		return result;
+	}
+);
+
+onClientCallback(
+	'bl_appearance:server:saveTattoos',
+	async (frameworkdId, tattoos) => {
+		const result = await oxmysql.update(
+			'UPDATE appearance SET tattoos = ? WHERE id = ?',
+			[JSON.stringify(tattoos), frameworkdId]
+		);
+		return result;
+	}
+);
+
+// lib.callback.register("xrp_appearance:cb:getClothes", function(source, charid)
+//     local result = MySQL.query.await('SELECT clothes FROM players WHERE citizenid = ?', { charid })
+//     local clothes = json.decode(result[1].clothes)
+
+//     return clothes
+// end)
+
+// lib.callback.register("xrp_appearance:cb:getSkin", function(source, charid)
+//     local result = MySQL.query.await('SELECT skin FROM players WHERE citizenid = ?', { charid })
+//     local skin = json.decode(result[1].skin) or {}
+
+//     return skin
+// end)
+
+// lib.callback.register('xrp_appearance:cb:getTattoos', function(source)
+//     local charid = QBCore.Functions.GetPlayer(source).PlayerData.citizenid
+
+//     local result = MySQL.query.await('SELECT tattoos FROM players WHERE citizenid = ?', { charid })
+//     local tattoos = json.decode(result[1].tattoos)
+
+//     return tattoos
+// end)
+
+onClientCallback('bl_appearance:server:getSkin', async (frameworkdId) => {
+	const response = await oxmysql.prepare(
+		'SELECT skin FROM appearance WHERE id = ?',
+		[frameworkdId]
+	);
+	return JSON.parse(response);
+});
+
+onClientCallback('bl_appearance:server:getClothes', async (frameworkdId) => {
+	const response = await oxmysql.prepare(
+		'SELECT clothes FROM appearance WHERE id = ?',
+		[frameworkdId]
+	);
+	return JSON.parse(response);
+});
+
+onClientCallback('bl_appearance:server:getTattoos', async (frameworkdId) => {
+	const response = await oxmysql.prepare(
+		'SELECT tattoos FROM appearance WHERE id = ?',
+		[frameworkdId]
+	);
+	return JSON.parse(response) || [];
+});
+
+onClientCallback('bl_appearance:server:getAppearance', async (frameworkdId) => {
+	const response = await oxmysql.prepare(
+		'SELECT * FROM appearance WHERE id = ?',
+		[frameworkdId]
+	);
+	return JSON.parse(response);
 });
