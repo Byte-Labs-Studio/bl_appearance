@@ -1,6 +1,7 @@
 import { DrawableData, TValue } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
 import { copyFileSync } from "fs";
+import { requestModel} from '@utils';
 
 
 export function setDrawable(ped: number, data: TValue) {
@@ -21,28 +22,21 @@ export function setProp(ped: number, data: TValue) {
 }
 
 
-export function setModel(ped: number, data) {
+export const setModel = async (ped: number, data) => {
     ped = ped || PlayerPedId()
     const isJustModel = typeof data === 'number'
     const model = isJustModel ? data : data.model
     const isPlayer = IsPedAPlayer(ped)
 
     if (isPlayer) {
-        RequestModel(model)
-        SetPlayerModel(PlayerId(), model)
-        SetModelAsNoLongerNeeded(model)
+        const modelHash = await requestModel(model)
+        SetPlayerModel(PlayerId(), modelHash)
+        SetModelAsNoLongerNeeded(modelHash)
         ped = PlayerPedId()
     }
     SetPedDefaultComponentVariation(ped)
 
-    if (!isJustModel) {
-        if (data.headBlend) {
-            if (!isJustModel && Object.keys(data.headBlend).length) {
-                setHeadBlend(ped, data.headBlend)
-            }
-        }
-    }
-
+    if (!isJustModel && data.headBlend && Object.keys(data.headBlend).length) setHeadBlend(ped, data.headBlend)
     return ped
 }
 
@@ -156,12 +150,12 @@ export function setPedClothes(ped: number, data) {
     }
 }
 
-export function setPedSkin(ped: number, data) {
+export const setPedSkin = async (ped: number, data) => {
     ped = ped || PlayerPedId()
     const headStructure = data.headStructure
     const headBlend = data.headBlend
 
-    ped = setModel(ped, data)
+    ped = await setModel(ped, data)
     if (headBlend) {
         setHeadBlend(ped, headBlend)
     }
