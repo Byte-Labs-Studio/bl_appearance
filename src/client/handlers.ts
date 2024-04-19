@@ -4,6 +4,7 @@ import {
 	setDrawable,
 	SetFaceFeature,
 	setHeadBlend,
+	setHeadOverlay,
 	setModel,
 	setPedClothes,
 	setPedTattoos,
@@ -86,7 +87,7 @@ RegisterNuiCallback(
 	Receive.setHeadOverlay,
 	async (data: TValue, cb: Function) => {
 		const ped = PlayerPedId();
-		SetFaceFeature(ped, data);
+		setHeadOverlay(ped, data);
 		cb(1);
 	}
 );

@@ -21,7 +21,7 @@ export async function openMenu(type: TMenuTypes, creation: boolean = false) {
 
     if (!menu) return
 
-    startCamera(ped)
+    startCamera()
 
     const frameworkdId = getFrameworkID()
 

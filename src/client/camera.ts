@@ -62,6 +62,7 @@ const setCamPosition = (mouseX?: number, mouseY?: number): void => {
 };
 
 const moveCamera = async (coords: Vector3, distance?: number) => {
+    ped = PlayerPedId()
 	const heading: number = GetEntityHeading(ped) + 94;
 	distance = distance ?? 1.0;
 
@@ -109,9 +110,9 @@ const useHiDof = (currentcam: Camera) => {
 	setTimeout(useHiDof, 0);
 };
 
-export const startCamera = async (ped: number) => {
+export const startCamera = () => {
 	if (running) return;
-	ped = ped;
+    ped = PlayerPedId()
 	running = true;
 	camDistance = 1.0;
 	cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
@@ -154,6 +155,7 @@ const setCamera = (type?: keyof CameraBones): void => {
 
 RegisterNuiCallback(Receive.camMove, (data, cb) => {
 	cb(1);
+    ped = PlayerPedId()
 	let heading: number = GetEntityHeading(ped);
 	if (lastX == data.x) {
 		return;
