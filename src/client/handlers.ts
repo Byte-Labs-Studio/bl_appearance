@@ -58,7 +58,7 @@ RegisterNuiCallback(Receive.setModel, async (model: string, cb: Function) => {
 
 	const ped = PlayerPedId();
 
-	setModel(ped, hash);
+	await setModel(ped, hash);
 
 	const appearance = await getAppearance(ped);
 
