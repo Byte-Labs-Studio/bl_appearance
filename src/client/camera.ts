@@ -12,7 +12,7 @@ let oldCam: Camera | null = null;
 let changingCam: boolean = false;
 let lastX: number = 0;
 let currentBone: keyof CameraBones = 'head';
-let ped: number = PlayerPedId();
+let ped: number
 
 const CameraBones: CameraBones = {
 	head: 31086,
@@ -134,6 +134,8 @@ export const stopCamera = (): void => {
 const setCamera = (type?: keyof CameraBones): void => {
 	const bone: number | undefined = CameraBones[type];
 	if (currentBone == type) return;
+
+	ped = PlayerPedId();
 	const [x, y, z]: number[] = bone
 		? GetPedBoneCoords(ped, bone, 0.0, 0.0, bone === 14201 ? 0.2 : 0.0)
 		: GetEntityCoords(ped, false);

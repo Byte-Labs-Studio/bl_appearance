@@ -10,7 +10,12 @@ local menus = {
 	},
 
 	barber = {
-		tabs =  { "heritage", "hair", "face", "makeup" },
+		tabs =  { "hair", "face", "makeup" },
+		allowExit = true,
+	},
+
+	surgeon = {
+		tabs =  { "heritage" },
 		allowExit = true,
 	},
 

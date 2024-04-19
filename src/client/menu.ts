@@ -7,15 +7,11 @@ import { getAppearance, getTattooData } from "./appearance/getters"
 import "./handlers"
 
 const config = exports.bl_appearance
-
-let isOpen = false
 let armour = 0
 
 
 export async function openMenu(type: TMenuTypes, creation: boolean = false) {
     const ped = PlayerPedId()
-
-
 
     const configMenus = config.menus()
 

@@ -7,6 +7,7 @@ local config = {
     -- and setPedAppearance for illenium
     -- BUT they both have to be passed in the clothing data in the same format as bl_appearance
     backwardsCompatibility = true,
+    openControl = 'E',
     previousClothing = 'illenium', -- 'illenium' or 'qb'
 }
 
