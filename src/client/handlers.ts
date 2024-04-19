@@ -27,24 +27,27 @@ RegisterNuiCallback(Receive.cancel, (appearance: TAppearance, cb: Function) => {
 RegisterNuiCallback(
 	Receive.save,
 	async (appearance: TAppearance, cb: Function) => {
-        console.log('save')
 		resetToggles(appearance);
 
 		await delay(100);
 
 		const ped = PlayerPedId();
 
+        console.log('appearance', appearance);
+
 		const newAppearance = await getAppearance(ped);
+
+        newAppearance.tattoos = appearance.tattoos;
 
 		const frameworkdId = getFrameworkID();
 
 		triggerServerCallback(
-			'bl_appearance:server:setAppearance',
+			'bl_appearance:server:saveAppearance',
 			frameworkdId,
 			newAppearance
 		);
 
-		setPedTattoos(ped, appearance.tattoos);
+		setPedTattoos(ped, newAppearance.tattoos);
 
 		closeMenu();
 		cb(1);
@@ -64,6 +67,8 @@ RegisterNuiCallback(Receive.setModel, async (model: string, cb: Function) => {
 	const appearance = await getAppearance(ped);
 
 	appearance.tattoos = [];
+
+    setPedTattoos(ped, []);
 
 	cb(appearance);
 });

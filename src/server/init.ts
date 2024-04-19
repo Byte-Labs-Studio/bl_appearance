@@ -4,11 +4,10 @@ import { Outfit } from '@typings/outfits';
 
 onClientCallback(
 	'bl_appearance:server:getOutfits',
-	async (src, frameworkdId) => {
-		console.log('frameworkdId', frameworkdId);
+	async (src, frameworkId) => {
 		let response = await oxmysql.prepare(
 			'SELECT * FROM outfits WHERE player_id = ?',
-			[frameworkdId]
+			[frameworkId]
 		);
 		if (!response) return [];
 
@@ -32,14 +31,14 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:renameOutfit',
-	async (src, frameworkdId, data) => {
+	async (src, frameworkId, data) => {
 		const id = data.id;
 		const label = data.label;
 
-		console.log('renameOutfit', frameworkdId, label, id);
+		console.log('renameOutfit', frameworkId, label, id);
 		const result = await oxmysql.update(
 			'UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?',
-			[label, frameworkdId, id]
+			[label, frameworkId, id]
 		);
 		return result;
 	}
@@ -47,10 +46,10 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:deleteOutfit',
-	async (src, frameworkdId, id) => {
+	async (src, frameworkId, id) => {
 		const result = await oxmysql.update(
 			'DELETE FROM outfits WHERE player_id = ? AND id = ?',
-			[frameworkdId, id]
+			[frameworkId, id]
 		);
 		return result > 0;
 	}
@@ -58,16 +57,16 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:saveOutfit',
-	async (src, frameworkdId, data: Outfit) => {
+	async (src, frameworkId, data: Outfit) => {
 		console.log(
-			frameworkdId,
+			frameworkId,
 			data.label,
 			data.outfit,
 			JSON.stringify(data.outfit)
 		);
 		const id = await oxmysql.insert(
 			'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
-			[frameworkdId, data.label, JSON.stringify(data.outfit)]
+			[frameworkId, data.label, JSON.stringify(data.outfit)]
 		);
 		console.log('id', id);
 		return id;
@@ -76,10 +75,10 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:saveSkin',
-	async (src, frameworkdId, skin) => {
+	async (src, frameworkId, skin) => {
 		const result = await oxmysql.update(
 			'UPDATE appearance SET skin = ? WHERE id = ?',
-			[JSON.stringify(skin), frameworkdId]
+			[JSON.stringify(skin), frameworkId]
 		);
 		return result;
 	}
@@ -87,10 +86,10 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:saveClothes',
-	async (src, frameworkdId, clothes) => {
+	async (src, frameworkId, clothes) => {
 		const result = await oxmysql.update(
 			'UPDATE appearance SET clothes = ? WHERE id = ?',
-			[JSON.stringify(clothes), frameworkdId]
+			[JSON.stringify(clothes), frameworkId]
 		);
 		return result;
 	}
@@ -98,7 +97,9 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:saveAppearance',
-	async (src, frameworkdId, appearance) => {
+	async (src, frameworkId, appearance) => {
+        console.log('frameworkId', frameworkId, appearance);
+
 		const clothes = {
 			drawables: appearance.drawables,
 			props: appearance.props,
@@ -114,15 +115,17 @@ onClientCallback(
 
 		const tattoos = appearance.tattoos || [];
 
-		const result = await oxmysql.update(
-			'UPDATE appearance SET clothes = ?, SET skin = ?, SET tattoos = ? WHERE id = ?',
+		const result = await oxmysql.prepare(
+			'INSERT INTO appearance (id, clothes, skin, tattoos) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE clothes = VALUES(clothes), skin = VALUES(skin), tattoos = VALUES(tattoos);',
 			[
+                frameworkId,
 				JSON.stringify(clothes),
 				JSON.stringify(skin),
 				JSON.stringify(tattoos),
-				frameworkdId,
 			]
 		);
+
+        console.log('result', result);
 
 		return result;
 	}
@@ -130,29 +133,29 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:saveTattoos',
-	async (src, frameworkdId, tattoos) => {
+	async (src, frameworkId, tattoos) => {
 		const result = await oxmysql.update(
 			'UPDATE appearance SET tattoos = ? WHERE id = ?',
-			[JSON.stringify(tattoos), frameworkdId]
+			[JSON.stringify(tattoos), frameworkId]
 		);
 		return result;
 	}
 );
 
-onClientCallback('bl_appearance:server:getSkin', async (src, frameworkdId) => {
+onClientCallback('bl_appearance:server:getSkin', async (src, frameworkId) => {
 	const response = await oxmysql.prepare(
 		'SELECT skin FROM appearance WHERE id = ?',
-		[frameworkdId]
+		[frameworkId]
 	);
 	return JSON.parse(response);
 });
 
 onClientCallback(
 	'bl_appearance:server:getClothes',
-	async (src, frameworkdId) => {
+	async (src, frameworkId) => {
 		const response = await oxmysql.prepare(
 			'SELECT clothes FROM appearance WHERE id = ?',
-			[frameworkdId]
+			[frameworkId]
 		);
 		return JSON.parse(response);
 	}
@@ -160,10 +163,10 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:getTattoos',
-	async (src, frameworkdId) => {
+	async (src, frameworkId) => {
 		const response = await oxmysql.prepare(
 			'SELECT tattoos FROM appearance WHERE id = ?',
-			[frameworkdId]
+			[frameworkId]
 		);
 		return JSON.parse(response) || [];
 	}
@@ -171,10 +174,10 @@ onClientCallback(
 
 onClientCallback(
 	'bl_appearance:server:getAppearance',
-	async (src, frameworkdId) => {
+	async (src, frameworkId) => {
 		const response = await oxmysql.prepare(
 			'SELECT * FROM appearance WHERE id = ?',
-			[frameworkdId]
+			[frameworkId]
 		);
 		return JSON.parse(response);
 	}
@@ -185,7 +188,7 @@ const config = bl_appearance.config();
 if (config.backwardsCompatibility) {
 	onClientCallback(
 		'bl_appearance:server:PreviousGetAppearance',
-		async (src, frameworkdId) => {
+		async (src, frameworkId) => {
 			let query;
 			if (config.previousClothing == 'illenium') {
 				query = 'SELECT * FROM players WHERE citizenid = ?';
@@ -194,7 +197,7 @@ if (config.backwardsCompatibility) {
 					'SELECT * FROM playerskins WHERE citizenid = ? AND active = ?';
 			}
 
-			const response = await oxmysql.prepare(query, [frameworkdId, 1]);
+			const response = await oxmysql.prepare(query, [frameworkId, 1]);
 			return JSON.parse(response);
 		}
 	);
