@@ -192,13 +192,13 @@ export type TColors = {
 }
 
 export interface TToggles {
-	hat: boolean
-	mask: boolean
+	hats: boolean
+	masks: boolean
 	glasses: boolean
-	shirt: boolean
-	jacket: boolean
+	shirts: boolean
+	jackets: boolean
 	vest: boolean
-	pants: boolean
+	legs: boolean
 	shoes: boolean
 }
 

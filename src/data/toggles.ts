@@ -1,3 +1,5 @@
+
+
 export default {
     hats: {
         type: "prop",
@@ -22,7 +24,7 @@ export default {
         index: 11,
         off: 15,
     },
-    pants: {
+    legs: {
         type: "drawable",
         index: 4,
         off: 11,

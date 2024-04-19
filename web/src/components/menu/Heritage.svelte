@@ -31,7 +31,7 @@
     $: {
         if (modelSearch.length > 0) {
             modelList = $MODELS.filter(model =>
-                model.toLowerCase().includes(modelSearch.toLowerCase()),
+                model.toLowerCase()?.includes(modelSearch.toLowerCase()),
             );
         } else {
             modelList = $MODELS;

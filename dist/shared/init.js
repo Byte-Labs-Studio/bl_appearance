@@ -1,1 +1,3 @@
-//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFtdLAogICJzb3VyY2VzQ29udGVudCI6IFtdLAogICJtYXBwaW5ncyI6ICIiLAogICJuYW1lcyI6IFtdCn0K
+// src/shared/init.ts
+console.log("shared");
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL3NoYXJlZC9pbml0LnRzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyJjb25zb2xlLmxvZygnc2hhcmVkJykiXSwKICAibWFwcGluZ3MiOiAiO0FBQUEsUUFBUSxJQUFJLFFBQVE7IiwKICAibmFtZXMiOiBbXQp9Cg==

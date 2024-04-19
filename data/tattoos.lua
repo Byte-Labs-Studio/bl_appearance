@@ -762,7 +762,7 @@ local tattoosList = {
     },
     {
         dlc = "mpsum2_overlays",
-        tattos = {
+        tattoos = {
             'MP_Sum2_Tat_011_M',
             'MP_Sum2_Tat_011_F',
             'MP_Sum2_Tat_012_M',
@@ -893,7 +893,7 @@ local tattoosList = {
     },
     {
         dlc = "mphipster_overlays",
-        tattos = {
+        tattoos = {
             'FM_Hip_M_Hair_000_a',
             'FM_Hip_F_Hair_000_a',
             'FM_Hip_M_Hair_000_b',
@@ -1047,7 +1047,7 @@ local tattoosList = {
 
     {
         dlc = "mpbiker_overlays",
-        tattos = {
+        tattoos = {
             'MP_Biker_Hair_000_M',
             'MP_Biker_Hair_000_F',
             'MP_Biker_Hair_001_M',

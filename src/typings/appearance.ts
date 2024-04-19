@@ -123,4 +123,10 @@ export type TAppearance = {
     outfits?: Outfit[];
 }
 
+export type TToggleData = {
+    item: string;
+    toggle: boolean;
+    data: TDrawables[keyof TDrawables] | TProps[keyof TProps];
+}
+
 export {THeadBlend, THairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData}

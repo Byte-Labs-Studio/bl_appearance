@@ -27,6 +27,8 @@ const AlwaysListened: DebugEventCallback[] = [
         handler: (data: TMenuData) => {
             let tabs = [];
 
+            console.log('data', data);
+
             if (data.locale) {
                 LOCALE.set(JSON.parse(data.locale))
             }

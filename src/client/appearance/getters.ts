@@ -1,4 +1,4 @@
-import { THairData, THeadOverlay } from "@typings/appearance"
+import { TAppearance, THairData, THeadOverlay, THeadOverlayTotal } from "@typings/appearance"
 import HEAD_OVERLAYS from "@data/head"
 import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
@@ -45,7 +45,7 @@ export function getHeadBlendData(ped: number) {
 export function getHeadOverlay(ped: number) {
     ped = ped || PlayerPedId()
 
-    let totals: Record<string, number> = {};
+    let totals: THeadOverlayTotal = {};
     let headData: THeadOverlay = {};
 
     for (let i = 0; i < HEAD_OVERLAYS.length; i++) {
@@ -151,7 +151,7 @@ export function getProps(ped: number) {
 }
 
 
-export async function getAppearance(ped: number) {
+export async function getAppearance(ped: number): Promise<TAppearance> {
     ped = ped || PlayerPedId()
     const [headData, totals] = getHeadOverlay(ped)
     const [drawables, drawTotal] = getDrawables(ped)
@@ -163,13 +163,14 @@ export async function getAppearance(ped: number) {
         model: model,
         hairColor: getHair(ped),
         headBlend: getHeadBlendData(ped),
-        headOverlay: headData,
-        headOverlayTotal: totals,
+        headOverlay: headData as THeadOverlay,
+        headOverlayTotal: totals as THeadOverlayTotal,
         headStructure: getHeadStructure(ped),
         drawables: drawables,
         props: props,
         drawTotal: drawTotal,
         propTotal: propTotal,
+        tattoos: []
     }
 }
 exports("GetAppearance", getAppearance)
@@ -207,21 +208,23 @@ export function getTattooData() {
     const [TATTOO_LIST, TATTOO_CATEGORIES] = exports.bl_appearance.tattoos()
     for (let i = 0; i < TATTOO_CATEGORIES.length; i++) {
         const category = TATTOO_CATEGORIES[i]
-        const [zone, index, label] = category
-        tattooZones[index + 1] = {
+        const zone = category.zone
+        const label = category.label
+        const index = category.index
+        tattooZones[index] = {
             zone: zone,
             label: label,
             zoneIndex: index,
-            dlcs: {}
+            dlcs: []
         }
 
         for (let j = 0; j < TATTOO_LIST.length; j++) {
             const dlcData = TATTOO_LIST[j]
-            tattooZones[index + 1].dlcs[j] = {
-                dlc: dlcData.dlc,
-                dlcIndex: j - 1,
+            tattooZones[index].dlcs.push({
+                label: dlcData.dlc,
+                dlcIndex: j,
                 tattoos: []
-            }
+            })
         }
     }
 
@@ -231,9 +234,8 @@ export function getTattooData() {
         const data = TATTOO_LIST[i]
         const { dlc, tattoos } = data
         const dlcHash = GetHashKey(dlc)
-
         for (let j = 0; j < tattoos.length; j++) {
-            const tattooData = tattoos[j]
+            const tattooData = tattoos[j] 
             let tattoo = null
 
             const lowerTattoo = tattooData.toLowerCase()
@@ -253,8 +255,7 @@ export function getTattooData() {
             }
 
             if (zone !== -1 && hash) {
-                const zoneIndex = zone + 1
-                const zoneTattoos = tattooZones[zoneIndex].dlcs[i].tattoos
+                const zoneTattoos = tattooZones[zone].dlcs[i].tattoos
 
                 zoneTattoos.push({
                     label: tattoo,

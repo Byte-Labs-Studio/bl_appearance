@@ -263,14 +263,14 @@ export const APPEARANCE = APPEARANCE_INIT();
 
 const TOGGLES_INIT = () => {
     const store: Writable<TToggles> = writable<TToggles>({
-        hat: true,
-        mask: true,
-        glasses: true,
-        shirt: true,
-        jacket: true,
-        vest: true,
-        pants: true,
-        shoes: true,
+        hats: false,
+        masks: false,
+        glasses: false,
+        shirts: false,
+        jackets: false,
+        vest: false,
+        legs: false,
+        shoes: false,
     });
 
     const methods = {

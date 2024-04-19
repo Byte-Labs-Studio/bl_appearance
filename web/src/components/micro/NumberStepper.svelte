@@ -67,6 +67,9 @@
         type="number"
         class="w-full relative h-full"
         bind:value
+        on:input={()=>{
+            dispatch('change', value);
+        }}
     />
 
     {#if isBlacklisted}

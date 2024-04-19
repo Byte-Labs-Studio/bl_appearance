@@ -189,5 +189,5 @@ local blaclistBase = {
 }
 
 exports('blacklist', function()
-    return blacklist
+    return blaclistBase
 end)

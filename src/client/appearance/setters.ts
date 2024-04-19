@@ -1,5 +1,6 @@
 import { DrawableData, TValue } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
+import { copyFileSync } from "fs";
 
 
 export function setDrawable(ped: number, data: TValue) {
@@ -132,63 +133,28 @@ export function resetToggles(data) {
     }
 }
 
-
-
-// function SetPedClothes(ped, data)
-//     local ped = ped or cache.ped
-
-//     local drawables = data.drawables
-//     local props = data.props
-//     local headOverlay = data.headOverlay
-
-//     for _, drawable in pairs(drawables) do
-//         SetDrawable(ped, drawable)
-//     end
-
-//     for _, prop in pairs(props) do
-//         SetProp(ped, prop)
-//     end
-
-//     for _, overlay in pairs(headOverlay) do
-//         SetHeadOverlay(ped, overlay)
-//     end
-// end
-
 export function setPedClothes(ped: number, data) {
     ped = ped || PlayerPedId()
 
     const drawables = data.drawables
     const props = data.props
     const headOverlay = data.headOverlay
-
-    for (const drawable of drawables) {
+    console.log('drawables', drawables)
+    for (const id in drawables) {
+        const drawable = drawables[id]
         setDrawable(ped, drawable)
     }
 
-    for (const prop of props) {
+    for (const id in props) {
+        const prop = props[id]
         setProp(ped, prop)
     }
 
-    for (const overlay of headOverlay) {
+    for (const id in headOverlay) {
+        const overlay = headOverlay[id]
         setHeadOverlay(ped, overlay)
     }
 }
-
-// function SetPedSkin(ped, data)
-//     local ped = ped or cache.ped
-//     local headStructure = data.headStructure
-//     local headBlend = data.headBlend
-
-//     ped = SetModel(ped, data)
-//     if headBlend then
-//         SetHeadBlend(ped, headBlend)
-//     end
-//     if headStructure then
-//         for _, feature in pairs(headStructure) do
-//             SetFaceFeature(ped, feature)
-//         end
-//     end
-// end
 
 export function setPedSkin(ped: number, data) {
     ped = ped || PlayerPedId()

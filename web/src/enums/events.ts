@@ -5,8 +5,6 @@ export enum Receive {
 }
 
 export enum Send {
-    close = 'appearance:close',
-
     setModel = 'appearance:setModel',
     setHeadStructure = 'appearance:setHeadStructure',
     setHeadOverlay = 'appearance:setHeadOverlay',

@@ -4,8 +4,6 @@ export enum Send {
 }
 
 export enum Receive {
-    close = 'appearance:close',
-
     toggleItem = 'appearance:toggleItem',
 
     save = 'appearance:save',

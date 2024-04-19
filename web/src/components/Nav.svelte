@@ -10,6 +10,9 @@
         TABS,
         LOCALE,
         ALLOW_EXIT,
+        ORIGINAL_APPEARANCE,
+        APPEARANCE,
+        TOGGLES,
     } from '@stores/appearance';
     import IconCancel from './icons/IconCancel.svelte';
     import IconSave from './icons/IconSave.svelte';
@@ -58,6 +61,51 @@
     });
 
     let modal: 'close' | 'save' = null;
+
+    // 'hat',
+    //     'mask',
+    //     'glasses',
+    //     'shirt',
+    //     'jacket',
+    //     'vest',
+    //     'pants',
+    //     'shoes',
+
+    const toggleOrder = [
+        {
+            id: 'hats',
+            type: 'props',
+        },
+        {
+            id: 'masks',
+            type: 'drawables',
+        },
+        {
+            id: 'glasses',
+            type: 'props',
+        },
+        {
+            id: 'shirts',
+            type: 'drawables',
+        },
+        {
+            id: 'jackets',
+            type: 'drawables',
+        },
+        {
+            id: 'vest',
+            type: 'drawables',
+        },
+        {
+            id: 'legs',
+            type: 'drawables',
+        },
+        {
+            id: 'shoes',
+            type: 'drawables',
+        },
+
+    ]
 </script>
 
 <nav class=" relative z-[9999 w-fit h-fit rounded-full">
@@ -141,6 +189,35 @@
     </button>
 </div>
 
+<div class="w-[7vh]  left-[3vh] absolute  h-full flex flex-col gap-[1vh] items-center justify-center -z-30">
+    {#each toggleOrder as {id, type}, i}
+        {@const toggle = $TOGGLES[id]}
+        {@const icon = `Icon${id.charAt(0).toUpperCase() + id.slice(1)}`}
+        <button
+            on:click={() => {
+                const data = $APPEARANCE[type][id];
+                if (data) {
+                    TOGGLES.toggle(id, !toggle, data)
+                }
+                
+            }}
+            transition:scale|global={{ duration: 750 }}
+            class="h-[7vh] w-full grid place-items-center origin-center cursor-pointer "
+        >
+            <div
+                class="w-full h-full grid place-items-center  origin-center hover:scale-105 duration-150"
+            > 
+                <Hexagon active={toggle} />
+                <div class="w-2/3 h-fit grid absolute place-items-center fill-white">
+                    {#await import(`./icons/${icon}.svelte`) then { default: Icon }}
+                        <Icon />
+                    {/await}
+                </div>
+            </div>
+        </button>
+    {/each}
+</div>
+
 {#if modal}
     <div
         transition:fade
@@ -195,7 +272,16 @@
                     <button
                         class="btn w-[10vh] h-[5vh] grid place-items-center"
                         on:click={() => {
-                            SendEvent(Send.close, modal === 'save');
+                            // SendEvent(Send.close, {
+                            //     save: modal === 'save',
+                            //     original: modal === 'close' ? $ORIGINAL_APPEARANCE : $APPEARANCE,
+                            // });
+
+                            if (modal === 'save') {
+                                SendEvent(Send.save, $APPEARANCE);
+                            } else {
+                                SendEvent(Send.cancel, $ORIGINAL_APPEARANCE);
+                            }
                             modal = null;
                         }}
                     >
