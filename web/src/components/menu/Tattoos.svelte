@@ -75,12 +75,15 @@
         }
 
         playerTattoos = [...playerTattoos, newTattoo];
+
+        TATTOOS.setPlayerTattoos(playerTattoos);
     }
 
     function removeTattooRow(index: number) {
         playerTattoos = playerTattoos.filter((_, i) => i !== index);
         deleteOptionIndex = null;
-        SendEvent(Send.setTattoos, playerTattoos)
+        
+        TATTOOS.setPlayerTattoos(playerTattoos);
     }
 
     function changeZoneIndex(playerTattoosIndex: number, newZoneIndex: number) {
@@ -96,7 +99,7 @@
             playerTattoos[playerTattoosIndex].tattoo = null;
         }
 
-        SendEvent(Send.setTattoos, playerTattoos)
+        TATTOOS.setPlayerTattoos(playerTattoos);
     }
 
     function changeDLCIndex(playerTattoosIndex: number, newDLCIndex: number) {
@@ -113,7 +116,7 @@
             playerTattoos[playerTattoosIndex].tattoo = null;
         }
 
-        SendEvent(Send.setTattoos, playerTattoos)
+        TATTOOS.setPlayerTattoos(playerTattoos);
     }
 
     function changeSelected(playerTattoosIndex: number, index: number) {
@@ -124,7 +127,8 @@
         if (!tattoo) return;
 
         playerTattoos[playerTattoosIndex].tattoo = tattoo;
-        SendEvent(Send.setTattoos, playerTattoos)
+
+        TATTOOS.setPlayerTattoos(playerTattoos);
     }
 </script>
 

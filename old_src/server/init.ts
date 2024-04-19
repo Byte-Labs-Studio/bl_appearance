@@ -30,6 +30,8 @@ onClientCallback('bl_appearance:server:getOutfits', async (frameworkdId) => {
 onClientCallback(
 	'bl_appearance:server:renameOutfit',
 	async (frameworkdId, newName, id) => {
+        // console.log('here')
+        // console.log('renameOutfit', frameworkdId, newName, id)
 		const result = await oxmysql.update(
 			'UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?',
 			[newName, frameworkdId, id]
@@ -52,12 +54,10 @@ onClientCallback(
 onClientCallback(
 	'bl_appearance:server:saveOutfit',
 	async (frameworkdId, data: Outfit) => {
-		console.log(frameworkdId, data.label, data.outfit, JSON.stringify(data.outfit))
 		const id = await oxmysql.insert(
 			'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
 			[frameworkdId, data.label, JSON.stringify(data.outfit)]
 		);
-        console.log('id', id)
 		return id;
 	}
 );

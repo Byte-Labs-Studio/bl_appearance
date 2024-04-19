@@ -75,11 +75,9 @@ onNet(`__ox_cb_${resourceName}`, (key: string, ...args: any) => {
 });
 
 export function triggerServerCallback<T = unknown>(
-    eventName: string,
-    delay: number | null,
-    ...args: any
+    eventName: string, ...args: any
 ): Promise<T> | void {
-    if (!eventTimer(eventName, delay)) {
+    if (!eventTimer(eventName, 0)) {
         return;
     }
 
@@ -126,5 +124,8 @@ export const locale = async (id: string, ...args: string[]) => {
 }
 
 export const getFrameworkID = () => {
-    return exports.bl_appearance.config().useBridge ? exports.bl_bridge.core && exports.bl_bridge.core().getPlayerData().cid : null;
+    const bl_bridge = exports.bl_bridge
+    const id = bl_bridge.core().getPlayerData().cid
+    console.log('frameworkdId', id)
+    return id
 }

@@ -15,7 +15,8 @@ import type {
     TToggles,
     TValue,
     TZoneTattoo,
-    Blacklist
+    Blacklist,
+    TTattoo
 } from '@typings/apperance';
 import { SendEvent } from '@utils/eventsHandlers';
 import { get, type Writable, writable } from 'svelte/store';
@@ -127,6 +128,15 @@ const TATTOOS_INIT = () => {
         get: () => get(store),
 
         set: (tattoos: TZoneTattoo[]) => store.set(tattoos),
+
+        setPlayerTattoos: (tattoos: TTattoo[]) => {
+            SendEvent(Send.setTattoos, tattoos).then((success: boolean) => {
+                APPEARANCE.update(state => {
+                    state.tattoos = tattoos;
+                    return state
+                })
+            })
+        },
 
         reset: () => store.set(null),
     };

@@ -201,7 +201,7 @@
                 }
                 
             }}
-            transition:scale|global={{ duration: 750 }}
+            transition:scale|global={{ duration: 750, delay: 1000 }}
             class="h-[7vh] w-full grid place-items-center origin-center cursor-pointer "
         >
             <div

@@ -18,7 +18,6 @@ import TOGGLE_INDEXES from '@data/toggles';
 import { Outfit } from '@typings/outfits';
 
 RegisterNuiCallback(Receive.cancel, (appearance: TAppearance, cb: Function) => {
-    console.log('cancel')
 	setPlayerPedAppearance(appearance);
 	closeMenu();
 	cb(1);
@@ -46,7 +45,6 @@ RegisterNuiCallback(
 
 		setPedTattoos(ped, appearance.tattoos);
 
-        console.log('save')
 		closeMenu();
 		cb(1);
 	}

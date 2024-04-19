@@ -135,23 +135,25 @@ export const closeMenu = async (save: boolean) => {
     else {
         const config = exports.bl_appearance.config()
         const appearance = await getAppearance()
-        emitNet("bl_appearance:server:saveAppearances", {
-            id: config.useBridge ? exports.bl_bridge.core && exports.bl_bridge.core().getPlayerData().cid : null,
 
-            skin: {
-                headBlend: appearance.headBlend,
-                headStructure: appearance.headStructure,
-                headOverlay: appearance.headOverlay,
-                hairColor: appearance.hairColor,
-                model: appearance.model,
-            },
-            clothes: {
-                drawables: appearance.drawables,
-                props: appearance.props,
-                headOverlay: appearance.headOverlay,
-            },
-            tattoos: playerAppearance.currentTattoos || [],
-        });
+        triggerServerCallback('bl_appearance:server:saveAppearance', getFrameworkID(), appearance)
+        // emitNet("bl_appearance:server:saveAppearances", {
+        //     id: config.useBridge ? exports.bl_bridge.core && exports.bl_bridge.core().getPlayerData().cid : null,
+
+        //     skin: {
+        //         headBlend: appearance.headBlend,
+        //         headStructure: appearance.headStructure,
+        //         headOverlay: appearance.headOverlay,
+        //         hairColor: appearance.hairColor,
+        //         model: appearance.model,
+        //     },
+        //     clothes: {
+        //         drawables: appearance.drawables,
+        //         props: appearance.props,
+        //         headOverlay: appearance.headOverlay,
+        //     },
+        //     tattoos: playerAppearance.currentTattoos || [],
+        // });
     }
 
     stopCamera()
