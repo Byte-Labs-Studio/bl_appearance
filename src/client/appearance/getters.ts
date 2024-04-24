@@ -3,6 +3,7 @@ import HEAD_OVERLAYS from "@data/head"
 import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
 import PROP_NAMES from "@data/props"
+import { ped} from '@utils';
 
 export function findModelIndex (target: number) {
     const config = exports.bl_appearance
@@ -11,18 +12,15 @@ export function findModelIndex (target: number) {
     return models.findIndex((model) => GetHashKey(model)  === target)
 }
 
-export function getHair (ped: number): THairData {
-    ped = ped || PlayerPedId()
+export function getHair (pedHandle: number): THairData {
     return {
-        color: GetPedHairColor(ped),
-        highlight: GetPedHairHighlightColor(ped)
+        color: GetPedHairColor(pedHandle),
+        highlight: GetPedHairHighlightColor(pedHandle)
     }
 }
 
-export function getHeadBlendData(ped: number) {
-    ped = ped || PlayerPedId()
-
-    const headblendData = exports.bl_appearance.GetHeadBlendData(ped)
+export function getHeadBlendData(pedHandle: number) {
+    const headblendData = exports.bl_appearance.GetHeadBlendData(pedHandle)
 
     return {
         shapeFirst: headblendData.FirstFaceShape,   // father
@@ -42,9 +40,7 @@ export function getHeadBlendData(ped: number) {
     };
 }
 
-export function getHeadOverlay(ped: number) {
-    ped = ped || PlayerPedId()
-
+export function getHeadOverlay(pedHandle: number) {
     let totals: THeadOverlayTotal = {};
     let headData: THeadOverlay = {};
 
@@ -56,10 +52,10 @@ export function getHeadOverlay(ped: number) {
             headData[overlay] = {
                 id: overlay,
                 index: i,
-                overlayValue: GetPedEyeColor(ped)
+                overlayValue: GetPedEyeColor(pedHandle)
             };
         } else {
-            const [_, overlayValue, colourType, firstColor, secondColor, overlayOpacity] = GetPedHeadOverlayData(ped, i);
+            const [_, overlayValue, colourType, firstColor, secondColor, overlayOpacity] = GetPedHeadOverlayData(pedHandle, i);
             headData[overlay] = {
                 id: overlay,
                 index: i - 1,
@@ -75,10 +71,8 @@ export function getHeadOverlay(ped: number) {
     return [headData, totals];
 }
 
-export function getHeadStructure(ped: number) {
-    ped = ped || PlayerPedId()
-
-    const pedModel = GetEntityModel(ped)
+export function getHeadStructure(pedHandle: number) {
+    const pedModel = GetEntityModel(pedHandle)
 
     if (pedModel !== GetHashKey("mp_m_freemode_01") && pedModel !== GetHashKey("mp_f_freemode_01")) return
 
@@ -88,62 +82,58 @@ export function getHeadStructure(ped: number) {
         faceStruct[overlay] = {
             id: overlay,
             index: i,
-            value: GetPedFaceFeature(ped, i)
+            value: GetPedFaceFeature(pedHandle, i)
         }
     }
 
     return faceStruct
 }
 
-export function getDrawables(ped: number) {
-    ped = ped || PlayerPedId()
-
+export function getDrawables(pedHandle: number) {
     let drawables = {}
     let totalDrawables = {}
 
     for (let i = 0; i < DRAWABLE_NAMES.length; i++) {
         const name = DRAWABLE_NAMES[i]
-        const current = GetPedDrawableVariation(ped, i)
+        const current = GetPedDrawableVariation(pedHandle, i)
 
         totalDrawables[name] = {
             id: name,
             index: i,
-            total: GetNumberOfPedDrawableVariations(ped, i),
-            textures: GetNumberOfPedTextureVariations(ped, i, current)
+            total: GetNumberOfPedDrawableVariations(pedHandle, i),
+            textures: GetNumberOfPedTextureVariations(pedHandle, i, current)
         }
         drawables[name] = {
             id: name,
             index: i,
-            value: GetPedDrawableVariation(ped, i),
-            texture: GetPedTextureVariation(ped, i)
+            value: GetPedDrawableVariation(pedHandle, i),
+            texture: GetPedTextureVariation(pedHandle, i)
         }
     }
 
     return [drawables, totalDrawables]
 }
 
-export function getProps(ped: number) {
-    ped = ped || PlayerPedId()
-
+export function getProps(pedHandle: number) {
     let props = {}
     let totalProps = {}
 
     for (let i = 0; i < PROP_NAMES.length; i++) {
         const name = PROP_NAMES[i]
-        const current = GetPedPropIndex(ped, i)
+        const current = GetPedPropIndex(pedHandle, i)
 
         totalProps[name] = {
             id: name,
             index: i,
-            total: GetNumberOfPedPropDrawableVariations(ped, i),
-            textures: GetNumberOfPedPropTextureVariations(ped, i, current)
+            total: GetNumberOfPedPropDrawableVariations(pedHandle, i),
+            textures: GetNumberOfPedPropTextureVariations(pedHandle, i, current)
         }
 
         props[name] = {
             id: name,
             index: i,
-            value: GetPedPropIndex(ped, i),
-            texture: GetPedPropTextureIndex(ped, i)
+            value: GetPedPropIndex(pedHandle, i),
+            texture: GetPedPropTextureIndex(pedHandle, i)
         }
     }
 
@@ -151,21 +141,20 @@ export function getProps(ped: number) {
 }
 
 
-export async function getAppearance(ped: number): Promise<TAppearance> {
-    ped = ped || PlayerPedId()
-    const [headData, totals] = getHeadOverlay(ped)
-    const [drawables, drawTotal] = getDrawables(ped)
-    const [props, propTotal] = getProps(ped)
-    const model = GetEntityModel(ped)
+export async function getAppearance(pedHandle: number): Promise<TAppearance> {
+    const [headData, totals] = getHeadOverlay(pedHandle)
+    const [drawables, drawTotal] = getDrawables(pedHandle)
+    const [props, propTotal] = getProps(pedHandle)
+    const model = GetEntityModel(pedHandle)
 
     return {
         modelIndex: findModelIndex(model),
         model: model,
-        hairColor: getHair(ped),
-        headBlend: getHeadBlendData(ped),
+        hairColor: getHair(pedHandle),
+        headBlend: getHeadBlendData(pedHandle),
         headOverlay: headData as THeadOverlay,
         headOverlayTotal: totals as THeadOverlayTotal,
-        headStructure: getHeadStructure(ped),
+        headStructure: getHeadStructure(pedHandle),
         drawables: drawables,
         props: props,
         drawTotal: drawTotal,
@@ -175,12 +164,10 @@ export async function getAppearance(ped: number): Promise<TAppearance> {
 }
 exports("GetAppearance", getAppearance)
 
-export function getPedClothes(ped: number) {
-    ped = ped || PlayerPedId()
-
-    const [drawables, drawTotal] = getDrawables(ped)
-    const [props, propTotal] = getProps(ped)
-    const [headData, totals] = getHeadOverlay(ped)
+export function getPedClothes(pedHandle: number) {
+    const [drawables] = getDrawables(pedHandle)
+    const [props] = getProps(pedHandle)
+    const [headData] = getHeadOverlay(pedHandle)
 
     return {
         headOverlay: headData,
@@ -190,14 +177,12 @@ export function getPedClothes(ped: number) {
 }
 exports("GetPedClothes", getPedClothes)
 
-export function getPedSkin(ped: number) {
-    ped = ped || PlayerPedId()
-
+export function getPedSkin(pedHandle: number) {
     return {
-        headBlend: getHeadBlendData(ped),
-        headStructure: getHeadStructure(ped),
-        hairColor: getHair(ped),
-        model : GetEntityModel(ped)
+        headBlend: getHeadBlendData(pedHandle),
+        headStructure: getHeadStructure(pedHandle),
+        hairColor: getHair(pedHandle),
+        model : GetEntityModel(pedHandle)
     }
 }
 exports("GetPedSkin", getPedSkin)
@@ -228,7 +213,7 @@ export function getTattooData() {
         }
     }
 
-    const isFemale = GetEntityModel(PlayerPedId()) === GetHashKey("mp_f_freemode_01")
+    const isFemale = GetEntityModel(ped) === GetHashKey("mp_f_freemode_01")
 
     for (let i = 0; i < TATTOO_LIST.length; i++) {
         const data = TATTOO_LIST[i]

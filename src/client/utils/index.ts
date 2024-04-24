@@ -1,3 +1,9 @@
+export let ped = 0
+
+export const updatePed = (pedHandle: number) => {
+    ped = pedHandle
+}
+
 export const debugdata = (data: any) => {
     console.log(JSON.stringify(data, (key, value) => {
         if (typeof value === "string") {
@@ -126,6 +132,5 @@ export const locale = async (id: string, ...args: string[]) => {
 export const getFrameworkID = () => {
     const bl_bridge = exports.bl_bridge
     const id = bl_bridge.core().getPlayerData().cid
-    console.log('frameworkdId', id)
     return id
 }

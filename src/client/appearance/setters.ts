@@ -1,55 +1,39 @@
-import { DrawableData, TValue } from "@typings/appearance";
+import { TValue } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
-import { copyFileSync } from "fs";
-import { requestModel} from '@utils';
+import { requestModel, ped, updatePed, delay} from '@utils';
 
-
-export function setDrawable(ped: number, data: TValue) {
-    ped = ped || PlayerPedId()
-
-    SetPedComponentVariation(ped, data.index, data.value, data.texture, 0)
+export function setDrawable(pedHandle: number, data: TValue) {
+    SetPedComponentVariation(pedHandle, data.index, data.value, data.texture, 0)
 }
 
-export function setProp(ped: number, data: TValue) {
-    ped = ped || PlayerPedId()
-
+export function setProp(pedHandle: number, data: TValue) {
     if (data.value === -1) {
-        ClearPedProp(ped, data.index)
+        ClearPedProp(pedHandle, data.index)
         return
     }
 
-    SetPedPropIndex(ped, data.index, data.value, data.texture, false)
+    SetPedPropIndex(pedHandle, data.index, data.value, data.texture, false)
 }
 
+export const setModel = async (model: number) => {
+    const modelHash = await requestModel(model)
+    SetPlayerModel(PlayerId(), modelHash)
+    SetModelAsNoLongerNeeded(modelHash)
+    const pedHandle = PlayerPedId()
+    updatePed(pedHandle)
+    SetPedDefaultComponentVariation(pedHandle)
 
-export const setModel = async (ped: number, data) => {
-    ped = ped || PlayerPedId()
-    const isJustModel = typeof data === 'number'
-    const model = isJustModel ? data : data.model
-    const isPlayer = IsPedAPlayer(ped)
-
-    if (isPlayer) {
-        const modelHash = await requestModel(model)
-        SetPlayerModel(PlayerId(), modelHash)
-        SetModelAsNoLongerNeeded(modelHash)
-        ped = PlayerPedId()
-    }
-    SetPedDefaultComponentVariation(ped)
-
-    if (!isJustModel && data.headBlend && Object.keys(data.headBlend).length) setHeadBlend(ped, data.headBlend)
-    return ped
+    if (modelHash === GetHashKey("mp_m_freemode_01")) SetPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, false)
+    else if (modelHash === GetHashKey("mp_f_freemode_01")) SetPedHeadBlendData(ped, 45, 21, 0, 20, 15, 0, 0.3, 0.1, 0, false)
 }
 
-export function SetFaceFeature(ped: number, data: TValue) {
-    ped = ped || PlayerPedId()
-    SetPedFaceFeature(ped, data.index, data.value + 0.0)
+export function SetFaceFeature(pedHandle: number, data: TValue) {
+    SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
 }
 
 const isPositive = (val: number) => val >= 0 ? val : 0
 
-export function setHeadBlend(ped: number, data) {
-    ped = ped || PlayerPedId()
-
+export function setHeadBlend(pedHandle: number, data) {
     const shapeFirst = isPositive(data.shapeFirst)
     const shapeSecond = isPositive(data.shapeSecond)
     const shapeThird = isPositive(data.shapeThird)
@@ -61,23 +45,22 @@ export function setHeadBlend(ped: number, data) {
     const thirdMix = data.thirdMix + 0.0
     const hasParent = data.hasParent
 
-    SetPedHeadBlendData(ped, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix,
+    SetPedHeadBlendData(pedHandle, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix,
         thirdMix, hasParent)
 }
 
-export function setHeadOverlay(ped: number, data) {
-    ped = ped || PlayerPedId()
+export function setHeadOverlay(pedHandle: number, data) {
     const index = data.index
 
     if (index === 13) {
-        SetPedEyeColor(ped, data.value)
+        SetPedEyeColor(pedHandle, data.value)
         return
     }
 
     const value = data.overlayValue === -1 ? 255 : data.overlayValue
 
-    SetPedHeadOverlay(ped, index, value, data.overlayOpacity + 0.0)
-    SetPedHeadOverlayColor(ped, index, 1, data.firstColor, data.secondColor)
+    SetPedHeadOverlay(pedHandle, index, value, data.overlayOpacity + 0.0)
+    SetPedHeadOverlayColor(pedHandle, index, 1, data.firstColor, data.secondColor)
 }
 
 // function ResetToggles(data)
@@ -105,7 +88,6 @@ export function setHeadOverlay(ped: number, data) {
 // end
 
 export function resetToggles(data) {
-    const ped = PlayerPedId()
     const drawables = data.drawables
     const props = data.props
 
@@ -127,84 +109,70 @@ export function resetToggles(data) {
     }
 }
 
-export function setPedClothes(ped: number, data) {
-    ped = ped || PlayerPedId()
-
+export function setPedClothes(pedHandle: number, data) {
     const drawables = data.drawables
     const props = data.props
     const headOverlay = data.headOverlay
-    console.log('drawables', drawables)
     for (const id in drawables) {
         const drawable = drawables[id]
-        setDrawable(ped, drawable)
+        setDrawable(pedHandle, drawable)
     }
 
     for (const id in props) {
         const prop = props[id]
-        setProp(ped, prop)
+        setProp(pedHandle, prop)
     }
 
     for (const id in headOverlay) {
         const overlay = headOverlay[id]
-        setHeadOverlay(ped, overlay)
+        setHeadOverlay(pedHandle, overlay)
     }
 }
 
-export const setPedSkin = async (ped: number, data) => {
-    ped = ped || PlayerPedId()
+export const setPedSkin = async (data) => {
     const headStructure = data.headStructure
     const headBlend = data.headBlend
 
-    ped = await setModel(ped, data)
-    if (headBlend) {
-        setHeadBlend(ped, headBlend)
-    }
-    if (headStructure) {
-        for (const feature of headStructure) {
-            SetFaceFeature(ped, feature)
-        }
+    await setModel(data.model)
+
+    if (headBlend) setHeadBlend(ped, headBlend)
+    
+    if (headStructure) for (const feature of headStructure) {
+        SetFaceFeature(ped, feature)
     }
 }
 
-export function setPedTattoos(ped: number, data) {
+export function setPedTattoos(pedHandle: number, data) {
     if (!data) return
-    ped = ped || PlayerPedId()
 
-    const isPlayer = IsPedAPlayer(ped)
-    if (isPlayer) {
-        ped = PlayerPedId()
-    }
-
-    ClearPedDecorationsLeaveScars(ped)
+    ClearPedDecorationsLeaveScars(pedHandle)
 
     for (let i = 0; i < data.length; i++) {
         const tattooData = data[i].tattoo
         if (tattooData) {
             const collection = GetHashKey(tattooData.dlc)
             const tattoo = tattooData.hash
-            AddPedDecorationFromHashes(ped, collection, tattoo)
+            AddPedDecorationFromHashes(pedHandle, collection, tattoo)
         }
     }
 }
 
-export function setPedHairColors(ped: number, data) {
-    ped = ped || PlayerPedId()
-
+export function setPedHairColors(pedHandle: number, data) {
     const color = data.color
     const highlight = data.highlight
-    SetPedHairColor(ped, color, highlight)
+    SetPedHairColor(pedHandle, color, highlight)
 }
 
-export function setPedAppearance(ped: number, data) {
-    setPedSkin(ped, data)
+export async function setPedAppearance(pedHandle: number, data) {
+    await setPedSkin(data)
+    setPedClothes(pedHandle, data)
+    setPedHairColors(pedHandle, data.hairColor)
+    setPedTattoos(pedHandle, data.tattoos)
+}
+
+export async function setPlayerPedAppearance(data) {
+    await setPedSkin(data)
     setPedClothes(ped, data)
     setPedHairColors(ped, data.hairColor)
     setPedTattoos(ped, data.tattoos)
-}
-
-export function setPlayerPedAppearance(data) {
-    setPedSkin(PlayerPedId(), data)
-    setPedClothes(PlayerPedId(), data)
-    setPedHairColors(PlayerPedId(), data.hairColor)
-    setPedTattoos(PlayerPedId(), data.tattoos)
 }

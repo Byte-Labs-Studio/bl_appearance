@@ -134,8 +134,6 @@ const TATTOOS_INIT = () => {
                 if (!success) return;
                 APPEARANCE.update(state => {
                     state.tattoos = tattoos;
-
-                    console.log('newTattoos', tattoos, state)
                     return state
                 })
             })

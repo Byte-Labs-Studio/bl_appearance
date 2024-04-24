@@ -1,5 +1,5 @@
-import { appearance, outfits } from '@enums';
-import { debugdata, requestModel, delay, triggerServerCallback, getFrameworkID} from '../../utils';
+import { appearance } from '@enums';
+import { requestModel, delay} from '../../utils';
 import { HeadOverlayData, HeadStructureData, DrawableData} from '@dataTypes/appearance';
 import { TTattoo} from '@dataTypes/tattoos';
 import getAppearance from '.'

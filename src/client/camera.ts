@@ -1,5 +1,5 @@
 import { Camera, Vector3, CameraBones } from '@typings/camera';
-import { delay } from '@utils';
+import { delay, ped } from '@utils';
 import { Receive } from '@events';
 
 let running: boolean = false;
@@ -12,7 +12,6 @@ let oldCam: Camera | null = null;
 let changingCam: boolean = false;
 let lastX: number = 0;
 let currentBone: keyof CameraBones = 'head';
-let ped: number
 
 const CameraBones: CameraBones = {
 	head: 31086,
@@ -62,7 +61,6 @@ const setCamPosition = (mouseX?: number, mouseY?: number): void => {
 };
 
 const moveCamera = async (coords: Vector3, distance?: number) => {
-    ped = PlayerPedId()
 	const heading: number = GetEntityHeading(ped) + 94;
 	distance = distance ?? 1.0;
 
@@ -112,7 +110,6 @@ const useHiDof = (currentcam: Camera) => {
 
 export const startCamera = () => {
 	if (running) return;
-    ped = PlayerPedId()
 	running = true;
 	camDistance = 1.0;
 	cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
@@ -136,7 +133,6 @@ const setCamera = (type?: keyof CameraBones): void => {
 	const bone: number | undefined = CameraBones[type];
 	if (currentBone == type) return;
 
-	ped = PlayerPedId();
 	const [x, y, z]: number[] = bone
 		? GetPedBoneCoords(ped, bone, 0.0, 0.0, bone === 14201 ? 0.2 : 0.0)
 		: GetEntityCoords(ped, false);
@@ -155,7 +151,6 @@ const setCamera = (type?: keyof CameraBones): void => {
 
 RegisterNuiCallback(Receive.camMove, (data, cb) => {
 	cb(1);
-    ped = PlayerPedId()
 	let heading: number = GetEntityHeading(ped);
 	if (lastX == data.x) {
 		return;

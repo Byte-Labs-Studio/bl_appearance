@@ -27,11 +27,7 @@ const AlwaysListened: DebugEventCallback[] = [
         handler: (data: TMenuData) => {
             let tabs = [];
 
-            console.log('data', data);
-
-            if (data.locale) {
-                LOCALE.set(JSON.parse(data.locale))
-            }
+            if (data.locale) LOCALE.set(JSON.parse(data.locale))
 
             if (data.tabs) {
                 if (!Array.isArray(data.tabs)) {
@@ -55,21 +51,10 @@ const AlwaysListened: DebugEventCallback[] = [
                 BLACKLIST.set(data.blacklist);
             }
 
-            if (data.tattoos) {
-                TATTOOS.set(data.tattoos);
-            }
-
-            if (data.models) {
-                MODELS.set(data.models);
-            }
-
-            if (data.outfits) {
-                OUTFITS.set(data.outfits);
-            }
-
-            if (data.allowExit !== undefined) {
-                ALLOW_EXIT.set(data.allowExit);
-            }
+            if (data.tattoos) TATTOOS.set(data.tattoos);
+            if (data.models) MODELS.set(data.models);
+            if (data.outfits) OUTFITS.set(data.outfits);
+            if (data.allowExit !== undefined) ALLOW_EXIT.set(data.allowExit);
         },
     },
 ];

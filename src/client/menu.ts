@@ -1,4 +1,4 @@
-import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback } from "@utils"
+import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, delay, ped } from "@utils"
 import { startCamera, stopCamera } from "./camera"
 import type { TMenuTypes } from "@typings/appearance"
 import { Outfit } from "@typings/outfits"
@@ -9,36 +9,26 @@ import "./handlers"
 const config = exports.bl_appearance
 let armour = 0
 
-
 export async function openMenu(type: TMenuTypes, creation: boolean = false) {
-    const ped = PlayerPedId()
-
+    const pedHandle = PlayerPedId()
     const configMenus = config.menus()
 
     const menu = configMenus[type]
-
-    console.log(configMenus, menu)
-
     if (!menu) return
 
+    updatePed(pedHandle)
     startCamera()
 
     const frameworkdId = getFrameworkID()
-
     const tabs = menu.tabs
-
     let allowExit = menu.allowExit
 
-    armour = GetPedArmour(ped)
-
-    console.log("armour", armour)
+    armour = GetPedArmour(pedHandle)
 
     let outfits = []
 
     const hasOutfitTab = tabs.includes('outfits')
-    if (hasOutfitTab) {
-        outfits = await triggerServerCallback<Outfit[]>('bl_appearance:server:getOutfits', frameworkdId) as Outfit[] 
-    }
+    if (hasOutfitTab) outfits = await triggerServerCallback<Outfit[]>('bl_appearance:server:getOutfits', frameworkdId) as Outfit[]
 
     let models = []
 
@@ -55,15 +45,13 @@ export async function openMenu(type: TMenuTypes, creation: boolean = false) {
 
     const blacklist = getBlacklist(type)
 
-    const appearance = await getAppearance(ped)
-
-    console.log("appearance")
+    const appearance = await getAppearance(pedHandle)
 
     if (creation) {
         allowExit = false
     }
 
-    sendNUIEvent( Send.data, {
+    sendNUIEvent(Send.data, {
         tabs,
         appearance,
         blacklist,
@@ -73,7 +61,6 @@ export async function openMenu(type: TMenuTypes, creation: boolean = false) {
         allowExit,
         locale: await requestLocale('locale')
     })
-    console.log('openMenu', type)
     SetNuiFocus(true, true)
     sendNUIEvent(Send.visible, true)
 }
@@ -85,8 +72,6 @@ function getBlacklist(type: TMenuTypes) {
 }
 
 export function closeMenu() {
-    const ped = PlayerPedId()
-
     SetPedArmour(ped, armour)
 
     stopCamera()

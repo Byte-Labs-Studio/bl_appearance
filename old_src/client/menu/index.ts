@@ -38,7 +38,6 @@ const getBlacklist = () => {
 export const openMenu = async (type: string[] | string) => {
     isMenuOpen = true
     updatePed()
-    await delay(150)
     startCamera()
 
     const isArray = typeof type !== 'string'

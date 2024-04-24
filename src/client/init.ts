@@ -1,7 +1,7 @@
 import { TAppearance, TMenuTypes } from "@typings/appearance"
 import { openMenu } from "./menu"
 import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
-import { delay, triggerServerCallback } from "@utils"
+import { delay, triggerServerCallback, ped } from "@utils"
 import { getAppearance } from "./appearance/getters"
 
 let isInSprite: TMenuTypes | null = null
@@ -14,28 +14,13 @@ RegisterCommand('openMenu', () => {
   }, false)
 
 
-exports('SetPedAppearance', (ped: number, appearance: TAppearance) => {
-    setPedAppearance(ped, appearance)
+exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
+    await setPedAppearance(ped, appearance)
 })
 
 exports('SetPlayerPedAppearance', async (frameworkID) => {
-    let appearance
-    if  (config.backwardsCompatibility) {
-        const oldAppearance = await triggerServerCallback<TAppearance>('bl_appearance:server:PreviousGetAppearance', frameworkID)
-
-        if (config.previousClothing == 'illenium') {
-            exports['illenium-appearance'].setPedAppearance(PlayerPedId(), oldAppearance)
-        } else if (config.previousClothing == 'qb') {
-            emit('qb-clothing:client:loadPlayerClothing', oldAppearance, PlayerPedId())
-        }
-
-        await delay(100)
-
-        appearance = getAppearance(PlayerPedId())
-    }
-
-    appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
-    setPlayerPedAppearance(appearance)
+    const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+    await setPlayerPedAppearance(appearance)
 })
 
 exports('GetPlayerPedAppearance', async (frameworkID) => {
@@ -44,7 +29,6 @@ exports('GetPlayerPedAppearance', async (frameworkID) => {
 
 const zones = exports.bl_appearance.zones()
 const bl_sprites = exports.bl_sprites
-
 
 RegisterCommand('+openAppearance', () => {
     if (!isInSprite) return
