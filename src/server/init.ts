@@ -1,6 +1,7 @@
 import { onClientCallback } from './utils';
 import { oxmysql } from '@overextended/oxmysql';
 import { Outfit } from '@typings/outfits';
+import { saveAppearance } from './appearance';
 
 onClientCallback('bl_appearance:server:getOutfits', async (src, frameworkId) => {
 	let response = await oxmysql.prepare(
@@ -69,9 +70,7 @@ onClientCallback('bl_appearance:server:saveSkin', async (src, frameworkId, skin)
 	return result;
 });
 
-onClientCallback(
-	'bl_appearance:server:saveClothes',
-	async (src, frameworkId, clothes) => {
+onClientCallback('bl_appearance:server:saveClothes', async (src, frameworkId, clothes) => {
 		const result = await oxmysql.update(
 			'UPDATE appearance SET clothes = ? WHERE id = ?',
 			[JSON.stringify(clothes), frameworkId]
@@ -80,34 +79,7 @@ onClientCallback(
 	}
 );
 
-onClientCallback('bl_appearance:server:saveAppearance', async (src, frameworkId, appearance) => {
-	const clothes = {
-		drawables: appearance.drawables,
-		props: appearance.props,
-		headOverlay: appearance.headOverlay,
-	};
-
-	const skin = {
-		headBlend: appearance.headBlend,
-		headStructure: appearance.headStructure,
-		hairColor: appearance.hairColor,
-		model: appearance.model,
-	};
-
-	const tattoos = appearance.tattoos || [];
-
-	const result = await oxmysql.prepare(
-		'INSERT INTO appearance (id, clothes, skin, tattoos) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE clothes = VALUES(clothes), skin = VALUES(skin), tattoos = VALUES(tattoos);',
-		[
-			frameworkId,
-			JSON.stringify(clothes),
-			JSON.stringify(skin),
-			JSON.stringify(tattoos),
-		]
-	);
-
-	return result;
-});
+onClientCallback('bl_appearance:server:saveAppearance', saveAppearance);
 
 onClientCallback('bl_appearance:server:saveTattoos', async (src, frameworkId, tattoos) => {
 	const result = await oxmysql.update(
@@ -149,9 +121,28 @@ onClientCallback('bl_appearance:server:getAppearance', async (src, frameworkId) 
 	return JSON.parse(response);
 });
 
-RegisterCommand('migrate', () => {
-	console.log(1)
+RegisterCommand('migrate', async (source: number) => {
+	source = source !== 0 ? source : parseInt(getPlayers()[0])
 	const bl_appearance = exports.bl_appearance;
 	const config = bl_appearance.config();
-	import(`./migrate/${config.previousClothing === 'fivem-appearance' ? 'fivem' : config.previousClothing}`)
-}, true)
+	const importedModule = await import(`./migrate/${config.previousClothing === 'fivem-appearance' ? 'fivem' : config.previousClothing}.ts`)
+	importedModule.default(source)
+}, false)
+
+oxmysql.ready(() => {
+	oxmysql.query(`CREATE TABLE IF NOT EXISTS appearance (
+		id varchar(100) NOT NULL,
+		skin longtext DEFAULT NULL,
+		clothes longtext DEFAULT NULL,
+		tattoos  longtext DEFAULT NULL,
+		PRIMARY KEY (id)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	
+	oxmysql.query(`CREATE TABLE IF NOT EXISTS outfits (
+		id int NOT NULL AUTO_INCREMENT,
+		player_id varchar(100) NOT NULL,
+		label varchar(100) NOT NULL,
+		outfit longtext DEFAULT NULL,
+		PRIMARY KEY (id)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+})

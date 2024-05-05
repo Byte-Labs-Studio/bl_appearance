@@ -100,6 +100,20 @@ export function triggerServerCallback<T = unknown>(
     });
 };
 
+export function onServerCallback(eventName, cb) {
+    onNet(`__ox_cb_${eventName}`, async (resource, key, ...args) => {
+        let response;
+        try {
+            response = await cb(...args);
+        }
+        catch (e) {
+            console.error(`an error occurred while handling callback event ${eventName}`);
+            console.log(`^3${e.stack}^0`);
+        }
+        emitNet(`__ox_cb_${resource}`, key, response);
+    });
+}
+
 //locale
 
 export const requestLocale = (resourceSetName: string) => {

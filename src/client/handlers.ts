@@ -30,19 +30,14 @@ RegisterNuiCallback(Receive.save, async (appearance: TAppearance, cb: Function) 
 	await delay(100);
 
 	const newAppearance = await getAppearance(ped);
-
 	newAppearance.tattoos = appearance.tattoos;
-
-	const frameworkdId = getFrameworkID();
-
-	triggerServerCallback('bl_appearance:server:saveAppearance',frameworkdId,newAppearance);
+	triggerServerCallback('bl_appearance:server:saveAppearance', getFrameworkID(), newAppearance);
 
 	setPedTattoos(ped, newAppearance.tattoos);
 
 	closeMenu();
 	cb(1);
-}
-);
+});
 
 RegisterNuiCallback(Receive.setModel, async (model: string, cb: Function) => {
 	const hash = GetHashKey(model);
@@ -98,46 +93,46 @@ RegisterNuiCallback(Receive.setDrawable, async (data: TValue, cb: Function) => {
 });
 
 RegisterNuiCallback(Receive.toggleItem, async (data: TToggleData, cb: Function) => {
-		const item = TOGGLE_INDEXES[data.item];
-		if (!item) return cb(false);
+	const item = TOGGLE_INDEXES[data.item];
+	if (!item) return cb(false);
 
-		const current = data.data;
-		const type = item.type;
-		const index = item.index;
+	const current = data.data;
+	const type = item.type;
+	const index = item.index;
 
-		if (!current) return cb(false);
+	if (!current) return cb(false);
 
-		if (type === 'prop') {
-			const currentProp = GetPedPropIndex(ped, index);
+	if (type === 'prop') {
+		const currentProp = GetPedPropIndex(ped, index);
 
-			if (currentProp === -1) {
-				setProp(ped, current);
-				cb(false);
-				return;
-			} else {
-				ClearPedProp(ped, index);
-				cb(true);
-				return;
-			}
-		} else if (type === 'drawable') {
-			const currentDrawable = GetPedDrawableVariation(ped, index);
+		if (currentProp === -1) {
+			setProp(ped, current);
+			cb(false);
+			return;
+		} else {
+			ClearPedProp(ped, index);
+			cb(true);
+			return;
+		}
+	} else if (type === 'drawable') {
+		const currentDrawable = GetPedDrawableVariation(ped, index);
 
-			if (current.value === item.off) {
-				cb(false);
-				return;
-			}
+		if (current.value === item.off) {
+			cb(false);
+			return;
+		}
 
-			if (current.value === currentDrawable) {
-				SetPedComponentVariation(ped, index, item.off, 0, 0);
-				cb(true);
-				return;
-			} else {
-				setDrawable(ped, current);
-				cb(false);
-				return;
-			}
+		if (current.value === currentDrawable) {
+			SetPedComponentVariation(ped, index, item.off, 0, 0);
+			cb(true);
+			return;
+		} else {
+			setDrawable(ped, current);
+			cb(false);
+			return;
 		}
 	}
+}
 );
 
 RegisterNuiCallback(Receive.saveOutfit, async (data: any, cb: Function) => {

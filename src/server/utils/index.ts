@@ -1,5 +1,24 @@
 //https://github.com/overextended/ox_lib/blob/master/package/server/resource/callback/index.ts
 
+const resourceName = GetCurrentResourceName()
+
+const activeEvents = {};
+onNet(`__ox_cb_${resourceName}`, (key, ...args) => {
+    const resolve = activeEvents[key];
+    return resolve && resolve(...args);
+});
+
+export function triggerClientCallback(eventName: string, playerId: string, ...args: any[]) {
+    let key: string;
+    do {
+        key = `${eventName}:${Math.floor(Math.random() * (100000 + 1))}:${playerId}`;
+    } while (activeEvents[key]);
+    emitNet(`__ox_cb_${eventName}`, playerId, resourceName, key, ...args);
+    return new Promise((resolve) => {
+        activeEvents[key] = resolve;
+    });
+}
+
 export function onClientCallback(eventName: string, cb: (playerId: number, ...args: any[]) => any) {
     onNet(`__ox_cb_${eventName}`, async (resource: string, key: string, ...args: any[]) => {
         const src = source;

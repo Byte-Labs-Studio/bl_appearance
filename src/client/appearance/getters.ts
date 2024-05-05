@@ -3,16 +3,16 @@ import HEAD_OVERLAYS from "@data/head"
 import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
 import PROP_NAMES from "@data/props"
-import { ped} from '@utils';
+import { ped, onServerCallback } from '@utils';
 
-export function findModelIndex (target: number) {
+export function findModelIndex(target: number) {
     const config = exports.bl_appearance
     const models = config.models()
-    
-    return models.findIndex((model) => GetHashKey(model)  === target)
+
+    return models.findIndex((model: string) => GetHashKey(model) === target)
 }
 
-export function getHair (pedHandle: number): THairData {
+export function getHair(pedHandle: number): THairData {
     return {
         color: GetPedHairColor(pedHandle),
         highlight: GetPedHairHighlightColor(pedHandle)
@@ -20,23 +20,37 @@ export function getHair (pedHandle: number): THairData {
 }
 
 export function getHeadBlendData(pedHandle: number) {
-    const headblendData = exports.bl_appearance.GetHeadBlendData(pedHandle)
+    // https://github.com/pedr0fontoura/fivem-appearance/blob/main/game/src/client/index.ts#L67
+    const buffer = new ArrayBuffer(80);
+    global.Citizen.invokeNative('0x2746bd9d88c5c5d0', pedHandle, new Uint32Array(buffer));
 
+    const { 0: shapeFirst, 2: shapeSecond, 4: shapeThird, 6: skinFirst, 8: skinSecond, 18: hasParent, 10: skinThird } = new Uint32Array(buffer);
+    const { 0: shapeMix, 2: skinMix, 4: thirdMix } = new Float32Array(buffer, 48);
+
+    /*   
+        0: shapeFirst,
+        2: shapeSecond,
+        4: shapeThird,
+        6: skinFirst,
+        8: skinSecond,
+        10: skinThird,
+        18: hasParent,
+    */
     return {
-        shapeFirst: headblendData.FirstFaceShape,   // father
-        shapeSecond: headblendData.SecondFaceShape, // mother
-        shapeThird: headblendData.ThirdFaceShape,
+        shapeFirst,   // father
+        shapeSecond, // mother
+        shapeThird,
 
-        skinFirst: headblendData.FirstSkinTone,
-        skinSecond: headblendData.SecondSkinTone,
-        skinThird: headblendData.ThirdSkinTone,
+        skinFirst,
+        skinSecond,
+        skinThird,
 
-        shapeMix: headblendData.ParentFaceShapePercent, // resemblance
+        shapeMix, // resemblance
 
-        thirdMix: headblendData.ParentThirdUnkPercent,
-        skinMix: headblendData.ParentSkinTonePercent,   // skinpercent
+        thirdMix,
+        skinMix,   // skinpercent
 
-        hasParent: headblendData.IsParentInheritance,
+        hasParent: Boolean(hasParent),
     };
 }
 
@@ -163,6 +177,9 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
     }
 }
 exports("GetAppearance", getAppearance)
+onServerCallback('bl_appearance:client:getAppearance', () => {
+    return getAppearance(ped)
+});
 
 export function getPedClothes(pedHandle: number) {
     const [drawables] = getDrawables(pedHandle)
@@ -182,7 +199,7 @@ export function getPedSkin(pedHandle: number) {
         headBlend: getHeadBlendData(pedHandle),
         headStructure: getHeadStructure(pedHandle),
         hairColor: getHair(pedHandle),
-        model : GetEntityModel(pedHandle)
+        model: GetEntityModel(pedHandle)
     }
 }
 exports("GetPedSkin", getPedSkin)
@@ -220,7 +237,7 @@ export function getTattooData() {
         const { dlc, tattoos } = data
         const dlcHash = GetHashKey(dlc)
         for (let j = 0; j < tattoos.length; j++) {
-            const tattooData = tattoos[j] 
+            const tattooData = tattoos[j]
             let tattoo = null
 
             const lowerTattoo = tattooData.toLowerCase()
@@ -254,3 +271,10 @@ export function getTattooData() {
 
     return tattooZones
 }
+
+//migration
+
+onServerCallback('bl_appearance:client:migration:setAppearance', (data: {type: string, data: any}) => {
+    if (data.type === 'fivem') exports['fivem-appearance'].setPlayerAppearance(data.data)
+    if (data.type === 'illenium') exports['illenium-appearance'].setPlayerAppearance(data.data)
+});

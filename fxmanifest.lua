@@ -15,10 +15,7 @@ shared_script {
     'data/*',
     'dist/shared/**/*.js',
 }
-client_scripts {
-    'wrapper/HeadBlendData.net.dll',
-    'dist/client/**/*.js'
-}
+client_script 'dist/client/**/*.js'
 
 files {
     'build/**',

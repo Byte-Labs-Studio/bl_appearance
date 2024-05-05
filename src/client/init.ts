@@ -35,7 +35,6 @@ RegisterCommand('+openAppearance', () => {
     openMenu(isInSprite)
 }, false)
 
-
 RegisterKeyMapping('+openAppearance', 'Open Appearance', 'keyboard', config.openControl)
 
 for (const element of zones) {
