@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "types": ["@citizenfx/server", "@types/node"],
-    "paths": {
-      "@dataTypes/*": ["./../types/*"],
-    }
-  }
-}
