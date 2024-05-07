@@ -40,10 +40,12 @@ onClientCallback('bl_appearance:server:renameOutfit', async (src, frameworkId, d
 });
 
 onClientCallback('bl_appearance:server:deleteOutfit', async (src, frameworkId, id) => {
+    console.log('deleteOutfit', frameworkId, id);
 	const result = await oxmysql.update(
 		'DELETE FROM outfits WHERE player_id = ? AND id = ?',
 		[frameworkId, id]
 	);
+    console.log('result', result);
 	return result > 0;
 });
 
