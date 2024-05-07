@@ -39,6 +39,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.hair.value}
             <NumberStepper
                 bind:value={drawables.hair.texture}
                 total={drawTotal.hair.textures}
@@ -47,6 +48,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.hair, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
 
         <svelte:fragment slot="extra_primary-start">{$LOCALE.COLOR_SUBTITLE}</svelte:fragment>

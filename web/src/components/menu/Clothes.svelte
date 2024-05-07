@@ -33,6 +33,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.masks.value}
             <NumberStepper
                 bind:value={drawables.masks.texture}
                 total={drawTotal.masks.textures}
@@ -41,6 +42,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.masks, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -69,6 +71,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.jackets.value}
             <NumberStepper
                 bind:value={drawables.jackets.texture}
                 total={drawTotal.jackets.textures}
@@ -77,6 +80,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.jackets, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -105,6 +109,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.shirts.value}
             <NumberStepper
                 bind:value={drawables.shirts.texture}
                 total={drawTotal.shirts.textures}
@@ -113,7 +118,9 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.shirts, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
+
     </Wrapper>
 {/if}
 
@@ -141,6 +148,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.torsos.value}
             <NumberStepper
                 bind:value={drawables.torsos.texture}
                 total={drawTotal.torsos.textures}
@@ -149,6 +157,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.torsos, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -177,6 +186,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.vest.value}
             <NumberStepper
                 bind:value={drawables.vest.texture}
                 total={drawTotal.vest.textures}
@@ -185,6 +195,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.vest, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -213,6 +224,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.legs.value}
             <NumberStepper
                 bind:value={drawables.legs.texture}
                 total={drawTotal.legs.textures}
@@ -221,6 +233,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.legs, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -249,6 +262,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.shoes.value}
             <NumberStepper
                 bind:value={drawables.shoes.texture}
                 total={drawTotal.shoes.textures}
@@ -257,6 +271,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.shoes, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -285,6 +300,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.bags.value}
             <NumberStepper
                 bind:value={drawables.bags.texture}
                 total={drawTotal.bags.textures}
@@ -293,6 +309,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.bags, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -321,6 +338,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.neck.value}
             <NumberStepper
                 bind:value={drawables.neck.texture}
                 total={drawTotal.neck.textures}
@@ -329,6 +347,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.neck, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}
@@ -357,6 +376,7 @@
         >
 
         <svelte:fragment slot="secondary">
+            {#key drawables.decals.value}
             <NumberStepper
                 bind:value={drawables.decals.texture}
                 total={drawTotal.decals.textures}
@@ -365,6 +385,7 @@
                 on:change={e =>
                     APPEARANCE.setDrawable(drawables.decals, e.detail, true)}
             />
+            {/key}
         </svelte:fragment>
     </Wrapper>
 {/if}

@@ -1,6 +1,6 @@
-import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, delay, ped } from "@utils"
+import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, delay, ped, getPlayerData } from "@utils"
 import { startCamera, stopCamera } from "./camera"
-import type { TMenuTypes } from "@typings/appearance"
+import type { TAppearanceZone, TMenuTypes } from "@typings/appearance"
 import { Outfit } from "@typings/outfits"
 import { Send } from "@events"
 import { getAppearance, getTattooData } from "./appearance/getters"
@@ -9,9 +9,11 @@ import "./handlers"
 const config = exports.bl_appearance
 let armour = 0
 
-export async function openMenu(type: TMenuTypes, creation: boolean = false) {
+export async function openMenu(zone: TAppearanceZone, creation: boolean = false) {
     const pedHandle = PlayerPedId()
     const configMenus = config.menus()
+
+    const type = zone.type
 
     const menu = configMenus[type]
     if (!menu) return
@@ -43,7 +45,7 @@ export async function openMenu(type: TMenuTypes, creation: boolean = false) {
         tattoos = getTattooData()
     }
 
-    const blacklist = getBlacklist(type)
+    const blacklist = getBlacklist(zone)
 
     const appearance = await getAppearance(pedHandle)
 
@@ -65,10 +67,49 @@ export async function openMenu(type: TMenuTypes, creation: boolean = false) {
     sendNUIEvent(Send.visible, true)
 }
 
-function getBlacklist(type: TMenuTypes) {
-    const blacklist = config.blacklist()
+function getBlacklist(zone: TAppearanceZone) {
+    if (!zone) return {}
+
+    const {groupTypes, base} = config.blacklist()
+
+    if (!groupTypes) return {}
+    if (!base) return {}
+
+    let blacklist = {...base}
+
+    const playerData = getPlayerData()
+
+
+    for (const type in groupTypes) {
+        const groups = groupTypes[type]
+        for (const group in groups) {
+
+            let skip: boolean = false
+            
+            if (type == 'jobs' && zone.jobs) {
+                skip = zone.jobs.includes(playerData.job.name)
+            }
+
+            if (type == 'gangs' && zone.gangs) {
+                skip = zone.gangs.includes(playerData.gang.name)
+            }
+
+            // if (type == 'groups' && zone.groups) {
+            //     skip = !zone.groups.includes(playerData.group.name)
+            // }
+
+            if (!skip) {
+                const groupBlacklist = groups[group]
+                blacklist = Object.assign({}, blacklist, groupBlacklist, {
+                  drawables: Object.assign({}, blacklist.drawables, groupBlacklist.drawables)
+                })
+            }
+        }
+    }
 
     return blacklist
+
+    // return blacklist
 }
 
 export function closeMenu() {

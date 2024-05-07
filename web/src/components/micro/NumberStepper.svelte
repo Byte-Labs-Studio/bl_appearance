@@ -51,6 +51,14 @@
         dispatch('decrement');
         dispatch('change', value);
     }
+
+    $: {
+        if (blacklist) {
+            checkBlacklist();
+        }
+    }
+
+    $: console.log(isBlacklisted);
 </script>
 
 <div class="flex w-full h-[3vh] justify-center items-center gap-[0.5vh]">

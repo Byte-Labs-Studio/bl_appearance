@@ -9,12 +9,6 @@ import { DebugEventReceive } from "@utils/eventsHandlers"
  */
 const ReceiveDebuggers: DebugEventCallback[] = [
     {
-        action: Send.close,
-        handler: () => {
-            console.log('closed')
-        },
-    },
-    {
         action: 'debug',
         handler: (data: string) => {
             const init = 'Emulates an NUICallback times. Process the data here.'

@@ -36,6 +36,7 @@
             >
 
             <svelte:fragment slot="secondary">
+                {#key props.hats.value}
                 <NumberStepper
                     bind:value={props.hats.texture}
                     total={propTotal.hats.textures}
@@ -45,6 +46,7 @@
                     on:change={e =>
                         APPEARANCE.setProp(props.hats, e.detail, true)}
                 />
+                {/key}
             </svelte:fragment>
         </Wrapper>
     {/if}
@@ -74,6 +76,7 @@
             >
 
             <svelte:fragment slot="secondary">
+                {#key props.glasses.value}
                 <NumberStepper
                     bind:value={props.glasses.texture}
                     total={propTotal.glasses.textures}
@@ -83,6 +86,7 @@
                     on:change={e =>
                         APPEARANCE.setProp(props.glasses, e.detail, true)}
                 />
+                {/key}
             </svelte:fragment>
         </Wrapper>
     {/if}
@@ -112,6 +116,7 @@
             >
 
             <svelte:fragment slot="secondary">
+                {#key props.earrings.value}
                 <NumberStepper
                     bind:value={props.earrings.value}
                     total={propTotal.earrings.textures}
@@ -123,6 +128,7 @@
                         APPEARANCE.setProp(props.earrings, e.detail, true);
                     }}
                 />
+                {/key}
             </svelte:fragment>
         </Wrapper>
     {/if}
@@ -152,6 +158,7 @@
             >
 
             <svelte:fragment slot="secondary">
+                {#key props.watches.value}
                 <NumberStepper
                     bind:value={props.watches.value}
                     total={propTotal.watches.textures}
@@ -163,6 +170,7 @@
                         APPEARANCE.setProp(props.watches, e.detail, true);
                     }}
                 />
+                {/key}
             </svelte:fragment>
         </Wrapper>
     {/if}
@@ -192,6 +200,7 @@
             >
 
             <svelte:fragment slot="secondary">
+                {#key props.bracelets.value}
                 <NumberStepper
                     bind:value={props.bracelets.value}
                     total={propTotal.bracelets.textures}
@@ -201,6 +210,7 @@
                     on:change={e =>
                         APPEARANCE.setProp(props.bracelets, e.detail, true)}
                 />
+                {/key}
             </svelte:fragment>
         </Wrapper>
     {/if}

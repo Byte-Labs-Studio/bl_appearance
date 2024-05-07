@@ -31,7 +31,6 @@ onClientCallback('bl_appearance:server:renameOutfit', async (src, frameworkId, d
 	const id = data.id;
 	const label = data.label;
 
-	console.log('renameOutfit', frameworkId, label, id);
 	const result = await oxmysql.update(
 		'UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?',
 		[label, frameworkId, id]
@@ -40,27 +39,18 @@ onClientCallback('bl_appearance:server:renameOutfit', async (src, frameworkId, d
 });
 
 onClientCallback('bl_appearance:server:deleteOutfit', async (src, frameworkId, id) => {
-    console.log('deleteOutfit', frameworkId, id);
 	const result = await oxmysql.update(
 		'DELETE FROM outfits WHERE player_id = ? AND id = ?',
 		[frameworkId, id]
 	);
-    console.log('result', result);
 	return result > 0;
 });
 
 onClientCallback('bl_appearance:server:saveOutfit', async (src, frameworkId, data: Outfit) => {
-	console.log(
-		frameworkId,
-		data.label,
-		data.outfit,
-		JSON.stringify(data.outfit)
-	);
 	const id = await oxmysql.insert(
 		'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
 		[frameworkId, data.label, JSON.stringify(data.outfit)]
 	);
-	console.log('id', id);
 	return id;
 });
 

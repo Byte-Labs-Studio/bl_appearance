@@ -3,6 +3,11 @@
 
 local stores = {
     {
+        type = "appearance",
+        coords = vector4(455.56, -990.74, 30.69, 84.66),
+        jobs = {"police"}
+    },
+    {
         type = "clothing",
         coords = vector4(1693.2, 4828.11, 42.07, 188.66),
     },
@@ -122,6 +127,80 @@ local stores = {
     }
 }
 
-exports('zones', function()
-    return stores
-end)
+local currentZone = nil
+
+
+local key = Config.openControl
+
+local sprites = {}
+
+local function setupZones()
+    local bl_sprites = Config.useSprites and exports.bl_sprites or nil
+
+    local textui = exports.bl_bridge:textui()
+    local text = key .. ' - Open'
+
+    local function onExit()
+        currentZone = nil
+    end
+
+    for k, v in pairs(stores) do
+
+        local function onEnter()
+            currentZone = v
+        end
+
+        if bl_sprites then
+            sprites[#sprites+1] =  bl_sprites:sprite({
+                coords = v.coords,
+                shape = 'hex',
+                key = key,
+                distance = 3.0,
+                onEnter = function()
+                    currentZone = v
+                end,
+                onExit = function()
+                    currentZone = nil
+                end
+            })
+        else
+            lib.points.new({
+                coords = vector3(v.coords.x, v.coords.y, v.coords.z),
+                distance = 5,
+                onEnter = function()
+                    onEnter()
+                    textui.showTextUI(text)
+                end,
+                onExit = function()
+                    onExit()
+                    textui.hideTextUI()
+                end,
+            })
+
+        end
+    end
+end
+
+-- AddEventHandler('onResourceStart', function(resource)
+--    if resource == GetCurrentResourceName() then
+--     setupZones()
+--    end
+-- end)
+
+-- AddEventHandler('onResourceStop', function(resource)
+--    if resource == GetCurrentResourceName() then
+--     for k, v in pairs(sprites) do
+--         v:removeSprite()
+--     end
+--    end
+-- end)
+setupZones()
+
+
+RegisterCommand('+openAppearance', function()
+    TriggerEvent('bl_sprites:client:useZone', currentZone)
+end, false)
+
+RegisterKeyMapping('+openAppearance', 'Open Appearance', 'keyboard', key)
+
+

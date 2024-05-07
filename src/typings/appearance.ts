@@ -3,6 +3,16 @@ import { Outfit} from './outfits';
 
 export type TMenuTypes = 'appearance' | 'outfits' | 'tattoos' | 'clothes' | 'accessories' | 'face' | 'makeup' | 'heritage'
 
+type TVector4 = [number, number, number, number]
+export type TAppearanceZone = {
+    type: TMenuTypes,
+    coords: TVector4,
+    jobs? : string[]
+    gangs? : string[]
+    groups? : string[]
+}
+
+
 interface THairData { 
     color: number, 
     highlight: number 

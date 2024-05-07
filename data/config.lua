@@ -1,16 +1,12 @@
-local config = {
+Config = {
     locale = 'en',
-    -- IF this is true, it will intercept illenium and qb clothing exports to use bl_appearance
-    -- This means it is basically backwards compatible with illenium and qb clothing
-    -- This is only 'qb-clothing:client:loadPlayerClothing' event for qb clothing
-    -- and setPedAppearance for illenium
-    -- BUT they both have to be passed in the clothing data in the same format as bl_appearance
-    backwardsCompatibility = true,
     openControl = 'E',
     previousClothing = 'qb', -- 'illenium' | 'qb' | 'esx' | 'fivem-appearance'
+
+    -- https://github.com/Byte-Labs-Project/bl_sprites
+    useSprites = true, -- Use bl_sprites for zones or text-ui. If false, ox_lib is needed for zones but will use text-ui defined in Bridge
 }
 
-
 exports('config', function()
-    return config
+    return Config
 end)

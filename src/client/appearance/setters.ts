@@ -137,8 +137,9 @@ export const setPedSkin = async (data) => {
 
     if (headBlend) setHeadBlend(ped, headBlend)
     
-    if (headStructure) for (const feature of headStructure) {
-        SetFaceFeature(ped, feature)
+    if (headStructure) for (const feature in headStructure) {
+        const value = headStructure[feature]
+        SetFaceFeature(ped, value)
     }
 }
 

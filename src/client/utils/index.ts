@@ -143,8 +143,13 @@ export const locale = async (id: string, ...args: string[]) => {
     return result
 }
 
+export const bl_bridge = exports.bl_bridge
+
+export const getPlayerData = () => {
+    return bl_bridge.core().getPlayerData()
+}
+
 export const getFrameworkID = () => {
-    const bl_bridge = exports.bl_bridge
-    const id = bl_bridge.core().getPlayerData().cid
+    const id = getPlayerData().cid
     return id
 }

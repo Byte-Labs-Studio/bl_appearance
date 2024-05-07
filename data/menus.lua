@@ -15,7 +15,7 @@ local menus = {
 	},
 
 	surgeon = {
-		tabs =  { "heritage" },
+		tabs =  { "heritage", "face"},
 		allowExit = true,
 	},
 

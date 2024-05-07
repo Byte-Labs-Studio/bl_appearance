@@ -13,10 +13,12 @@ ui_page 'build/index.html'
 
 server_script 'dist/server/**/*.js'
 shared_script {
+    '@ox_lib/init.lua',
     'data/*',
     'dist/shared/**/*.js',
 }
-client_script 'dist/client/**/*.js'
+client_script {
+    'dist/client/**/*.js'}
 
 files {
     'build/**',

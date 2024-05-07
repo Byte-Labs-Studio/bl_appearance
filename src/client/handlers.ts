@@ -143,7 +143,6 @@ RegisterNuiCallback(Receive.saveOutfit, async (data: any, cb: Function) => {
 
 RegisterNuiCallback(Receive.deleteOutfit, async ({id}, cb: Function) => {
 	const frameworkdId = getFrameworkID();
-    console.log('deleteOutfit', id);
 	const result = await triggerServerCallback('bl_appearance:server:deleteOutfit', frameworkdId, id);
 	cb(result);
 });
