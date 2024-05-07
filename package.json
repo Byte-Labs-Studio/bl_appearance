@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
+  "fivemIgnore": true,
   "main": "index.js",
   "scripts": {
     "build": "pnpm run init",
