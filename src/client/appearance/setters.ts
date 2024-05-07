@@ -63,29 +63,6 @@ export function setHeadOverlay(pedHandle: number, data) {
     SetPedHeadOverlayColor(pedHandle, index, 1, data.firstColor, data.secondColor)
 }
 
-// function ResetToggles(data)
-//     local ped = cache.ped
-
-//     local drawables = data.drawables
-//     local props = data.props
-
-//     for toggleItem, toggleData in pairs(TOGGLE_INDEXES) do
-//         local toggleType = toggleData.type
-//         local index = toggleData.index
-
-//         if toggleType == "drawable" and drawables[toggleItem] then
-//             local currentDrawable = GetPedDrawableVariation(ped, index)
-//             if currentDrawable ~= drawables[toggleItem].value then
-//                 SetPedComponentVariation(ped, index, drawables[toggleItem].value, 0, 0)
-//             end
-//         elseif toggleType == "prop" and props[toggleItem] then
-//             local currentProp = GetPedPropIndex(ped, index)
-//             if currentProp ~= props[toggleItem].value then
-//                 SetPedPropIndex(ped, index, props[toggleItem].value, 0, false)
-//             end
-//         end
-//     end
-// end
 
 export function resetToggles(data) {
     const drawables = data.drawables
@@ -177,3 +154,8 @@ export async function setPlayerPedAppearance(data) {
     setPedHairColors(ped, data.hairColor)
     setPedTattoos(ped, data.tattoos)
 }
+
+exports('SetPedClothes', setPedClothes)
+exports('SetPedSkin', setPedSkin)
+exports('SetPedTattoos', setPedTattoos)
+exports('SetPedHairColors', setPedHairColors)
