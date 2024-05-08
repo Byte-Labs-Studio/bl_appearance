@@ -5,8 +5,8 @@ lua54 'yes'
 
 author "Byte Labs"
 version '1.0.0'
-description 'Byte Labs Svelte / CFX Lua template.'
-repository 'https://github.com/Byte-Labs-Project/bl_svelte_template'
+description 'Customize your virtual persona with precision using the Byte Labs Appearance Menu'
+repository 'https://github.com/Byte-Labs-Studio/bl_appearance'
 
 ui_page 'build/index.html'
 -- ui_page 'http://localhost:3000/' --for dev
@@ -26,4 +26,9 @@ files {
 
 file_set 'locale' {
     'locale/*'
+}
+
+dependencies {
+    'bl_bridge',
+    'bl_sprites'
 }
