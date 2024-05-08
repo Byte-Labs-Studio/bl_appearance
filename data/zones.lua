@@ -133,7 +133,7 @@ local sprites = {}
 local function setupZones()
     local bl_sprites = exports.bl_sprites
     if not bl_sprites then
-        print("Error: 'bl_sprites' module not available.")
+    lib.print.warn("bl_sprites module not available.")
         return
     end
     for k, v in pairs(stores) do
