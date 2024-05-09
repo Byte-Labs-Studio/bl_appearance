@@ -131,13 +131,9 @@ local key = Config.openControl
 local sprites = {}
 
 local function setupZones()
-    local bl_sprites = exports.bl_sprites
-    if not bl_sprites then
-    lib.print.warn("bl_sprites module not available.")
-        return
-    end
-    for k, v in pairs(stores) do
-        sprites[#sprites+1] =  bl_sprites:sprite({
+    if GetResourceState('bl_sprites') == 'missing' then return end
+    for _, v in pairs(stores) do
+        sprites[#sprites+1] = exports.bl_sprites:sprite({
             coords = v.coords,
             shape = 'hex',
             key = key,
