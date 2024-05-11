@@ -5,8 +5,7 @@ import { triggerServerCallback } from "@utils"
 
 RegisterCommand('openMenu', () => {
     openMenu({ type: "appearance", coords: [0, 0, 0, 0] })  
-  }, false)
-
+}, false)
 
 exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
     await setPedAppearance(ped, appearance)

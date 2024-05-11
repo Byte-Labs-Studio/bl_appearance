@@ -45,8 +45,7 @@ export function setHeadBlend(pedHandle: number, data) {
     const thirdMix = data.thirdMix + 0.0
     const hasParent = data.hasParent
 
-    SetPedHeadBlendData(pedHandle, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix,
-        thirdMix, hasParent)
+    SetPedHeadBlendData(pedHandle, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix, hasParent)
 }
 
 export function setHeadOverlay(pedHandle: number, data) {
