@@ -150,6 +150,42 @@ end
 
 setupZones()
 
+local blips = {}
+local function createBlips()
+    for _, v in ipairs(stores) do
+        if v.type ~= "appearance" then
+            local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
+            if v.type == "barber" then
+                spriteId = 71
+                blipColor = 0
+                blipname = "Barber"
+            elseif v.type == "clothing" then
+                spriteId = 73
+                blipColor = 0
+                blipname = "Clothing Store"
+            elseif v.type == "tattoos" then
+                spriteId = 75
+                blipColor = 4
+                blipname = "Tattoo Parlor"
+            elseif v.type == "surgeon" then
+                spriteId = 102
+                blipColor = 4
+                blipname = "Surgeon"
+            end
+            SetBlipSprite(blip, spriteId)
+            SetBlipColour(blip, blipColor)
+            SetBlipAsShortRange(blip, true)
+            SetBlipScale(blip, 0.6)
+            BeginTextCommandSetBlipName("STRING")
+            AddTextComponentString(blipname)
+            EndTextCommandSetBlipName(blip)
+            table.insert(blips, blip)
+        end
+    end
+end
+
+createBlips()
+
 RegisterCommand('+openAppearance', function()
     TriggerEvent('bl_sprites:client:useZone', currentZone)
 end, false)
