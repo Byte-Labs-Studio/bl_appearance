@@ -155,6 +155,7 @@ local function createBlips()
     for _, v in ipairs(stores) do
         if v.type ~= "appearance" then
             local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
+            local spriteId, blipColor, blipname
             if v.type == "barber" then
                 spriteId = 71
                 blipColor = 0
