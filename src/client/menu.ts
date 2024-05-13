@@ -9,6 +9,8 @@ import "./handlers"
 const config = exports.bl_appearance
 let armour = 0
 
+let promise = null
+
 export async function openMenu(zone: TAppearanceZone, creation: boolean = false) {
     const pedHandle = PlayerPedId()
     const configMenus = config.menus()
@@ -50,6 +52,14 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     const appearance = await getAppearance(pedHandle)
 
     if (creation) {
+        promise = new Promise((resolve) => {
+            let handler = null
+            handler = AddEventHandler('bl_appearance:client:exit', async (data) => {
+                removeEventListener('bl_appearance:client:exit', ()=>{
+                    resolve(false)
+                })
+            })
+        })
         allowExit = false
     }
 
@@ -65,6 +75,11 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     })
     SetNuiFocus(true, true)
     sendNUIEvent(Send.visible, true)
+
+    if (promise) await promise
+
+    promise = null
+    return true
 }
 
 function getBlacklist(zone: TAppearanceZone) {
@@ -118,4 +133,6 @@ export function closeMenu() {
     stopCamera()
     SetNuiFocus(false, false)
     sendNUIEvent(Send.visible, false)
+
+    emitNet('bl_appearance:server:exit')
 }

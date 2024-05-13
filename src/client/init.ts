@@ -20,6 +20,11 @@ exports('GetPlayerPedAppearance', async (frameworkID) => {
     return await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
 })
 
+exports('InitialCreation', async (cb?: Function) => {
+    await openMenu({ type: "appearance", coords: [0, 0, 0, 0] })
+    if (cb) cb()
+})
+
 on('bl_sprites:client:useZone', (zone: TAppearanceZone) => {
     openMenu(zone)
 })
