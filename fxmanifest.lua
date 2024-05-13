@@ -12,12 +12,14 @@ ui_page 'build/index.html'
 -- ui_page 'http://localhost:3000/' --for dev
 
 server_script 'dist/server/**/*.js'
+
 shared_script {
     '@ox_lib/init.lua',
-    'data/*',
     'dist/shared/**/*.js',
 }
+
 client_script {
+    'data/*',
     'dist/client/**/*.js'}
 
 files {
