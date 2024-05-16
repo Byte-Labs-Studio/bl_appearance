@@ -143,9 +143,7 @@ export function setPedTattoos(pedHandle: number, data) {
 export function setPedHairColors(pedHandle: number, data) {
     const color = data.color
     const highlight = data.highlight
-    // SetPedHairColor(pedHandle, color, highlight)
-    console.log('SETTING HAIR COLOR')
-    SetPedHairTint(pedHandle, color, highlight)
+    SetPedHairColor(pedHandle, color, highlight)
 }
 
 export async function setPedAppearance(pedHandle: number, data) {
