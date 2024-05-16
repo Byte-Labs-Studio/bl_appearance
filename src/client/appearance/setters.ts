@@ -58,6 +58,12 @@ export function setHeadOverlay(pedHandle: number, data) {
 
     const value = data.overlayValue === -1 ? 255 : data.overlayValue
 
+    /* Hair color does not have an index, only an ID so we'll check for that */
+    if (data.id === 'hairColor') {
+        SetPedHairTint(pedHandle, data.hairColor, data.hairHighlight)
+        return;
+    }
+
     SetPedHeadOverlay(pedHandle, index, value, data.overlayOpacity + 0.0)
     SetPedHeadOverlayColor(pedHandle, index, 1, data.firstColor, data.secondColor)
 }
@@ -137,7 +143,9 @@ export function setPedTattoos(pedHandle: number, data) {
 export function setPedHairColors(pedHandle: number, data) {
     const color = data.color
     const highlight = data.highlight
-    SetPedHairColor(pedHandle, color, highlight)
+    // SetPedHairColor(pedHandle, color, highlight)
+    console.log('SETTING HAIR COLOR')
+    SetPedHairTint(pedHandle, color, highlight)
 }
 
 export async function setPedAppearance(pedHandle: number, data) {
