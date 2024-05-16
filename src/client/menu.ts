@@ -12,6 +12,10 @@ let armour = 0
 let promise = null
 
 export async function openMenu(zone: TAppearanceZone, creation: boolean = false) {
+    if (zone === null) {
+        return;
+    }
+
     const pedHandle = PlayerPedId()
     const configMenus = config.menus()
 
