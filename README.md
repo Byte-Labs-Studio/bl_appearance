@@ -27,8 +27,13 @@
      ```
    - Install the necessary npm packages and build the project:
      ```bash
-     npm install or pnpm i
-     npm run build or pnpm build
+     npm install
+     npm run build
+     ```
+     - Alternative
+     ```bash
+      pnpm i
+      pnpm build
      ```
 
 4. **Testing on a Browser or In-Game**
