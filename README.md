@@ -1,10 +1,8 @@
 # BL APPEARANCE
 
-## Prerequisites
-
-### bl_bridge
-- Requires `bl_bridge` [here](https://github.com/Byte-Labs-Studio/bl_bridge).
-
+### Dependencies 
+- `bl_bridge` [here](https://github.com/Byte-Labs-Studio/bl_bridge).
+- `bl_sprites` [here](https://github.com/Byte-Labs-Studio/bl_sprites).
 ## Installation Steps
 
 1. **Download and Add fivem-builders**
