@@ -34,7 +34,7 @@
       pnpm build
      ```
 
-4. **Testing on a Browser or In-Game**
+4. **Development Mode**
    - To test the project in a browser or in-game using the local Vite address:
      - Comment out the normal `ui_page` line in the `fxmanifest.lua` file.
      - Uncomment the development URL for `ui_page`.
