@@ -16,12 +16,12 @@
      ```bash
      pnpm install && pnpm build
      ```
-     - This command will also navigate to the `/src` directory and build the necessary files.
+     - This command will also navigate to the `src` directory and build the necessary files.
 
-3. **Build the `/web` Directory**
-   - Navigate to the `web/` directory:
+3. **Build the `web` Directory**
+   - Navigate to the `web` directory:
      ```bash
-     cd web/
+     cd web
      ```
    - Install the necessary npm packages and build the project:
      ```bash
