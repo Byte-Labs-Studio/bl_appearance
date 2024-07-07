@@ -28,3 +28,13 @@ exports('InitialCreation', async (cb?: Function) => {
 on('bl_sprites:client:useZone', (zone: TAppearanceZone) => {
     openMenu(zone)
 })
+
+onNet('qb-clothing:client:loadPlayerClothing', async (appearance: TAppearance, ped: number) => {
+    console.log('loadPlayerClothing', appearance, ped)
+    await setPedAppearance(ped, appearance)
+})
+
+onNet('qb-clothes:client:CreateFirstCharacter', async () => {
+    console.log('CreateFirstCharacter')
+    openMenu({ type: "appearance", coords: [0, 0, 0, 0] })  
+})
