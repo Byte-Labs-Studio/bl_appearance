@@ -205,7 +205,7 @@ export function getPedSkin(pedHandle: number) {
 exports("GetPedSkin", getPedSkin)
 
 export function getTattooData() {
-    let tattooZones = {}
+    let tattooZones = []
 
     const [TATTOO_LIST, TATTOO_CATEGORIES] = exports.bl_appearance.tattoos()
     for (let i = 0; i < TATTOO_CATEGORIES.length; i++) {
