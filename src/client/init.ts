@@ -1,7 +1,7 @@
 import { TAppearance, TAppearanceZone, TMenuTypes } from "@typings/appearance"
 import { openMenu } from "./menu"
 import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
-import { triggerServerCallback } from "@utils"
+import { triggerServerCallback, getFrameworkID } from "@utils"
 
 RegisterCommand('openMenu', () => {
     openMenu({ type: "appearance", coords: [0, 0, 0, 0] })  
@@ -30,11 +30,15 @@ on('bl_sprites:client:useZone', (zone: TAppearanceZone) => {
 })
 
 onNet('qb-clothing:client:loadPlayerClothing', async (appearance: TAppearance, ped: number) => {
-    console.log('loadPlayerClothing', appearance, ped)
     await setPedAppearance(ped, appearance)
 })
 
 onNet('qb-clothes:client:CreateFirstCharacter', async () => {
-    console.log('CreateFirstCharacter')
     openMenu({ type: "appearance", coords: [0, 0, 0, 0] })  
+})
+
+onNet('bl_bridge:client:playerLoaded', async () => {
+    const frameworkID = getFrameworkID()
+    const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+    await setPlayerPedAppearance(appearance)
 })
