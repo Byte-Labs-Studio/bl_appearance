@@ -140,4 +140,11 @@ export type TToggleData = {
     hookData?: any;
 }
 
+export type SkinDB = {
+    skin: string;
+    clothes: string;
+    tattoos: string;
+    id: number;
+}
+
 export {THeadBlend, THairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData}

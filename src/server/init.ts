@@ -2,6 +2,7 @@ import { onClientCallback } from './utils';
 import { oxmysql } from '@overextended/oxmysql';
 import { Outfit } from '@typings/outfits';
 import { saveAppearance } from './appearance';
+import { SkinDB } from '@typings/appearance';
 
 onClientCallback('bl_appearance:server:getOutfits', async (src, frameworkId) => {
 	let response = await oxmysql.prepare(
@@ -106,11 +107,18 @@ onClientCallback('bl_appearance:server:getTattoos', async (src, frameworkId) => 
 });
 
 onClientCallback('bl_appearance:server:getAppearance', async (src, frameworkId) => {
-	const response = await oxmysql.prepare(
-		'SELECT * FROM appearance WHERE id = ?',
+	const response: SkinDB = await oxmysql.single(
+		'SELECT * FROM appearance WHERE id = ? LIMIT 1',
 		[frameworkId]
 	);
-	return JSON.parse(response);
+	if (!response) return null;
+	let appearance = {
+		...JSON.parse(response.skin),
+		...JSON.parse(response.clothes),
+		...JSON.parse(response.tattoos),
+	}
+	appearance.id = response.id
+	return appearance;
 });
 
 RegisterCommand('migrate', async (source: number) => {
