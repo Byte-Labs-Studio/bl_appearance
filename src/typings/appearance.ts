@@ -137,6 +137,7 @@ export type TToggleData = {
     item: string;
     toggle: boolean;
     data: TDrawables[keyof TDrawables] | TProps[keyof TProps];
+    hookData?: any;
 }
 
 export {THeadBlend, THairData, PedModel, PedHandle, TotalData, DrawableData, HeadStructureData, HeadOverlayData}

@@ -83,13 +83,13 @@ RegisterNuiCallback(Receive.setTattoos, async (data: TValue, cb: Function) => {
 });
 
 RegisterNuiCallback(Receive.setProp, async (data: TValue, cb: Function) => {
-	setProp(ped, data);
-	cb(1);
+	let texture = setProp(ped, data);
+	cb(texture);
 });
 
 RegisterNuiCallback(Receive.setDrawable, async (data: TValue, cb: Function) => {
-	setDrawable(ped, data);
-	cb(1);
+	let texture = setDrawable(ped, data);
+	cb(texture);
 });
 
 RegisterNuiCallback(Receive.toggleItem, async (data: TToggleData, cb: Function) => {
@@ -99,6 +99,8 @@ RegisterNuiCallback(Receive.toggleItem, async (data: TToggleData, cb: Function) 
 	const current = data.data;
 	const type = item.type;
 	const index = item.index;
+	const hook = item.hook;
+	const hookData = data.hookData;
 
 	if (!current) return cb(false);
 
@@ -124,10 +126,20 @@ RegisterNuiCallback(Receive.toggleItem, async (data: TToggleData, cb: Function) 
 
 		if (current.value === currentDrawable) {
 			SetPedComponentVariation(ped, index, item.off, 0, 0);
+			if (hook) {
+				for(let i=0; i < hook.drawables?.length; i++) {
+					const hookItem = hook.drawables[i];
+					console.log(hookItem);
+					SetPedComponentVariation(ped, hookItem.component, hookItem.variant, hookItem.texture, 0);
+				}
+			}
 			cb(true);
 			return;
 		} else {
 			setDrawable(ped, current);
+			for(let i=0; i < hookData?.length; i++) {
+				setDrawable(ped, hookData[i]);
+			}
 			cb(false);
 			return;
 		}

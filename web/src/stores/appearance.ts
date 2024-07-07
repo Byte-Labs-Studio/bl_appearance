@@ -173,7 +173,7 @@ const APPEARANCE_INIT = () => {
             const tattooData = TATTOOS.get();
 
             if (tattooData) {
-                SendEvent(Send.getModelTattoos, {}).then(
+                SendEvent(Send.getModelTattoos, []).then(
                     (tattoos: TZoneTattoo[]) => {
                         TATTOOS.set(tattoos);
                     },
@@ -293,6 +293,8 @@ const TOGGLES_INIT = () => {
             item: string,
             toggle: boolean,
             data: TDrawables[keyof TDrawables] | TProps[keyof TProps],
+            hook: any,
+            hookData: any,
         ) => {
             if (methods.isToggling) {
                 return;
@@ -300,7 +302,7 @@ const TOGGLES_INIT = () => {
 
             methods.isToggling = true;
 
-            SendEvent(Send.toggleItem, { item, toggle, data }).then(
+            SendEvent(Send.toggleItem, { item, toggle, data, hook, hookData }).then(
                 (state: boolean) => {
                     store.update(toggles => {
                         toggles[item] = state;

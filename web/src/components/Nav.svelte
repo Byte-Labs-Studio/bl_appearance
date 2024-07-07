@@ -87,10 +87,22 @@
         {
             id: 'shirts',
             type: 'drawables',
+            hook: {
+                drawables: [
+                    { component: 3, variant: 15, texture: 0, id: 'torsos' },
+                    { component: 11, variant: 15, texture: 0, id: 'jackets'}
+                ]
+            }
         },
         {
             id: 'jackets',
             type: 'drawables',
+            hook: {
+                drawables: [
+                    { component: 3, variant: 15, texture: 0, id: 'torsos' },
+                    { component: 8, variant: 15, texture: 0, id: 'shirts'}
+                ]
+            }
         },
         {
             id: 'vest',
@@ -190,14 +202,20 @@
 </div>
 
 <div class="w-[7vh]  left-[3vh] absolute  h-full flex flex-col gap-[1vh] items-center justify-center -z-30">
-    {#each toggleOrder as {id, type}, i}
+    {#each toggleOrder as {id, type, hook}, i}
         {@const toggle = $TOGGLES[id]}
         {@const icon = `Icon${id.charAt(0).toUpperCase() + id.slice(1)}`}
         <button
             on:click={() => {
                 const data = $APPEARANCE[type][id];
+                let hookData=[]
+                for (let i=0; i < hook.drawables?.length; i++) {
+                    const d = hook.drawables[i]
+                    hookData.push($APPEARANCE.drawables[d.id])
+                }
+                console.log(hook.drawables)
                 if (data) {
-                    TOGGLES.toggle(id, !toggle, data)
+                    TOGGLES.toggle(id, !toggle, data, hook, hookData)
                 }
                 
             }}
