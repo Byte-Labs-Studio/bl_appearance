@@ -4,6 +4,7 @@ import { requestModel, ped, updatePed, delay} from '@utils';
 
 export function setDrawable(pedHandle: number, data: TValue) {
     SetPedComponentVariation(pedHandle, data.index, data.value, data.texture, 0)
+    return GetNumberOfPedTextureVariations(pedHandle, data.index, data.value)
 }
 
 export function setProp(pedHandle: number, data: TValue) {
@@ -13,6 +14,7 @@ export function setProp(pedHandle: number, data: TValue) {
     }
 
     SetPedPropIndex(pedHandle, data.index, data.value, data.texture, false)
+    return GetNumberOfPedPropTextureVariations(pedHandle, data.index, data.value)
 }
 
 export const setModel = async (model: number) => {
