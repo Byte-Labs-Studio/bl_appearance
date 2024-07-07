@@ -17,12 +17,24 @@ export default {
     shirts: {
         type: "drawable",
         index: 8,
-        off: 15
+        off: 15,
+        hook: {
+            drawables: [
+                { component: 3, variant: 15, texture: 0, id: 'torsos' },
+                { component: 11, variant: 15, texture: 0, id: 'jackets'}
+            ]
+        }
     },
     jackets: {
         type: "drawable",
         index: 11,
         off: 15,
+        hook: {
+            drawables: [
+                { component: 3, variant: 15, texture: 0, id: 'torsos' },
+                { component: 8, variant: 15, texture: 0, id: 'shirts'}
+            ]
+        }
     },
     legs: {
         type: "drawable",
