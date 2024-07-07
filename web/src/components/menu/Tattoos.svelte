@@ -64,7 +64,6 @@
         };
         // get the first valid tattoo in the list
         // get dlc with tattoos
-        console.log(Array.isArray(options[0].dlcs), options[0].dlcs);
         const dlcWithTattoos = options[0].dlcs.findIndex(
             dlc => dlc.tattoos.length > 0,
         );
@@ -89,8 +88,7 @@
     function changeZoneIndex(playerTattoosIndex: number, newZoneIndex: number) {
         playerTattoos[playerTattoosIndex].zoneIndex = newZoneIndex;
         playerTattoos[playerTattoosIndex].dlcIndex = 0;
-
-        console.log(options[newZoneIndex].dlcs);
+        
         const dlcTattoos = options[newZoneIndex].dlcs[0]?.tattoos;
 
         if (dlcTattoos?.length > 0) {
