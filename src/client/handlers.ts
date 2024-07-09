@@ -129,7 +129,6 @@ RegisterNuiCallback(Receive.toggleItem, async (data: TToggleData, cb: Function) 
 			if (hook) {
 				for(let i=0; i < hook.drawables?.length; i++) {
 					const hookItem = hook.drawables[i];
-					console.log(hookItem);
 					SetPedComponentVariation(ped, hookItem.component, hookItem.variant, hookItem.texture, 0);
 				}
 			}

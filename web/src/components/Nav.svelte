@@ -213,7 +213,6 @@
                     const d = hook.drawables[i]
                     hookData.push($APPEARANCE.drawables[d.id])
                 }
-                console.log(hook.drawables)
                 if (data) {
                     TOGGLES.toggle(id, !toggle, data, hook, hookData)
                 }
