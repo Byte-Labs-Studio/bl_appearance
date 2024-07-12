@@ -47,7 +47,7 @@ onNet('bl_bridge:client:playerLoaded', async () => {
 })
 
 onNet('onResourceStart', async (resource: string) => {
-    if (resource === GetCurrentResourceName()) {
+    if (resource === GetCurrentResourceName() && bl_bridge.core().playerLoaded()) {
         const frameworkID = await getFrameworkID()
         const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
         await setPlayerPedAppearance(appearance)

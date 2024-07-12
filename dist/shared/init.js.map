@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/shared/init.ts"],
-  "sourcesContent": ["console.log('shared')"],
-  "mappings": ";AAAA,QAAQ,IAAI,QAAQ;",
-  "names": []
-}
