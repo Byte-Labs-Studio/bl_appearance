@@ -86,6 +86,8 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     return true
 }
 
+exports('openMenu', openMenu)
+
 function getBlacklist(zone: TAppearanceZone) {
     if (!zone) return {}
 

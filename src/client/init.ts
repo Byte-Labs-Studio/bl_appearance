@@ -29,14 +29,6 @@ on('bl_sprites:client:useZone', (zone: TAppearanceZone) => {
     openMenu(zone)
 })
 
-onNet('qb-clothing:client:loadPlayerClothing', async (appearance: TAppearance, ped: number) => {
-    await setPedAppearance(ped, appearance)
-})
-
-onNet('qb-clothes:client:CreateFirstCharacter', async () => {
-    openMenu({ type: "appearance", coords: [0, 0, 0, 0] })  
-})
-
 onNet('bl_bridge:client:playerLoaded', async () => {
     while (!bl_bridge.core().playerLoaded()) {
         await Delay(100);
@@ -53,3 +45,4 @@ onNet('onResourceStart', async (resource: string) => {
         await setPlayerPedAppearance(appearance)
     }
 })
+
