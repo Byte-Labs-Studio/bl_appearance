@@ -37,6 +37,16 @@
         return [x.toPrecision(5), y.toPrecision(5)];
     };
 
+    let iconsMap = {};
+    onMount(async () => {
+        for (const tab of $TABS) {
+            const iconModule = await import(`./icons/${tab.icon}.svelte`);
+            iconsMap[tab.icon] = iconModule.default;
+        }
+    });
+
+    const getIconComponent = (iconName: string) => iconsMap[iconName];
+
     $: pieAngle =
         $limit / ($TABS.length < 4 ? 4 : $TABS.length > 8 ? 8 : $TABS.length);
     $: {
@@ -149,9 +159,13 @@
             >
                 <Hexagon active={selected} />
                 <div class="w-full h-full absolute grid place-items-center">
-                    {#await import(`./icons/${tab.icon}.svelte`) then { default: Icon }}
+                    <!-- {#await import(`./icons/${tab.icon}.svelte`) then { default: Icon }}
                         <Icon />
-                    {/await}
+                    {/await} -->
+                    {#if iconsMap[tab.icon]}
+                        {@const Icon = getIconComponent(tab.icon)}
+                        <Icon />
+                    {/if}
                 </div>
             </div>
         </button>
@@ -209,7 +223,7 @@
             on:click={() => {
                 const data = $APPEARANCE[type][id];
                 let hookData=[]
-                for (let i=0; i < hook.drawables?.length; i++) {
+                for (let i=0; i < hook?.drawables?.length; i++) {
                     const d = hook.drawables[i]
                     hookData.push($APPEARANCE.drawables[d.id])
                 }

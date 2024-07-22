@@ -8,11 +8,12 @@ import "./handlers"
 
 const config = exports.bl_appearance
 let armour = 0
+let open = false
 
 let promise = null
 
 export async function openMenu(zone: TAppearanceZone, creation: boolean = false) {
-    if (zone === null) {
+    if (zone === null || open) {
         return;
     }
 
@@ -83,6 +84,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     if (promise) await promise
 
     promise = null
+    open = true
     return true
 }
 
@@ -141,4 +143,5 @@ export function closeMenu() {
     sendNUIEvent(Send.visible, false)
 
     emitNet('bl_appearance:server:exit')
+    open = false
 }
