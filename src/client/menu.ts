@@ -10,7 +10,8 @@ const config = exports.bl_appearance
 let armour = 0
 let open = false
 
-let promise = null
+let resolvePromise = null;
+let promise = null;
 
 export async function openMenu(zone: TAppearanceZone, creation: boolean = false) {
     if (zone === null || open) {
@@ -57,15 +58,10 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     const appearance = await getAppearance(pedHandle)
 
     if (creation) {
-        promise = new Promise((resolve) => {
-            let handler = null
-            handler = AddEventHandler('bl_appearance:client:exit', async (data) => {
-                removeEventListener('bl_appearance:client:exit', ()=>{
-                    resolve(false)
-                })
-            })
-        })
-        allowExit = false
+        emitNet('bl_appearance:server:setroutingbucket')
+        promise = new Promise(resolve => {
+            resolvePromise = resolve;
+        });
     }
 
     sendNUIEvent(Send.data, {
@@ -80,11 +76,15 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     })
     SetNuiFocus(true, true)
     sendNUIEvent(Send.visible, true)
-
-    if (promise) await promise
-
-    promise = null
     open = true
+
+    if (promise) {
+        await promise
+        emitNet('bl_appearance:server:resetroutingbucket');
+    }
+
+    promise = null;
+    resolvePromise = null;
     return true
 }
 
@@ -142,6 +142,8 @@ export function closeMenu() {
     SetNuiFocus(false, false)
     sendNUIEvent(Send.visible, false)
 
-    emitNet('bl_appearance:server:exit')
+    if (resolvePromise) {
+        resolvePromise();
+    }
     open = false
 }
