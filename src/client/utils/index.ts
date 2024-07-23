@@ -157,3 +157,8 @@ export const getFrameworkID = () => {
 export function Delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export function format(str: string): string {
+    if (!str.includes("'")) return str;
+    return str.replace(/'/g, "");
+}
