@@ -3,8 +3,8 @@ import { openMenu } from "./menu"
 import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
 import { triggerServerCallback, getFrameworkID, Delay, bl_bridge } from "@utils"
 
-RegisterCommand('openMenu', () => {
-    openMenu({ type: "appearance", coords: [0, 0, 0, 0] })  
+RegisterCommand('openMenu', async () => {
+    exports.bl_appearance.InitialCreation()
 }, false)
 
 exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
@@ -21,7 +21,7 @@ exports('GetPlayerPedAppearance', async (frameworkID) => {
 })
 
 exports('InitialCreation', async (cb?: Function) => {
-    await openMenu({ type: "appearance", coords: [0, 0, 0, 0] })
+    await openMenu({ type: "appearance", coords: [0, 0, 0, 0] }, true)
     if (cb) cb()
 })
 
@@ -45,4 +45,3 @@ onNet('onResourceStart', async (resource: string) => {
         await setPlayerPedAppearance(appearance)
     }
 })
-
