@@ -21,6 +21,8 @@ export enum Send {
     renameOutfit = 'appearance:renameOutfit',
     deleteOutfit = 'appearance:deleteOutfit',
     saveOutfit = 'appearance:saveOutfit',
+    importOutfit = 'appearance:importOutfit',
+    grabOutfit = 'appearance:grabOutfit',
 
     save = 'appearance:save',
     cancel = 'appearance:cancel',

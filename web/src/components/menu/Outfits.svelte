@@ -8,6 +8,7 @@
     import IconCheck from '@components/icons/IconCheck.svelte';
     import { slide } from 'svelte/transition';
     import IconPlus from '@components/icons/IconPlus.svelte';
+    import IconImport from '@components/icons/IconImport.svelte';
     import { SendEvent } from '@utils/eventsHandlers';
 
     $: outfits = $OUTFITS;
@@ -18,7 +19,9 @@
     let deleteIndex: number = -1;
 
     let isAdding: boolean = false;
+    let isImporting: boolean = false;
     let newOutfitLabel: string = '';
+    let importOutfitId: number;
 </script>
 
 {#each outfits as { label, outfit, id }, i}
@@ -40,6 +43,12 @@
                             renameLabel = label;
                         }}
                         class="btn w-full">{$LOCALE.EDIT_TITLE}</button
+                    >
+                    <button
+                        on:click={() => {
+                            OUTFITS.share(id)
+                        }}
+                        class="btn w-full">{$LOCALE.SHAREOUTFIT_TITLE}</button
                     >
                     <button
                         on:click={() => {
@@ -155,6 +164,50 @@
         </Wrapper>
                 
     </div>
+
+    {:else if isImporting}
+    <div 
+    transition:slide
+    class="w-full h-full">
+
+        <Wrapper label={$LOCALE.IMPORTOUTFIT_TITLE}>
+            <svelte:fragment slot="extra_primary">
+                <div
+
+                    class="w-full flex items-center justify-center gap-[0.5vh] h-[3vh]"
+                >
+                    <input
+                        type="number"
+                        class="w-full h-[3vh] p-[0.5vh] placeholder-gray-400"
+                        placeholder="Outfit Code"
+                        bind:value={importOutfitId}
+                    />
+                    <button
+                        on:click={() => {
+                            isImporting = false;
+                            importOutfitId = null;
+                        }}
+                        class="btn h-full aspect-square p-[0.5vh]"
+                    >
+                        <IconCancel />
+                    </button>
+                    <button
+                        on:click={() => {
+                            if (importOutfitId > 0) {
+                                OUTFITS.import(importOutfitId)
+                                isImporting = false;
+                                importOutfitId = null;
+                            }
+                        }}
+                        class="btn h-full aspect-square p-[0.5vh]"
+                    >
+                        <IconCheck />
+                    </button>
+                </div>
+            </svelte:fragment>
+        </Wrapper>
+
+    </div>
     {:else}
         <button
             transition:slide
@@ -168,6 +221,20 @@
             </div>
 
             <p>{$LOCALE.ADDOUTFIT_TITLE}</p>
+        </button>
+
+        <button
+            transition:slide
+            class="btn w-full h-[3vh] flex items-center justify-center gap-[0.5vh] mt-[0.5vh]"
+            on:click={() => {
+                isImporting = true;
+            }}
+        >
+            <div class="h-[60%] aspect-square grid place-items-center">
+                <IconImport />
+            </div>
+
+            <p>{$LOCALE.IMPORTOUTFIT_TITLE}</p>
         </button>
     {/if}
 </div>

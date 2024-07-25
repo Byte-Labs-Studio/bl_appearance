@@ -42,6 +42,8 @@ export default {
     "LOCKED_TITLE": "Locked",
     "ADDOUTFIT_TITLE": "Add Outfit",
     "NEWOUTFIT_TITLE": "New Outfit",
+    "SHAREOUTFIT_TITLE": "Share Outfit",
+    "IMPORTOUTFIT_TITLE": "Import Outfit",
     "REMOVETATTOO_TITLE": "Remove Tattoo",
     "ADDTATTOO_TITLE": "Add Tattoo",
     "TATTOO_TITLE": "Tattoo",

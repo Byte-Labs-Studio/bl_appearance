@@ -55,6 +55,32 @@ onClientCallback('bl_appearance:server:saveOutfit', async (src, frameworkId, dat
 	return id;
 });
 
+onClientCallback('bl_appearance:server:grabOutfit', async (src, id) => {
+	const response = await oxmysql.prepare(
+		'SELECT outfit FROM outfits WHERE id = ?',
+		[id]
+	);
+	return JSON.parse(response);;
+});
+
+onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, outfitId) => {
+    const [result] = await oxmysql.query(
+        'SELECT label, outfit FROM outfits WHERE id = ?',
+        [outfitId]
+    );
+
+    if (!result) {
+        return { success: false, message: 'Outfit not found' };
+    }
+
+    const newId = await oxmysql.insert(
+        'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
+        [frameworkId, `Imported Outfit ${outfitId}`, result.outfit]
+    );
+
+    return { success: true, id: newId };
+});
+
 onClientCallback('bl_appearance:server:saveSkin', async (src, frameworkId, skin) => {
 	const result = await oxmysql.update(
 		'UPDATE appearance SET skin = ? WHERE id = ?',
