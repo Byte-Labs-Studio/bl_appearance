@@ -27,5 +27,5 @@ export enum Send {
 
     camZoom = 'appearance:camZoom',
     camMove = 'appearance:camMove',
-    camScroll = 'appearance:camScroll',
+    camSection = 'appearance:camSection',
 }

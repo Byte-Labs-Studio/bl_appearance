@@ -2,11 +2,10 @@
     import { CONFIG, IS_BROWSER } from './stores/stores';
     import { InitialiseListen } from '@utils/listeners';
     import Visibility from '@providers/Visibility.svelte';
-    import Hexagon from '@components/micro/Hexagon.svelte';
     import Nav from '@components/Nav.svelte';
     import { fade } from 'svelte/transition';
     import Menu from '@components/Menu.svelte';
-	import CamDrag from '@components/micro/CamDrag.svelte'
+    import CamHandler from '@components/CamHandler.svelte';
 
     CONFIG.set({
         fallbackResourceName: 'debug',
@@ -23,15 +22,15 @@
         class="w-screen h-screen absolute top-0 left-0 radial-background grid place-items-center -z-50"
         transition:fade
     >
-        <div
+        <!-- <div
             transition:fade|global
             style="height: {radius}%;"
             class="absolute aspect-square border-[0.25vh] border-primary/20 rounded-full pointer-events-none -z-50"
-        />
+        /> -->
 
         <Nav />
         <Menu />
-        <CamDrag />
+        <CamHandler {radius} />
     </div>
 </Visibility>
 

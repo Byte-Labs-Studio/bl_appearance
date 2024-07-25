@@ -6,10 +6,12 @@ type Vector3 = {
     z: number;
 };
 
-interface CameraBones {
+interface TCameraBones {
+    whole: number; // SKEL_Root
     head: number; // SKEL_Head
     torso: number; // SKEL_Spine3
-    legs: number; // SKEL_Root
+    legs: number[]; // SKEL_Root
+    shoes: number[]; // SKEL_Root
 }
 
-export {Camera, Vector3, CameraBones}
+export {Camera, Vector3, TCameraBones}

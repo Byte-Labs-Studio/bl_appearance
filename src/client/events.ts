@@ -11,7 +11,7 @@ export enum Receive {
 
     camZoom = 'appearance:camZoom',
     camMove = 'appearance:camMove',
-    camScroll = 'appearance:camScroll',
+    camSection = 'appearance:camSection',
 
 
     setModel = 'appearance:setModel',

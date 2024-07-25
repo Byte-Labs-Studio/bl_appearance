@@ -148,6 +148,7 @@ local function setupZones()
     end
 end
 
+
 setupZones()
 
 local blips = {}
@@ -180,12 +181,25 @@ local function createBlips()
             BeginTextCommandSetBlipName('STRING')
             AddTextComponentString(blipname)
             EndTextCommandSetBlipName(blip)
-            table.insert(blips, blip)
+            blips[#blips+1] = blip
         end
     end
 end
 
 createBlips()
+
+AddEventHandler('onResourceStop', function(resource)
+    if resource == GetCurrentResourceName() then
+         for _, blip in pairs(blips) do
+             RemoveBlip(blip)
+         end
+
+         for _, sprite in pairs(sprites) do
+             sprite:removeSprite()
+         end
+    end
+ end)
+ 
 
 RegisterCommand('+openAppearance', function()
     TriggerEvent('bl_sprites:client:useZone', currentZone)

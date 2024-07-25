@@ -1,6 +1,9 @@
-import { Camera, Vector3, CameraBones } from '@typings/camera';
+import { Camera, Vector3, TCameraBones } from '@typings/camera';
 import { delay, ped } from '@utils';
 import { Receive } from '@events';
+
+const WHOLE_BODY_MAX_DISTANCE = 2.0;
+const DEFAULT_MAX_DISTANCE = 1.0;
 
 let running: boolean = false;
 let camDistance: number = 1.8;
@@ -11,12 +14,14 @@ let targetCoords: Vector3 | null = null;
 let oldCam: Camera | null = null;
 let changingCam: boolean = false;
 let lastX: number = 0;
-let currentBone: keyof CameraBones = 'head';
+let currentBone: keyof TCameraBones = 'head';
 
-const CameraBones: CameraBones = {
+const CameraBones: TCameraBones = {
+    whole: 0,
 	head: 31086,
 	torso: 24818,
-	legs: 14201,
+	legs: [16335, 46078],
+    shoes: [14201, 52301],
 };
 
 const cos = (degrees: number): number => {
@@ -47,7 +52,14 @@ const setCamPosition = (mouseX?: number, mouseY?: number): void => {
 
 	angleZ -= mouseX;
 	angleY += mouseY;
-	angleY = Math.min(Math.max(angleY, 0.0), 89.0);
+
+    const isHeadOrWhole = currentBone === 'whole' || currentBone === 'head';
+    const maxAngle = isHeadOrWhole ? 89.0 : 70.0;
+    
+    const isShoes = currentBone === 'shoes';
+    const minAngle = isShoes ? 5.0 : -20.0;
+
+	angleY = Math.min(Math.max(angleY, minAngle), maxAngle);
 
 	const [x, y, z] = getAngles();
 
@@ -111,12 +123,13 @@ const useHiDof = (currentcam: Camera) => {
 export const startCamera = () => {
 	if (running) return;
 	running = true;
-	camDistance = 1.0;
+	camDistance = WHOLE_BODY_MAX_DISTANCE
 	cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 	const [x, y, z]: number[] = GetPedBoneCoords(ped, 31086, 0.0, 0.0, 0.0);
 	SetCamCoord(cam, x, y, z);
 	RenderScriptCams(true, true, 1000, true, true);
-	moveCamera({ x: x, y: y, z: z }, camDistance);
+	// moveCamera({ x: x, y: y, z: z }, camDistance);
+    setCamera('whole', camDistance);
 };
 
 export const stopCamera = (): void => {
@@ -129,13 +142,42 @@ export const stopCamera = (): void => {
 	targetCoords = null;
 };
 
-const setCamera = (type?: keyof CameraBones): void => {
-	const bone: number | undefined = CameraBones[type];
-	if (currentBone == type) return;
+const setCamera = (type?: keyof TCameraBones, distance = camDistance): void => {
 
-	const [x, y, z]: number[] = bone
-		? GetPedBoneCoords(ped, bone, 0.0, 0.0, bone === 14201 ? 0.2 : 0.0)
-		: GetEntityCoords(ped, false);
+	const bone: number | number[] | undefined = CameraBones[type];
+
+    const isBoneArray = Array.isArray(bone)
+
+    currentBone = type;
+
+    if (!isBoneArray && bone === 0) {
+        const [x, y, z]: number[] = GetEntityCoords(ped, false);
+        moveCamera(
+            {
+                x: x,
+                y: y,
+                z: z + 0.0,
+            },
+            distance
+        );
+        return;
+    }
+
+    // If its not whole body, then we need to limit the distance
+    if (distance > DEFAULT_MAX_DISTANCE) distance = DEFAULT_MAX_DISTANCE;
+
+    if (isBoneArray) {
+        const [x1, y1, z1]: number[] = GetPedBoneCoords(ped, bone[0], 0.0, 0.0, 0.0)
+
+        const [x2, y2, z2]: number[] = GetPedBoneCoords(ped, bone[1], 0.0, 0.0, 0.0)
+
+        // get the middle of the two points
+        var x = (x1 + x2) / 2;
+        var y = (y1 + y2) / 2;
+        var z = (z1 + z2) / 2;
+    } else {
+        var [x, y, z]: number[] = GetPedBoneCoords(ped, bone, 0.0, 0.0, 0.0)
+    }
 
 	moveCamera(
 		{
@@ -143,44 +185,58 @@ const setCamera = (type?: keyof CameraBones): void => {
 			y: y,
 			z: z + 0.0,
 		},
-		1.0
+		distance
 	);
 
-	currentBone = type;
 };
 
 RegisterNuiCallback(Receive.camMove, (data, cb) => {
-	cb(1);
-	let heading: number = GetEntityHeading(ped);
-	if (lastX == data.x) {
-		return;
-	}
-	heading = data.x > lastX ? heading + 5 : heading - 5;
-	SetEntityHeading(ped, heading);
+    // let heading: number = GetEntityHeading(ped);
+	// if (lastX == data.x) {
+        // 	return;
+        // }
+        // heading = data.x > lastX ? heading + 5 : heading - 5;
+        // SetEntityHeading(ped, heading);
+    setCamPosition(data.x, data.y);
+    cb(1);
 });
 
-RegisterNuiCallback(Receive.camScroll, (type: number, cb: Function) => {
+type TSection = 'whole' | 'head' | 'torso' | 'legs' | 'shoes';
+
+RegisterNuiCallback(Receive.camSection, (type: TSection, cb: Function) => {
+    console.log(type)
 	switch (type) {
-		case 2:
-			setCamera();
-			break;
-		case 1:
-			setCamera('legs');
-			break;
-		case 3:
-			setCamera('head');
-			break;
+        case 'whole':
+            setCamera('whole', WHOLE_BODY_MAX_DISTANCE);
+            break;
+        case 'head':
+            setCamera('head');
+            break;
+        case 'torso':
+            setCamera('torso');
+            break;
+        case 'legs':
+            setCamera('legs');
+            break;
+        case 'shoes':
+            setCamera('shoes');
+            break;
 	}
 	cb(1);
 });
 
 RegisterNuiCallback(Receive.camZoom, (data, cb) => {
 	if (data === 'down') {
+
+        const maxZoom = currentBone === 'whole' ? WHOLE_BODY_MAX_DISTANCE : DEFAULT_MAX_DISTANCE;
+
+        console.log(maxZoom)
+
 		const newDistance: number = camDistance + 0.05;
-		camDistance = newDistance >= 1.0 ? 1.0 : newDistance;
+		camDistance = newDistance >= maxZoom ? maxZoom : newDistance;
 	} else if (data === 'up') {
 		const newDistance: number = camDistance - 0.05;
-		camDistance = newDistance <= 0.35 ? 0.35 : newDistance;
+		camDistance = newDistance <= 0.3 ? 0.3 : newDistance;
 	}
 
 	camDistance = camDistance;
