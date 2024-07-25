@@ -4,6 +4,7 @@ import { DebugEventSend } from '@utils/eventsHandlers'
 import { Receive } from '@enums/events'
 import { debugAppearance, debugBlacklist, debugModels, debugOutfits, debugTattoos } from './debugAppearance'
 import type { TMenuData } from '@typings/apperance'
+import debugLocale from './debugLocale'
 
 /**
  * The initial debug actions to run on startup
@@ -20,11 +21,12 @@ const InitDebug: DebugAction[] = [
             DebugEventSend<TMenuData>(Receive.data, {
                 tabs: ['heritage', 'hair', 'clothes', 'accessories', 'face', 'makeup', 'outfits', 'tattoos'],
                 appearance: debugAppearance,
+                allowExit: true,
                 blacklist: debugBlacklist,
                 tattoos: debugTattoos,
                 outfits: debugOutfits,
                 models: debugModels,
-                locale: JSON.stringify({}),
+                locale: JSON.stringify(debugLocale),
             })
         },
     },
