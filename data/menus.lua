@@ -1,7 +1,7 @@
 local menus = {
 	appearance = {
 		tabs = { "heritage", "hair", "clothes", "accessories", "face", "makeup", "outfits", "tattoos" },
-		allowExit = false,
+		allowExit = true,
 	},
 
 	clothing = {

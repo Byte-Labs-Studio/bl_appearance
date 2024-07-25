@@ -31,7 +31,7 @@ export const IS_VALID: Writable<Blacklist> = writable<Blacklist>({
     drawables: true,
 });
 
-export const ALLOW_EXIT: Writable<boolean> = writable<boolean>(false);
+export const ALLOW_EXIT: Writable<boolean> = writable<boolean>(true);
 
 export const BLACKLIST: Writable<TBlacklist> = writable<TBlacklist>(null);
 

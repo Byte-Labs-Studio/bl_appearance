@@ -27,6 +27,8 @@ const AlwaysListened: DebugEventCallback[] = [
         handler: (data: TMenuData) => {
             let tabs = [];
 
+            console.log(data.locale, "LOCALE")
+
             if (data.locale) LOCALE.set(JSON.parse(data.locale))
 
             if (data.tabs) {
@@ -54,7 +56,13 @@ const AlwaysListened: DebugEventCallback[] = [
             if (data.tattoos) TATTOOS.set(data.tattoos);
             if (data.models) MODELS.set(data.models);
             if (data.outfits) OUTFITS.set(data.outfits);
-            if (data.allowExit !== undefined) ALLOW_EXIT.set(data.allowExit);
+
+            if (data.allowExit !== undefined) {
+                ALLOW_EXIT.set(data.allowExit)
+            } else {
+                ALLOW_EXIT.set(true)
+            }
+            console.log(ALLOW_EXIT, "ALLOW_EXIT")
         },
     },
 ];

@@ -64,6 +64,7 @@
         class="absolute left-0 top-1/2 -translate-x-1/2 h-fit w-[5vh] flex flex-col items-center justify-center"
     >
         <button
+            transition:scale|global={{ delay: 1000 }}
             on:click={() => setLevel('up')}
             class="w-full active:scale-95 h-full grid place-items-center hover:scale-105 duration-150 cursor-pointer"
         >
@@ -74,6 +75,7 @@
         </button>
 
         <div
+        transition:scale|global={{ delay: 1100 }}
             class="w-[6vh] absolute translate-x-[85%] h-full grid place-items-center cursor-default"
         >
             <Hexagon active={false} />
@@ -98,6 +100,7 @@
         </div>
 
         <button
+        transition:scale|global={{ delay: 1050 }}
             on:click={() => setLevel('down')}
             class="w-full overflow-hidden active:scale-95 h-full grid place-items-center hover:scale-105 duration-150 cursor-pointer"
         >
