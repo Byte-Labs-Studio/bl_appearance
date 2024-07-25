@@ -27,4 +27,6 @@ export enum Receive {
     renameOutfit = 'appearance:renameOutfit',
     deleteOutfit = 'appearance:deleteOutfit',
     saveOutfit = 'appearance:saveOutfit',
+    importOutfit = 'appearance:importOutfit',
+    grabOutfit = 'appearance:grabOutfit',
 }

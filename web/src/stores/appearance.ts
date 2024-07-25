@@ -112,6 +112,36 @@ const OUTFITS_INIT = () => {
                 });
             });
         },
+        
+        import: (id: number) => {
+            SendEvent(Send.importOutfit, { id })
+            .then((success: boolean) => {
+                if (!success) return;
+        
+                return SendEvent(Send.grabOutfit, { id });
+            })
+            .then((outfitData: TOutfitData | undefined) => {
+                if (!outfitData) return;
+        
+                const currentOutfits = methods.get()
+                currentOutfits.push({
+                    id: id,
+                    label: `Imported Outfit ${currentOutfits.length + 1}`,
+                    outfit: outfitData
+                });
+        
+                store.set(currentOutfits);
+            })
+        },
+
+        share: (id: number) => {
+            const textarea = document.createElement('textarea');
+            textarea.value = id.toString();
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
     };
 
     return {

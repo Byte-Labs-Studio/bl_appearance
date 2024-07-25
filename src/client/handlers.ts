@@ -168,3 +168,14 @@ RegisterNuiCallback(Receive.useOutfit, async (outfit: Outfit, cb: Function) => {
 	setPedClothes(ped, outfit);
 	cb(1);
 });
+
+RegisterNuiCallback(Receive.importOutfit, async ({ id }, cb: Function) => {
+	const frameworkdId = getFrameworkID();
+	const result = await triggerServerCallback('bl_appearance:server:importOutfit', frameworkdId, id);
+	cb(result);
+});
+
+RegisterNuiCallback(Receive.grabOutfit, async ({ id }, cb: Function) => {
+	const result = await triggerServerCallback('bl_appearance:server:grabOutfit', id);
+	cb(result);
+});
