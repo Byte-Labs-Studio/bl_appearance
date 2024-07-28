@@ -1,7 +1,9 @@
-import { TAppearance, TAppearanceZone, TMenuTypes } from "@typings/appearance"
+import { TAppearance, TAppearanceZone } from "@typings/appearance"
 import { openMenu } from "./menu"
 import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
-import { triggerServerCallback, getFrameworkID, Delay, bl_bridge } from "@utils"
+import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format } from "@utils"
+import { QBBridge } from "./bridge/qb"
+import { ESXBridge } from "./bridge/esx"
 
 RegisterCommand('openMenu', async () => {
     exports.bl_appearance.InitialCreation()
@@ -35,6 +37,7 @@ onNet('bl_bridge:client:playerLoaded', async () => {
     }
     const frameworkID = await getFrameworkID()
     const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+    if (!appearance) return;
     await setPlayerPedAppearance(appearance)
 })
 
@@ -42,6 +45,32 @@ onNet('onResourceStart', async (resource: string) => {
     if (resource === GetCurrentResourceName() && bl_bridge.core().playerLoaded()) {
         const frameworkID = await getFrameworkID()
         const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+        if (!appearance) return;
         await setPlayerPedAppearance(appearance)
     }
 })
+
+const frameworkName = bl_bridge.getFramework('core')
+const core = format(GetConvar('bl:framework', 'qb'))
+
+if (core == 'qb' || core == 'qbx' && GetResourceState(frameworkName) == 'started') {
+    QBBridge();
+} else if (core == 'esx' && GetResourceState(frameworkName) == 'started') {
+    ESXBridge();
+}
+
+RegisterCommand('reloadskin', async () => {
+    const frameworkID = await getFrameworkID()
+    const health = GetEntityHealth(ped);
+    const maxhealth = GetEntityMaxHealth(ped);
+    const armor = GetPedArmour(ped);
+
+    const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+    if (!appearance) return;
+    await setPlayerPedAppearance(appearance)
+
+    SetPedMaxHealth(ped, maxhealth)
+    delay(1000) 
+    SetEntityHealth(ped, health)
+    SetPedArmour(ped, armor)
+}, false)
