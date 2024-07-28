@@ -18,7 +18,6 @@ const InitDebug: DebugAction[] = [
     {
         label: 'Data',
         action: () => {
-            console.log("DATA")
             DebugEventSend<TMenuData>(Receive.data, {
                 tabs: ['heritage', 'hair', 'clothes', 'accessories', 'face', 'makeup', 'outfits', 'tattoos'],
                 appearance: debugAppearance,

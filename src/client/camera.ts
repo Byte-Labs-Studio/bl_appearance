@@ -204,7 +204,6 @@ RegisterNuiCallback(Receive.camMove, (data, cb) => {
 type TSection = 'whole' | 'head' | 'torso' | 'legs' | 'shoes';
 
 RegisterNuiCallback(Receive.camSection, (type: TSection, cb: Function) => {
-    console.log(type)
 	switch (type) {
         case 'whole':
             setCamera('whole', WHOLE_BODY_MAX_DISTANCE);
@@ -229,8 +228,6 @@ RegisterNuiCallback(Receive.camZoom, (data, cb) => {
 	if (data === 'down') {
 
         const maxZoom = currentBone === 'whole' ? WHOLE_BODY_MAX_DISTANCE : DEFAULT_MAX_DISTANCE;
-
-        console.log(maxZoom)
 
 		const newDistance: number = camDistance + 0.05;
 		camDistance = newDistance >= maxZoom ? maxZoom : newDistance;
