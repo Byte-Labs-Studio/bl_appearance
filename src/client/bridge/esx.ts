@@ -1,12 +1,9 @@
 
 import { TAppearance } from "@typings/appearance"
 import { setPedAppearance, setPlayerPedAppearance } from "../appearance/setters"
-import { bl_bridge, format, getFrameworkID, triggerServerCallback } from "@utils"
+import { getFrameworkID, triggerServerCallback } from "@utils"
 
-const frameworkName = bl_bridge.getFramework('core')
-const core = format(GetConvar('bl:framework', 'qb'))
-
-if (core == 'esx' && GetResourceState(frameworkName) == 'started') {
+export function ESXBridge() {
     let firstSpawn = false
 
     on("esx_skin:resetFirstSpawn", () => {
