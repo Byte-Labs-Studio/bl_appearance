@@ -5,7 +5,7 @@ export const configTabs: TTab[] = [
     {
         id: 'heritage',
         label: 'Heritage',
-        icon: 'IconHeritage',
+        icon: 'IconFamily',
         src: 'Heritage',
     },
     {
@@ -23,19 +23,19 @@ export const configTabs: TTab[] = [
     {
         id: 'clothes',
         label: 'Clothes',
-        icon: 'IconClothes',
+        icon: 'IconShirt',
         src: 'Clothes',
     },
     {
         id: 'accessories',
         label: 'Accessories',
-        icon: 'IconAccessories',
+        icon: 'IconWatch',
         src: 'Accessories',
     },
     {
         id: 'makeup',
         label: 'Make Up',
-        icon: 'IconMakeUp',
+        icon: 'IconMakeup',
         src: 'MakeUp',
     },
     {
@@ -47,7 +47,7 @@ export const configTabs: TTab[] = [
     {
         id: 'outfits',
         label: 'Outfits',
-        icon: 'IconOutfits',
+        icon: 'IconHanger',
         src: 'Outfits',
     },
 ]

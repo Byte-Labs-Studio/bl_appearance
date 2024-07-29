@@ -5,11 +5,11 @@
     import IconCaretDown from './icons/IconCaretDown.svelte';
     import IconCaretUp from './icons/IconCaretUp.svelte';
     import { scale } from 'svelte/transition';
+    import IconWholeBody from './icons/IconWholeBody.svelte';
     import IconHead from './icons/IconHead.svelte';
-    import IconPerson from './icons/IconPerson.svelte';
-    import IconShirt from './icons/IconShirt.svelte';
-    import IconPants from './icons/IconPants.svelte';
-    import IconShoe from './icons/IconShoe.svelte';
+    import IconUpper from './icons/IconUpper.svelte';
+    import IconLower from './icons/IconLower.svelte';
+    import IconFeet from './icons/IconFeet.svelte';
 
     export let radius: number;
 
@@ -85,15 +85,15 @@
                     class="w-full h-full absolute grid place-items-center"
                 >
                     {#if level === 'whole'}
-                        <IconPerson />
+                        <IconWholeBody />
                     {:else if level === 'head'}
                         <IconHead />
                     {:else if level === 'torso'}
-                        <IconShirt />
+                        <IconUpper />
                     {:else if level === 'legs'}
-                        <IconPants />
+                        <IconLower />
                     {:else if level === 'shoes'}
-                        <IconShoe />
+                        <IconFeet />
                     {/if}
                 </div>
             {/key}

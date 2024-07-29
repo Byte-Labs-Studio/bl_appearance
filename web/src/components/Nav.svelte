@@ -19,8 +19,11 @@
     import { SendEvent } from '@utils/eventsHandlers';
     import { Send } from '@enums/events';
     import IconLock from './icons/IconLock.svelte';
+    import IconToggle from './icons/IconToggle.svelte';
 
-    const centerX = -5;
+    const centerX: number = -5;
+
+    let showToggles: boolean = false;
 
     const degToRad = (deg: number) => {
         return deg * (Math.PI / 180);
@@ -85,49 +88,56 @@
         {
             id: 'hats',
             type: 'props',
+            icon: 'IconHat',
         },
         {
             id: 'masks',
             type: 'drawables',
+            icon: 'IconMask',
         },
         {
             id: 'glasses',
             type: 'props',
+            icon: 'IconGlasses',
         },
         {
             id: 'shirts',
             type: 'drawables',
+            icon: 'IconShirt',
             hook: {
                 drawables: [
                     { component: 3, variant: 15, texture: 0, id: 'torsos' },
-                    { component: 11, variant: 15, texture: 0, id: 'jackets'}
-                ]
-            }
+                    { component: 11, variant: 15, texture: 0, id: 'jackets' },
+                ],
+            },
         },
         {
             id: 'jackets',
             type: 'drawables',
+            icon: 'IconJacket',
             hook: {
                 drawables: [
                     { component: 3, variant: 15, texture: 0, id: 'torsos' },
-                    { component: 8, variant: 15, texture: 0, id: 'shirts'}
-                ]
-            }
+                    { component: 8, variant: 15, texture: 0, id: 'shirts' },
+                ],
+            },
         },
         {
             id: 'vest',
             type: 'drawables',
+            icon: 'IconJacket',
         },
         {
             id: 'legs',
             type: 'drawables',
+            icon: 'IconPants',
         },
         {
             id: 'shoes',
             type: 'drawables',
+            icon: 'IconShoes',
         },
-
-    ]
+    ];
 </script>
 
 <nav class=" relative z-[9999 w-fit h-fit rounded-full">
@@ -162,10 +172,13 @@
                     <!-- {#await import(`./icons/${tab.icon}.svelte`) then { default: Icon }}
                         <Icon />
                     {/await} -->
-                    {#if iconsMap[tab.icon]}
-                        {@const Icon = getIconComponent(tab.icon)}
+                    <!-- {#if iconsMap[tab.icon]} -->
+                    {#await import(`./icons/${tab.icon}.svelte`) then { default: Icon }}
                         <Icon />
-                    {/if}
+                    {/await}
+                    <!-- {@const Icon = getIconComponent(tab.icon)}
+                        <Icon /> -->
+                    <!-- {/if} -->
                 </div>
             </div>
         </button>
@@ -178,7 +191,7 @@
     {#if $ALLOW_EXIT}
         <button
             transition:scale|global={{ delay: 1250 }}
-            class="w-[5vh] aspect-square grid place-items-center overflow-visible translate-x-[120%] translate-y-[80%]"
+            class="w-[5vh] aspect-square grid place-items-center overflow-visible absolute translate-x-[110%] -translate-y-[90%]"
             on:click={() => {
                 modal = 'close';
             }}
@@ -201,6 +214,7 @@
         }}
     >
         <div
+            transition:scale|global={{ delay: 1500 }}
             class="w-full h-full grid place-items-center hover:scale-105 duration-150"
         >
             <Hexagon active={false} variant="success" />
@@ -213,40 +227,61 @@
             </div>
         </div>
     </button>
+
+    <button
+        on:click={() => (showToggles = !showToggles)}
+        transition:scale|global={{ duration: 750, delay: 1000 }}
+        class="h-[5vh] w-[5vh] absolute grid place-items-center origin-center cursor-pointer -translate-y-[140%] translate-x-[25%]"
+    >
+        <div
+            class="w-full h-full grid place-items-center origin-center hover:scale-105 duration-150"
+        >
+            <Hexagon active={showToggles} strokeWidth="1vh" />
+            <div
+                class="w-full h-fit grid absolute place-items-center fill-white"
+            >
+                <IconToggle />
+            </div>
+        </div>
+    </button>
 </div>
 
-<div class="w-[7vh]  left-[3vh] absolute  h-full flex flex-col gap-[1vh] items-center justify-center -z-30">
-    {#each toggleOrder as {id, type, hook}, i}
-        {@const toggle = $TOGGLES[id]}
-        {@const icon = `Icon${id.charAt(0).toUpperCase() + id.slice(1)}`}
-        <button
-            on:click={() => {
-                const data = $APPEARANCE[type][id];
-                let hookData=[]
-                for (let i=0; i < hook?.drawables?.length; i++) {
-                    const d = hook.drawables[i]
-                    hookData.push($APPEARANCE.drawables[d.id])
-                }
-                if (data) {
-                    TOGGLES.toggle(id, !toggle, data, hook, hookData)
-                }
-                
-            }}
-            transition:scale|global={{ duration: 750, delay: 1000 }}
-            class="h-[7vh] w-full grid place-items-center origin-center cursor-pointer "
-        >
-            <div
-                class="w-full h-full grid place-items-center  origin-center hover:scale-105 duration-150"
-            > 
-                <Hexagon active={toggle} />
-                <div class="w-2/3 h-fit grid absolute place-items-center fill-white">
-                    {#await import(`./icons/${icon}.svelte`) then { default: Icon }}
-                        <Icon />
-                    {/await}
+<div
+    class="w-[7vh] left-[3vh] absolute h-full flex flex-col gap-[1vh] items-center justify-center -z-30"
+>
+    {#if showToggles}
+        {#each toggleOrder as { id, type, hook, icon }, i}
+            {@const toggle = $TOGGLES[id]}
+            <button
+                on:click={() => {
+                    const data = $APPEARANCE[type][id];
+                    let hookData = [];
+                    for (let i = 0; i < hook?.drawables?.length; i++) {
+                        const d = hook.drawables[i];
+                        hookData.push($APPEARANCE.drawables[d.id]);
+                    }
+                    if (data) {
+                        TOGGLES.toggle(id, !toggle, data, hook, hookData);
+                    }
+                }}
+                transition:scale|global={{ duration: 750 }}
+                class="h-[7vh] w-full grid place-items-center origin-center cursor-pointer"
+            >
+                <div
+                    class="w-full h-full grid place-items-center origin-center hover:scale-105 duration-150"
+                >
+                    <Hexagon active={toggle} />
+                    <div
+                        class="w-2/3 h-fit grid absolute place-items-center fill-white"
+                    >
+                        {#await import(`./icons/${icon}.svelte`) then { default: Icon }}
+                            <Icon size={id == 'glasses' ? 55 : 45} />
+                        {/await}
+                    </div>
                 </div>
-            </div>
-        </button>
-    {/each}
+            </button>
+        {/each}
+    {/if}
 </div>
 
 {#if modal}
@@ -299,7 +334,7 @@
                         {/if}
                     </p>
                 </button>
-                {#if (isValid || modal === 'close')}
+                {#if isValid || modal === 'close'}
                     <button
                         class="btn w-[10vh] h-[5vh] grid place-items-center"
                         on:click={() => {

@@ -6,9 +6,9 @@
     xmlns="http://www.w3.org/2000/svg"
 >
     <path
-        d="M13.84 31C3.93518 28.25 3.93524 9 19.5 9C35.0647 9 35.0649 28.25 25.16 31M18.5 31H20.5"
+        d="M12 8V31.9733M27 8V31.8895M24 8H25.3254M19.2079 8H20.5334M14.0079 8H15.3334M19.8 15.3506L19.7991 31.9733M15.1746 32H16.5M23 32H24.3254"
+        stroke-linecap="round"
         class="stroke-txt-primary"
         stroke-width="{$$props.strokeWidth || 1}"
-        stroke-linecap="round"
     />
 </svg>
