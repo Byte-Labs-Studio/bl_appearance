@@ -218,7 +218,7 @@
             class="w-full h-full grid place-items-center hover:scale-105 duration-150"
         >
             <Hexagon active={false} variant="success" />
-            <div class="w-[5vh] h-full absolute grid place-items-center">
+            <div class="w-[8vh] h-full absolute grid place-items-center">
                 {#if isValid}
                     <IconSave />
                 {:else}
