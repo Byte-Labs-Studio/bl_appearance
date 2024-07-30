@@ -169,16 +169,10 @@
             >
                 <Hexagon active={selected} />
                 <div class="w-full h-full absolute grid place-items-center">
-                    <!-- {#await import(`./icons/${tab.icon}.svelte`) then { default: Icon }}
+                    {#if iconsMap[tab.icon]}
+                        {@const Icon = getIconComponent(tab.icon)}
                         <Icon />
-                    {/await} -->
-                    <!-- {#if iconsMap[tab.icon]} -->
-                    {#await import(`./icons/${tab.icon}.svelte`) then { default: Icon }}
-                        <Icon />
-                    {/await}
-                    <!-- {@const Icon = getIconComponent(tab.icon)}
-                        <Icon /> -->
-                    <!-- {/if} -->
+                    {/if}
                 </div>
             </div>
         </button>
