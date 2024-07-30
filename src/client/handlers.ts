@@ -179,3 +179,12 @@ RegisterNuiCallback(Receive.grabOutfit, async ({ id }, cb: Function) => {
 	const result = await triggerServerCallback('bl_appearance:server:grabOutfit', id);
 	cb(result);
 });
+
+RegisterNuiCallback(Receive.itemOutfit, async (data: {outfit: Outfit, label: string}, cb: Function) => {
+	const result = await triggerServerCallback('bl_appearance:server:itemOutfit',data);
+	cb(result);
+});
+
+onNet('bl_appearance:server:useOutfit', (outfit: Outfit) => {
+	setPedClothes(ped, outfit);
+})
