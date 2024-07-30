@@ -18,6 +18,7 @@ export enum Send {
     toggleItem = 'appearance:toggleItem',
 
     useOutfit = 'appearance:useOutfit',
+    itemOutfit = 'appearance:itemOutfit',
     renameOutfit = 'appearance:renameOutfit',
     deleteOutfit = 'appearance:deleteOutfit',
     saveOutfit = 'appearance:saveOutfit',

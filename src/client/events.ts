@@ -24,6 +24,7 @@ export enum Receive {
     getModelTattoos = 'appearance:getModelTattoos',
 
     useOutfit = 'appearance:useOutfit',
+    itemOutfit = 'appearance:itemOutfit',
     renameOutfit = 'appearance:renameOutfit',
     deleteOutfit = 'appearance:deleteOutfit',
     saveOutfit = 'appearance:saveOutfit',
