@@ -114,27 +114,28 @@ const OUTFITS_INIT = () => {
         },
         
         import: (id: number) => {
-            const currentOutfits = methods.get()
+            const currentOutfits = methods.get();
             const outfitName = `Imported Outfit ${currentOutfits.length + 1}`;
-
-            SendEvent(Send.importOutfit, { id, outfitName})
-
-            .then((success: boolean) => {
-                if (!success) return;
+            let importedId: number | null = null;
         
-                return SendEvent(Send.grabOutfit, { id});
-            })
-            .then((outfitData: TOutfitData | undefined) => {
-                if (!outfitData) return;
-
-                currentOutfits.push({
-                    id: id,
-                    label: outfitName,
-                    outfit: outfitData
-                });
+            SendEvent(Send.importOutfit, { id, outfitName })
+                .then(({ success, newId }: { success: boolean; newId: number }) => {
+                    if (!success) return;
         
-                store.set(currentOutfits);
-            })
+                    importedId = newId;
+                    return SendEvent(Send.grabOutfit, { id: importedId });
+                })
+                .then((outfitData: TOutfitData | undefined) => {
+                    if (!importedId || !outfitData) return;
+        
+                    currentOutfits.push({
+                        id: importedId,
+                        label: outfitName,
+                        outfit: outfitData
+                    });
+        
+                    store.set(currentOutfits);
+                })
         },
 
         share: (id: number) => {

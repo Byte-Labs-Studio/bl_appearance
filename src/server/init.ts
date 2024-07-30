@@ -60,7 +60,7 @@ onClientCallback('bl_appearance:server:grabOutfit', async (src, id) => {
 		'SELECT outfit FROM outfits WHERE id = ?',
 		[id]
 	);
-	return JSON.parse(response);;
+	return JSON.parse(response)
 });
 
 onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, outfitId, outfitName) => {
@@ -78,7 +78,7 @@ onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, o
         [frameworkId, outfitName, result.outfit]
     );
 
-    return { success: true, id: newId };
+    return { success: true, newId: newId };
 });
 
 onClientCallback('bl_appearance:server:saveSkin', async (src, frameworkId, skin) => {
