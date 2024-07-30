@@ -13,7 +13,8 @@ import {
     TABS,
     TATTOOS,
     LOCALE,
-    ALLOW_EXIT
+    ALLOW_EXIT,
+    JOBDATA
 } from '@stores/appearance';
 import { deepCopy } from './misc';
 
@@ -54,6 +55,7 @@ const AlwaysListened: DebugEventCallback[] = [
             if (data.tattoos) TATTOOS.set(data.tattoos);
             if (data.models) MODELS.set(data.models);
             if (data.outfits) OUTFITS.set(data.outfits);
+            if (data.job) JOBDATA.set(data.job);
 
             if (data.allowExit !== undefined) {
                 ALLOW_EXIT.set(data.allowExit)

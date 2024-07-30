@@ -1,6 +1,6 @@
-import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, delay, ped, getPlayerData } from "@utils"
+import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, ped, getPlayerData, getJobInfo } from "@utils"
 import { startCamera, stopCamera } from "./camera"
-import type { TAppearanceZone, TMenuTypes } from "@typings/appearance"
+import type { TAppearanceZone } from "@typings/appearance"
 import { Outfit } from "@typings/outfits"
 import { Send } from "@events"
 import { getAppearance, getTattooData } from "./appearance/getters"
@@ -64,6 +64,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
         });
     }
 
+
     sendNUIEvent(Send.data, {
         tabs,
         appearance,
@@ -72,6 +73,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
         outfits,
         models,
         allowExit,
+        job: getJobInfo(),
         locale: await requestLocale('locale')
     })
     SetNuiFocus(true, true)

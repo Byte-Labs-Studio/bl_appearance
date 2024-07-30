@@ -165,6 +165,11 @@ export type TBlacklist = {
 	props?: TBlacklistValues
 }
 
+export type TJOBDATA = { 
+	name: string,
+	isBoss: boolean 
+}
+
 export type TModel = string
 
 export type TMenuData = {
@@ -175,6 +180,7 @@ export type TMenuData = {
     blacklist: TBlacklist;
     models: TModel[];
     tattoos: TZoneTattoo[];
+	job: TJOBDATA,
     allowExit: boolean;
 }
 

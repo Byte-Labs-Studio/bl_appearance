@@ -1,13 +1,14 @@
-import { onClientCallback } from './utils';
+import { core, onClientCallback } from './utils';
 import { oxmysql } from '@overextended/oxmysql';
 import { Outfit } from '@typings/outfits';
 import { saveAppearance } from './appearance';
 import { SkinDB } from '@typings/appearance';
 
 onClientCallback('bl_appearance:server:getOutfits', async (src, frameworkId) => {
+	const job = core.GetPlayer(src).job
 	let response = await oxmysql.prepare(
-		'SELECT * FROM outfits WHERE player_id = ?',
-		[frameworkId]
+		'SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)',
+		[frameworkId, job.name, job.grade.name]
 	);
 	if (!response) return [];
 
@@ -48,9 +49,11 @@ onClientCallback('bl_appearance:server:deleteOutfit', async (src, frameworkId, i
 });
 
 onClientCallback('bl_appearance:server:saveOutfit', async (src, frameworkId, data: Outfit) => {
+	const jobname = data.job?.name || null;
+	const jobrank = data.job?.rank || null;
 	const id = await oxmysql.insert(
-		'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
-		[frameworkId, data.label, JSON.stringify(data.outfit)]
+		'INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)',
+		[frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank]
 	);
 	return id;
 });
@@ -60,7 +63,12 @@ onClientCallback('bl_appearance:server:grabOutfit', async (src, id) => {
 		'SELECT outfit FROM outfits WHERE id = ?',
 		[id]
 	);
-	return JSON.parse(response)
+	return JSON.parse(response);
+});
+
+onClientCallback('bl_appearance:server:itemOutfit', async (src, data) => {
+	const player = core.GetPlayer(src)
+	player.addItem('cloth', 1, data)
 });
 
 onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, outfitId, outfitName) => {
@@ -162,7 +170,13 @@ RegisterCommand('migrate', async (source: number) => {
 	const config = bl_appearance.config();
 	const importedModule = await import(`./migrate/${config.previousClothing === 'fivem-appearance' ? 'fivem' : config.previousClothing}.ts`)
 	importedModule.default(source)
-}, false)
+}, false);
+
+core.RegisterUsableItem('cloth', async (source: number, slot: number, metadata: {outfit: Outfit, label: string}) => {
+	const player = core.GetPlayer(source)
+	if (player?.removeItem('cloth', 1, slot)) 
+		emitNet('bl_appearance:server:useOutfit', source, metadata.outfit)
+})
 
 oxmysql.ready(() => {
 	oxmysql.query(`CREATE TABLE IF NOT EXISTS appearance (

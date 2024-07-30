@@ -16,7 +16,8 @@ import type {
     TValue,
     TZoneTattoo,
     Blacklist,
-    TTattoo
+    TTattoo,
+    TJOBDATA
 } from '@typings/apperance';
 import { SendEvent } from '@utils/eventsHandlers';
 import { get, type Writable, writable } from 'svelte/store';
@@ -35,6 +36,8 @@ export const ALLOW_EXIT: Writable<boolean> = writable<boolean>(true);
 
 export const BLACKLIST: Writable<TBlacklist> = writable<TBlacklist>(null);
 
+export const JOBDATA: Writable<TJOBDATA> = writable<TJOBDATA>({ name: '', isBoss: false });
+
 export const ORIGINAL_APPEARANCE: Writable<TAppearance> =
     writable<TAppearance>(null);
 
@@ -50,7 +53,7 @@ const OUTFITS_INIT = () => {
 
         reset: () => store.set(null),
 
-        save: (label: string) => {
+        save: (label: string, job: { name: string, rank: number } | null) => {
             const appearance = APPEARANCE.get();
 
             const outfit: TOutfitData = {
@@ -59,7 +62,7 @@ const OUTFITS_INIT = () => {
                 headOverlay: appearance.headOverlay,
             };
         
-            SendEvent(Send.saveOutfit, { label, outfit }).then((success: boolean) => {
+            SendEvent(Send.saveOutfit, { label, outfit, job }).then((success: boolean) => {
                 if (!success) return
                 const currentOutfits = methods.get();
                 currentOutfits.push({
@@ -145,7 +148,11 @@ const OUTFITS_INIT = () => {
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-        }
+        },
+
+        item: (outfit: TOutfitData, label: string) => {
+            SendEvent(Send.itemOutfit, {outfit, label});
+        },
     };
 
     return {

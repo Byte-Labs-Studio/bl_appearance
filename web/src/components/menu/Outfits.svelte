@@ -3,7 +3,7 @@
     import Dropdown from '@components/micro/Dropdown.svelte';
     import { Send } from '@enums/events';
     import Divider from '@components/micro/Divider.svelte';
-    import { OUTFITS, LOCALE } from '@stores/appearance';
+    import { OUTFITS, LOCALE, JOBDATA } from '@stores/appearance';
     import IconCancel from '@components/icons/IconCancel.svelte';
     import IconCheck from '@components/icons/IconCheck.svelte';
     import { slide } from 'svelte/transition';
@@ -19,8 +19,10 @@
     let deleteIndex: number = -1;
 
     let isAdding: boolean = false;
+    let isJobAdding: boolean = false;
     let isImporting: boolean = false;
     let newOutfitLabel: string = '';
+    let newOutfitJobRank: number = 0;
     let importOutfitId: number;
 </script>
 
@@ -49,6 +51,12 @@
                             OUTFITS.share(id)
                         }}
                         class="btn w-full">{$LOCALE.SHAREOUTFIT_TITLE}</button
+                    >
+                    <button
+                        on:click={() => {
+                            OUTFITS.item(outfit, label)
+                        }}
+                        class="btn w-full">{$LOCALE.ITEMOUTFIT_TITLE}</button
                     >
                     <button
                         on:click={() => {
@@ -121,7 +129,7 @@
 {/each}
 
 <div class="w-full h-fit grid place-items-centyer">
-    {#if isAdding}
+    {#if isAdding || isJobAdding}
     <div 
     transition:slide
     class="w-full h-full">
@@ -137,10 +145,18 @@
                         class="w-full h-[3vh] p-[0.5vh]"
                         bind:value={newOutfitLabel}
                     />
+                    <input
+                        type="number"
+                        class="w-full h-[3vh] p-[0.5vh]"
+                        min="0"
+                        bind:value={newOutfitJobRank}
+                    />
                     <button
                         on:click={() => {
                             isAdding = false;
+                            isJobAdding = false;
                             newOutfitLabel = '';
+                            newOutfitJobRank = 0;
                         }}
                         class="btn h-full aspect-square p-[0.5vh]"
                     >
@@ -150,9 +166,11 @@
                         on:click={() => {
                             if (newOutfitLabel.length > 0) {
                                 
-                                OUTFITS.save(newOutfitLabel)
+                                OUTFITS.save(newOutfitLabel, isJobAdding ? { name: $JOBDATA.name, rank: newOutfitJobRank }:null)
                                 isAdding = false;
+                                isJobAdding = false;
                                 newOutfitLabel = '';
+                                newOutfitJobRank = 0;
                             }
                         }}
                         class="btn h-full aspect-square p-[0.5vh]"
@@ -222,6 +240,22 @@
 
             <p>{$LOCALE.ADDOUTFIT_TITLE}</p>
         </button>
+
+        {#if $JOBDATA.isBoss}
+            <button
+                transition:slide
+                class="btn w-full h-[3vh] flex items-center justify-center gap-[0.5vh] mt-[0.5vh]"
+                on:click={() => {
+                    isJobAdding = true;
+                }}
+            >
+                <div class="h-[60%] aspect-square grid place-items-center">
+                    <IconPlus />
+                </div>
+
+                <p>{$LOCALE.ADDJOBOUTFIT}</p>
+            </button>
+        {/if}
 
         <button
             transition:slide
