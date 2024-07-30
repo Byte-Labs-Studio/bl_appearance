@@ -169,9 +169,9 @@ RegisterNuiCallback(Receive.useOutfit, async (outfit: Outfit, cb: Function) => {
 	cb(1);
 });
 
-RegisterNuiCallback(Receive.importOutfit, async ({ id }, cb: Function) => {
+RegisterNuiCallback(Receive.importOutfit, async ({ id, outfitName }, cb: Function) => {
 	const frameworkdId = getFrameworkID();
-	const result = await triggerServerCallback('bl_appearance:server:importOutfit', frameworkdId, id);
+	const result = await triggerServerCallback('bl_appearance:server:importOutfit', frameworkdId, id, outfitName);
 	cb(result);
 });
 

@@ -63,7 +63,7 @@ onClientCallback('bl_appearance:server:grabOutfit', async (src, id) => {
 	return JSON.parse(response);;
 });
 
-onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, outfitId) => {
+onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, outfitId, outfitName) => {
     const [result] = await oxmysql.query(
         'SELECT label, outfit FROM outfits WHERE id = ?',
         [outfitId]
@@ -75,7 +75,7 @@ onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, o
 
     const newId = await oxmysql.insert(
         'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
-        [frameworkId, `Imported Outfit ${outfitId}`, result.outfit]
+        [frameworkId, outfitName, result.outfit]
     );
 
     return { success: true, id: newId };

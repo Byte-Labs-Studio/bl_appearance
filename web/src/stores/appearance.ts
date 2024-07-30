@@ -114,19 +114,22 @@ const OUTFITS_INIT = () => {
         },
         
         import: (id: number) => {
-            SendEvent(Send.importOutfit, { id })
+            const currentOutfits = methods.get()
+            const outfitName = `Imported Outfit ${currentOutfits.length + 1}`;
+
+            SendEvent(Send.importOutfit, { id, outfitName})
+
             .then((success: boolean) => {
                 if (!success) return;
         
-                return SendEvent(Send.grabOutfit, { id });
+                return SendEvent(Send.grabOutfit, { id});
             })
             .then((outfitData: TOutfitData | undefined) => {
                 if (!outfitData) return;
-        
-                const currentOutfits = methods.get()
+
                 currentOutfits.push({
                     id: id,
-                    label: `Imported Outfit ${currentOutfits.length + 1}`,
+                    label: outfitName,
                     outfit: outfitData
                 });
         
