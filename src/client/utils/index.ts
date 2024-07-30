@@ -162,3 +162,8 @@ export function format(str: string): string {
     if (!str.includes("'")) return str;
     return str.replace(/'/g, "");
 }
+
+export function getJobInfo(): { name: string, isBoss: boolean } {
+    const job = getPlayerData().job
+    return { name: job.name, isBoss: job.isBoss }
+}

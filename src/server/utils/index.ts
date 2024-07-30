@@ -33,3 +33,5 @@ export function onClientCallback(eventName: string, cb: (playerId: number, ...ar
         emitNet(`__ox_cb_${resource}`, src, key, response);
     });
 }
+
+export const core = exports.bl_bridge.core()
