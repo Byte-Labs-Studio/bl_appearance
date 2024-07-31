@@ -9,7 +9,6 @@
     import { slide } from 'svelte/transition';
     import IconPlus from '@components/icons/IconPlus.svelte';
     import IconImport from '@components/icons/IconImport.svelte';
-    import { SendEvent } from '@utils/eventsHandlers';
 
     $: outfits = $OUTFITS;
 
@@ -26,7 +25,7 @@
     let importOutfitId: number;
 </script>
 
-{#each outfits as { label, outfit, id }, i}
+{#each outfits as { label, outfit, id, job }, i}
     <Wrapper {label}>
         <svelte:fragment slot="extra_primary">
             <Dropdown display="Options">
@@ -40,25 +39,31 @@
                         class="btn w-full">{$LOCALE.USE_TITLE}</button
                     >
                     <button
+                        disabled={job!=null && !$JOBDATA.isBoss}
                         on:click={() => {
                             renameIndex = i;
                             renameLabel = label;
                         }}
                         class="btn w-full">{$LOCALE.EDIT_TITLE}</button
                     >
+                    {#if job === null}
+                        <button
+                            disabled={job!=null && !$JOBDATA.isBoss}
+                            on:click={() => {
+                                OUTFITS.share(id)
+                            }}
+                            class="btn w-full">{$LOCALE.SHAREOUTFIT_TITLE}</button
+                        >
+                    {/if}
                     <button
-                        on:click={() => {
-                            OUTFITS.share(id)
-                        }}
-                        class="btn w-full">{$LOCALE.SHAREOUTFIT_TITLE}</button
-                    >
-                    <button
+                        disabled={job!=null && !$JOBDATA.isBoss}
                         on:click={() => {
                             OUTFITS.item(outfit, label)
                         }}
                         class="btn w-full">{$LOCALE.ITEMOUTFIT_TITLE}</button
                     >
                     <button
+                        disabled={job!=null && !$JOBDATA.isBoss}
                         on:click={() => {
                             deleteIndex = i;
                         }}
