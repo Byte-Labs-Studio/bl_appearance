@@ -146,7 +146,7 @@ const OUTFITS_INIT = () => {
             textarea.value = id.toString();
             document.body.appendChild(textarea);
             textarea.select();
-            document.execCommand('copy');
+            navigator.clipboard.writeText('copy');
             document.body.removeChild(textarea);
         },
 
