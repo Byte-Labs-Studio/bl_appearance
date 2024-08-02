@@ -1,5 +1,3 @@
-
-
 CREATE TABLE IF NOT EXISTS `appearance` (
     `id` varchar(100) NOT NULL,
     `skin` longtext DEFAULT NULL,
@@ -17,4 +15,3 @@ CREATE TABLE IF NOT EXISTS `outfits` (
   `jobrank` int(2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
