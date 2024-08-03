@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/shared/init.ts"],
+  "sourcesContent": ["if (!exports.ox_lib.checkDependency('bl_bridge', '1.2.5'))\n    console.error('You need to update your bridge resource to >= 1.2.5');"],
+  "mappings": ";AAAA,IAAI,CAAC,QAAQ,OAAO,gBAAgB,aAAa,OAAO;AACpD,UAAQ,MAAM,qDAAqD;",
+  "names": []
+}

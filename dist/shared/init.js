@@ -1,1 +1,4 @@
-exports.ox_lib.checkDependency("bl_bridge","1.2.5")||console.error("You need to update your bridge resource to >= 1.2.5");
+// src/shared/init.ts
+if (!exports.ox_lib.checkDependency("bl_bridge", "1.2.5"))
+  console.error("You need to update your bridge resource to >= 1.2.5");
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsiLi4vLi4vc3JjL3NoYXJlZC9pbml0LnRzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyJpZiAoIWV4cG9ydHMub3hfbGliLmNoZWNrRGVwZW5kZW5jeSgnYmxfYnJpZGdlJywgJzEuMi41JykpXG4gICAgY29uc29sZS5lcnJvcignWW91IG5lZWQgdG8gdXBkYXRlIHlvdXIgYnJpZGdlIHJlc291cmNlIHRvID49IDEuMi41Jyk7Il0sCiAgIm1hcHBpbmdzIjogIjtBQUFBLElBQUksQ0FBQyxRQUFRLE9BQU8sZ0JBQWdCLGFBQWEsT0FBTztBQUNwRCxVQUFRLE1BQU0scURBQXFEOyIsCiAgIm5hbWVzIjogW10KfQo=
