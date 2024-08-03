@@ -191,12 +191,6 @@ const setCamera = (type?: keyof TCameraBones, distance = camDistance): void => {
 };
 
 RegisterNuiCallback(Receive.camMove, (data, cb) => {
-    // let heading: number = GetEntityHeading(ped);
-	// if (lastX == data.x) {
-        // 	return;
-        // }
-        // heading = data.x > lastX ? heading + 5 : heading - 5;
-        // SetEntityHeading(ped, heading);
     setCamPosition(data.x, data.y);
     cb(1);
 });
@@ -219,6 +213,7 @@ RegisterNuiCallback(Receive.camSection, (type: TSection, cb: Function) => {
             break;
         case 'shoes':
             setCamera('shoes');
+            setCamPosition();
             break;
 	}
 	cb(1);
