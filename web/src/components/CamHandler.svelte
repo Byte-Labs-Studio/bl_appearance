@@ -30,7 +30,6 @@
     };
 
     let scrollHandler = (e: WheelEvent) => {
-        console.log(e.deltaY);
         let y = e.deltaY > 0 ? 'down' : 'up';
         SendEvent(Send.camZoom, y);
     };
