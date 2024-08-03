@@ -34,12 +34,12 @@
                 >
                     <button
                         on:click={() => {
-                            OUTFITS.use(outfit)
+                            OUTFITS.use(outfit);
                         }}
                         class="btn w-full">{$LOCALE.USE_TITLE}</button
                     >
                     <button
-                        disabled={job!=null && !$JOBDATA.isBoss}
+                        disabled={job != null && !$JOBDATA.isBoss}
                         on:click={() => {
                             renameIndex = i;
                             renameLabel = label;
@@ -48,22 +48,23 @@
                     >
                     {#if job === null}
                         <button
-                            disabled={job!=null && !$JOBDATA.isBoss}
+                            disabled={job != null && !$JOBDATA.isBoss}
                             on:click={() => {
-                                OUTFITS.share(id)
+                                OUTFITS.share(id);
                             }}
-                            class="btn w-full">{$LOCALE.SHAREOUTFIT_TITLE}</button
+                            class="btn w-full"
+                            >{$LOCALE.SHAREOUTFIT_TITLE}</button
                         >
                     {/if}
                     <button
-                        disabled={job!=null && !$JOBDATA.isBoss}
+                        disabled={job != null && !$JOBDATA.isBoss}
                         on:click={() => {
-                            OUTFITS.item(outfit, label)
+                            OUTFITS.item(outfit, label);
                         }}
                         class="btn w-full">{$LOCALE.ITEMOUTFIT_TITLE}</button
                     >
                     <button
-                        disabled={job!=null && !$JOBDATA.isBoss}
+                        disabled={job != null && !$JOBDATA.isBoss}
                         on:click={() => {
                             deleteIndex = i;
                         }}
@@ -96,7 +97,7 @@
                                 if (renameLabel.length > 0) {
                                     outfits[i].label = renameLabel;
                                     renameIndex = -1;
-                                    OUTFITS.edit(outfits[i])
+                                    OUTFITS.edit(outfits[i]);
                                 }
                             }}
                             class="btn h-full aspect-square p-[0.5vh]"
@@ -113,13 +114,14 @@
                     >
                         <button
                             class="btn w-full h-full"
-                            on:click={() => (deleteIndex = -1)}>{$LOCALE.CANCEL_TITLE}</button
+                            on:click={() => (deleteIndex = -1)}
+                            >{$LOCALE.CANCEL_TITLE}</button
                         >
 
                         <button
                             class="btn w-full h-full"
                             on:click={() => {
-                                OUTFITS.delete(id)
+                                OUTFITS.delete(id);
                             }}>{$LOCALE.CONFIRMREM_SUBTITLE}</button
                         >
                     </div>
@@ -135,102 +137,103 @@
 
 <div class="w-full h-fit grid place-items-centyer">
     {#if isAdding || isJobAdding}
-    <div 
-    transition:slide
-    class="w-full h-full">
-
-        <Wrapper label={$LOCALE.NEWOUTFIT_TITLE}>
-            <svelte:fragment slot="extra_primary">
-                <div
-
-                    class="w-full flex items-center justify-center gap-[0.5vh] h-[3vh]"
-                >
-                    <input
-                        type="text"
-                        class="w-full h-[3vh] p-[0.5vh]"
-                        bind:value={newOutfitLabel}
-                    />
-                    <input
-                        type="number"
-                        class="w-full h-[3vh] p-[0.5vh]"
-                        min="0"
-                        bind:value={newOutfitJobRank}
-                    />
-                    <button
-                        on:click={() => {
-                            isAdding = false;
-                            isJobAdding = false;
-                            newOutfitLabel = '';
-                            newOutfitJobRank = 0;
-                        }}
-                        class="btn h-full aspect-square p-[0.5vh]"
+        <div transition:slide class="w-full h-full">
+            <Wrapper label={$LOCALE.NEWOUTFIT_TITLE}>
+                <svelte:fragment slot="extra_primary">
+                    <div
+                        class="w-full flex items-center justify-center gap-[0.5vh] h-[3vh]"
                     >
-                        <IconCancel />
-                    </button>
-                    <button
-                        on:click={() => {
-                            if (newOutfitLabel.length > 0) {
-                                
-                                OUTFITS.save(newOutfitLabel, isJobAdding ? { name: $JOBDATA.name, rank: newOutfitJobRank }:null)
+                        <input
+                            type="text"
+                            class="w-full h-[3vh] p-[0.5vh]"
+                            bind:value={newOutfitLabel}
+                            placeholder="Outfit Label"
+                        />
+                        {#if $JOBDATA.isBoss}
+                            <input
+                                type="number"
+                                class="w-full h-[3vh] p-[0.5vh]"
+                                min="0"
+                                bind:value={newOutfitJobRank}
+                                placeholder="Job Rank"
+                            />
+                        {/if}
+                        <button
+                            on:click={() => {
                                 isAdding = false;
                                 isJobAdding = false;
                                 newOutfitLabel = '';
                                 newOutfitJobRank = 0;
-                            }
-                        }}
-                        class="btn h-full aspect-square p-[0.5vh]"
-                    >
-                        <IconCheck />
-                    </button>
-                </div>
-            </svelte:fragment>
-        </Wrapper>
-                
-    </div>
+                            }}
+                            class="btn h-full aspect-square p-[0.5vh]"
+                        >
+                            <IconCancel />
+                        </button>
 
+                        <button
+                            on:click={() => {
+                                if (newOutfitLabel.length > 0) {
+                                    OUTFITS.save(
+                                        newOutfitLabel,
+                                        isJobAdding
+                                            ? {
+                                                  name: $JOBDATA.name,
+                                                  rank: newOutfitJobRank,
+                                              }
+                                            : null,
+                                    );
+                                    isAdding = false;
+                                    isJobAdding = false;
+                                    newOutfitLabel = '';
+                                    newOutfitJobRank = 0;
+                                }
+                            }}
+                            class="btn h-full aspect-square p-[0.5vh]"
+                        >
+                            <IconCheck />
+                        </button>
+                    </div>
+                </svelte:fragment>
+            </Wrapper>
+        </div>
     {:else if isImporting}
-    <div 
-    transition:slide
-    class="w-full h-full">
-
-        <Wrapper label={$LOCALE.IMPORTOUTFIT_TITLE}>
-            <svelte:fragment slot="extra_primary">
-                <div
-
-                    class="w-full flex items-center justify-center gap-[0.5vh] h-[3vh]"
-                >
-                    <input
-                        type="number"
-                        class="w-full h-[3vh] p-[0.5vh] placeholder-gray-400"
-                        placeholder="Outfit Code"
-                        bind:value={importOutfitId}
-                    />
-                    <button
-                        on:click={() => {
-                            isImporting = false;
-                            importOutfitId = null;
-                        }}
-                        class="btn h-full aspect-square p-[0.5vh]"
+        <div transition:slide class="w-full h-full">
+            <Wrapper label={$LOCALE.IMPORTOUTFIT_TITLE}>
+                <svelte:fragment slot="extra_primary">
+                    <div
+                        class="w-full flex items-center justify-center gap-[0.5vh] h-[3vh]"
                     >
-                        <IconCancel />
-                    </button>
-                    <button
-                        on:click={() => {
-                            if (importOutfitId > 0) {
-                                OUTFITS.import(importOutfitId)
+                        <input
+                            type="number"
+                            class="w-full h-[3vh] p-[0.5vh] placeholder-gray-400"
+                            placeholder="Outfit Code"
+                            bind:value={importOutfitId}
+                        />
+                        <button
+                            on:click={() => {
                                 isImporting = false;
                                 importOutfitId = null;
-                            }
-                        }}
-                        class="btn h-full aspect-square p-[0.5vh]"
-                    >
-                        <IconCheck />
-                    </button>
-                </div>
-            </svelte:fragment>
-        </Wrapper>
-
-    </div>
+                            }}
+                            class="btn h-full aspect-square p-[0.5vh]"
+                        >
+                            <IconCancel />
+                        </button>
+                        <button
+                            on:click={() => {
+                                if (importOutfitId > 0) {
+                                    OUTFITS.import(importOutfitId);
+                                    isImporting = false;
+                                    importOutfitId = null;
+                                }
+                            }}
+                            class="btn h-full aspect-square p-[0.5vh]"
+                        >
+                            <IconCheck />
+                        </button>
+                    </div>
+                </svelte:fragment>
+            </Wrapper>
+        </div>
     {:else}
         <button
             transition:slide
