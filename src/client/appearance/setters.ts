@@ -58,7 +58,7 @@ export function setHeadOverlay(pedHandle: number, data) {
         return
     }
 
-    const value = data.overlayValue === -1 ? 255 : data.overlayValue
+    const value = data.overlayValue
 
     /* Hair color does not have an index, only an ID so we'll check for that */
     if (data.id === 'hairColor') {
