@@ -61,7 +61,7 @@
        SetEntityInvincible(charPed, true)
        PlaceObjectOnGroundProperly(charPed)
        SetBlockingOfNonTemporaryEvents(charPed, true)
-       exports['bl_appearance']:setPedAppearance(charPed, data)
+       exports['bl_appearance']:SetPedAppearance(charPed, data)
        if data then
            TriggerEvent('qb-clothing:client:loadPlayerClothing', data, charPed)
           end
