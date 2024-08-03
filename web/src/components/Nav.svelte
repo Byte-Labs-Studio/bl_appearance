@@ -51,7 +51,7 @@
     const getIconComponent = (iconName: string) => iconsMap[iconName];
 
     $: pieAngle =
-        $limit / ($TABS.length < 4 ? 4 : $TABS.length > 8 ? 8 : $TABS.length);
+        $limit / ($TABS.length < 8 ? 8 : $TABS.length > 8 ? 8 : $TABS.length);
     $: {
         isValid = true;
         for (const key in $IS_VALID) {
@@ -67,22 +67,21 @@
 
     const innerRadius = innerSize / 2;
 
+        // Im sure there is a proper formula for getting the angles but this is a good enough approximation by just looking at it
+        const limitRef: number[] = [112, 107, 100, 100, 97, 93, 93]; 
     onMount(() => {
         setTimeout(() => {
-            limit.set(90, { duration: 1000, easing: cubicInOut });
+            let target = 90;
+
+            if ($TABS.length < 8) {
+                target = limitRef[$TABS.length - 1];
+            }
+
+            limit.set(target, { duration: 1000, easing: cubicInOut });
         }, 250);
     });
 
     let modal: 'close' | 'save' = null;
-
-    // 'hat',
-    //     'mask',
-    //     'glasses',
-    //     'shirt',
-    //     'jacket',
-    //     'vest',
-    //     'pants',
-    //     'shoes',
 
     const toggleOrder = [
         {
@@ -138,6 +137,7 @@
             icon: 'IconShoes',
         },
     ];
+
 </script>
 
 <nav class=" relative z-[9999 w-fit h-fit rounded-full">
