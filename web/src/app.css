@@ -58,6 +58,10 @@ input::selection {
     background: #8685ef80;
 }
 
+.btn-base {
+    @apply transition-all duration-300 ease-in-out hover:brightness-125;
+}
+
 button.btn,
 .btn {
     @apply bg-primary/50 border border-secondary/50 transition-all duration-300 ease-in-out hover:brightness-125;
@@ -92,4 +96,8 @@ button:disabled,
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.bg-solid {
+    background: radial-gradient(at 50% top, var(--primary) 50%, black); 
 }

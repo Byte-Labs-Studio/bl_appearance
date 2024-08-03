@@ -285,7 +285,7 @@
     >
         <div
             transition:scale|global
-            class="max-w-[50vh] w-fit min-w-[30vh] h-fit btn drop-shadow gap-[2vh] flex flex-col items-center justify-center p-[0.5vh] px-[2vh]"
+            class="max-w-[50vh] w-fit min-w-[30vh] h-fit bg-solid drop-shadow gap-[2vh] flex flex-col items-center justify-center p-[1vh] px-[2vh]"
         >
             <div class="w-full h-fit grid place-items-center">
                 <h1 class="text-[2vh] font-semibold uppercase">
@@ -315,7 +315,7 @@
                 class="w-full h-[5vh] flex items-center justify-center gap-[2vh]"
             >
                 <button
-                    class="btn w-[10vh] h-[5vh] grid place-items-center"
+                    class="btn-base bg-error/50 border-[0.25vh] border-error/50 w-[10vh] h-[5vh] grid place-items-center"
                     on:click={() => {
                         modal = null;
                     }}
@@ -330,13 +330,8 @@
                 </button>
                 {#if isValid || modal === 'close'}
                     <button
-                        class="btn w-[10vh] h-[5vh] grid place-items-center"
+                        class="btn-base bg-success/50 border-[0.25vh] border-success/50 w-[10vh] h-[5vh] grid place-items-center"
                         on:click={() => {
-                            // SendEvent(Send.close, {
-                            //     save: modal === 'save',
-                            //     original: modal === 'close' ? $ORIGINAL_APPEARANCE : $APPEARANCE,
-                            // });
-
                             if (modal === 'save') {
                                 SendEvent(Send.save, $APPEARANCE);
                             } else {
