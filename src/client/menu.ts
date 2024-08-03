@@ -27,7 +27,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     if (!menu) return
 
     updatePed(pedHandle)
-    startCamera()
+
 
     const frameworkdId = getFrameworkID()
     const tabs = menu.tabs
@@ -54,6 +54,13 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     }
 
     const blacklist = getBlacklist(zone)
+
+
+    setTimeout(() => {
+        startCamera()
+    }, 1000)
+
+
 
     const appearance = await getAppearance(pedHandle)
 
