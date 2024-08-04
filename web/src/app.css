@@ -69,7 +69,7 @@ button.btn,
 
 button:disabled,
 .btn:disabled {
-    @apply brightness-50;
+    @apply brightness-50 !important;
 }
 
 ::-webkit-scrollbar {
