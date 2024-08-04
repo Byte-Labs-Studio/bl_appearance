@@ -1,13 +1,494 @@
-var J=Object.create;var b=Object.defineProperty;var H=Object.getOwnPropertyDescriptor;var W=Object.getOwnPropertyNames;var $=Object.getPrototypeOf,B=Object.prototype.hasOwnProperty;var v=r=>t=>{var e=r[t];if(e)return e();throw new Error("Module not found in bundle: "+t)};var d=(r,t)=>()=>(r&&(t=r(r=0)),t);var G=(r,t)=>()=>(t||r((t={exports:{}}).exports,t),t.exports),N=(r,t)=>{for(var e in t)b(r,e,{get:t[e],enumerable:!0})},V=(r,t,e,a)=>{if(t&&typeof t=="object"||typeof t=="function")for(let n of W(t))!B.call(r,n)&&n!==e&&b(r,n,{get:()=>t[n],enumerable:!(a=H(t,n))||a.enumerable});return r};var E=(r,t,e)=>(e=r!=null?J($(r)):{},V(t||!r||!r.__esModule?b(e,"default",{value:r,enumerable:!0}):e,r));function c(r,t,...e){let a;do a=`${r}:${Math.floor(Math.random()*100001)}:${t}`;while(O[a]);return emitNet(`__ox_cb_${r}`,t,_,a,...e),new Promise(n=>{O[a]=n})}function o(r,t){onNet(`__ox_cb_${r}`,async(e,a,...n)=>{let i=source,f;try{f=await t(i,...n)}catch(j){console.error(`an error occurred while handling callback event ${r} | Error: `,j.message)}emitNet(`__ox_cb_${e}`,i,a,f)})}var _,O,y,g=d(()=>{_=GetCurrentResourceName(),O={};onNet(`__ox_cb_${_}`,(r,...t)=>{let e=O[r];return e&&e(...t)});y=exports.bl_bridge.core()});var m=G(S=>{"use strict";Object.defineProperty(S,"__esModule",{value:!0});S.oxmysql=void 0;var R=[];function T(r,t){if(!r)throw new TypeError(t)}var l=(r,t,e,a)=>{if(typeof r=="number"&&(r=R[r]),a?T(typeof r=="object",`First argument expected object, recieved ${typeof r}`):T(typeof r=="string",`First argument expected string, received ${typeof r}`),t){let n=typeof t;T(n==="object"||n==="function",`Second argument expected object or function, received ${n}`),!e&&n==="function"&&(e=t,t=void 0)}return e!==void 0&&T(typeof e=="function",`Third argument expected function, received ${typeof e}`),[r,t,e]},A=global.exports.oxmysql,Y=GetCurrentResourceName();function p(r,t,e){return new Promise((a,n)=>{A[r](t,e,(i,f)=>{if(f)return n(f);a(i)},Y,!0)})}S.oxmysql={store(r){return T(typeof r!="string",`Query expects a string, received ${typeof r}`),R.push(r)},ready(r){setImmediate(async()=>{for(;GetResourceState("oxmysql")!=="started";)await new Promise(t=>setTimeout(t,50));r()})},async query(r,t,e){[r,t,e]=l(r,t,e);let a=await p("query",r,t);return e?e(a):a},async single(r,t,e){[r,t,e]=l(r,t,e);let a=await p("single",r,t);return e?e(a):a},async scalar(r,t,e){[r,t,e]=l(r,t,e);let a=await p("scalar",r,t);return e?e(a):a},async update(r,t,e){[r,t,e]=l(r,t,e);let a=await p("update",r,t);return e?e(a):a},async insert(r,t,e){[r,t,e]=l(r,t,e);let a=await p("insert",r,t);return e?e(a):a},async prepare(r,t,e){[r,t,e]=l(r,t,e);let a=await p("prepare",r,t);return e?e(a):a},async rawExecute(r,t,e){[r,t,e]=l(r,t,e);let a=await p("rawExecute",r,t);return e?e(a):a},async transaction(r,t,e){[r,t,e]=l(r,t,e,!0);let a=await p("transaction",r,t);return e?e(a):a},isReady(){return A.isReady()},async awaitConnection(){return await A.awaitConnection()}}});var L,u,w=d(()=>{L=E(m(),1),u=async(r,t,e)=>{let a={drawables:e.drawables,props:e.props,headOverlay:e.headOverlay},n={headBlend:e.headBlend,headStructure:e.headStructure,hairColor:e.hairColor,model:e.model},i=e.tattoos||[];return await L.oxmysql.prepare("INSERT INTO appearance (id, clothes, skin, tattoos) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE clothes = VALUES(clothes), skin = VALUES(skin), tattoos = VALUES(tattoos);",[t,JSON.stringify(a),JSON.stringify(n),JSON.stringify(i)])}});var z={};var C=d(()=>{});var k={};N(k,{default:()=>X});var h,K,Q,X,x=d(()=>{h=E(m(),1);g();w();K=r=>new Promise(t=>setTimeout(t,r)),Q=async r=>{let t=await h.oxmysql.query("SELECT * FROM `players`");if(t){for(let e of t)if(e.skin){await c("bl_appearance:client:migration:setAppearance",r,{type:"fivem",data:JSON.parse(e.skin)}),await K(100);let a=await c("bl_appearance:client:getAppearance",r);await u(r,e.citizenid,a)}console.log("Converted "+t.length+" appearances")}},X=Q});var U={};N(U,{default:()=>ee});var I,Z,q,ee,F=d(()=>{I=E(m(),1);g();w();Z=r=>new Promise(t=>setTimeout(t,r)),q=async r=>{let t=await I.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1`");if(t){for(let e of t)if(e.skin){await c("bl_appearance:client:migration:setAppearance",r,{type:"illenium",data:JSON.parse(e.skin)}),await Z(100);let a=await c("bl_appearance:client:getAppearance",r);await u(r,e.citizenid,a)}console.log("Converted "+t.length+" appearances")}},ee=q});var D={};N(D,{default:()=>ae});var P,te,re,ae,M=d(()=>{P=E(m(),1);g();w();te=r=>new Promise(t=>setTimeout(t,r)),re=async r=>{let t=await P.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1");if(t){for(let e of t){emitNet("qb-clothes:loadSkin",r,0,e.model,e.skin),await te(200);let a=await c("bl_appearance:client:getAppearance",r);await u(r,e.citizenid,a)}console.log("Converted "+t.length+" appearances")}},ae=re});g();var s=E(m(),1);w();var ne=v({"./migrate/esx.ts":()=>Promise.resolve().then(()=>(C(),z)),"./migrate/fivem.ts":()=>Promise.resolve().then(()=>(x(),k)),"./migrate/illenium.ts":()=>Promise.resolve().then(()=>(F(),U)),"./migrate/qb.ts":()=>Promise.resolve().then(()=>(M(),D))});o("bl_appearance:server:getOutfits",async(r,t)=>{let e=y.GetPlayer(r).job,a=await s.oxmysql.prepare("SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)",[t,e.name,e.grade.name]);return a?(Array.isArray(a)||(a=[a]),a.map(i=>({id:i.id,label:i.label,outfit:JSON.parse(i.outfit),jobname:i.jobname}))):[]});o("bl_appearance:server:renameOutfit",async(r,t,e)=>{let a=e.id,n=e.label;return await s.oxmysql.update("UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?",[n,t,a])});o("bl_appearance:server:deleteOutfit",async(r,t,e)=>await s.oxmysql.update("DELETE FROM outfits WHERE player_id = ? AND id = ?",[t,e])>0);o("bl_appearance:server:saveOutfit",async(r,t,e)=>{let a=e.job?.name||null,n=e.job?.rank||null;return await s.oxmysql.insert("INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)",[t,e.label,JSON.stringify(e.outfit),a,n])});o("bl_appearance:server:grabOutfit",async(r,t)=>{let e=await s.oxmysql.prepare("SELECT outfit FROM outfits WHERE id = ?",[t]);return JSON.parse(e)});o("bl_appearance:server:itemOutfit",async(r,t)=>{y.GetPlayer(r).addItem("cloth",1,t)});o("bl_appearance:server:importOutfit",async(r,t,e,a)=>{let[n]=await s.oxmysql.query("SELECT label, outfit FROM outfits WHERE id = ?",[e]);return n?{success:!0,newId:await s.oxmysql.insert("INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)",[t,a,n.outfit])}:{success:!1,message:"Outfit not found"}});o("bl_appearance:server:saveSkin",async(r,t,e)=>await s.oxmysql.update("UPDATE appearance SET skin = ? WHERE id = ?",[JSON.stringify(e),t]));o("bl_appearance:server:saveClothes",async(r,t,e)=>await s.oxmysql.update("UPDATE appearance SET clothes = ? WHERE id = ?",[JSON.stringify(e),t]));o("bl_appearance:server:saveAppearance",u);o("bl_appearance:server:saveTattoos",async(r,t,e)=>await s.oxmysql.update("UPDATE appearance SET tattoos = ? WHERE id = ?",[JSON.stringify(e),t]));o("bl_appearance:server:getSkin",async(r,t)=>{let e=await s.oxmysql.prepare("SELECT skin FROM appearance WHERE id = ?",[t]);return JSON.parse(e)});o("bl_appearance:server:getClothes",async(r,t)=>{let e=await s.oxmysql.prepare("SELECT clothes FROM appearance WHERE id = ?",[t]);return JSON.parse(e)});o("bl_appearance:server:getTattoos",async(r,t)=>{let e=await s.oxmysql.prepare("SELECT tattoos FROM appearance WHERE id = ?",[t]);return JSON.parse(e)||[]});o("bl_appearance:server:getAppearance",async(r,t)=>{let e=await s.oxmysql.single("SELECT * FROM appearance WHERE id = ? LIMIT 1",[t]);if(!e)return null;let a={...JSON.parse(e.skin),...JSON.parse(e.clothes),...JSON.parse(e.tattoos)};return a.id=e.id,a});onNet("bl_appearance:server:setroutingbucket",()=>{SetPlayerRoutingBucket(source.toString(),source)});onNet("bl_appearance:server:resetroutingbucket",()=>{SetPlayerRoutingBucket(source.toString(),0)});RegisterCommand("migrate",async r=>{r=r!==0?r:parseInt(getPlayers()[0]);let e=exports.bl_appearance.config();(await ne(`./migrate/${e.previousClothing==="fivem-appearance"?"fivem":e.previousClothing}.ts`)).default(r)},!1);y.RegisterUsableItem("cloth",async(r,t,e)=>{y.GetPlayer(r)?.removeItem("cloth",1,t)&&emitNet("bl_appearance:server:useOutfit",r,e.outfit)});s.oxmysql.ready(()=>{s.oxmysql.query(`CREATE TABLE IF NOT EXISTS appearance (
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __glob = (map) => (path) => {
+  var fn = map[path];
+  if (fn)
+    return fn();
+  throw new Error("Module not found in bundle: " + path);
+};
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// src/server/utils/index.ts
+function triggerClientCallback(eventName, playerId, ...args) {
+  let key;
+  do {
+    key = `${eventName}:${Math.floor(Math.random() * (1e5 + 1))}:${playerId}`;
+  } while (activeEvents[key]);
+  emitNet(`__ox_cb_${eventName}`, playerId, resourceName, key, ...args);
+  return new Promise((resolve) => {
+    activeEvents[key] = resolve;
+  });
+}
+function onClientCallback(eventName, cb) {
+  onNet(`__ox_cb_${eventName}`, async (resource, key, ...args) => {
+    const src = source;
+    let response;
+    try {
+      response = await cb(src, ...args);
+    } catch (e) {
+      console.error(`an error occurred while handling callback event ${eventName} | Error: `, e.message);
+    }
+    emitNet(`__ox_cb_${resource}`, src, key, response);
+  });
+}
+var resourceName, activeEvents, core;
+var init_utils = __esm({
+  "src/server/utils/index.ts"() {
+    resourceName = GetCurrentResourceName();
+    activeEvents = {};
+    onNet(`__ox_cb_${resourceName}`, (key, ...args) => {
+      const resolve = activeEvents[key];
+      return resolve && resolve(...args);
+    });
+    core = exports.bl_bridge.core();
+  }
+});
+
+// node_modules/.pnpm/@overextended+oxmysql@1.3.0/node_modules/@overextended/oxmysql/MySQL.js
+var require_MySQL = __commonJS({
+  "node_modules/.pnpm/@overextended+oxmysql@1.3.0/node_modules/@overextended/oxmysql/MySQL.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.oxmysql = void 0;
+    var QueryStore = [];
+    function assert(condition, message) {
+      if (!condition)
+        throw new TypeError(message);
+    }
+    var safeArgs = (query, params, cb, transaction) => {
+      if (typeof query === "number")
+        query = QueryStore[query];
+      if (transaction) {
+        assert(typeof query === "object", `First argument expected object, recieved ${typeof query}`);
+      } else {
+        assert(typeof query === "string", `First argument expected string, received ${typeof query}`);
+      }
+      if (params) {
+        const paramType = typeof params;
+        assert(paramType === "object" || paramType === "function", `Second argument expected object or function, received ${paramType}`);
+        if (!cb && paramType === "function") {
+          cb = params;
+          params = void 0;
+        }
+      }
+      if (cb !== void 0)
+        assert(typeof cb === "function", `Third argument expected function, received ${typeof cb}`);
+      return [query, params, cb];
+    };
+    var exp = global.exports.oxmysql;
+    var currentResourceName = GetCurrentResourceName();
+    function execute(method, query, params) {
+      return new Promise((resolve, reject) => {
+        exp[method](query, params, (result, error) => {
+          if (error)
+            return reject(error);
+          resolve(result);
+        }, currentResourceName, true);
+      });
+    }
+    exports2.oxmysql = {
+      store(query) {
+        assert(typeof query !== "string", `Query expects a string, received ${typeof query}`);
+        return QueryStore.push(query);
+      },
+      ready(callback) {
+        setImmediate(async () => {
+          while (GetResourceState("oxmysql") !== "started")
+            await new Promise((resolve) => setTimeout(resolve, 50));
+          callback();
+        });
+      },
+      async query(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("query", query, params);
+        return cb ? cb(result) : result;
+      },
+      async single(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("single", query, params);
+        return cb ? cb(result) : result;
+      },
+      async scalar(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("scalar", query, params);
+        return cb ? cb(result) : result;
+      },
+      async update(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("update", query, params);
+        return cb ? cb(result) : result;
+      },
+      async insert(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("insert", query, params);
+        return cb ? cb(result) : result;
+      },
+      async prepare(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("prepare", query, params);
+        return cb ? cb(result) : result;
+      },
+      async rawExecute(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("rawExecute", query, params);
+        return cb ? cb(result) : result;
+      },
+      async transaction(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb, true);
+        const result = await execute("transaction", query, params);
+        return cb ? cb(result) : result;
+      },
+      isReady() {
+        return exp.isReady();
+      },
+      async awaitConnection() {
+        return await exp.awaitConnection();
+      }
+    };
+  }
+});
+
+// src/server/appearance.ts
+var import_oxmysql, saveAppearance;
+var init_appearance = __esm({
+  "src/server/appearance.ts"() {
+    import_oxmysql = __toESM(require_MySQL(), 1);
+    saveAppearance = async (src, frameworkId, appearance) => {
+      const clothes = {
+        drawables: appearance.drawables,
+        props: appearance.props,
+        headOverlay: appearance.headOverlay
+      };
+      const skin = {
+        headBlend: appearance.headBlend,
+        headStructure: appearance.headStructure,
+        hairColor: appearance.hairColor,
+        model: appearance.model
+      };
+      const tattoos = appearance.tattoos || [];
+      const result = await import_oxmysql.oxmysql.prepare(
+        "INSERT INTO appearance (id, clothes, skin, tattoos) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE clothes = VALUES(clothes), skin = VALUES(skin), tattoos = VALUES(tattoos);",
+        [
+          frameworkId,
+          JSON.stringify(clothes),
+          JSON.stringify(skin),
+          JSON.stringify(tattoos)
+        ]
+      );
+      return result;
+    };
+  }
+});
+
+// src/server/migrate/esx.ts
+var esx_exports = {};
+var init_esx = __esm({
+  "src/server/migrate/esx.ts"() {
+  }
+});
+
+// src/server/migrate/fivem.ts
+var fivem_exports = {};
+__export(fivem_exports, {
+  default: () => fivem_default
+});
+var import_oxmysql2, delay, migrate, fivem_default;
+var init_fivem = __esm({
+  "src/server/migrate/fivem.ts"() {
+    import_oxmysql2 = __toESM(require_MySQL(), 1);
+    init_utils();
+    init_appearance();
+    delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    migrate = async (src) => {
+      const response = await import_oxmysql2.oxmysql.query("SELECT * FROM `players`");
+      if (!response)
+        return;
+      for (const element of response) {
+        if (element.skin) {
+          await triggerClientCallback("bl_appearance:client:migration:setAppearance", src, {
+            type: "fivem",
+            data: JSON.parse(element.skin)
+          });
+          await delay(100);
+          const response2 = await triggerClientCallback("bl_appearance:client:getAppearance", src);
+          await saveAppearance(src, element.citizenid, response2);
+        }
+      }
+      console.log("Converted " + response.length + " appearances");
+    };
+    fivem_default = migrate;
+  }
+});
+
+// src/server/migrate/illenium.ts
+var illenium_exports = {};
+__export(illenium_exports, {
+  default: () => illenium_default
+});
+var import_oxmysql3, delay2, migrate2, illenium_default;
+var init_illenium = __esm({
+  "src/server/migrate/illenium.ts"() {
+    import_oxmysql3 = __toESM(require_MySQL(), 1);
+    init_utils();
+    init_appearance();
+    delay2 = (ms) => new Promise((res) => setTimeout(res, ms));
+    migrate2 = async (src) => {
+      const response = await import_oxmysql3.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1`");
+      if (!response)
+        return;
+      for (const element of response) {
+        if (element.skin) {
+          await triggerClientCallback("bl_appearance:client:migration:setAppearance", src, {
+            type: "illenium",
+            data: JSON.parse(element.skin)
+          });
+          await delay2(100);
+          const response2 = await triggerClientCallback("bl_appearance:client:getAppearance", src);
+          await saveAppearance(src, element.citizenid, response2);
+        }
+      }
+      console.log("Converted " + response.length + " appearances");
+    };
+    illenium_default = migrate2;
+  }
+});
+
+// src/server/migrate/qb.ts
+var qb_exports = {};
+__export(qb_exports, {
+  default: () => qb_default
+});
+var import_oxmysql4, delay3, migrate3, qb_default;
+var init_qb = __esm({
+  "src/server/migrate/qb.ts"() {
+    import_oxmysql4 = __toESM(require_MySQL(), 1);
+    init_utils();
+    init_appearance();
+    delay3 = (ms) => new Promise((res) => setTimeout(res, ms));
+    migrate3 = async (src) => {
+      const response = await import_oxmysql4.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1");
+      if (!response)
+        return;
+      for (const element of response) {
+        emitNet("qb-clothes:loadSkin", src, 0, element.model, element.skin);
+        await delay3(200);
+        const response2 = await triggerClientCallback("bl_appearance:client:getAppearance", src);
+        await saveAppearance(src, element.citizenid, response2);
+      }
+      console.log("Converted " + response.length + " appearances");
+    };
+    qb_default = migrate3;
+  }
+});
+
+// src/server/init.ts
+init_utils();
+var import_oxmysql5 = __toESM(require_MySQL(), 1);
+init_appearance();
+
+// import("./migrate/**/*.ts") in src/server/init.ts
+var globImport_migrate_ts = __glob({
+  "./migrate/esx.ts": () => Promise.resolve().then(() => (init_esx(), esx_exports)),
+  "./migrate/fivem.ts": () => Promise.resolve().then(() => (init_fivem(), fivem_exports)),
+  "./migrate/illenium.ts": () => Promise.resolve().then(() => (init_illenium(), illenium_exports)),
+  "./migrate/qb.ts": () => Promise.resolve().then(() => (init_qb(), qb_exports))
+});
+
+// src/server/init.ts
+onClientCallback("bl_appearance:server:getOutfits", async (src, frameworkId) => {
+  const job = core.GetPlayer(src).job;
+  let response = await import_oxmysql5.oxmysql.prepare(
+    "SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)",
+    [frameworkId, job.name, job.grade.name]
+  );
+  if (!response)
+    return [];
+  if (!Array.isArray(response)) {
+    response = [response];
+  }
+  const outfits = response.map(
+    (outfit) => {
+      return {
+        id: outfit.id,
+        label: outfit.label,
+        outfit: JSON.parse(outfit.outfit),
+        jobname: outfit.jobname
+      };
+    }
+  );
+  return outfits;
+});
+onClientCallback("bl_appearance:server:renameOutfit", async (src, frameworkId, data) => {
+  const id = data.id;
+  const label = data.label;
+  const result = await import_oxmysql5.oxmysql.update(
+    "UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?",
+    [label, frameworkId, id]
+  );
+  return result;
+});
+onClientCallback("bl_appearance:server:deleteOutfit", async (src, frameworkId, id) => {
+  const result = await import_oxmysql5.oxmysql.update(
+    "DELETE FROM outfits WHERE player_id = ? AND id = ?",
+    [frameworkId, id]
+  );
+  return result > 0;
+});
+onClientCallback("bl_appearance:server:saveOutfit", async (src, frameworkId, data) => {
+  const jobname = data.job?.name || null;
+  const jobrank = data.job?.rank || null;
+  const id = await import_oxmysql5.oxmysql.insert(
+    "INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)",
+    [frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank]
+  );
+  return id;
+});
+onClientCallback("bl_appearance:server:grabOutfit", async (src, id) => {
+  const response = await import_oxmysql5.oxmysql.prepare(
+    "SELECT outfit FROM outfits WHERE id = ?",
+    [id]
+  );
+  return JSON.parse(response);
+});
+onClientCallback("bl_appearance:server:itemOutfit", async (src, data) => {
+  const player = core.GetPlayer(src);
+  player.addItem("cloth", 1, data);
+});
+onClientCallback("bl_appearance:server:importOutfit", async (src, frameworkId, outfitId, outfitName) => {
+  const [result] = await import_oxmysql5.oxmysql.query(
+    "SELECT label, outfit FROM outfits WHERE id = ?",
+    [outfitId]
+  );
+  if (!result) {
+    return { success: false, message: "Outfit not found" };
+  }
+  const newId = await import_oxmysql5.oxmysql.insert(
+    "INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)",
+    [frameworkId, outfitName, result.outfit]
+  );
+  return { success: true, newId };
+});
+onClientCallback("bl_appearance:server:saveSkin", async (src, frameworkId, skin) => {
+  const result = await import_oxmysql5.oxmysql.update(
+    "UPDATE appearance SET skin = ? WHERE id = ?",
+    [JSON.stringify(skin), frameworkId]
+  );
+  return result;
+});
+onClientCallback(
+  "bl_appearance:server:saveClothes",
+  async (src, frameworkId, clothes) => {
+    const result = await import_oxmysql5.oxmysql.update(
+      "UPDATE appearance SET clothes = ? WHERE id = ?",
+      [JSON.stringify(clothes), frameworkId]
+    );
+    return result;
+  }
+);
+onClientCallback("bl_appearance:server:saveAppearance", saveAppearance);
+onClientCallback("bl_appearance:server:saveTattoos", async (src, frameworkId, tattoos) => {
+  const result = await import_oxmysql5.oxmysql.update(
+    "UPDATE appearance SET tattoos = ? WHERE id = ?",
+    [JSON.stringify(tattoos), frameworkId]
+  );
+  return result;
+});
+onClientCallback("bl_appearance:server:getSkin", async (src, frameworkId) => {
+  const response = await import_oxmysql5.oxmysql.prepare(
+    "SELECT skin FROM appearance WHERE id = ?",
+    [frameworkId]
+  );
+  return JSON.parse(response);
+});
+onClientCallback("bl_appearance:server:getClothes", async (src, frameworkId) => {
+  const response = await import_oxmysql5.oxmysql.prepare(
+    "SELECT clothes FROM appearance WHERE id = ?",
+    [frameworkId]
+  );
+  return JSON.parse(response);
+});
+onClientCallback("bl_appearance:server:getTattoos", async (src, frameworkId) => {
+  const response = await import_oxmysql5.oxmysql.prepare(
+    "SELECT tattoos FROM appearance WHERE id = ?",
+    [frameworkId]
+  );
+  return JSON.parse(response) || [];
+});
+onClientCallback("bl_appearance:server:getAppearance", async (src, frameworkId) => {
+  const response = await import_oxmysql5.oxmysql.single(
+    "SELECT * FROM appearance WHERE id = ? LIMIT 1",
+    [frameworkId]
+  );
+  if (!response)
+    return null;
+  let appearance = {
+    ...JSON.parse(response.skin),
+    ...JSON.parse(response.clothes),
+    ...JSON.parse(response.tattoos)
+  };
+  appearance.id = response.id;
+  return appearance;
+});
+onNet("bl_appearance:server:setroutingbucket", () => {
+  SetPlayerRoutingBucket(source.toString(), source);
+});
+onNet("bl_appearance:server:resetroutingbucket", () => {
+  SetPlayerRoutingBucket(source.toString(), 0);
+});
+RegisterCommand("migrate", async (source2) => {
+  source2 = source2 !== 0 ? source2 : parseInt(getPlayers()[0]);
+  const bl_appearance = exports.bl_appearance;
+  const config = bl_appearance.config();
+  const importedModule = await globImport_migrate_ts(`./migrate/${config.previousClothing === "fivem-appearance" ? "fivem" : config.previousClothing}.ts`);
+  importedModule.default(source2);
+}, false);
+core.RegisterUsableItem("cloth", async (source2, slot, metadata) => {
+  const player = core.GetPlayer(source2);
+  if (player?.removeItem("cloth", 1, slot))
+    emitNet("bl_appearance:server:useOutfit", source2, metadata.outfit);
+});
+import_oxmysql5.oxmysql.ready(() => {
+  import_oxmysql5.oxmysql.query(`CREATE TABLE IF NOT EXISTS appearance (
 		id varchar(100) NOT NULL,
 		skin longtext DEFAULT NULL,
 		clothes longtext DEFAULT NULL,
 		tattoos  longtext DEFAULT NULL,
 		PRIMARY KEY (id)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`),s.oxmysql.query(`CREATE TABLE IF NOT EXISTS outfits (
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`);
+  import_oxmysql5.oxmysql.query(`CREATE TABLE IF NOT EXISTS outfits (
 		id int NOT NULL AUTO_INCREMENT,
 		player_id varchar(100) NOT NULL,
 		label varchar(100) NOT NULL,
 		outfit longtext DEFAULT NULL,
 		PRIMARY KEY (id)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)});
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`);
+});
