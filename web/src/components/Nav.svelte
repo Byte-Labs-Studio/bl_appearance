@@ -124,7 +124,7 @@
         {
             id: 'vest',
             type: 'drawables',
-            icon: 'IconJacket',
+            icon: 'IconVest',
         },
         {
             id: 'legs',
