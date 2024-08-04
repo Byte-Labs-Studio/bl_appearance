@@ -36,6 +36,11 @@ export default {
             ]
         }
     },
+    vest: {
+        type: "drawable",
+        index: 10,
+        off: 15,
+    },
     legs: {
         type: "drawable",
         index: 4,
