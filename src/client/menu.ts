@@ -84,6 +84,8 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     sendNUIEvent(Send.visible, true)
     open = true
 
+    HideHud(true);
+
     if (promise) {
         await promise
         emitNet('bl_appearance:server:resetroutingbucket');
@@ -147,6 +149,8 @@ export function closeMenu() {
     stopCamera()
     SetNuiFocus(false, false)
     sendNUIEvent(Send.visible, false)
+
+    HideHud(false);
 
     if (resolvePromise) {
         resolvePromise();
