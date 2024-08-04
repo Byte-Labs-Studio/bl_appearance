@@ -17,11 +17,12 @@ onClientCallback('bl_appearance:server:getOutfits', async (src, frameworkId) => 
 	}
 
 	const outfits = response.map(
-		(outfit: { id: number; label: string; outfit: string }) => {
+		(outfit: { id: number; label: string; outfit: string; jobname?: string }) => {
 			return {
 				id: outfit.id,
 				label: outfit.label,
 				outfit: JSON.parse(outfit.outfit),
+				jobname: outfit.jobname,
 			};
 		}
 	);

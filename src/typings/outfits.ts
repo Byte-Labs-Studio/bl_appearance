@@ -4,7 +4,7 @@ interface Outfit {
     id?: number | string,
     label: string,
     outfit: TOutfitData,
-    job: { name: string, rank: number } | null,
+    jobname?: string,
 }
 
 type TOutfitData  = {

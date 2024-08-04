@@ -25,7 +25,7 @@
     let importOutfitId: number;
 </script>
 
-{#each outfits as { label, outfit, id, job }, i}
+{#each outfits as { label, outfit, id, jobname }, i}
     <Wrapper {label}>
         <svelte:fragment slot="extra_primary">
             <Dropdown display="Options">
@@ -39,16 +39,16 @@
                         class="btn w-full">{$LOCALE.USE_TITLE}</button
                     >
                     <button
-                        disabled={job != null && !$JOBDATA.isBoss}
+                        disabled={jobname != null && !$JOBDATA.isBoss}
                         on:click={() => {
                             renameIndex = i;
                             renameLabel = label;
                         }}
                         class="btn w-full">{$LOCALE.EDIT_TITLE}</button
                     >
-                    {#if job === null}
+                    {#if jobname === null}
                         <button
-                            disabled={job != null && !$JOBDATA.isBoss}
+                            disabled={jobname != null && !$JOBDATA.isBoss}
                             on:click={() => {
                                 OUTFITS.share(id);
                             }}
@@ -57,14 +57,13 @@
                         >
                     {/if}
                     <button
-                        disabled={job != null && !$JOBDATA.isBoss}
                         on:click={() => {
                             OUTFITS.item(outfit, label);
                         }}
                         class="btn w-full">{$LOCALE.ITEMOUTFIT_TITLE}</button
                     >
                     <button
-                        disabled={job != null && !$JOBDATA.isBoss}
+                        disabled={jobname != null && !$JOBDATA.isBoss}
                         on:click={() => {
                             deleteIndex = i;
                         }}
@@ -149,7 +148,7 @@
                             bind:value={newOutfitLabel}
                             placeholder="Outfit Label"
                         />
-                        {#if $JOBDATA.isBoss}
+                        {#if isJobAdding && $JOBDATA.isBoss}
                             <input
                                 type="number"
                                 class="w-full h-[3vh] p-[0.5vh]"

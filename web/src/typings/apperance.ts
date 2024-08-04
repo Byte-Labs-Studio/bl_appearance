@@ -148,7 +148,7 @@ export type TOutfit = {
     id: number;
     label: string;
     outfit: TOutfitData;
-	job?: string|null;
+	jobname?: string|null;
 }
 
 export type TBlacklistValues = {
