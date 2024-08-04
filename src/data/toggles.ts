@@ -1,5 +1,3 @@
-
-
 export default {
     hats: {
         type: "prop",
@@ -21,7 +19,7 @@ export default {
         hook: {
             drawables: [
                 { component: 3, variant: 15, texture: 0, id: 'torsos' },
-                { component: 11, variant: 15, texture: 0, id: 'jackets'}
+                { component: 8, variant: 15, texture: 0, id: 'shirts' }
             ]
         }
     },
@@ -32,13 +30,13 @@ export default {
         hook: {
             drawables: [
                 { component: 3, variant: 15, texture: 0, id: 'torsos' },
-                { component: 8, variant: 15, texture: 0, id: 'shirts'}
+                { component: 11, variant: 15, texture: 0, id: 'jackets' }
             ]
         }
     },
     vest: {
         type: "drawable",
-        index: 10,
+        index: 9,
         off: 15,
     },
     legs: {
