@@ -269,7 +269,7 @@
                         class="w-2/3 h-fit grid absolute place-items-center fill-white"
                     >
                         {#await import(`./icons/${icon}.svelte`) then { default: Icon }}
-                            <Icon size={id == 'glasses' ? 55 : 45} />
+                            <Icon size={id == 'glasses' ? 45 : 45} />
                         {/await}
                     </div>
                 </div>
