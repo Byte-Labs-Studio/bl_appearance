@@ -154,6 +154,11 @@ export const getFrameworkID = () => {
     return id
 }
 
+export const getPlayerGenderModel = () => {
+    const gender = getPlayerData().gender
+    return gender === 'male' ? 'mp_m_freemode_01' : 'mp_f_freemode_01'
+}
+
 export function Delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

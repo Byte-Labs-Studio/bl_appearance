@@ -1,10 +1,11 @@
-import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, ped, getPlayerData, getJobInfo } from "@utils"
+import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, ped, getPlayerData, getJobInfo, getPlayerGenderModel } from "@utils"
 import { startCamera, stopCamera } from "./camera"
 import type { TAppearanceZone } from "@typings/appearance"
 import { Outfit } from "@typings/outfits"
 import { Send } from "@events"
 import { getAppearance, getTattooData } from "./appearance/getters"
 import "./handlers"
+import { setModel } from "./appearance/setters"
 
 const config = exports.bl_appearance
 let armour = 0
@@ -58,6 +59,9 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     const appearance = await getAppearance(pedHandle)
 
     if (creation) {
+        const model = GetHashKey(getPlayerGenderModel());
+        await setModel(model);
+        appearance.model = model;
         emitNet('bl_appearance:server:setroutingbucket')
         promise = new Promise(resolve => {
             resolvePromise = resolve;
