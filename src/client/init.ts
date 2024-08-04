@@ -4,6 +4,7 @@ import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
 import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format } from "@utils"
 import { QBBridge } from "./bridge/qb"
 import { ESXBridge } from "./bridge/esx"
+import { illeniumCompat } from "./compat/illenium"
 
 RegisterCommand('openMenu', async () => {
     exports.bl_appearance.InitialCreation()
@@ -58,6 +59,8 @@ if (core == 'qb' || core == 'qbx' && GetResourceState(frameworkName) == 'started
 } else if (core == 'esx' && GetResourceState(frameworkName) == 'started') {
     ESXBridge();
 }
+
+illeniumCompat();
 
 RegisterCommand('reloadskin', async () => {
     const frameworkID = await getFrameworkID()
