@@ -75,7 +75,7 @@ function eventTimer(eventName: string, delay: number | null) {
     return true;
 }
 
-onNet(`__ox_cb_${resourceName}`, (key: string, ...args: any) => {
+onNet(`_bl_cb_${resourceName}`, (key: string, ...args: any) => {
     const resolve = activeEvents[key];
     return resolve && resolve(...args);
 });
@@ -92,8 +92,7 @@ export function triggerServerCallback<T = unknown>(
     do {
         key = `${eventName}:${Math.floor(Math.random() * (100000 + 1))}`;
     } while (activeEvents[key]);
-
-    emitNet(`__ox_cb_${eventName}`, resourceName, key, ...args);
+    emitNet(`_bl_cb_${eventName}`, resourceName, key, ...args);
 
     return new Promise<T>((resolve) => {
         activeEvents[key] = resolve;
@@ -101,7 +100,7 @@ export function triggerServerCallback<T = unknown>(
 };
 
 export function onServerCallback(eventName, cb) {
-    onNet(`__ox_cb_${eventName}`, async (resource, key, ...args) => {
+    onNet(`_bl_cb_${eventName}`, async (resource, key, ...args) => {
         let response;
         try {
             response = await cb(...args);
@@ -110,7 +109,7 @@ export function onServerCallback(eventName, cb) {
             console.error(`an error occurred while handling callback event ${eventName}`);
             console.log(`^3${e.stack}^0`);
         }
-        emitNet(`__ox_cb_${resource}`, key, response);
+        emitNet(`_bl_cb_${resource}`, key, response);
     });
 }
 
