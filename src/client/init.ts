@@ -16,6 +16,9 @@ exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
 
 exports('SetPlayerPedAppearance', async (frameworkID) => {
     const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+    if (!appearance) {
+        throw new Error('No appearance found')
+    }
     await setPlayerPedAppearance(appearance)
 })
 
