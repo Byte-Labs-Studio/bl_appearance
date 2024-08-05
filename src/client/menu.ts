@@ -32,7 +32,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
 
     const frameworkdId = getFrameworkID()
     const tabs = menu.tabs
-    let allowExit = menu.allowExit
+    let allowExit = creation ? false : menu.allowExit
 
     armour = GetPedArmour(pedHandle)
 
