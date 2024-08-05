@@ -81,6 +81,6 @@ RegisterCommand('reloadskin', async () => {
     SetPedArmour(ped, armor)
 }, false)
 
-export const HideHud = (state: boolean = true) => {
+export function HideHud(state: boolean = true) {
     exports.bl_appearance.hideHud(state)
 }
