@@ -1,6 +1,6 @@
 import { TAppearance } from "@typings/appearance";
 import { getAppearance, getDrawables, getHair, getHeadBlendData, getHeadOverlay, getHeadStructure, getProps } from "../appearance/getters";
-import { setDrawable, setHeadBlend, setHeadOverlay, setModel, setPedAppearance, setPedHairColors, setPedTattoos } from "../appearance/setters";
+import { setDrawable, setHeadBlend, setHeadOverlay, setModel, setPedAppearance, setPedHairColors, setPedTattoos, setProp } from "../appearance/setters";
 import { TTattoo } from "@typings/tattoos";
 
 function exportHandler(name: string, cb: any) {
@@ -19,27 +19,49 @@ export function illeniumCompat() {
     });
 
     exportHandler('getPedComponents', (ped: number) => {
-        return getDrawables(ped);
+        const drawables: any = getDrawables(ped)[0];
+        let newdrawable = [];
+        for (const id of drawables) {
+            const drawable = drawables[id];
+            newdrawable.push({
+                component_id: drawable.index,
+                drawable: drawable.value,
+                texture: drawable.texture
+            })
+        }
     });
 
     exportHandler('getPedProps', (ped: number) => {
-       return getProps(ped);
+        const props: any =  getProps(ped)[0];
+        let newProps = [];
+        for (const id of props) {
+            const prop = props[id];
+            newProps.push({
+                prop_id: prop.index,
+                drawable: prop.value,
+                texture: prop.texture
+            })
+        }
     });
 
     exportHandler('getPedHeadBlend', (ped: number) => {
-        return getHeadBlendData(ped);
+        return console.warn('You Still cannot use this function');
+        //return getHeadBlendData(ped);
     });
 
     exportHandler('getPedFaceFeatures', (ped: number) => {
-        return getHeadStructure(ped);
+        return console.warn('You Still cannot use this function');
+        //return getHeadStructure(ped);
     });
 
     exportHandler('getPedHeadOverlays', (ped: number) => {
-        return getHeadOverlay(ped);
+        return console.warn('You Still cannot use this function');
+        //return getHeadOverlay(ped);
     });
 
     exportHandler('getPedHair', (ped: number) => {
-        return getHair(ped);
+        //return getHair(ped);
+        return console.warn('You Still cannot use this function');
     });
 
     exportHandler('getPedAppearance', (ped: number) => {
@@ -51,23 +73,26 @@ export function illeniumCompat() {
     });
 
     exportHandler('setPedHeadBlend', (ped: number, blend: any) => {
-        setHeadBlend(ped, blend);
+        //setHeadBlend(ped, blend);
+        return console.warn('You Still cannot use this function');
     });
 
     exportHandler('setPedFaceFeatures', () => {
-        return console.warn('Xirvin will implement');
+        return console.warn('You Still cannot use this function');
     });
 
     exportHandler('setPedHeadOverlays', (ped: number, overlay: any) => {
-        setHeadOverlay(ped, overlay);
+        //setHeadOverlay(ped, overlay);
+        return console.warn('You Still cannot use this function');
     });
 
     exportHandler('setPedHair', async (ped: number, hair: any, tattoo: any) => {
-        await setPedHairColors(ped, hair);
+        //setPedHairColors(ped, hair);
+        return console.warn('You Still cannot use this function');
     });
 
     exportHandler('setPedEyeColor', () => {
-        return console.warn('Xirvin will implement');
+        return console.warn('You Still cannot use this function');
     });
 
     exportHandler('setPedComponent', (ped: number, drawable: any) => {
@@ -96,11 +121,18 @@ export function illeniumCompat() {
             value: prop.drawable,
             texture: prop.texture
         }
-        setDrawable(ped, newProp);
+        setProp(ped, newProp);
     });
 
     exportHandler('setPedProps', (ped: number, props: any) => {
-        return console.warn('Xirvin will implement');
+        for (const prop of props) {
+            const newProp = {
+                index: prop.prop_id,
+                value: prop.drawable,
+                texture: prop.texture
+            }
+            setProp(ped, newProp);
+        }
     });
 
     exportHandler('setPlayerAppearance', () => {
