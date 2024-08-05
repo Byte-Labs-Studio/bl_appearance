@@ -6,7 +6,6 @@ import { Send } from "@events"
 import { getAppearance, getTattooData } from "./appearance/getters"
 import "./handlers"
 import { setModel } from "./appearance/setters"
-import { HideHud } from "./init"
 
 const config = exports.bl_appearance
 let armour = 0
@@ -69,7 +68,6 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
         });
     }
 
-
     sendNUIEvent(Send.data, {
         tabs,
         appearance,
@@ -85,7 +83,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     sendNUIEvent(Send.visible, true)
     open = true
 
-    HideHud(true);
+    exports.bl_appearance.hideHud(true)
 
     if (promise) {
         await promise
@@ -151,7 +149,8 @@ export function closeMenu() {
     SetNuiFocus(false, false)
     sendNUIEvent(Send.visible, false)
 
-    HideHud(false);
+
+    exports.bl_appearance.hideHud(false)
 
     if (resolvePromise) {
         resolvePromise();
