@@ -6,6 +6,7 @@ import { Send } from "@events"
 import { getAppearance, getTattooData } from "./appearance/getters"
 import "./handlers"
 import { setModel } from "./appearance/setters"
+import { HideHud } from "./init"
 
 const config = exports.bl_appearance
 let armour = 0

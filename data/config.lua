@@ -7,3 +7,8 @@ Config = {
 exports('config', function()
     return Config
 end)
+
+---@param state boolean If true, hides the HUD. If false, shows the HUD.
+exports('hideHud', function(state)
+    -- Implement your code here
+end)

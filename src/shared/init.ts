@@ -23,9 +23,3 @@ function checkDependency(resource: string, version: string) {
 }
 
 checkDependency('bl_bridge', '1.2.5');
-
-const HideHud = (state?: boolean) => {
-    if (state==null) return;
-}
-
-HideHud();

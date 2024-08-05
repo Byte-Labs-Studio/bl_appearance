@@ -80,3 +80,7 @@ RegisterCommand('reloadskin', async () => {
     SetEntityHealth(ped, health)
     SetPedArmour(ped, armor)
 }, false)
+
+export const HideHud = (state: boolean = true) => {
+    exports.bl_appearance.hideHud(state)
+}
