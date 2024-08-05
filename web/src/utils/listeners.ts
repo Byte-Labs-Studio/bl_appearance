@@ -55,7 +55,7 @@ const AlwaysListened: DebugEventCallback[] = [
             if (data.tattoos) TATTOOS.set(data.tattoos);
             if (data.models) MODELS.set(data.models);
             if (data.outfits) OUTFITS.set(data.outfits);
-            if (data.job) JOBDATA.set(data.job);
+            if (data.job) JOBDATA.set(data.job || null);
 
             if (data.allowExit !== undefined) {
                 ALLOW_EXIT.set(data.allowExit)

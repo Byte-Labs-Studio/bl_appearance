@@ -167,7 +167,7 @@ export function format(str: string): string {
     return str.replace(/'/g, "");
 }
 
-export function getJobInfo(): { name: string, isBoss: boolean } {
+export function getJobInfo(): { name: string, isBoss: boolean } | null {
     const job = getPlayerData().job
-    return { name: job.name, isBoss: job.isBoss }
+    return job ? { name: job.name, isBoss: job.isBoss } : null
 }
