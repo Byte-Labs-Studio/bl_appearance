@@ -146,6 +146,7 @@ onClientCallback('bl_appearance:server:getAppearance', async (src, frameworkId) 
 		'SELECT * FROM appearance WHERE id = ? LIMIT 1',
 		[frameworkId]
 	);
+
 	if (!response) return null;
 	let appearance = {
 		...JSON.parse(response.skin),
@@ -164,7 +165,6 @@ onNet('bl_appearance:server:resetroutingbucket', () => {
 	SetPlayerRoutingBucket(source.toString(), 0)
 });
 
-
 RegisterCommand('migrate', async (source: number) => {
 	source = source !== 0 ? source : parseInt(getPlayers()[0])
 	const bl_appearance = exports.bl_appearance;
@@ -177,22 +177,4 @@ core.RegisterUsableItem('cloth', async (source: number, slot: number, metadata: 
 	const player = core.GetPlayer(source)
 	if (player?.removeItem('cloth', 1, slot)) 
 		emitNet('bl_appearance:server:useOutfit', source, metadata.outfit)
-})
-
-oxmysql.ready(() => {
-	oxmysql.query(`CREATE TABLE IF NOT EXISTS appearance (
-		id varchar(100) NOT NULL,
-		skin longtext DEFAULT NULL,
-		clothes longtext DEFAULT NULL,
-		tattoos  longtext DEFAULT NULL,
-		PRIMARY KEY (id)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
-	
-	oxmysql.query(`CREATE TABLE IF NOT EXISTS outfits (
-		id int NOT NULL AUTO_INCREMENT,
-		player_id varchar(100) NOT NULL,
-		label varchar(100) NOT NULL,
-		outfit longtext DEFAULT NULL,
-		PRIMARY KEY (id)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
 })
