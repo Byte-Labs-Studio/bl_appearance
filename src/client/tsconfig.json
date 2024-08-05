@@ -9,6 +9,6 @@
         "@events": ["./events.ts"],
         "@utils": ["./utils/index.ts"],
         "@locale": ["../locale/*"]
-    }
-  },
+    },
+},
 }

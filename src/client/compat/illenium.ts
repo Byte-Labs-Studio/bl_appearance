@@ -1,5 +1,7 @@
-import { findModelIndex, getAppearance, getDrawables, getHair, getHeadOverlay, getProps } from "../appearance/getters";
-import { setDrawable, setHeadBlend, setHeadOverlay, setModel, setPedHairColors } from "../appearance/setters";
+import { TAppearance } from "@typings/appearance";
+import { getAppearance, getDrawables, getHair, getHeadBlendData, getHeadOverlay, getHeadStructure, getProps } from "../appearance/getters";
+import { setDrawable, setHeadBlend, setHeadOverlay, setModel, setPedAppearance, setPedHairColors, setPedTattoos } from "../appearance/setters";
+import { TTattoo } from "@typings/tattoos";
 
 function exportHandler(name: string, cb: any) {
     on('__cfx_export_illenium-appearance_' + name, (setCB: any) => {
@@ -13,8 +15,7 @@ export function illeniumCompat() {
     });
 
     exportHandler('getPedModel', (ped: number) => {
-        console.warn('Xirvin will implement');
-        //return findModelIndex(ped)
+        return GetEntityModel(ped)
     });
 
     exportHandler('getPedComponents', (ped: number) => {
@@ -25,12 +26,12 @@ export function illeniumCompat() {
        return getProps(ped);
     });
 
-    exportHandler('getPedHeadBlend', () => {
-        return console.warn('Xirvin will implement');
+    exportHandler('getPedHeadBlend', (ped: number) => {
+        return getHeadBlendData(ped);
     });
 
-    exportHandler('getPedFaceFeatures', () => {
-        return console.warn('Xirvin will implement');
+    exportHandler('getPedFaceFeatures', (ped: number) => {
+        return getHeadStructure(ped);
     });
 
     exportHandler('getPedHeadOverlays', (ped: number) => {
@@ -63,7 +64,6 @@ export function illeniumCompat() {
 
     exportHandler('setPedHair', async (ped: number, hair: any, tattoo: any) => {
         await setPedHairColors(ped, hair);
-        //xirvin tattoo need?
     });
 
     exportHandler('setPedEyeColor', () => {
@@ -80,7 +80,14 @@ export function illeniumCompat() {
     });
 
     exportHandler('setPedComponents', (ped: number, components: any) => {
-        return console.warn('Xirvin will implement');
+        for (const component of components) {
+            const newDrawable = {
+                index: component.component_id,
+                value: component.drawable,
+                texture: component.texture
+            }
+            setDrawable(ped, newDrawable);
+        }
     });
 
     exportHandler('setPedProp', (ped: number, prop: any) => {
@@ -100,11 +107,11 @@ export function illeniumCompat() {
         return console.warn('Need to be implemented');
     });
 
-    exportHandler('setPedAppearance', () => {
-        return console.warn('Need to be implemented');
+    exportHandler('setPedAppearance', (ped: number, appearance: TAppearance) => {
+        setPedAppearance(ped, appearance)
     });
 
-    exportHandler('setPedTattoos', () => {
-        return console.warn('Need to be implemented');
+    exportHandler('setPedTattoos', (ped: number, tattoos: TTattoo[]) => {
+        setPedTattoos(ped, tattoos)
     });
 }
