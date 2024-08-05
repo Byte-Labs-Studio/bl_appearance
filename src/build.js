@@ -28,7 +28,7 @@ const build = async (esbuildOptions, type) => {
     target: 'esnext',
     logLevel: 'info',
     sourcemap: dev ? 'both' : false,
-    minify: false, //need to change !dev
+    minify: !dev,
     keepNames: dev,
     define: {
       __DEV_MODE__: `${dev}`,
