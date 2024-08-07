@@ -37,16 +37,16 @@ export default {
     vest: {
         type: "drawable",
         index: 9,
-        off: 15,
+        off: 0,
     },
     legs: {
         type: "drawable",
         index: 4,
-        off: 11,
+        off: 18,
     },
     shoes: {
         type: "drawable",
         index: 6,
-        off: 13,
+        off: 34,
     }
 }

@@ -53,7 +53,7 @@ const OUTFITS_INIT = () => {
 
         reset: () => store.set(null),
 
-        save: (label: string, job: { name: string, rank: number } | null) => {
+        save: (label: string, job?: { name: string, rank: number } | null) => {
             const appearance = APPEARANCE.get();
 
             const outfit: TOutfitData = {

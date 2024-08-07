@@ -5,7 +5,7 @@ import { saveAppearance } from './appearance';
 import { SkinDB } from '@typings/appearance';
 
 onClientCallback('bl_appearance:server:getOutfits', async (src, frameworkId) => {
-	const job = core.GetPlayer(src).job
+    const job = core.GetPlayer(src).job || { name: 'unknown', grade: { name: 'unknown' } }
 	let response = await oxmysql.prepare(
 		'SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)',
 		[frameworkId, job.name, job.grade.name]
@@ -50,8 +50,13 @@ onClientCallback('bl_appearance:server:deleteOutfit', async (src, frameworkId, i
 });
 
 onClientCallback('bl_appearance:server:saveOutfit', async (src, frameworkId, data: Outfit) => {
-	const jobname = data.job?.name || null;
-	const jobrank = data.job?.rank || null;
+    let jobname = null
+    let jobrank = 0
+    if (data.job) {
+        jobname = data.job.name;
+        jobrank = data.job.rank;
+    }
+    console.log(frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank)
 	const id = await oxmysql.insert(
 		'INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)',
 		[frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank]

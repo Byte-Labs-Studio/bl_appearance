@@ -5,12 +5,14 @@ interface Outfit {
     label: string,
     outfit: TOutfitData,
     jobname?: string,
+    job?: { name: string, rank: number } | null;
 }
 
 type TOutfitData  = {
     headOverlay: THeadOverlay
     drawables: TDrawables
-    props: TProps
+    props: TProps;
+    job?: { name: string, rank: number } | null;
 }
 
 export {Outfit, TOutfitData}

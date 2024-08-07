@@ -46,7 +46,7 @@
                         }}
                         class="btn w-full">{$LOCALE.EDIT_TITLE}</button
                     >
-                    {#if jobname === null}
+                    {#if !jobname}
                         <button
                             disabled={jobname != null && !$JOBDATA.isBoss}
                             on:click={() => {
