@@ -4,6 +4,12 @@ An advanced appearance menu for FiveM.
 Website: [Byte Labs](https://byte-labs.net)
 Discord: [Byte Labs](https://discord.gg/fqsqSjZfxE)
 
+CREDITS TO THE BYTE LABS TEAM:
+- The Byte Labs Team - Discord: [Byte Labs](https://byte-labs.net)
+- Master Mind - Discord: mastermind8816
+- Complex - Discord: complexza
+- DevX - Discord: devx
+
 ## [DOCUMENTATION](https://docs.byte-labs.net/bl_appearance)
 
 🚀 **Introducing Byte Labs Appearance: The Ultimate FiveM Customization Script!** 🚀
