@@ -126,28 +126,59 @@ local stores = {
     }
 }
 
-local currentZone = nil
 local key = Config.openControl
+local textUi = Config.textUi
+local control = Config.openControl
+local textui = exports.bl_bridge:textui()
+local currentZone = nil
 local sprites = {}
 
 local function setupZones()
-    if GetResourceState('bl_sprites') == 'missing' then return end
     for _, v in pairs(stores) do
-        sprites[#sprites+1] = exports.bl_sprites:sprite({
-            coords = v.coords,
-            shape = 'hex',
-            key = key,
-            distance = 3.0,
-            onEnter = function()
+        
+        if textUi then
+            local point = lib.points.new({
+                coords = v.coords,
+                distance = 3.0,
+            })
+
+            function point:onEnter()
                 currentZone = v
-            end,
-            onExit = function()
-                currentZone = nil
+                local prefix = "[" .. control .. "] - "
+                if currentZone.type == 'barber' then
+                    textui.showTextUI(prefix .. string.format(locale("BARBER_STORE")), 'left')
+                elseif currentZone.type == 'tattoos' then
+                    textui.showTextUI(prefix .. string.format(locale("TATTOO_STORE")), 'left')
+                elseif currentZone.type == 'clothing' then
+                    textui.showTextUI(prefix .. string.format(locale("CLOTHING_STORE")), 'left')
+                elseif currentZone.type == 'surgeon' then
+                    textui.showTextUI(prefix .. string.format(locale("SURGEON_STORE")), 'left')
+                end
             end
-        })
+
+            function point:onExit()
+                currentZone = nil
+                textui.hideTextUI()
+            end
+        else 
+            if GetResourceState('bl_sprites') == 'missing' then return end
+            for _, v in pairs(stores) do
+                sprites[#sprites+1] = exports.bl_sprites:sprite({
+                    coords = v.coords,
+                    shape = 'hex',
+                    key = key,
+                    distance = 3.0,
+                    onEnter = function()
+                        currentZone = v
+                    end,
+                    onExit = function()
+                        currentZone = nil
+                    end
+                })
+            end
+        end
     end
 end
-
 
 setupZones()
 
@@ -160,19 +191,19 @@ local function createBlips()
             if v.type == 'barber' then
                 spriteId = 71
                 blipColor = 0
-                blipname = 'Barber'
+                blipname = locale("BARBER_BLIP")
             elseif v.type == 'clothing' then
                 spriteId = 73
                 blipColor = 0
-                blipname = 'Clothing Store'
+                blipname = locale("CLOTHING_BLIP")
             elseif v.type == 'tattoos' then
                 spriteId = 75
                 blipColor = 4
-                blipname = 'Tattoo Parlor'
+                blipname = locale("TATTOO_BLIP")
             elseif v.type == 'surgeon' then
                 spriteId = 102
                 blipColor = 4
-                blipname = 'Surgeon'
+                blipname = locale("SURGEON_BLIP")
             end
             SetBlipSprite(blip, spriteId)
             SetBlipColour(blip, blipColor)
@@ -184,21 +215,24 @@ local function createBlips()
             blips[#blips+1] = blip
         end
     end
+endend
 end
 
 createBlips()
 
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
-         for _, blip in pairs(blips) do
-             RemoveBlip(blip)
-         end
+        for _, blip in pairs(blips) do
+            RemoveBlip(blip)
+        end
 
-         for _, sprite in pairs(sprites) do
-             sprite:removeSprite()
-         end
+        if not textUi then
+            for _, sprite in pairs(sprites) do
+                sprite:removeSprite()
+            end
+        end
     end
- end)
+end)
  
 
 RegisterCommand('+openAppearance', function()
