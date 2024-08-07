@@ -10,7 +10,24 @@
         setTimeout(() => {
             showContent = true;
         }, 1250);
+
+        const unsubscribe = SELECTED_TAB.subscribe(async tab => {
+            if (tab?.icon) {
+                const res = await import(`./icons/${tab.icon}.svelte`);
+                icon = res.default;
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
     });
+
+    let icon = null;
+
+    function getIconComponent() {
+        return icon;
+    }
 </script>
 
 {#if $SELECTED_TAB}
@@ -34,9 +51,9 @@
             <div class="w-[10vh] h-[3vh] grid place-items-center pl-[1vh]">
                 {#key id}
                     <div transition:fly={{ x: 50 }} class="absolute">
-                        {#await import(`./icons/${icon}.svelte`) then { default: Icon }}
-                            <Icon />
-                        {/await}
+                        {#if icon}
+                            <svelte:component this={getIconComponent()} />
+                        {/if}
                     </div>
                 {/key}
             </div>
@@ -48,7 +65,7 @@
             {#if showContent}
                 {#key id}
                     <div
-                        transition:fly|global={{ x: 100, duration: 500}}
+                        transition:fly|global={{ x: 100, duration: 500 }}
                         class="flex flex-col items-center justify-start w-full h-[90%] absolute gap-[1vh] overflow-auto pr-[1vh]"
                     >
                         {#await import(`./menu/${src}.svelte`) then { default: Menu }}
