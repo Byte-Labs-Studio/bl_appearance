@@ -14,16 +14,22 @@ exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
     await setPedAppearance(ped, appearance)
 })
 
-exports('SetPlayerPedAppearance', async (appearance: TAppearance = null) => {
-    if (!appearance) {
-        const frameworkID = await getFrameworkID()
-        appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID) as TAppearance
+exports('SetPlayerPedAppearance', async (appearance: TAppearance | string) => {
+    let resolvedAppearance: TAppearance;
+    
+    if (typeof appearance === 'string' && appearance) {
+        const frameworkID = appearance || await getFrameworkID();
+        resolvedAppearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID) as TAppearance;
+    } else if (typeof appearance === 'object') {
+        resolvedAppearance = appearance;
     }
-    if (!appearance) {
-        throw new Error('No appearance found')
+    
+    if (!resolvedAppearance) {
+        throw new Error('No valid appearance found');
     }
-    await setPlayerPedAppearance(appearance)
-})
+    
+    await setPlayerPedAppearance(resolvedAppearance);
+});
 
 exports('GetPlayerPedAppearance', async (frameworkID: string) => {
     frameworkID = frameworkID || await getFrameworkID()

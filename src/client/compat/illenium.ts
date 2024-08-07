@@ -1,6 +1,6 @@
 import { TAppearance } from "@typings/appearance";
-import { getAppearance, getDrawables, getHair, getHeadBlendData, getHeadOverlay, getHeadStructure, getProps } from "../appearance/getters";
-import { setDrawable, setHeadBlend, setHeadOverlay, setModel, setPedAppearance, setPedHairColors, setPedTattoos, setProp } from "../appearance/setters";
+import { getAppearance, getDrawables, getProps } from "../appearance/getters";
+import { setDrawable, setModel, setPedAppearance, setPedTattoos, setProp } from "../appearance/setters";
 import { TTattoo } from "@typings/tattoos";
 
 function exportHandler(name: string, cb: any) {
@@ -135,9 +135,9 @@ export function illeniumCompat() {
         }
     });
 
-    exportHandler('setPlayerAppearance', () => {
-        return console.warn('Need to be implemented');
-    });
+    // exportHandler('setPlayerAppearance', (appearance: TAppearance) => {
+    //     return console.warn('Need to be implemented');
+    // });
 
     exportHandler('setPedAppearance', (ped: number, appearance: TAppearance) => {
         setPedAppearance(ped, appearance)

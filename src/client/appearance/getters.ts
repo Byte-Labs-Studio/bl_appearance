@@ -178,7 +178,7 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
 }
 exports("GetAppearance", getAppearance)
 onServerCallback('bl_appearance:client:getAppearance', () => {
-    return getAppearance(ped)
+    return getAppearance(ped || PlayerPedId())
 });
 
 export function getPedClothes(pedHandle: number): TClothes {

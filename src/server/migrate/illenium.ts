@@ -6,7 +6,7 @@ import { TAppearance } from '@typings/appearance';
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 const migrate = async (src: string) => {
-    const response: any = await oxmysql.query('SELECT * FROM `playerskins` WHERE active = 1`');
+    const response: any = await oxmysql.query('SELECT * FROM `playerskins` WHERE active = 1');
     if (!response) return;
 
     for (const element of response) {

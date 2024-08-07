@@ -37,5 +37,3 @@ dependencies {
     'bl_bridge',
     'bl_sprites'
 }
-
-provide 'illenium-appearance'
