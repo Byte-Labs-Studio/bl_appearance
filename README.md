@@ -9,6 +9,7 @@ CREDITS TO THE BYTE LABS TEAM:
 - Master Mind - Discord: mastermind8816
 - Complex - Discord: complexza
 - DevX - Discord: devx
+- DeeRock - Discord: deerockuk
 
 ## [DOCUMENTATION](https://docs.byte-labs.net/bl_appearance)
 
