@@ -116,22 +116,29 @@ export type THeadOverlayTotal = {
 	[key: string]: number
 }
 
-export type TAppearance = {
-    modelIndex?: number
-	model?: number
-	props: TProps
-	drawTotal?: TDrawTotal
-	drawables: TDrawables
-	propTotal?: TPropTotal
-	headOverlay: THeadOverlay
-	hairColor?: THairColor
-	headBlend?: THeadBlend
-	headStructure?: THeadStructure
-	headOverlayTotal?: THeadOverlayTotal
-    tattoos?: TTattoo[]
-    currentTattoos?: TTattoo[];
-    outfits?: Outfit[];
+export type TClothes = {
+    headOverlay: THeadOverlay
+    drawables: TDrawables
+    props: TProps
 }
+
+export type TSkin = {
+    headBlend: THeadBlend
+    headStructure: THeadStructure
+    hairColor: THairColor
+    model: number
+}
+
+export type TAppearance = TClothes & TSkin & {
+    modelIndex?: number
+    drawTotal?: TDrawTotal
+    propTotal?: TPropTotal
+    headOverlayTotal?: THeadOverlayTotal
+    tattoos?: TTattoo[]
+    currentTattoos?: TTattoo[]
+    outfits?: Outfit[]
+}
+
 
 export type TToggleData = {
     item: string;

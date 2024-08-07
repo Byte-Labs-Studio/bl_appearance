@@ -1,4 +1,4 @@
-import { TAppearance, THairData, THeadOverlay, THeadOverlayTotal } from "@typings/appearance"
+import { TAppearance, THairData, THeadOverlay, THeadOverlayTotal, TClothes, TSkin } from "@typings/appearance"
 import HEAD_OVERLAYS from "@data/head"
 import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
@@ -181,20 +181,20 @@ onServerCallback('bl_appearance:client:getAppearance', () => {
     return getAppearance(ped)
 });
 
-export function getPedClothes(pedHandle: number) {
+export function getPedClothes(pedHandle: number): TClothes {
     const [drawables] = getDrawables(pedHandle)
     const [props] = getProps(pedHandle)
     const [headData] = getHeadOverlay(pedHandle)
 
     return {
-        headOverlay: headData,
+        headOverlay: headData as THeadOverlay,
         drawables: drawables,
         props: props,
     }
 }
 exports("GetPedClothes", getPedClothes)
 
-export function getPedSkin(pedHandle: number) {
+export function getPedSkin(pedHandle: number): TSkin {
     return {
         headBlend: getHeadBlendData(pedHandle),
         headStructure: getHeadStructure(pedHandle),

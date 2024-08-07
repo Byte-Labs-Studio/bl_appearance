@@ -14,19 +14,24 @@ exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
     await setPedAppearance(ped, appearance)
 })
 
-exports('SetPlayerPedAppearance', async (frameworkID) => {
-    const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+exports('SetPlayerPedAppearance', async (appearance: TAppearance = null) => {
+    if (!appearance) {
+        const frameworkID = await getFrameworkID()
+        appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID) as TAppearance
+    }
     if (!appearance) {
         throw new Error('No appearance found')
     }
     await setPlayerPedAppearance(appearance)
 })
 
-exports('GetPlayerPedAppearance', async (frameworkID) => {
+exports('GetPlayerPedAppearance', async (frameworkID: string) => {
+    frameworkID = frameworkID || await getFrameworkID()
     return await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
 })
 
 exports('InitialCreation', async (cb?: Function) => {
+    // The first argument needs to be type of TAppearanceZone meaning it needs a coords property, but in this case it's not used
     await openMenu({ type: "appearance", coords: [0, 0, 0, 0] }, true)
     if (cb) cb()
 })

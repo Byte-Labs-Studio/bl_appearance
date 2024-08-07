@@ -1,6 +1,7 @@
-import { TValue } from "@typings/appearance";
+import { TAppearance, THairColor, TClothes, TSkin, TValue } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
 import { requestModel, ped, updatePed, delay} from '@utils';
+import { TTattoo } from "@typings/tattoos";
 
 export function setDrawable(pedHandle: number, data: TValue) {
     SetPedComponentVariation(pedHandle, data.index, data.value, data.texture, 0)
@@ -93,7 +94,7 @@ export function resetToggles(data) {
     }
 }
 
-export function setPedClothes(pedHandle: number, data) {
+export function setPedClothes(pedHandle: number, data: TClothes) {
     const drawables = data.drawables
     const props = data.props
     const headOverlay = data.headOverlay
@@ -113,21 +114,21 @@ export function setPedClothes(pedHandle: number, data) {
     }
 }
 
-export const setPedSkin = async (data) => {
+export const setPedSkin = async (pedHandle: number, data: TSkin) => {
     const headStructure = data.headStructure
     const headBlend = data.headBlend
 
     await setModel(data.model)
 
-    if (headBlend) setHeadBlend(ped, headBlend)
+    if (headBlend) setHeadBlend(pedHandle, headBlend)
     
     if (headStructure) for (const feature in headStructure) {
         const value = headStructure[feature]
-        SetFaceFeature(ped, value)
+        SetFaceFeature(pedHandle, value)
     }
 }
 
-export function setPedTattoos(pedHandle: number, data) {
+export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
     if (!data) return
 
     ClearPedDecorationsLeaveScars(pedHandle)
@@ -142,21 +143,21 @@ export function setPedTattoos(pedHandle: number, data) {
     }
 }
 
-export function setPedHairColors(pedHandle: number, data) {
+export function setPedHairColors(pedHandle: number, data: THairColor) {
     const color = data.color
     const highlight = data.highlight
     SetPedHairColor(pedHandle, color, highlight)
 }
 
-export async function setPedAppearance(pedHandle: number, data) {
-    await setPedSkin(data)
+export async function setPedAppearance(pedHandle: number, data: TAppearance) {
+    await setPedSkin(pedHandle, data)
     setPedClothes(pedHandle, data)
     setPedHairColors(pedHandle, data.hairColor)
     setPedTattoos(pedHandle, data.tattoos)
 }
 
-export async function setPlayerPedAppearance(data) {
-    await setPedSkin(data)
+export async function setPlayerPedAppearance(data: TAppearance) {
+    await setPedSkin(ped, data)
     setPedClothes(ped, data)
     setPedHairColors(ped, data.hairColor)
     setPedTattoos(ped, data.tattoos)
