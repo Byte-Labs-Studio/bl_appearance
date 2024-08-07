@@ -1,49 +1,28 @@
-# BL APPEARANCE
+# Byte Labs - Appearance Menu
+An advanced appearance menu for FiveM.
 
-### Dependencies 
-- `bl_bridge` [here](https://github.com/Byte-Labs-Studio/bl_bridge).
-- `bl_sprites` [here](https://github.com/Byte-Labs-Studio/bl_sprites).
-## Installation Steps
+Website: [Byte Labs](https://byte-labs.net)
+Discord: [Byte Labs](https://discord.gg/fqsqSjZfxE)
 
-1. **Download and Add fivem-builders**
-   - Download the `fivem-builders` repository from [here](https://github.com/Z3rio/fivem-builders).
-   - Replace the contents of the `[builders]` directory with the downloaded files from `fivem-builders`.
-     - Relative path: `resources\[cfx-default]\[system]\[builders]`
+## [DOCUMENTATION](https://docs.byte-labs.net/bl_appearance)
 
-2. **Install Dependencies and Build**
-   - Navigate to the main parent directory of `bl_appearance`.
-   - Run the following command to install dependencies and build the project:
-     ```bash
-     pnpm install && pnpm build
-     ```
-     - This command will also navigate to the `src` directory and build the necessary files.
+🚀 **Introducing Byte Labs Appearance: The Ultimate FiveM Customization Script!** 🚀
 
-3. **Build the `web` Directory**
-   - Navigate to the `web` directory:
-     ```bash
-     cd web
-     ```
-   - Install the necessary npm packages and build the project:
-     ```bash
-     npm install
-     npm run build
-     ```
-     - Alternative
-     ```bash
-      pnpm i
-      pnpm build
-     ```
+We're thrilled to announce the release of **Byte Labs Appearance**, a state-of-the-art script that revolutionizes character customization in FiveM. Designed for an immersive and intuitive experience, this resource offers everything your players need to create and personalize their characters like never before.
 
-4. **Development Mode**
-   - To test the project in a browser or in-game using the local Vite address:
-     - Comment out the normal `ui_page` line in the `fxmanifest.lua` file.
-     - Uncomment the development URL for `ui_page`.
-   - Run the development server:
-     - From the `web/` directory:
-       ```bash
-       npm run dev
-       ```
-     - Alternatively, run from the main directory using pnpm (this will also run Vite):
-       ```bash
-       pnpm dev
-       ```
+### **Key Features:**
+- **Ped Selection:** Choose from default or custom peds to start your character's journey.
+- **Advanced Face Mixer:** Blend up to three parents for a unique and customized look.
+- **Clothing Toggles:** Easily toggle clothing on or off while customizing for maximum flexibility.
+- **Intuitive Camera System:** Focus on specific body parts (head, torso, legs, feet) with full rotation capabilities to get the perfect view.
+- **Tattoo System:** Layer and extend tattoo data for a highly personalized touch.
+- **Exceptional Outfit System:** Create, edit, and share outfits, with options to apply them via items or assign job-specific uniforms.
+- **Easy-to-Use Color Menus:** Customize colors effortlessly with intuitive menus designed for smooth navigation.
+- **Modern and Slick UI:** Experience a clean, sleek interface crafted by the design experts at Byte Labs.
+- **Blacklist System:** Enforce dress codes with a flexible blacklist system, allowing you to restrict individual clothes or styles per job.
+- **Framework Agnostic:** Built with bl_bridge, Byte Labs Appearance seamlessly integrates with any framework, including QBCore, QBox, ESX, ND, and more.
+- **Developer Exports:** Empower other developers to integrate and expand upon this resource in their own scripts.
+
+Whether you're running a large-scale roleplay server or a small community, **Byte Labs Appearance** will elevate the customization experience for every player.
+
+🎉 **Get ready to bring a new level of immersion to your server with Byte Labs Appearance!**
