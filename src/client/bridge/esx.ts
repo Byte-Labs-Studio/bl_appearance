@@ -16,6 +16,7 @@ export function ESXBridge() {
     });
 
     onNet('skinchanger:loadSkin2', async (appearance: TAppearance, ped: number) => {
+        if (!appearance.model) appearance.model = GetHashKey("mp_m_freemode_01");
         await setPedAppearance(ped, appearance)
     });
 

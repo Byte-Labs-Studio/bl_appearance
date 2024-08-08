@@ -18,7 +18,7 @@ export function setProp(pedHandle: number, data: TValue) {
     return GetNumberOfPedPropTextureVariations(pedHandle, data.index, data.value)
 }
 
-export const setModel = async (model: number) => {
+export const setModel = async (model: number|string) => {
     const modelHash = await requestModel(model)
     SetPlayerModel(PlayerId(), modelHash)
     SetModelAsNoLongerNeeded(modelHash)
