@@ -17,12 +17,10 @@ exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
 exports('SetPlayerPedAppearance', async (appearance: TAppearance | string) => {
     let resolvedAppearance: TAppearance;
     
-    if (typeof appearance === 'string' && appearance) {
-        const frameworkID = appearance || await getFrameworkID();
+    if (!appearance || typeof appearance === 'string') {
+        const frameworkID: string = appearance || await getFrameworkID();
         resolvedAppearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID) as TAppearance;
-    } else if (typeof appearance === 'object') {
-        resolvedAppearance = appearance;
-    }
+    } else if (typeof appearance === 'object') resolvedAppearance = appearance;
     
     if (!resolvedAppearance) {
         throw new Error('No valid appearance found');
