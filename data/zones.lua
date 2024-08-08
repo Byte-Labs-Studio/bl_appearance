@@ -146,13 +146,13 @@ local function setupZones()
                 currentZone = v
                 local prefix = "[" .. control .. "] - "
                 if currentZone.type == 'barber' then
-                    textui.showTextUI(prefix .. string.format(locale("BARBER_STORE")), 'left')
+                    textui.showTextUI(prefix .. "Barber Shop", 'left')
                 elseif currentZone.type == 'tattoos' then
-                    textui.showTextUI(prefix .. string.format(locale("TATTOO_STORE")), 'left')
+                    textui.showTextUI(prefix .. "Tattoo Shop", 'left')
                 elseif currentZone.type == 'clothing' then
-                    textui.showTextUI(prefix .. string.format(locale("CLOTHING_STORE")), 'left')
+                    textui.showTextUI(prefix .. "Clothing Store", 'left')
                 elseif currentZone.type == 'surgeon' then
-                    textui.showTextUI(prefix .. string.format(locale("SURGEON_STORE")), 'left')
+                    textui.showTextUI(prefix .. "Surgeon Shop", 'left')
                 end
             end
 
@@ -191,19 +191,19 @@ local function createBlips()
             if v.type == 'barber' then
                 spriteId = 71
                 blipColor = 0
-                blipname = locale("BARBER_BLIP")
+                blipname = "Barber Shop"
             elseif v.type == 'clothing' then
                 spriteId = 73
                 blipColor = 0
-                blipname = locale("CLOTHING_BLIP")
+                blipname = "Clothing Store"
             elseif v.type == 'tattoos' then
                 spriteId = 75
                 blipColor = 4
-                blipname = locale("TATTOO_BLIP")
+                blipname = "Tattoo Shop"
             elseif v.type == 'surgeon' then
                 spriteId = 102
                 blipColor = 4
-                blipname = locale("SURGEON_BLIP")
+                blipname = "Surgeon Shop"
             end
             SetBlipSprite(blip, spriteId)
             SetBlipColour(blip, blipColor)
