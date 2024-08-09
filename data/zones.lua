@@ -191,19 +191,19 @@ local function createBlips()
             if v.type == 'barber' then
                 spriteId = 71
                 blipColor = 0
-                blipname = "Barber Shop"
+                blipname = 'Barber'
             elseif v.type == 'clothing' then
                 spriteId = 73
                 blipColor = 0
-                blipname = "Clothing Store"
+                blipname = 'Clothing Store'
             elseif v.type == 'tattoos' then
                 spriteId = 75
                 blipColor = 4
-                blipname = "Tattoo Shop"
+                blipname = 'Tattoo Parlor'
             elseif v.type == 'surgeon' then
                 spriteId = 102
                 blipColor = 4
-                blipname = "Surgeon Shop"
+                blipname = 'Surgeon'
             end
             SetBlipSprite(blip, spriteId)
             SetBlipColour(blip, blipColor)
@@ -215,7 +215,6 @@ local function createBlips()
             blips[#blips+1] = blip
         end
     end
-endend
 end
 
 createBlips()
