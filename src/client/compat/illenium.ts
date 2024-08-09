@@ -69,7 +69,7 @@ export function illeniumCompat() {
     });
 
     exportHandler('setPlayerModel', (model: number) => {
-        setModel(model);
+        setModel(PlayerPedId(), model);
     });
 
     exportHandler('setPedHeadBlend', (ped: number, blend: any) => {

@@ -56,7 +56,6 @@ onClientCallback('bl_appearance:server:saveOutfit', async (src, frameworkId, dat
         jobname = data.job.name;
         jobrank = data.job.rank;
     }
-    console.log(frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank)
 	const id = await oxmysql.insert(
 		'INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)',
 		[frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank]

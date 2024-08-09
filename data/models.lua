@@ -706,13 +706,8 @@ local models = {
     "u_m_y_staggrm_01",
     "u_m_y_tattoo_01",
     "u_m_y_zombie_01",
-    "ig_fatboi_01",
-    "ig_red",
-    "basharam",
-    "banuelos",
-    "a_c_husky",
-    "a_c_shepherd",
-    "pw_bobby",
+    "ig_isldj_00",
+
 }
 
 exports('models', function()
