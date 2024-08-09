@@ -2,6 +2,7 @@ Config = {
     locale = 'en',
     openControl = 'E',
     previousClothing = 'qb', -- 'illenium' | 'qb' | 'esx' | 'fivem-appearance'
+    textUi = true -- if true, uses textUI | if false, uses sprite
 }
 
 exports('config', function()
