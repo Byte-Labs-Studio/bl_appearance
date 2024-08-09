@@ -69,8 +69,6 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
 
     const appearance = await getAppearance(pedHandle)
 
-
-
     startCamera()
 
     sendNUIEvent(Send.data, {

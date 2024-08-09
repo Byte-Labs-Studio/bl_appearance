@@ -1,8 +1,7 @@
 import { TAppearance, THairColor, TClothes, TSkin, TValue } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
-import { requestModel, ped, updatePed, delay} from '@utils';
+import { requestModel, ped, updatePed, isPedFreemodeModel} from '@utils';
 import { TTattoo } from "@typings/tattoos";
-import { assert } from "console";
 
 export function setDrawable(pedHandle: number, data: TValue) {
     SetPedComponentVariation(pedHandle, data.index, data.value, data.texture, 0)
@@ -55,6 +54,8 @@ export const setModel = async (pedHandle: number, data: TAppearance | TSkin | nu
     }
 
     SetPedDefaultComponentVariation(pedHandle)
+
+    if (!isPedFreemodeModel(pedHandle)) return
 
     // Chill, TS is not smart and doesnt let me use the isString || isNumber check without crying
     if (typeof data !== 'string' && typeof data !== 'number') {
