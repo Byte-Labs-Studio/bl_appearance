@@ -13,10 +13,11 @@ import {
 } from './appearance/setters';
 import { closeMenu } from './menu';
 import { TAppearance, TToggleData, TValue } from '@typings/appearance';
-import { delay, getFrameworkID, triggerServerCallback, ped } from '@utils';
+import { delay, getFrameworkID, triggerServerCallback, ped, updatePed } from '@utils';
 import { getAppearance, getTattooData } from './appearance/getters';
 import TOGGLE_INDEXES from '@data/toggles';
 import { Outfit } from '@typings/outfits';
+import { TTattoo } from '@typings/tattoos';
 
 RegisterNuiCallback(Receive.cancel, async (appearance: TAppearance, cb: Function) => {
 	await setPlayerPedAppearance(appearance);
@@ -45,7 +46,10 @@ RegisterNuiCallback(Receive.setModel, async (model: string, cb: Function) => {
 		return cb(0);
 	}
 
-	await setModel(hash);
+
+	const newPed = await setModel(ped, hash);
+
+    updatePed(newPed)
 
 	const appearance = await getAppearance(ped);
 
@@ -77,7 +81,7 @@ RegisterNuiCallback(Receive.setHeadBlend, async (data: TValue, cb: Function) => 
 	cb(1);
 });
 
-RegisterNuiCallback(Receive.setTattoos, async (data: TValue, cb: Function) => {
+RegisterNuiCallback(Receive.setTattoos, async (data: TTattoo[], cb: Function) => {
 	setPedTattoos(ped, data);
 	cb(1);
 });

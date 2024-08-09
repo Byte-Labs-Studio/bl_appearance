@@ -19,7 +19,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
         return;
     }
 
-    const pedHandle = PlayerPedId()
+    let pedHandle = PlayerPedId()
     const configMenus = config.menus()
 
     const type = zone.type
@@ -28,7 +28,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     if (!menu) return
 
     updatePed(pedHandle)
-    startCamera()
+
 
     const frameworkdId = getFrameworkID()
     const tabs = menu.tabs
@@ -56,17 +56,22 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
 
     const blacklist = getBlacklist(zone)
 
-    const appearance = await getAppearance(pedHandle)
-
     if (creation) {
         const model = GetHashKey(getPlayerGenderModel());
-        await setModel(model);
-        appearance.model = model;
+        pedHandle = await setModel(pedHandle, model);
         emitNet('bl_appearance:server:setroutingbucket')
         promise = new Promise(resolve => {
             resolvePromise = resolve;
         });
+
+        updatePed(pedHandle)
     }
+
+    const appearance = await getAppearance(pedHandle)
+
+
+
+    startCamera()
 
     sendNUIEvent(Send.data, {
         tabs,

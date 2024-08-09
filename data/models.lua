@@ -712,7 +712,7 @@ local models = {
     "banuelos",
     "a_c_husky",
     "a_c_shepherd",
-    "pw_bobby",
+
 }
 
 exports('models', function()
