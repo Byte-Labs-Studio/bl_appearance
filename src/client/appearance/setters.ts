@@ -78,6 +78,8 @@ export function SetFaceFeature(pedHandle: number, data: TValue) {
 const isPositive = (val: number) => val >= 0 ? val : 0
 
 export function setHeadBlend(pedHandle: number, data) {
+    if (!isPedFreemodeModel(pedHandle)) return
+    
     pedHandle = pedHandle || ped
 
     const shapeFirst = isPositive(data.shapeFirst)
