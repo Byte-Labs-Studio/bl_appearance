@@ -25,7 +25,6 @@ const defMaleHash = GetHashKey("mp_m_freemode_01")
 export const setModel = async (pedHandle: number, data: TAppearance | TSkin | number | string) => {
     let model: number = 0
 
-
     if (data == null || data == undefined) return
 
     const isString = typeof data === 'string'
@@ -55,7 +54,7 @@ export const setModel = async (pedHandle: number, data: TAppearance | TSkin | nu
 
     SetPedDefaultComponentVariation(pedHandle)
 
-    if (!isPedFreemodeModel(pedHandle)) return
+    if (!isPedFreemodeModel(pedHandle)) return pedHandle
 
     // Chill, TS is not smart and doesnt let me use the isString || isNumber check without crying
     if (typeof data !== 'string' && typeof data !== 'number') {
@@ -160,13 +159,14 @@ export function setPedClothes(pedHandle: number, data: TClothes) {
 }
 
 export const setPedSkin = async (pedHandle: number, data: TSkin) => {
-    const headStructure = data.headStructure
-    const headBlend = data.headBlend
-
     if (data) {
         pedHandle = await setModel(pedHandle, data)
+    } else {
+        return
     }
-        
+
+    const headStructure = data.headStructure
+    const headBlend = data.headBlend
 
     if (headBlend) setHeadBlend(pedHandle, headBlend)
     
@@ -209,6 +209,7 @@ export async function setPedAppearance(pedHandle: number, data: TAppearance) {
 }
 
 export async function setPlayerPedAppearance(data: TAppearance) {
+    updatePed(PlayerPedId())
     await setPedSkin(ped, data)
     updatePed(PlayerPedId())
     setPedClothes(ped, data)

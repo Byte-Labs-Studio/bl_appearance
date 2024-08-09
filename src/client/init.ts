@@ -1,7 +1,7 @@
 import { TAppearance, TAppearanceZone, TMenuTypes } from "@typings/appearance"
 import { openMenu } from "./menu"
 import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
-import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format } from "@utils"
+import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format, updatePed } from "@utils"
 import { QBBridge } from "./bridge/qb"
 import { ESXBridge } from "./bridge/esx"
 import { illeniumCompat } from "./compat/illenium"

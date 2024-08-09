@@ -173,11 +173,6 @@ export function getJobInfo(): { name: string, isBoss: boolean } | null {
     return job ? { name: job.name, isBoss: job.isBoss } : null
 }
 
-// local function isPedFreemodeModel(ped)
-//     local model = GetEntityModel(ped)
-//     return model == `mp_m_freemode_01` or model == `mp_f_freemode_01`
-// end
-
 export function isPedFreemodeModel(ped: number) {
     const model = GetEntityModel(ped)
     return model === GetHashKey("mp_m_freemode_01") || model === GetHashKey("mp_f_freemode_01")
