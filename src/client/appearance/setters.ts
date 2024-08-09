@@ -21,54 +21,51 @@ export function setProp(pedHandle: number, data: TValue) {
 const defMaleHash = GetHashKey("mp_m_freemode_01")
 
 
-// This needs to return the ped handle because the pedId is being changed
-export const setModel = async (pedHandle: number, data: TAppearance | TSkin | number | string) => {
-    let model: number = 0
+export const setModel = async (pedHandle: number, data: TAppearance | TSkin | number | string): Promise<number> => {
+    if (data == null || data === undefined) return pedHandle;
 
-    if (data == null || data == undefined) return
-
-    const isString = typeof data === 'string'
-    const isNumber = typeof data === 'number'
-    const isJustModel = isString || isNumber
-
-    // Chill, TS is not smart and doesnt let me use the isString || isNumber check without crying
+    let model: number;
     if (typeof data === 'string') {
-        model = GetHashKey(data)
+        model = GetHashKey(data);
     } else if (typeof data === 'number') {
-        model = data
+        model = data;
     } else {
-        model = data.model //data.model should be a hash here
+        model = data.model || defMaleHash;
     }
 
-    if (model == null || model == undefined) return
+    if (model === 0) return pedHandle;
 
-    const isPlayer = IsPedAPlayer(pedHandle)
+    await requestModel(model);
 
+    const isPlayer = IsPedAPlayer(pedHandle);
     if (isPlayer) {
-        model = model !== 0 ? model : defMaleHash
-        await requestModel(model)
-        SetPlayerModel(PlayerId(), model)
-        SetModelAsNoLongerNeeded(model)
-        pedHandle = PlayerPedId()
+        SetPlayerModel(PlayerId(), model);
+        pedHandle = PlayerPedId();
+    } else {
+        SetPlayerModel(pedHandle, model);
     }
 
-    SetPedDefaultComponentVariation(pedHandle)
+    SetModelAsNoLongerNeeded(model);
+    SetPedDefaultComponentVariation(pedHandle);
 
-    if (!isPedFreemodeModel(pedHandle)) return pedHandle
+    if (!isPedFreemodeModel(pedHandle)) return pedHandle;
 
-    // Chill, TS is not smart and doesnt let me use the isString || isNumber check without crying
-    if (typeof data !== 'string' && typeof data !== 'number') {
-        if (data.headBlend) {
-            if (!isJustModel && Object.keys(data.headBlend).length > 0) {
-                const headBlend = data.headBlend
-                setHeadBlend(pedHandle, headBlend)
-                SetPedHeadBlendData(pedHandle, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, false)
-            }
+    const isJustModel = typeof data === 'string' || typeof data === 'number';
+    const hasHeadBlend = !isJustModel && Object.keys(data.headBlend).length > 0;
+
+    if (hasHeadBlend) {
+        setHeadBlend(pedHandle, (data as TAppearance | TSkin).headBlend);
+        SetPedHeadBlendData(pedHandle, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, false);
+    } else {
+        if (model === GetHashKey("mp_m_freemode_01")) {
+            SetPedHeadBlendData(pedHandle, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, false);
+        } else if (model === GetHashKey("mp_f_freemode_01")) {
+            SetPedHeadBlendData(pedHandle, 45, 21, 0, 20, 15, 0, 0.3, 0.1, 0, false);
         }
-    } 
-    
-    return pedHandle
-}
+    }
+
+    return pedHandle;
+};
 
 export function SetFaceFeature(pedHandle: number, data: TValue) {
     SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
@@ -174,6 +171,8 @@ export const setPedSkin = async (pedHandle: number, data: TSkin) => {
         const value = headStructure[feature]
         SetFaceFeature(pedHandle, value)
     }
+
+    console.log("here")
 }
 
 export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
@@ -210,11 +209,11 @@ export async function setPedAppearance(pedHandle: number, data: TAppearance) {
 
 export async function setPlayerPedAppearance(data: TAppearance) {
     updatePed(PlayerPedId())
-    await setPedSkin(ped, data)
+    await setPedSkin(PlayerPedId(), data)
     updatePed(PlayerPedId())
-    setPedClothes(ped, data)
-    setPedHairColors(ped, data.hairColor)
-    setPedTattoos(ped, data.tattoos)
+    setPedClothes(PlayerPedId(), data)
+    setPedHairColors(PlayerPedId(), data.hairColor)
+    setPedTattoos(PlayerPedId(), data.tattoos)
 }
 
 exports('SetPedClothes', setPedClothes)
