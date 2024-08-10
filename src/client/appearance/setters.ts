@@ -157,11 +157,9 @@ export function setPedClothes(pedHandle: number, data: TClothes) {
 }
 
 export const setPedSkin = async (pedHandle: number, data: TSkin) => {
-    if (data) {
-        pedHandle = await setModel(pedHandle, data)
-    } else {
-        return
-    }
+    if (!data) return
+
+    pedHandle = await setModel(pedHandle, data)
 
     const headStructure = data.headStructure
     const headBlend = data.headBlend
@@ -172,8 +170,6 @@ export const setPedSkin = async (pedHandle: number, data: TSkin) => {
         const value = headStructure[feature]
         SetFaceFeature(pedHandle, value)
     }
-
-    console.log("here")
 }
 
 export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
