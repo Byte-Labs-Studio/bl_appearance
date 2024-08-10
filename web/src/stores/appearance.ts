@@ -237,10 +237,7 @@ const APPEARANCE_INIT = () => {
         },
 
         setEyeColor: (eyeColor: TValue) => {
-            SendEvent(Send.setHeadOverlay, {
-                eyeColor: eyeColor.value,
-                id: 'EyeColor'
-            });
+            SendEvent(Send.setHeadOverlay, eyeColor);
         },
 
         setHairColor: (hairColor: THairColor) => {

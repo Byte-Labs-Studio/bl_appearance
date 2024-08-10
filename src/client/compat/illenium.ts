@@ -2,6 +2,7 @@ import { TAppearance } from "@typings/appearance";
 import { getAppearance, getDrawables, getHeadBlendData, getHeadOverlay, getHeadStructure, getProps } from "../appearance/getters";
 import { setDrawable, setHeadBlend, setHeadOverlay, setModel, setPedAppearance, setPedTattoos, setProp } from "../appearance/setters";
 import { TTattoo } from "@typings/tattoos";
+import { ped, updatePed } from "@utils";
 
 function exportHandler(name: string, cb: any) {
     on('__cfx_export_illenium-appearance_' + name, (setCB: any) => {
@@ -127,7 +128,8 @@ export function illeniumCompat() {
     });
 
     exportHandler('setPlayerModel', (model: number) => {
-        setModel(model);
+        updatePed(PlayerPedId())
+        setModel(ped, model);
     });
 
     exportHandler('setPedHeadBlend', (ped: number, blend: any) => {
