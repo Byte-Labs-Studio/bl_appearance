@@ -41,6 +41,7 @@ export const setModel = async (pedHandle: number, data: TAppearance | TSkin | nu
     if (isPlayer) {
         SetPlayerModel(PlayerId(), model);
         pedHandle = PlayerPedId();
+        updatePed(pedHandle)
     } else {
         SetPlayerModel(pedHandle, model);
     }
@@ -208,12 +209,14 @@ export async function setPedAppearance(pedHandle: number, data: TAppearance) {
 }
 
 export async function setPlayerPedAppearance(data: TAppearance) {
+    // Since this function is usually called after scripts set their own model, we need to update the ped before we set the appearance
     updatePed(PlayerPedId())
-    await setPedSkin(PlayerPedId(), data)
+    await setPedSkin(ped, data)
+    // We need to update the ped again after setting the skin because SetPlayerModel will set a new PlayerPedId
     updatePed(PlayerPedId())
-    setPedClothes(PlayerPedId(), data)
-    setPedHairColors(PlayerPedId(), data.hairColor)
-    setPedTattoos(PlayerPedId(), data.tattoos)
+    setPedClothes(ped, data)
+    setPedHairColors(ped, data.hairColor)
+    setPedTattoos(ped, data.tattoos)
 }
 
 exports('SetPedClothes', setPedClothes)
