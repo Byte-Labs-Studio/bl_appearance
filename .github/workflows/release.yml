@@ -28,11 +28,12 @@ jobs:
       with:
         node-version: '21.x'
         cache: 'pnpm'
-        cache-dependency-path: 'web/pnpm-lock.yaml'
+        cache-dependency-path: |
+          pnpm-lock.yaml
+          web/pnpm-lock.yaml
     
     - name: Install script dependencies
       run: pnpm install
-      working-directory: /
 
     - name: Install web dependencies
       run: pnpm install
@@ -40,11 +41,23 @@ jobs:
     
     - name: Build Script
       run: pnpm run build
-      working-directory: /
 
     - name: Build Svelte project
       run: pnpm run build
       working-directory: web
+
+    - name: Bump manifest version
+      run: node .github/actions/bump-manifest.js
+      env:
+        TGT_RELEASE_VERSION: ${{ github.ref_name }}
+
+    - name: Push manifest change
+      uses: EndBug/add-and-commit@v8
+      with:
+        add: fxmanifest.lua
+        push: true
+        author_name: BL Development
+        message: 'chore: bump manifest version to ${{ github.ref_name }}'
 
     - name: Bundle files
       run: |
@@ -52,15 +65,15 @@ jobs:
         mkdir -p ./temp/bl_appearance/dist/
         mkdir -p ./temp/bl_appearance/build/
         cp ./{LICENSE,README.md,fxmanifest.lua,appearance.sql,Installation.md} ./temp/bl_appearance
-        cp -r ./{data,locales} ./temp/bl_appearance
-        cp -r ./build ./temp/bl_appearance/build/
-        cp -r ./dist ./temp/bl_appearance/dist/
+        cp -r ./{data,locale} ./temp/bl_appearance
+        cp -r ./build/* ./temp/bl_appearance/build/
+        cp -r ./dist/* ./temp/bl_appearance/dist/
         cd ./temp && zip -r ../bl_appearance.zip ./bl_appearance
 
     - name: Create Release
       uses: 'marvinpinto/action-automatic-releases@latest'
       with:
         repo_token: '${{ secrets.GITHUB_TOKEN }}'
-        title: ${{ github.ref }}
+        title: ${{ github.ref_name }}
         prerelease: false
         files: bl_appearance.zip
