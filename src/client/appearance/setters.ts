@@ -1,6 +1,6 @@
 import { TAppearance, THairColor, TClothes, TSkin, TValue } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
-import { requestModel, ped, updatePed, delay} from '@utils';
+import { requestModel, ped, updatePed, isPedFreemodeModel} from '@utils';
 import { TTattoo } from "@typings/tattoos";
 
 export function setDrawable(pedHandle: number, data: TValue) {
@@ -18,17 +18,55 @@ export function setProp(pedHandle: number, data: TValue) {
     return GetNumberOfPedPropTextureVariations(pedHandle, data.index, data.value)
 }
 
-export const setModel = async (model: number|string) => {
-    const modelHash = await requestModel(model)
-    SetPlayerModel(PlayerId(), modelHash)
-    SetModelAsNoLongerNeeded(modelHash)
-    const pedHandle = PlayerPedId()
-    updatePed(pedHandle)
-    SetPedDefaultComponentVariation(pedHandle)
+const defMaleHash = GetHashKey("mp_m_freemode_01")
 
-    if (modelHash === GetHashKey("mp_m_freemode_01")) SetPedHeadBlendData(ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, false)
-    else if (modelHash === GetHashKey("mp_f_freemode_01")) SetPedHeadBlendData(ped, 45, 21, 0, 20, 15, 0, 0.3, 0.1, 0, false)
-}
+
+export const setModel = async (pedHandle: number, data: TAppearance | TSkin | number | string): Promise<number> => {
+    if (data == null || data === undefined) return pedHandle;
+
+    let model: number;
+    if (typeof data === 'string') {
+        model = GetHashKey(data);
+    } else if (typeof data === 'number') {
+        model = data;
+    } else {
+        model = data.model || defMaleHash;
+    }
+
+    if (model === 0) return pedHandle;
+
+    await requestModel(model);
+
+    const isPlayer = IsPedAPlayer(pedHandle);
+    if (isPlayer) {
+        SetPlayerModel(PlayerId(), model);
+        pedHandle = PlayerPedId();
+        updatePed(pedHandle)
+    } else {
+        SetPlayerModel(pedHandle, model);
+    }
+
+    SetModelAsNoLongerNeeded(model);
+    SetPedDefaultComponentVariation(pedHandle);
+
+    if (!isPedFreemodeModel(pedHandle)) return pedHandle;
+
+    const isJustModel = typeof data === 'string' || typeof data === 'number';
+    const hasHeadBlend = !isJustModel && Object.keys(data.headBlend).length > 0;
+
+    if (hasHeadBlend) {
+        setHeadBlend(pedHandle, (data as TAppearance | TSkin).headBlend);
+        SetPedHeadBlendData(pedHandle, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, false);
+    } else {
+        if (model === GetHashKey("mp_m_freemode_01")) {
+            SetPedHeadBlendData(pedHandle, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0.0, false);
+        } else if (model === GetHashKey("mp_f_freemode_01")) {
+            SetPedHeadBlendData(pedHandle, 45, 21, 0, 20, 15, 0, 0.3, 0.1, 0, false);
+        }
+    }
+
+    return pedHandle;
+};
 
 export function SetFaceFeature(pedHandle: number, data: TValue) {
     SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
@@ -37,6 +75,10 @@ export function SetFaceFeature(pedHandle: number, data: TValue) {
 const isPositive = (val: number) => val >= 0 ? val : 0
 
 export function setHeadBlend(pedHandle: number, data) {
+    pedHandle = pedHandle || ped
+
+    if (!isPedFreemodeModel(pedHandle)) return
+
     const shapeFirst = isPositive(data.shapeFirst)
     const shapeSecond = isPositive(data.shapeSecond)
     const shapeThird = isPositive(data.shapeThird)
@@ -115,10 +157,12 @@ export function setPedClothes(pedHandle: number, data: TClothes) {
 }
 
 export const setPedSkin = async (pedHandle: number, data: TSkin) => {
+    if (!data) return
+
+    pedHandle = await setModel(pedHandle, data)
+
     const headStructure = data.headStructure
     const headBlend = data.headBlend
-
-    await setModel(data.model)
 
     if (headBlend) setHeadBlend(pedHandle, headBlend)
     
@@ -144,12 +188,16 @@ export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
 }
 
 export function setPedHairColors(pedHandle: number, data: THairColor) {
+    if (!data) return
     const color = data.color
     const highlight = data.highlight
     SetPedHairColor(pedHandle, color, highlight)
 }
 
 export async function setPedAppearance(pedHandle: number, data: TAppearance) {
+    if (IsPedAPlayer(pedHandle)) {
+        setPlayerPedAppearance(data)
+    }
     await setPedSkin(pedHandle, data)
     setPedClothes(pedHandle, data)
     setPedHairColors(pedHandle, data.hairColor)
@@ -157,7 +205,11 @@ export async function setPedAppearance(pedHandle: number, data: TAppearance) {
 }
 
 export async function setPlayerPedAppearance(data: TAppearance) {
+    // Since this function is usually called after scripts set their own model, we need to update the ped before we set the appearance
+    updatePed(PlayerPedId())
     await setPedSkin(ped, data)
+    // We need to update the ped again after setting the skin because SetPlayerModel will set a new PlayerPedId
+    updatePed(PlayerPedId())
     setPedClothes(ped, data)
     setPedHairColors(ped, data.hairColor)
     setPedTattoos(ped, data.tattoos)

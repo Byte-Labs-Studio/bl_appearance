@@ -3,7 +3,7 @@ import HEAD_OVERLAYS from "@data/head"
 import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
 import PROP_NAMES from "@data/props"
-import { ped, onServerCallback } from '@utils';
+import { ped, onServerCallback, updatePed } from '@utils';
 
 export function findModelIndex(target: number) {
     const config = exports.bl_appearance
@@ -178,7 +178,8 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
 }
 exports("GetAppearance", getAppearance)
 onServerCallback('bl_appearance:client:getAppearance', () => {
-    return getAppearance(ped || PlayerPedId())
+    updatePed(PlayerPedId())
+    return getAppearance(ped)
 });
 
 export function getPedClothes(pedHandle: number): TClothes {
