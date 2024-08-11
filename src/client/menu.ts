@@ -1,6 +1,6 @@
 import { getFrameworkID, requestLocale, sendNUIEvent, triggerServerCallback, updatePed, ped, getPlayerData, getJobInfo, getPlayerGenderModel } from "@utils"
 import { startCamera, stopCamera } from "./camera"
-import type { TAppearanceZone } from "@typings/appearance"
+import type { TAppearanceZone, TMenuTypes } from "@typings/appearance"
 import { Outfit } from "@typings/outfits"
 import { Send } from "@events"
 import { getAppearance, getTattooData } from "./appearance/getters"
@@ -14,7 +14,7 @@ let open = false
 let resolvePromise = null;
 let promise = null;
 
-export async function openMenu(zone: TAppearanceZone, creation: boolean = false) {
+export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], creation: boolean = false) {
     if (zone === null || open) {
         return;
     }
@@ -22,13 +22,14 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     let pedHandle = PlayerPedId()
     const configMenus = config.menus()
 
-    const type = zone.type
+    const isString = typeof zone === 'string'
+
+    const type = isString ? zone : zone.type
 
     const menu = configMenus[type]
     if (!menu) return
 
     updatePed(pedHandle)
-
 
     const frameworkdId = getFrameworkID()
     const tabs = menu.tabs
@@ -54,7 +55,7 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
         tattoos = getTattooData()
     }
 
-    const blacklist = getBlacklist(zone)
+    const blacklist = !isString ? getBlacklist(zone) : {}
 
     if (creation) {
         const model = GetHashKey(getPlayerGenderModel());
@@ -82,8 +83,10 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
         job: getJobInfo(),
         locale: await requestLocale('locale')
     })
+
     SetNuiFocus(true, true)
     sendNUIEvent(Send.visible, true)
+
     open = true
 
     exports.bl_appearance.hideHud(true)
@@ -98,7 +101,18 @@ export async function openMenu(zone: TAppearanceZone, creation: boolean = false)
     return true
 }
 
-exports('openMenu', openMenu)
+exports('OpenMenu', openMenu)
+
+RegisterCommand('appearance', async (_, args: string[]) => {
+    const type = args[0]
+    if (!type) {
+        exports.bl_appearance.InitialCreation()
+    } else {
+        const zone = type.toLowerCase() as TMenuTypes
+        openMenu(zone)
+    }
+}, true)
+
 
 function getBlacklist(zone: TAppearanceZone) {
     if (!zone) return {}

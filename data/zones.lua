@@ -202,7 +202,8 @@ AddEventHandler('onResourceStop', function(resource)
  
 
 RegisterCommand('+openAppearance', function()
-    TriggerEvent('bl_appearance:client:useZone', currentZone)
+    if not currentZone then return end
+    TriggerEvent('bl_appearance:client:useZone', currentZone.type)
 end, false)
 
 RegisterKeyMapping('+openAppearance', 'Open Appearance', 'keyboard', key)
