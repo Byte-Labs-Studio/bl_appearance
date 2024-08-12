@@ -6,7 +6,8 @@
   "fivemIgnore": true,
   "main": "index.js",
   "scripts": {
-    "build": "pnpm run init",
+    "build": "pnpm run init && pnpm run build-web",
+    "build-web": "cd ./web && pnpm run build",
     "dev": "concurrently \"pnpm:init -dev\" \"pnpm:dev-web\" -c \"green.bold,cyan.bold\"",
     "init": "rimraf ./dist && node ./src/build",
     "dev-web": "cd ./web && pnpm run dev"
