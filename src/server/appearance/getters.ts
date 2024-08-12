@@ -14,7 +14,7 @@ async function getSkin(src: number, frameworkId: string) {
     return JSON.parse(response);
 }
 onClientCallback('bl_appearance:server:getSkin', getSkin);
-exports('GetSkin', function(id) {
+exports('GetPlayerSkin', function(id) {
     return getSkin(null, id)
 });
 
@@ -30,7 +30,7 @@ async function getClothes(src: number, frameworkId: string) {
     return JSON.parse(response);
 }
 onClientCallback('bl_appearance:server:getClothes', getClothes);
-exports('GetClothes', function(id) {
+exports('GetPlayerClothes', function(id) {
     return getClothes(null, id)
 });
 
@@ -46,7 +46,7 @@ async function getTattoos(src: number, frameworkId: string) {
     return JSON.parse(response) || [];
 }
 onClientCallback('bl_appearance:server:getTattoos', getTattoos);
-exports('GetTattoos', function(id) {
+exports('GetPlayerTattoos', function(id) {
     return getTattoos(null, id)
 });
 

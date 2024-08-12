@@ -3,8 +3,10 @@ import { getFrameworkID, onClientCallback, } from '../utils';
 import { oxmysql } from '@overextended/oxmysql';
 import { TTattoo } from '@typings/tattoos';
 
-export async function saveSkin(src: number, skin: TSkin) {
-    const frameworkId = getFrameworkID(src);
+export async function saveSkin(src: number, frameworkId: string, skin: TSkin) {
+    if (!frameworkId) {
+        frameworkId = getFrameworkID(src);
+    }
 
     const result = await oxmysql.update(
         'UPDATE appearance SET skin = ? WHERE id = ?',
@@ -13,11 +15,15 @@ export async function saveSkin(src: number, skin: TSkin) {
     return result;
 }
 onClientCallback('bl_appearance:server:saveSkin', saveSkin);
-exports('SaveSkin', saveSkin);
+exports('SavePlayerSkin', function(id, skin) {
+    return saveSkin(null, id, skin)
+});
 
-export async function saveClothes(src: number, clothes: TClothes) {
-    const frameworkId = getFrameworkID(src);
-
+export async function saveClothes(src: number, frameworkId: string, clothes: TClothes) {
+    if (!frameworkId) {
+        frameworkId = getFrameworkID(src);
+    }
+    
     const result = await oxmysql.update(
         'UPDATE appearance SET clothes = ? WHERE id = ?',
         [JSON.stringify(clothes), frameworkId]
@@ -25,10 +31,14 @@ export async function saveClothes(src: number, clothes: TClothes) {
     return result;
 }
 onClientCallback('bl_appearance:server:saveClothes', saveClothes);
-exports('SaveClothes', saveClothes);
+exports('SavePlayerClothes', function(id, clothes) {
+    return saveClothes(null, id, clothes)
+});
 
-export async function saveTattoos(src: number, tattoos: TTattoo[]) {
-    const frameworkId = getFrameworkID(src);
+export async function saveTattoos(src: number, frameworkId: string, tattoos: TTattoo[]) {
+    if (!frameworkId) {
+        frameworkId = getFrameworkID(src);
+    }
     
     const result = await oxmysql.update(
         'UPDATE appearance SET tattoos = ? WHERE id = ?',
@@ -37,7 +47,9 @@ export async function saveTattoos(src: number, tattoos: TTattoo[]) {
     return result;
 }
 onClientCallback('bl_appearance:server:saveTattoos', saveTattoos);
-exports('SaveTattoos', saveTattoos);
+exports('SavePlayerTattoos', function(id, tattoos) {
+    return saveTattoos(null, id, tattoos)
+});
 
 
 export async function saveAppearance(src: number, frameworkId: string, appearance: TAppearance) {
@@ -82,6 +94,6 @@ export async function saveAppearance(src: number, frameworkId: string, appearanc
 	return result;
 }
 onClientCallback('bl_appearance:server:saveAppearance', saveAppearance);
-exports('SaveAppearance', function(id, appearance) {
+exports('SavePlayerAppearance', function(id, appearance) {
     return saveAppearance(null, id, appearance)
 });
