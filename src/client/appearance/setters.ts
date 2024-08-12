@@ -9,7 +9,7 @@ export function setDrawable(pedHandle: number, data: TValue) {
     SetPedComponentVariation(pedHandle, data.index, data.value, data.texture, 0)
     return GetNumberOfPedTextureVariations(pedHandle, data.index, data.value)
 }
-exports('SetDrawable', setDrawable);
+exports('SetPedDrawable', setDrawable);
 
 export function setProp(pedHandle: number, data: TValue) {
     if (!data) return console.warn('No data provided for setProp')
@@ -22,7 +22,7 @@ export function setProp(pedHandle: number, data: TValue) {
     SetPedPropIndex(pedHandle, data.index, data.value, data.texture, false)
     return GetNumberOfPedPropTextureVariations(pedHandle, data.index, data.value)
 }
-exports('SetProp', setProp);
+exports('SetPedProp', setProp);
 
 const defMaleHash = GetHashKey("mp_m_freemode_01")
 
@@ -75,14 +75,14 @@ export const setModel = async (pedHandle: number, data: TAppearance | TSkin | nu
 
     return pedHandle;
 };
-exports('SetModel', setModel);
+exports('SetPedModel', setModel);
 
 export function setFaceFeature(pedHandle: number, data: TValue) {
     if (!data) return console.warn('No data provided for setFaceFeature')
 
     SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
 }
-exports('SetFaceFeature', setFaceFeature);
+exports('SetPedFaceFeature', setFaceFeature);
 
 export function setFaceFeatures(pedHandle: number, data: THeadStructure) {
     if (!data) return console.warn('No data provided for setFaceFeatures')
@@ -93,7 +93,7 @@ export function setFaceFeatures(pedHandle: number, data: THeadStructure) {
         setFaceFeature(pedHandle, value)
     }
 }
-exports('SetFaceFeatures', setFaceFeatures);
+exports('SetPedFaceFeatures', setFaceFeatures);
 
 const isPositive = (val: number) => val >= 0 ? val : 0
 
@@ -117,7 +117,7 @@ export function setHeadBlend(pedHandle: number, data) {
 
     SetPedHeadBlendData(pedHandle, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix, hasParent)
 }
-exports('SetHeadBlend', setHeadBlend);
+exports('SetPedHeadBlend', setHeadBlend);
 
 export function setHeadOverlay(pedHandle: number, data) {
     if (!data) return console.warn('No data provided for setHeadOverlay')
@@ -140,7 +140,7 @@ export function setHeadOverlay(pedHandle: number, data) {
     SetPedHeadOverlay(pedHandle, index, value, data.overlayOpacity + 0.0)
     SetPedHeadOverlayColor(pedHandle, index, 1, data.firstColor, data.secondColor)
 }
-exports('SetHeadOverlay', setHeadOverlay);
+exports('SetPedHeadOverlay', setHeadOverlay);
 
 
 export function resetToggles(data) {

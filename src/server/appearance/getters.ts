@@ -72,6 +72,6 @@ async function getAppearance(src: number, frameworkId: string) {
     return appearance;
 }
 onClientCallback('bl_appearance:server:getAppearance', getAppearance);
-exports('GetAppearance', function(id) {
+exports('GetPlayerAppearance', function(id) {
     return getAppearance(null, id)
 });

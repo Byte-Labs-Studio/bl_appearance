@@ -13,13 +13,13 @@ export function findModelIndex(target: number) {
     return models.findIndex((model: string) => GetHashKey(model) === target)
 }
 
-export function getHair(pedHandle: number): THairData {
+export function getHairColor(pedHandle: number): THairData {
     return {
         color: GetPedHairColor(pedHandle),
         highlight: GetPedHairHighlightColor(pedHandle)
     }
 }
-exports('GetHair', getHair);
+exports('GetPedHairColor', getHairColor);
 
 export function getHeadBlendData(pedHandle: number) {
     // https://github.com/pedr0fontoura/fivem-appearance/blob/main/game/src/client/index.ts#L67
@@ -55,7 +55,7 @@ export function getHeadBlendData(pedHandle: number) {
         hasParent: Boolean(hasParent),
     };
 }
-exports('GetHeadBlend', getHeadBlendData);
+exports('GetPedHeadBlend', getHeadBlendData);
 
 export function getHeadOverlay(pedHandle: number) {
     let totals: THeadOverlayTotal = {};
@@ -87,7 +87,7 @@ export function getHeadOverlay(pedHandle: number) {
 
     return [headData, totals];
 }
-exports('GetHeadOverlay', getHeadOverlay);
+exports('GetPedHeadOverlay', getHeadOverlay);
 
 export function getHeadStructure(pedHandle: number) {
     const pedModel = GetEntityModel(pedHandle)
@@ -106,7 +106,7 @@ export function getHeadStructure(pedHandle: number) {
 
     return faceStruct
 }
-exports('GetHeadStructure', getHeadStructure);
+exports('GetPedHeadStructure', getHeadStructure);
 
 export function getDrawables(pedHandle: number) {
     let drawables = {}
@@ -132,7 +132,7 @@ export function getDrawables(pedHandle: number) {
 
     return [drawables, totalDrawables]
 }
-exports('GetDrawables', getDrawables);
+exports('GetPedDrawables', getDrawables);
 
 export function getProps(pedHandle: number) {
     let props = {}
@@ -159,8 +159,7 @@ export function getProps(pedHandle: number) {
 
     return [props, totalProps]
 }
-exports('GetProps', getProps);
-
+exports('GetPedProps', getProps);
 
 export async function getAppearance(pedHandle: number): Promise<TAppearance> {
     const [headData, totals] = getHeadOverlay(pedHandle)
@@ -172,7 +171,7 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
     return {
         modelIndex: findModelIndex(model),
         model: model,
-        hairColor: getHair(pedHandle),
+        hairColor: getHairColor(pedHandle),
         headBlend: getHeadBlendData(pedHandle),
         headOverlay: headData as THeadOverlay,
         headOverlayTotal: totals as THeadOverlayTotal,
@@ -184,7 +183,7 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
         tattoos: tattoos
     }
 }
-exports("GetAppearance", getAppearance)
+exports("GetPedAppearance", getAppearance)
 onServerCallback('bl_appearance:client:getAppearance', () => {
     updatePed(PlayerPedId())
     return getAppearance(ped)
@@ -207,7 +206,7 @@ export function getPedSkin(pedHandle: number): TSkin {
     return {
         headBlend: getHeadBlendData(pedHandle),
         headStructure: getHeadStructure(pedHandle),
-        hairColor: getHair(pedHandle),
+        hairColor: getHairColor(pedHandle),
         model: GetEntityModel(pedHandle)
     }
 }
@@ -284,7 +283,7 @@ export function getTattooData() {
 export async function getTattoos(): Promise<TTattoo[]> {
     return await triggerServerCallback('bl_appearance:server:getTattoos') || []
 }
-exports('GetTattoos', getTattoos);
+exports('GetPlayerTattoos', getTattoos);
 //migration
 
 onServerCallback('bl_appearance:client:migration:setAppearance', (data: {type: string, data: any}) => {
