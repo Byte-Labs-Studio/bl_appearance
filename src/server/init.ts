@@ -1,7 +1,7 @@
 import { core, getFrameworkID, onClientCallback, config, getPlayerData } from './utils';
 import { oxmysql } from '@overextended/oxmysql';
 import { Outfit } from '@typings/outfits';
-import { SkinDB } from '@typings/appearance';
+import { SkinDB, TAppearance } from '@typings/appearance';
 
 async function getOutfits(src: number, frameworkId: string) {
     const job = core.GetPlayer(src).job || { name: 'unknown', grade: { name: 'unknown' } }
@@ -150,6 +150,53 @@ async function getSkin(src: number, frameworkId: string) {
 }
 onClientCallback('bl_appearance:server:getSkin', getSkin);
 exports('GetSkin', getSkin);
+
+export const saveAppearance = async (src: number, frameworkId: string, appearance: TAppearance) => {
+
+    if (src && frameworkId) {
+        const playerId = getFrameworkID(src);
+        
+        if (frameworkId !== playerId) {
+            console.warn('You are trying to save an appearance for a different player', src, frameworkId);
+            return;
+        }
+    }
+
+
+	if (!frameworkId) {
+		frameworkId = getFrameworkID(src);
+	}
+
+	const clothes = {
+		drawables: appearance.drawables,
+		props: appearance.props,
+		headOverlay: appearance.headOverlay,
+	};
+
+	const skin = {
+		headBlend: appearance.headBlend,
+		headStructure: appearance.headStructure,
+		hairColor: appearance.hairColor,
+		model: appearance.model,
+	};
+
+	const tattoos = appearance.tattoos || [];
+
+	const result = await oxmysql.prepare(
+		'INSERT INTO appearance (id, clothes, skin, tattoos) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE clothes = VALUES(clothes), skin = VALUES(skin), tattoos = VALUES(tattoos);',
+		[
+			frameworkId,
+			JSON.stringify(clothes),
+			JSON.stringify(skin),
+			JSON.stringify(tattoos),
+		]
+	);
+
+	return result;
+}
+onClientCallback('bl_appearance:server:saveAppearance', saveAppearance);
+exports('SaveAppearance', saveAppearance);
+
 
 async function getClothes(src: number, frameworkId: string) {
     if (!frameworkId) {
