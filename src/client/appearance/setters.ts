@@ -82,7 +82,7 @@ export function setFaceFeature(pedHandle: number, data: TValue) {
 
     SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
 }
-exports('setFaceFeature', setFaceFeature);
+exports('SetFaceFeature', setFaceFeature);
 
 const isPositive = (val: number) => val >= 0 ? val : 0
 
