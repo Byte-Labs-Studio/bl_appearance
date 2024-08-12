@@ -5,7 +5,7 @@ import { oxmysql } from '@overextended/oxmysql';
 
 oxmysql.ready(async () => {
     // see if there is a table called appearance
-    const result = await oxmysql.query('SELECT * FROM appearance LIMIT 1');
+    const result = await oxmysql.query('SELECT 1 FROM appearance LIMIT 1');
     if (!result) {
         throw new Error('No appearance table found');
     }
