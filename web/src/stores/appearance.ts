@@ -58,8 +58,7 @@ const OUTFITS_INIT = () => {
 
             const outfit: TOutfitData = {
                 drawables: appearance.drawables,
-                props: appearance.props,
-                headOverlay: appearance.headOverlay,
+                props: appearance.props
             };
         
             SendEvent(Send.saveOutfit, { label, outfit, job }).then((success: boolean) => {
@@ -109,8 +108,7 @@ const OUTFITS_INIT = () => {
                     return {
                         ...state,
                         drawables: outfit.drawables,
-                        props: outfit.props,
-                        headOverlay: outfit.headOverlay,
+                        props: outfit.props
                     };
                 });
             });
