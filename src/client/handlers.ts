@@ -16,7 +16,7 @@ import { TAppearance, TToggleData, TValue } from '@typings/appearance';
 import { delay, getFrameworkID, triggerServerCallback, ped, updatePed } from '@utils';
 import { getAppearance, getTattooData } from './appearance/getters';
 import TOGGLE_INDEXES from '@data/toggles';
-import { Outfit, TOutfitData } from '@typings/outfits';
+import { TOutfitData } from '@typings/outfits';
 import { TTattoo } from '@typings/tattoos';
 
 RegisterNuiCallback(Receive.cancel, async (appearance: TAppearance, cb: Function) => {

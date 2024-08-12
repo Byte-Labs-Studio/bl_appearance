@@ -197,6 +197,7 @@ export function setPedHairColors(pedHandle: number, data: THairColor) {
 export async function setPedAppearance(pedHandle: number, data: TAppearance) {
     if (IsPedAPlayer(pedHandle)) {
         setPlayerPedAppearance(data)
+        return
     }
     await setPedSkin(pedHandle, data)
     setPedClothes(pedHandle, data)

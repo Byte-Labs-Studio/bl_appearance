@@ -152,7 +152,6 @@ onClientCallback('bl_appearance:server:getSkin', getSkin);
 exports('GetSkin', getSkin);
 
 export const saveAppearance = async (src: number, frameworkId: string, appearance: TAppearance) => {
-
     if (src && frameworkId) {
         const playerId = getFrameworkID(src);
         
@@ -161,7 +160,6 @@ export const saveAppearance = async (src: number, frameworkId: string, appearanc
             return;
         }
     }
-
 
 	if (!frameworkId) {
 		frameworkId = getFrameworkID(src);
@@ -197,10 +195,9 @@ export const saveAppearance = async (src: number, frameworkId: string, appearanc
 onClientCallback('bl_appearance:server:saveAppearance', saveAppearance);
 exports('SaveAppearance', saveAppearance);
 
-
 async function getClothes(src: number, frameworkId: string) {
     if (!frameworkId) {
-        frameworkId = getFrameworkID(source);
+        frameworkId = getFrameworkID(src);
     }
 
     const response = await oxmysql.prepare(
@@ -242,7 +239,7 @@ async function getAppearance(src: number, frameworkId: string) {
     let appearance = {
         ...JSON.parse(response.skin),
         ...JSON.parse(response.clothes),
-        ...JSON.parse(response.tattoos),
+        tattoos: JSON.parse(response.tattoos),
     }
     appearance.id = response.id
     return appearance;
