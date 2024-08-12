@@ -52,11 +52,11 @@ exports('SavePlayerTattoos', function(id, tattoos) {
 });
 
 
-export async function saveAppearance(src: number, frameworkId: string, appearance: TAppearance) {
+export async function saveAppearance(src: number, frameworkId: string, appearance: TAppearance, force?: boolean) {
     if (src && frameworkId) {
         const playerId = getFrameworkID(src);
         
-        if (frameworkId !== playerId) {
+        if (!force && frameworkId !== playerId) {
             console.warn('You are trying to save an appearance for a different player', src, frameworkId);
             return;
         }
