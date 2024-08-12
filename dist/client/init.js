@@ -1301,7 +1301,7 @@ exports("InitialCreation", async (cb) => {
   if (cb)
     cb();
 });
-on("bl_sprites:client:useZone", (zone) => {
+on("bl_appearance:client:useZone", (zone) => {
   openMenu(zone);
 });
 onNet("bl_bridge:client:playerLoaded", async () => {

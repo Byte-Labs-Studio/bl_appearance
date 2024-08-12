@@ -32,7 +32,7 @@ exports('InitialCreation', async (cb?: Function) => {
     if (cb) cb()
 })
 
-on('bl_sprites:client:useZone', (zone: TAppearanceZone) => {
+on('bl_appearance:client:useZone', (zone: TAppearanceZone) => {
     openMenu(zone)
 })
 
