@@ -3,7 +3,7 @@ import HEAD_OVERLAYS from "@data/head"
 import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
 import PROP_NAMES from "@data/props"
-import { ped, onServerCallback, updatePed } from '@utils';
+import { ped, onServerCallback, updatePed, triggerServerCallback } from '@utils';
 
 export function findModelIndex(target: number) {
     const config = exports.bl_appearance
@@ -18,6 +18,7 @@ export function getHair(pedHandle: number): THairData {
         highlight: GetPedHairHighlightColor(pedHandle)
     }
 }
+exports('GetHair', getHair);
 
 export function getHeadBlendData(pedHandle: number) {
     // https://github.com/pedr0fontoura/fivem-appearance/blob/main/game/src/client/index.ts#L67
@@ -53,6 +54,7 @@ export function getHeadBlendData(pedHandle: number) {
         hasParent: Boolean(hasParent),
     };
 }
+exports('GetHeadBlend', getHeadBlendData);
 
 export function getHeadOverlay(pedHandle: number) {
     let totals: THeadOverlayTotal = {};
@@ -84,6 +86,7 @@ export function getHeadOverlay(pedHandle: number) {
 
     return [headData, totals];
 }
+exports('GetHeadOverlay', getHeadOverlay);
 
 export function getHeadStructure(pedHandle: number) {
     const pedModel = GetEntityModel(pedHandle)
@@ -102,6 +105,7 @@ export function getHeadStructure(pedHandle: number) {
 
     return faceStruct
 }
+exports('GetHeadStructure', getHeadStructure);
 
 export function getDrawables(pedHandle: number) {
     let drawables = {}
@@ -127,6 +131,7 @@ export function getDrawables(pedHandle: number) {
 
     return [drawables, totalDrawables]
 }
+exports('GetDrawables', getDrawables);
 
 export function getProps(pedHandle: number) {
     let props = {}
@@ -153,6 +158,7 @@ export function getProps(pedHandle: number) {
 
     return [props, totalProps]
 }
+exports('GetProps', getProps);
 
 
 export async function getAppearance(pedHandle: number): Promise<TAppearance> {
@@ -272,7 +278,10 @@ export function getTattooData() {
 
     return tattooZones
 }
-
+exports('GetTattoos', async () => {
+    const tattoos = await triggerServerCallback('bl_appearance:server:getTattoos')
+    return tattoos
+});
 //migration
 
 onServerCallback('bl_appearance:client:migration:setAppearance', (data: {type: string, data: any}) => {

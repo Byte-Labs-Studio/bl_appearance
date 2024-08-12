@@ -7,6 +7,7 @@ export function setDrawable(pedHandle: number, data: TValue) {
     SetPedComponentVariation(pedHandle, data.index, data.value, data.texture, 0)
     return GetNumberOfPedTextureVariations(pedHandle, data.index, data.value)
 }
+exports('SetDrawable', setDrawable);
 
 export function setProp(pedHandle: number, data: TValue) {
     if (data.value === -1) {
@@ -17,9 +18,9 @@ export function setProp(pedHandle: number, data: TValue) {
     SetPedPropIndex(pedHandle, data.index, data.value, data.texture, false)
     return GetNumberOfPedPropTextureVariations(pedHandle, data.index, data.value)
 }
+exports('SetProp', setProp);
 
 const defMaleHash = GetHashKey("mp_m_freemode_01")
-
 
 export const setModel = async (pedHandle: number, data: TAppearance | TSkin | number | string): Promise<number> => {
     if (data == null || data === undefined) return pedHandle;
@@ -67,10 +68,12 @@ export const setModel = async (pedHandle: number, data: TAppearance | TSkin | nu
 
     return pedHandle;
 };
+exports('SetModel', setModel);
 
 export function SetFaceFeature(pedHandle: number, data: TValue) {
     SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
 }
+exports('SetFaceFeature', SetFaceFeature);
 
 const isPositive = (val: number) => val >= 0 ? val : 0
 
@@ -92,6 +95,7 @@ export function setHeadBlend(pedHandle: number, data) {
 
     SetPedHeadBlendData(pedHandle, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix, hasParent)
 }
+exports('SetHeadBlend', setHeadBlend);
 
 export function setHeadOverlay(pedHandle: number, data) {
     const index = data.index
@@ -112,6 +116,7 @@ export function setHeadOverlay(pedHandle: number, data) {
     SetPedHeadOverlay(pedHandle, index, value, data.overlayOpacity + 0.0)
     SetPedHeadOverlayColor(pedHandle, index, 1, data.firstColor, data.secondColor)
 }
+exports('SetHeadOverlay', setHeadOverlay);
 
 
 export function resetToggles(data) {
@@ -135,6 +140,7 @@ export function resetToggles(data) {
         }
     }
 }
+exports('SetPedClothes', setPedClothes);
 
 export function setPedClothes(pedHandle: number, data: TClothes) {
     const drawables = data.drawables
@@ -155,6 +161,7 @@ export function setPedClothes(pedHandle: number, data: TClothes) {
         setHeadOverlay(pedHandle, overlay)
     }
 }
+exports('SetPedClothes', setPedClothes);
 
 export const setPedSkin = async (pedHandle: number, data: TSkin) => {
     if (!data) return
@@ -171,6 +178,7 @@ export const setPedSkin = async (pedHandle: number, data: TSkin) => {
         SetFaceFeature(pedHandle, value)
     }
 }
+exports('SetPedSkin', setPedSkin);
 
 export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
     if (!data) return
@@ -186,6 +194,7 @@ export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
         }
     }
 }
+exports('SetPedTattoos', setPedTattoos);
 
 export function setPedHairColors(pedHandle: number, data: THairColor) {
     if (!data) return
@@ -193,6 +202,7 @@ export function setPedHairColors(pedHandle: number, data: THairColor) {
     const highlight = data.highlight
     SetPedHairColor(pedHandle, color, highlight)
 }
+exports('SetPedHairColors', setPedHairColors);
 
 export async function setPedAppearance(pedHandle: number, data: TAppearance) {
     if (IsPedAPlayer(pedHandle)) {
@@ -204,6 +214,7 @@ export async function setPedAppearance(pedHandle: number, data: TAppearance) {
     setPedHairColors(pedHandle, data.hairColor)
     setPedTattoos(pedHandle, data.tattoos)
 }
+exports('SetPedAppearance', setPedAppearance);
 
 export async function setPlayerPedAppearance(data: TAppearance) {
     // Since this function is usually called after scripts set their own model, we need to update the ped before we set the appearance
