@@ -64,7 +64,7 @@ jobs:
         mkdir -p ./temp/bl_appearance
         mkdir -p ./temp/bl_appearance/dist/
         mkdir -p ./temp/bl_appearance/build/
-        cp ./{LICENSE,README.md,fxmanifest.lua,appearance.sql,Installation.md} ./temp/bl_appearance
+        cp ./{LICENSE,README.md,fxmanifest.lua,appearance.sql} ./temp/bl_appearance
         cp -r ./{data,locale} ./temp/bl_appearance
         cp -r ./build/* ./temp/bl_appearance/build/
         cp -r ./dist/* ./temp/bl_appearance/dist/
