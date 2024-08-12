@@ -53,7 +53,7 @@ export const setModel = async (pedHandle: number, data: TAppearance | TSkin | nu
     if (!isPedFreemodeModel(pedHandle)) return pedHandle;
 
     const isJustModel = typeof data === 'string' || typeof data === 'number';
-    const hasHeadBlend = !isJustModel && Object.keys(data.headBlend).length > 0;
+    const hasHeadBlend = !isJustModel && data.headBlend && Object.keys(data.headBlend).length > 0;
 
     if (hasHeadBlend) {
         setHeadBlend(pedHandle, (data as TAppearance | TSkin).headBlend);
