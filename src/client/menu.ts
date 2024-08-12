@@ -139,10 +139,6 @@ function getBlacklist(zone: TAppearanceZone | string) {
                 skip = zone.gangs.includes(playerData.gang.name)
             }
 
-            // if (type == 'groups' && zone.groups) {
-            //     skip = !zone.groups.includes(playerData.group.name)
-            // }
-
             if (!skip) {
                 const groupBlacklist = groups[group]
                 blacklist = Object.assign({}, blacklist, groupBlacklist, {

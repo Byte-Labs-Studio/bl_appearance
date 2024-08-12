@@ -505,6 +505,7 @@ async function getAppearance(pedHandle) {
   const [drawables, drawTotal] = getDrawables(pedHandle);
   const [props, propTotal] = getProps(pedHandle);
   const model = GetEntityModel(pedHandle);
+  const tattoos = await getTattoos();
   return {
     modelIndex: findModelIndex(model),
     model,
@@ -517,7 +518,7 @@ async function getAppearance(pedHandle) {
     props,
     drawTotal,
     propTotal,
-    tattoos: []
+    tattoos
   };
 }
 exports("GetAppearance", getAppearance);
@@ -602,10 +603,10 @@ function getTattooData() {
   }
   return tattooZones;
 }
-exports("GetTattoos", async () => {
-  const tattoos = await triggerServerCallback("bl_appearance:server:getTattoos");
-  return tattoos;
-});
+async function getTattoos() {
+  return await triggerServerCallback("bl_appearance:server:getTattoos") || [];
+}
+exports("GetTattoos", getTattoos);
 onServerCallback("bl_appearance:client:migration:setAppearance", (data) => {
   if (data.type === "fivem")
     exports["fivem-appearance"].setPlayerAppearance(data.data);
@@ -870,7 +871,7 @@ RegisterNuiCallback("appearance:save" /* save */, async (appearance, cb) => {
   resetToggles(appearance);
   await delay(100);
   const newAppearance = await getAppearance(ped);
-  newAppearance.tattoos = appearance.tattoos;
+  newAppearance.tattoos = appearance.tattoos || null;
   triggerServerCallback("bl_appearance:server:saveAppearance", getFrameworkID(), newAppearance);
   setPedTattoos(ped, newAppearance.tattoos);
   closeMenu();

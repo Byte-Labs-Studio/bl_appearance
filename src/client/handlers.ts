@@ -31,7 +31,7 @@ RegisterNuiCallback(Receive.save, async (appearance: TAppearance, cb: Function) 
 	await delay(100);
 
 	const newAppearance = await getAppearance(ped);
-	newAppearance.tattoos = appearance.tattoos;
+	newAppearance.tattoos = appearance.tattoos || null
 	triggerServerCallback('bl_appearance:server:saveAppearance', getFrameworkID(), newAppearance);
 
 	setPedTattoos(ped, newAppearance.tattoos);

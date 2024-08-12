@@ -4,6 +4,7 @@ import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
 import PROP_NAMES from "@data/props"
 import { ped, onServerCallback, updatePed, triggerServerCallback } from '@utils';
+import { TTattoo } from "@typings/tattoos"
 
 export function findModelIndex(target: number) {
     const config = exports.bl_appearance
@@ -166,6 +167,7 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
     const [drawables, drawTotal] = getDrawables(pedHandle)
     const [props, propTotal] = getProps(pedHandle)
     const model = GetEntityModel(pedHandle)
+    const tattoos = await getTattoos()
 
     return {
         modelIndex: findModelIndex(model),
@@ -179,7 +181,7 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
         props: props,
         drawTotal: drawTotal,
         propTotal: propTotal,
-        tattoos: []
+        tattoos: tattoos
     }
 }
 exports("GetAppearance", getAppearance)
@@ -278,10 +280,11 @@ export function getTattooData() {
 
     return tattooZones
 }
-exports('GetTattoos', async () => {
-    const tattoos = await triggerServerCallback('bl_appearance:server:getTattoos')
-    return tattoos
-});
+
+export async function getTattoos(): Promise<TTattoo[]> {
+    return await triggerServerCallback('bl_appearance:server:getTattoos') || []
+}
+exports('GetTattoos', getTattoos);
 //migration
 
 onServerCallback('bl_appearance:client:migration:setAppearance', (data: {type: string, data: any}) => {
