@@ -1,1 +1,581 @@
-var oe=Object.create;var C=Object.defineProperty;var se=Object.getOwnPropertyDescriptor;var ie=Object.getOwnPropertyNames;var ce=Object.getPrototypeOf,pe=Object.prototype.hasOwnProperty;var N=e=>t=>{var n=e[t];if(n)return n();throw new Error("Module not found in bundle: "+t)};var b=(e,t)=>()=>(e&&(t=e(e=0)),t);var le=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports),h=(e,t)=>{for(var n in t)C(e,n,{get:t[n],enumerable:!0})},ue=(e,t,n,r)=>{if(t&&typeof t=="object"||typeof t=="function")for(let a of ie(t))!pe.call(e,a)&&a!==n&&C(e,a,{get:()=>t[a],enumerable:!(r=se(t,a))||r.enumerable});return e};var g=(e,t,n)=>(n=e!=null?oe(ce(e)):{},ue(t||!e||!e.__esModule?C(n,"default",{value:e,enumerable:!0}):n,e));var l=le(v=>{"use strict";Object.defineProperty(v,"__esModule",{value:!0});v.oxmysql=void 0;var I=[];function S(e,t){if(!e)throw new TypeError(t)}var c=(e,t,n,r)=>{if(typeof e=="number"&&(e=I[e]),r?S(typeof e=="object",`First argument expected object, recieved ${typeof e}`):S(typeof e=="string",`First argument expected string, received ${typeof e}`),t){let a=typeof t;S(a==="object"||a==="function",`Second argument expected object or function, received ${a}`),!n&&a==="function"&&(n=t,t=void 0)}return n!==void 0&&S(typeof n=="function",`Third argument expected function, received ${typeof n}`),[e,t,n]},k=global.exports.oxmysql,fe=GetCurrentResourceName();function p(e,t,n){return new Promise((r,a)=>{k[e](t,n,(i,d)=>{if(d)return a(d);r(i)},fe,!0)})}v.oxmysql={store(e){return S(typeof e!="string",`Query expects a string, received ${typeof e}`),I.push(e)},ready(e){setImmediate(async()=>{for(;GetResourceState("oxmysql")!=="started";)await new Promise(t=>setTimeout(t,50));e()})},async query(e,t,n){[e,t,n]=c(e,t,n);let r=await p("query",e,t);return n?n(r):r},async single(e,t,n){[e,t,n]=c(e,t,n);let r=await p("single",e,t);return n?n(r):r},async scalar(e,t,n){[e,t,n]=c(e,t,n);let r=await p("scalar",e,t);return n?n(r):r},async update(e,t,n){[e,t,n]=c(e,t,n);let r=await p("update",e,t);return n?n(r):r},async insert(e,t,n){[e,t,n]=c(e,t,n);let r=await p("insert",e,t);return n?n(r):r},async prepare(e,t,n){[e,t,n]=c(e,t,n);let r=await p("prepare",e,t);return n?n(r):r},async rawExecute(e,t,n){[e,t,n]=c(e,t,n);let r=await p("rawExecute",e,t);return n?n(r):r},async transaction(e,t,n){[e,t,n]=c(e,t,n,!0);let r=await p("transaction",e,t);return n?n(r):r},isReady(){return k.isReady()},async awaitConnection(){return await k.awaitConnection()}}});function u(e,t,...n){let r;do r=`${e}:${Math.floor(Math.random()*100001)}:${t}`;while(A[r]);return emitNet(`_bl_cb_${e}`,t,P,r,...n),new Promise(a=>{A[r]=a})}function o(e,t){onNet(`_bl_cb_${e}`,async(n,r,...a)=>{let i=source,d;try{d=await t(i,...a)}catch(_){console.error(`an error occurred while handling callback event ${e}`),console.log(`^3${_.stack}^0`)}emitNet(`_bl_cb_${n}`,i,r,d)})}var P,A,me,E,j,s,ge,L,y=b(()=>{P=GetCurrentResourceName(),A={};onNet(`_bl_cb_${P}`,(e,...t)=>{let n=A[e];return n&&n(...t)});me=exports.bl_bridge,E=me.core(),j=e=>E.GetPlayer(e),s=e=>{let t=E.GetPlayer(e);return t?t.id:null},ge=exports.bl_appearance.config(),L=ge});async function W(e,t){let n=s(e);return await T.oxmysql.update("UPDATE appearance SET skin = ? WHERE id = ?",[JSON.stringify(t),n])}async function U(e,t){let n=s(e);return await T.oxmysql.update("UPDATE appearance SET clothes = ? WHERE id = ?",[JSON.stringify(t),n])}async function G(e,t){let n=s(e);return await T.oxmysql.update("UPDATE appearance SET tattoos = ? WHERE id = ?",[JSON.stringify(t),n])}async function m(e,t,n){if(e&&t){let _=s(e);if(t!==_){console.warn("You are trying to save an appearance for a different player",e,t);return}}t||(t=s(e));let r={drawables:n.drawables,props:n.props,headOverlay:n.headOverlay},a={headBlend:n.headBlend,headStructure:n.headStructure,hairColor:n.hairColor,model:n.model},i=n.tattoos||[];return await T.oxmysql.prepare("INSERT INTO appearance (id, clothes, skin, tattoos) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE clothes = VALUES(clothes), skin = VALUES(skin), tattoos = VALUES(tattoos);",[t,JSON.stringify(r),JSON.stringify(a),JSON.stringify(i)])}var T,w=b(()=>{y();T=g(l(),1);o("bl_appearance:server:saveSkin",W);exports("SaveSkin",W);o("bl_appearance:server:saveClothes",U);exports("SaveClothes",U);o("bl_appearance:server:saveTattoos",G);exports("SaveTattoos",G);o("bl_appearance:server:saveAppearance",m);exports("SaveAppearance",function(e,t){return m(null,e,t)})});var ye={};var Y=b(()=>{});var X={};h(X,{default:()=>Ee});var K,de,be,Ee,Z=b(()=>{K=g(l(),1);y();w();de=e=>new Promise(t=>setTimeout(t,e)),be=async e=>{let t=await K.oxmysql.query("SELECT * FROM `players`");if(t){for(let n of t)if(n.skin){await u("bl_appearance:client:migration:setAppearance",e,{type:"fivem",data:JSON.parse(n.skin)}),await de(100);let r=await u("bl_appearance:client:getAppearance",e),a=parseInt(e);await m(a,n.citizenid,r)}console.log("Converted "+t.length+" appearances")}},Ee=be});var ee={};h(ee,{default:()=>we});var q,Se,Te,we,te=b(()=>{q=g(l(),1);y();w();Se=e=>new Promise(t=>setTimeout(t,e)),Te=async e=>{let t=await q.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1");if(t){for(let n of t)if(n.skin){await u("bl_appearance:client:migration:setAppearance",e,{type:"illenium",data:JSON.parse(n.skin)}),await Se(100);let r=await u("bl_appearance:client:getAppearance",e),a=parseInt(e);await m(a,n.citizenid,r)}console.log("Converted "+t.length+" appearances")}},we=Te});var re={};h(re,{default:()=>xe});var ne,Oe,ve,xe,ae=b(()=>{ne=g(l(),1);y();w();Oe=e=>new Promise(t=>setTimeout(t,e)),ve=async e=>{let t=await ne.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1");if(t){for(let n of t){emitNet("qb-clothes:loadSkin",e,0,n.model,n.skin),await Oe(200);let r=await u("bl_appearance:client:getAppearance",e),a=parseInt(e);await m(a,n.citizenid,r)}console.log("Converted "+t.length+" appearances")}},xe=ve});var f=g(l(),1);y();async function M(e,t){let n=E.GetPlayer(e).job||{name:"unknown",grade:{name:"unknown"}},r=await f.oxmysql.prepare("SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)",[t,n.name,n.grade.name]);return r?(Array.isArray(r)||(r=[r]),r.map(i=>({id:i.id,label:i.label,outfit:JSON.parse(i.outfit),jobname:i.jobname}))):[]}o("bl_appearance:server:getOutfits",M);exports("GetOutfits",M);async function D(e,t){let n=s(e);return await f.oxmysql.update("UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?",[t.label,n,t.id])}o("bl_appearance:server:renameOutfit",D);exports("RenameOutfit",D);async function F(e,t){let n=s(e);return await f.oxmysql.update("DELETE FROM outfits WHERE player_id = ? AND id = ?",[n,t])>0}o("bl_appearance:server:deleteOutfit",F);exports("DeleteOutfit",F);async function J(e,t){let n=s(e),r=null,a=0;return t.job&&(r=t.job.name,a=t.job.rank),await f.oxmysql.insert("INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)",[n,t.label,JSON.stringify(t.outfit),r,a])}o("bl_appearance:server:saveOutfit",J);exports("SaveOutfit",J);async function $(e,t){let n=await f.oxmysql.prepare("SELECT outfit FROM outfits WHERE id = ?",[t]);return JSON.parse(n)}o("bl_appearance:server:fetchOutfit",$);exports("FetchOutfit",$);async function H(e,t,n,r){let a=await f.oxmysql.query("SELECT label, outfit FROM outfits WHERE id = ?",[n]);return!a||typeof a!="object"||Object.keys(a).length===0?{success:!1,message:"Outfit not found"}:{success:!0,newId:await f.oxmysql.insert("INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)",[t,r,a.outfit])}}o("bl_appearance:server:importOutfit",H);exports("ImportOutfit",H);var x=L.outfitItem;x||console.warn("bl_appearance: No outfit item configured, please set it in config.lua");o("bl_appearance:server:itemOutfit",async(e,t)=>{E.GetPlayer(e).addItem(x,1,t)});E.RegisterUsableItem(x,async(e,t,n)=>{j(e)?.removeItem(x,1,t)&&emitNet("bl_appearance:server:useOutfitItem",e,n.outfit)});w();var O=g(l(),1);y();async function B(e,t){t||(t=s(e));let n=await O.oxmysql.prepare("SELECT skin FROM appearance WHERE id = ?",[t]);return JSON.parse(n)}o("bl_appearance:server:getSkin",B);exports("GetSkin",function(e){return B(null,e)});async function V(e,t){t||(t=s(e));let n=await O.oxmysql.prepare("SELECT clothes FROM appearance WHERE id = ?",[t]);return JSON.parse(n)}o("bl_appearance:server:getClothes",V);exports("GetClothes",function(e){return V(null,e)});async function z(e,t){t||(t=s(e));let n=await O.oxmysql.prepare("SELECT tattoos FROM appearance WHERE id = ?",[t]);return JSON.parse(n)||[]}o("bl_appearance:server:getTattoos",z);exports("GetTattoos",function(e){return z(null,e)});async function Q(e,t){if(!t&&!e)return null;t||(t=s(e));let n=await O.oxmysql.single("SELECT * FROM appearance WHERE id = ? LIMIT 1",[t]);if(!n)return null;let r={...JSON.parse(n.skin),...JSON.parse(n.clothes),tattoos:JSON.parse(n.tattoos)};return r.id=n.id,r}o("bl_appearance:server:getAppearance",Q);exports("GetAppearance",function(e){return Q(null,e)});var R=g(l(),1);var _e=N({"./migrate/esx.ts":()=>Promise.resolve().then(()=>(Y(),ye)),"./migrate/fivem.ts":()=>Promise.resolve().then(()=>(Z(),X)),"./migrate/illenium.ts":()=>Promise.resolve().then(()=>(te(),ee)),"./migrate/qb.ts":()=>Promise.resolve().then(()=>(ae(),re))});R.oxmysql.ready(async()=>{try{await R.oxmysql.query("SELECT 1 FROM appearance LIMIT 1")}catch(e){console.error("Error checking appearance table. Most likely the table does not exist: ",e)}});onNet("bl_appearance:server:setroutingbucket",()=>{SetPlayerRoutingBucket(source.toString(),source)});onNet("bl_appearance:server:resetroutingbucket",()=>{SetPlayerRoutingBucket(source.toString(),0)});RegisterCommand("migrate",async e=>{e=e!==0?e:parseInt(getPlayers()[0]);let n=exports.bl_appearance.config();(await _e(`./migrate/${n.previousClothing==="fivem-appearance"?"fivem":n.previousClothing}.ts`)).default(e)},!1);
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __glob = (map) => (path) => {
+  var fn = map[path];
+  if (fn)
+    return fn();
+  throw new Error("Module not found in bundle: " + path);
+};
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// node_modules/@overextended/oxmysql/MySQL.js
+var require_MySQL = __commonJS({
+  "node_modules/@overextended/oxmysql/MySQL.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.oxmysql = void 0;
+    var QueryStore = [];
+    function assert(condition, message) {
+      if (!condition)
+        throw new TypeError(message);
+    }
+    var safeArgs = (query, params, cb, transaction) => {
+      if (typeof query === "number")
+        query = QueryStore[query];
+      if (transaction) {
+        assert(typeof query === "object", `First argument expected object, recieved ${typeof query}`);
+      } else {
+        assert(typeof query === "string", `First argument expected string, received ${typeof query}`);
+      }
+      if (params) {
+        const paramType = typeof params;
+        assert(paramType === "object" || paramType === "function", `Second argument expected object or function, received ${paramType}`);
+        if (!cb && paramType === "function") {
+          cb = params;
+          params = void 0;
+        }
+      }
+      if (cb !== void 0)
+        assert(typeof cb === "function", `Third argument expected function, received ${typeof cb}`);
+      return [query, params, cb];
+    };
+    var exp = global.exports.oxmysql;
+    var currentResourceName = GetCurrentResourceName();
+    function execute(method, query, params) {
+      return new Promise((resolve, reject) => {
+        exp[method](query, params, (result, error) => {
+          if (error)
+            return reject(error);
+          resolve(result);
+        }, currentResourceName, true);
+      });
+    }
+    exports2.oxmysql = {
+      store(query) {
+        assert(typeof query !== "string", `Query expects a string, received ${typeof query}`);
+        return QueryStore.push(query);
+      },
+      ready(callback) {
+        setImmediate(async () => {
+          while (GetResourceState("oxmysql") !== "started")
+            await new Promise((resolve) => setTimeout(resolve, 50));
+          callback();
+        });
+      },
+      async query(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("query", query, params);
+        return cb ? cb(result) : result;
+      },
+      async single(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("single", query, params);
+        return cb ? cb(result) : result;
+      },
+      async scalar(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("scalar", query, params);
+        return cb ? cb(result) : result;
+      },
+      async update(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("update", query, params);
+        return cb ? cb(result) : result;
+      },
+      async insert(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("insert", query, params);
+        return cb ? cb(result) : result;
+      },
+      async prepare(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("prepare", query, params);
+        return cb ? cb(result) : result;
+      },
+      async rawExecute(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb);
+        const result = await execute("rawExecute", query, params);
+        return cb ? cb(result) : result;
+      },
+      async transaction(query, params, cb) {
+        [query, params, cb] = safeArgs(query, params, cb, true);
+        const result = await execute("transaction", query, params);
+        return cb ? cb(result) : result;
+      },
+      isReady() {
+        return exp.isReady();
+      },
+      async awaitConnection() {
+        return await exp.awaitConnection();
+      }
+    };
+  }
+});
+
+// src/server/utils/index.ts
+function triggerClientCallback(eventName, playerId, ...args) {
+  let key;
+  do {
+    key = `${eventName}:${Math.floor(Math.random() * (1e5 + 1))}:${playerId}`;
+  } while (activeEvents[key]);
+  emitNet(`_bl_cb_${eventName}`, playerId, resourceName, key, ...args);
+  return new Promise((resolve) => {
+    activeEvents[key] = resolve;
+  });
+}
+function onClientCallback(eventName, cb) {
+  onNet(`_bl_cb_${eventName}`, async (resource, key, ...args) => {
+    const src = source;
+    let response;
+    try {
+      response = await cb(src, ...args);
+    } catch (e) {
+      console.error(`an error occurred while handling callback event ${eventName}`);
+      console.log(`^3${e.stack}^0`);
+    }
+    emitNet(`_bl_cb_${resource}`, src, key, response);
+  });
+}
+var resourceName, activeEvents, bl_bridge, core, getPlayerData, getFrameworkID, bl_config, config;
+var init_utils = __esm({
+  "src/server/utils/index.ts"() {
+    resourceName = GetCurrentResourceName();
+    activeEvents = {};
+    onNet(`_bl_cb_${resourceName}`, (key, ...args) => {
+      const resolve = activeEvents[key];
+      return resolve && resolve(...args);
+    });
+    bl_bridge = exports.bl_bridge;
+    core = bl_bridge.core();
+    getPlayerData = (src) => {
+      return core.GetPlayer(src);
+    };
+    getFrameworkID = (src) => {
+      const player = core.GetPlayer(src);
+      if (!player)
+        return null;
+      return player.id;
+    };
+    bl_config = exports.bl_appearance.config();
+    config = bl_config;
+  }
+});
+
+// src/server/appearance/setters.ts
+async function saveSkin(src, skin) {
+  const frameworkId = getFrameworkID(src);
+  const result = await import_oxmysql2.oxmysql.update(
+    "UPDATE appearance SET skin = ? WHERE id = ?",
+    [JSON.stringify(skin), frameworkId]
+  );
+  return result;
+}
+async function saveClothes(src, clothes) {
+  const frameworkId = getFrameworkID(src);
+  const result = await import_oxmysql2.oxmysql.update(
+    "UPDATE appearance SET clothes = ? WHERE id = ?",
+    [JSON.stringify(clothes), frameworkId]
+  );
+  return result;
+}
+async function saveTattoos(src, tattoos) {
+  const frameworkId = getFrameworkID(src);
+  const result = await import_oxmysql2.oxmysql.update(
+    "UPDATE appearance SET tattoos = ? WHERE id = ?",
+    [JSON.stringify(tattoos), frameworkId]
+  );
+  return result;
+}
+async function saveAppearance(src, frameworkId, appearance) {
+  if (src && frameworkId) {
+    const playerId = getFrameworkID(src);
+    if (frameworkId !== playerId) {
+      console.warn("You are trying to save an appearance for a different player", src, frameworkId);
+      return;
+    }
+  }
+  if (!frameworkId) {
+    frameworkId = getFrameworkID(src);
+  }
+  const clothes = {
+    drawables: appearance.drawables,
+    props: appearance.props,
+    headOverlay: appearance.headOverlay
+  };
+  const skin = {
+    headBlend: appearance.headBlend,
+    headStructure: appearance.headStructure,
+    hairColor: appearance.hairColor,
+    model: appearance.model
+  };
+  const tattoos = appearance.tattoos || [];
+  const result = await import_oxmysql2.oxmysql.prepare(
+    "INSERT INTO appearance (id, clothes, skin, tattoos) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE clothes = VALUES(clothes), skin = VALUES(skin), tattoos = VALUES(tattoos);",
+    [
+      frameworkId,
+      JSON.stringify(clothes),
+      JSON.stringify(skin),
+      JSON.stringify(tattoos)
+    ]
+  );
+  return result;
+}
+var import_oxmysql2;
+var init_setters = __esm({
+  "src/server/appearance/setters.ts"() {
+    init_utils();
+    import_oxmysql2 = __toESM(require_MySQL(), 1);
+    onClientCallback("bl_appearance:server:saveSkin", saveSkin);
+    exports("SaveSkin", saveSkin);
+    onClientCallback("bl_appearance:server:saveClothes", saveClothes);
+    exports("SaveClothes", saveClothes);
+    onClientCallback("bl_appearance:server:saveTattoos", saveTattoos);
+    exports("SaveTattoos", saveTattoos);
+    onClientCallback("bl_appearance:server:saveAppearance", saveAppearance);
+    exports("SaveAppearance", function(id, appearance) {
+      return saveAppearance(null, id, appearance);
+    });
+  }
+});
+
+// src/server/migrate/esx.ts
+var esx_exports = {};
+var init_esx = __esm({
+  "src/server/migrate/esx.ts"() {
+  }
+});
+
+// src/server/migrate/fivem.ts
+var fivem_exports = {};
+__export(fivem_exports, {
+  default: () => fivem_default
+});
+var import_oxmysql4, delay, migrate, fivem_default;
+var init_fivem = __esm({
+  "src/server/migrate/fivem.ts"() {
+    import_oxmysql4 = __toESM(require_MySQL(), 1);
+    init_utils();
+    init_setters();
+    delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    migrate = async (src) => {
+      const response = await import_oxmysql4.oxmysql.query("SELECT * FROM `players`");
+      if (!response)
+        return;
+      for (const element of response) {
+        if (element.skin) {
+          await triggerClientCallback("bl_appearance:client:migration:setAppearance", src, {
+            type: "fivem",
+            data: JSON.parse(element.skin)
+          });
+          await delay(100);
+          const response2 = await triggerClientCallback("bl_appearance:client:getAppearance", src);
+          const playerSrc = parseInt(src);
+          await saveAppearance(playerSrc, element.citizenid, response2);
+        }
+      }
+      console.log("Converted " + response.length + " appearances");
+    };
+    fivem_default = migrate;
+  }
+});
+
+// src/server/migrate/illenium.ts
+var illenium_exports = {};
+__export(illenium_exports, {
+  default: () => illenium_default
+});
+var import_oxmysql5, delay2, migrate2, illenium_default;
+var init_illenium = __esm({
+  "src/server/migrate/illenium.ts"() {
+    import_oxmysql5 = __toESM(require_MySQL(), 1);
+    init_utils();
+    init_setters();
+    delay2 = (ms) => new Promise((res) => setTimeout(res, ms));
+    migrate2 = async (src) => {
+      const response = await import_oxmysql5.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1");
+      if (!response)
+        return;
+      for (const element of response) {
+        if (element.skin) {
+          await triggerClientCallback("bl_appearance:client:migration:setAppearance", src, {
+            type: "illenium",
+            data: JSON.parse(element.skin)
+          });
+          await delay2(100);
+          const response2 = await triggerClientCallback("bl_appearance:client:getAppearance", src);
+          const playerSrc = parseInt(src);
+          await saveAppearance(playerSrc, element.citizenid, response2);
+        }
+      }
+      console.log("Converted " + response.length + " appearances");
+    };
+    illenium_default = migrate2;
+  }
+});
+
+// src/server/migrate/qb.ts
+var qb_exports = {};
+__export(qb_exports, {
+  default: () => qb_default
+});
+var import_oxmysql6, delay3, migrate3, qb_default;
+var init_qb = __esm({
+  "src/server/migrate/qb.ts"() {
+    import_oxmysql6 = __toESM(require_MySQL(), 1);
+    init_utils();
+    init_setters();
+    delay3 = (ms) => new Promise((res) => setTimeout(res, ms));
+    migrate3 = async (src) => {
+      const response = await import_oxmysql6.oxmysql.query("SELECT * FROM `playerskins` WHERE active = 1");
+      if (!response)
+        return;
+      for (const element of response) {
+        emitNet("qb-clothes:loadSkin", src, 0, element.model, element.skin);
+        await delay3(200);
+        const response2 = await triggerClientCallback("bl_appearance:client:getAppearance", src);
+        const playerSrc = parseInt(src);
+        await saveAppearance(playerSrc, element.citizenid, response2);
+      }
+      console.log("Converted " + response.length + " appearances");
+    };
+    qb_default = migrate3;
+  }
+});
+
+// src/server/appearance/outfits.ts
+var import_oxmysql = __toESM(require_MySQL(), 1);
+init_utils();
+async function getOutfits(src, frameworkId) {
+  const job = core.GetPlayer(src).job || { name: "unknown", grade: { name: "unknown" } };
+  let response = await import_oxmysql.oxmysql.prepare(
+    "SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)",
+    [frameworkId, job.name, job.grade.name]
+  );
+  if (!response)
+    return [];
+  if (!Array.isArray(response)) {
+    response = [response];
+  }
+  const outfits = response.map(
+    (outfit) => {
+      return {
+        id: outfit.id,
+        label: outfit.label,
+        outfit: JSON.parse(outfit.outfit),
+        jobname: outfit.jobname
+      };
+    }
+  );
+  return outfits;
+}
+onClientCallback("bl_appearance:server:getOutfits", getOutfits);
+exports("GetOutfits", getOutfits);
+async function renameOutfit(src, data) {
+  const frameworkId = getFrameworkID(src);
+  const result = await import_oxmysql.oxmysql.update(
+    "UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?",
+    [data.label, frameworkId, data.id]
+  );
+  return result;
+}
+onClientCallback("bl_appearance:server:renameOutfit", renameOutfit);
+exports("RenameOutfit", renameOutfit);
+async function deleteOutfit(src, id) {
+  const frameworkId = getFrameworkID(src);
+  const result = await import_oxmysql.oxmysql.update(
+    "DELETE FROM outfits WHERE player_id = ? AND id = ?",
+    [frameworkId, id]
+  );
+  return result > 0;
+}
+onClientCallback("bl_appearance:server:deleteOutfit", deleteOutfit);
+exports("DeleteOutfit", deleteOutfit);
+async function saveOutfit(src, data) {
+  const frameworkId = getFrameworkID(src);
+  let jobname = null;
+  let jobrank = 0;
+  if (data.job) {
+    jobname = data.job.name;
+    jobrank = data.job.rank;
+  }
+  const id = await import_oxmysql.oxmysql.insert(
+    "INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)",
+    [frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank]
+  );
+  return id;
+}
+onClientCallback("bl_appearance:server:saveOutfit", saveOutfit);
+exports("SaveOutfit", saveOutfit);
+async function fetchOutfit(_, id) {
+  const response = await import_oxmysql.oxmysql.prepare(
+    "SELECT outfit FROM outfits WHERE id = ?",
+    [id]
+  );
+  return JSON.parse(response);
+}
+onClientCallback("bl_appearance:server:fetchOutfit", fetchOutfit);
+exports("FetchOutfit", fetchOutfit);
+async function importOutfit(_, frameworkId, outfitId, outfitName) {
+  const result = await import_oxmysql.oxmysql.query(
+    "SELECT label, outfit FROM outfits WHERE id = ?",
+    [outfitId]
+  );
+  if (!result || typeof result !== "object" || Object.keys(result).length === 0) {
+    return { success: false, message: "Outfit not found" };
+  }
+  const newId = await import_oxmysql.oxmysql.insert(
+    "INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)",
+    [frameworkId, outfitName, result.outfit]
+  );
+  return { success: true, newId };
+}
+onClientCallback("bl_appearance:server:importOutfit", importOutfit);
+exports("ImportOutfit", importOutfit);
+var outfitItem = config.outfitItem;
+if (!outfitItem) {
+  console.warn("bl_appearance: No outfit item configured, please set it in config.lua");
+}
+onClientCallback("bl_appearance:server:itemOutfit", async (src, data) => {
+  const player = core.GetPlayer(src);
+  player.addItem(outfitItem, 1, data);
+});
+core.RegisterUsableItem(outfitItem, async (source2, slot, metadata) => {
+  const player = getPlayerData(source2);
+  if (player?.removeItem(outfitItem, 1, slot))
+    emitNet("bl_appearance:server:useOutfitItem", source2, metadata.outfit);
+});
+
+// src/server/init.ts
+init_setters();
+
+// src/server/appearance/getters.ts
+var import_oxmysql3 = __toESM(require_MySQL(), 1);
+init_utils();
+async function getSkin(src, frameworkId) {
+  if (!frameworkId) {
+    frameworkId = getFrameworkID(src);
+  }
+  const response = await import_oxmysql3.oxmysql.prepare(
+    "SELECT skin FROM appearance WHERE id = ?",
+    [frameworkId]
+  );
+  return JSON.parse(response);
+}
+onClientCallback("bl_appearance:server:getSkin", getSkin);
+exports("GetSkin", function(id) {
+  return getSkin(null, id);
+});
+async function getClothes(src, frameworkId) {
+  if (!frameworkId) {
+    frameworkId = getFrameworkID(src);
+  }
+  const response = await import_oxmysql3.oxmysql.prepare(
+    "SELECT clothes FROM appearance WHERE id = ?",
+    [frameworkId]
+  );
+  return JSON.parse(response);
+}
+onClientCallback("bl_appearance:server:getClothes", getClothes);
+exports("GetClothes", function(id) {
+  return getClothes(null, id);
+});
+async function getTattoos(src, frameworkId) {
+  if (!frameworkId) {
+    frameworkId = getFrameworkID(src);
+  }
+  const response = await import_oxmysql3.oxmysql.prepare(
+    "SELECT tattoos FROM appearance WHERE id = ?",
+    [frameworkId]
+  );
+  return JSON.parse(response) || [];
+}
+onClientCallback("bl_appearance:server:getTattoos", getTattoos);
+exports("GetTattoos", function(id) {
+  return getTattoos(null, id);
+});
+async function getAppearance(src, frameworkId) {
+  if (!frameworkId && !src)
+    return null;
+  if (!frameworkId) {
+    frameworkId = getFrameworkID(src);
+  }
+  const response = await import_oxmysql3.oxmysql.single(
+    "SELECT * FROM appearance WHERE id = ? LIMIT 1",
+    [frameworkId]
+  );
+  if (!response)
+    return null;
+  let appearance = {
+    ...JSON.parse(response.skin),
+    ...JSON.parse(response.clothes),
+    tattoos: JSON.parse(response.tattoos)
+  };
+  appearance.id = response.id;
+  return appearance;
+}
+onClientCallback("bl_appearance:server:getAppearance", getAppearance);
+exports("GetAppearance", function(id) {
+  return getAppearance(null, id);
+});
+
+// src/server/init.ts
+var import_oxmysql7 = __toESM(require_MySQL(), 1);
+
+// import("./migrate/**/*.ts") in src/server/init.ts
+var globImport_migrate_ts = __glob({
+  "./migrate/esx.ts": () => Promise.resolve().then(() => (init_esx(), esx_exports)),
+  "./migrate/fivem.ts": () => Promise.resolve().then(() => (init_fivem(), fivem_exports)),
+  "./migrate/illenium.ts": () => Promise.resolve().then(() => (init_illenium(), illenium_exports)),
+  "./migrate/qb.ts": () => Promise.resolve().then(() => (init_qb(), qb_exports))
+});
+
+// src/server/init.ts
+import_oxmysql7.oxmysql.ready(async () => {
+  try {
+    await import_oxmysql7.oxmysql.query("SELECT 1 FROM appearance LIMIT 1");
+  } catch (error) {
+    console.error("Error checking appearance table. Most likely the table does not exist: ", error);
+  }
+});
+onNet("bl_appearance:server:setroutingbucket", () => {
+  SetPlayerRoutingBucket(source.toString(), source);
+});
+onNet("bl_appearance:server:resetroutingbucket", () => {
+  SetPlayerRoutingBucket(source.toString(), 0);
+});
+RegisterCommand("migrate", async (source2) => {
+  source2 = source2 !== 0 ? source2 : parseInt(getPlayers()[0]);
+  const bl_appearance = exports.bl_appearance;
+  const config2 = bl_appearance.config();
+  const importedModule = await globImport_migrate_ts(`./migrate/${config2.previousClothing === "fivem-appearance" ? "fivem" : config2.previousClothing}.ts`);
+  importedModule.default(source2);
+}, false);

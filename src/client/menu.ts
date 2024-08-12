@@ -55,7 +55,7 @@ export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], 
         tattoos = getTattooData()
     }
 
-    const blacklist = !isString ? getBlacklist(zone) : {}
+    const blacklist = getBlacklist(zone)
 
     if (creation) {
         const model = GetHashKey(getPlayerGenderModel());
@@ -100,7 +100,6 @@ export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], 
     resolvePromise = null;
     return true
 }
-
 exports('OpenMenu', openMenu)
 
 RegisterCommand('appearance', async (_, args: string[]) => {
@@ -114,13 +113,12 @@ RegisterCommand('appearance', async (_, args: string[]) => {
 }, true)
 
 
-function getBlacklist(zone: TAppearanceZone) {
-    if (!zone) return {}
-
+function getBlacklist(zone: TAppearanceZone | string) {
     const {groupTypes, base} = config.blacklist()
 
-    if (!groupTypes) return {}
-    if (!base) return {}
+    if (typeof zone === 'string') return base
+
+    if (!groupTypes) return base
 
     let blacklist = {...base}
 

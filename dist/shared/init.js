@@ -1,1 +1,23 @@
-function m(s,r){let e=GetResourceMetadata(s,"version",0);if(e=e&&e?.match(/\d+\.\d+\.\d+/)?.[0]||"unknown",e!=r){let c=e.split("."),o=r.split("."),u=`^1${GetInvokingResource()||GetCurrentResourceName()} requires version '${r}' of '${s}' (current version: ${e})^0`;for(let n=0;n<c.length;n++){let t=Number(c[n]),i=Number(o[n]);if(t!==i)if(isNaN(t)||t<i){console.error(u);break}else break}}}m("bl_bridge","1.2.5");
+// src/shared/init.ts
+function checkDependency(resource, version) {
+  let currentVersion = GetResourceMetadata(resource, "version", 0);
+  currentVersion = currentVersion && currentVersion?.match(/\d+\.\d+\.\d+/)?.[0] || "unknown";
+  if (currentVersion != version) {
+    const cv = currentVersion.split(".");
+    const mv = version.split(".");
+    const msg = `^1${GetInvokingResource() || GetCurrentResourceName()} requires version '${version}' of '${resource}' (current version: ${currentVersion})^0`;
+    for (let i = 0; i < cv.length; i++) {
+      const current = Number(cv[i]);
+      const minimum = Number(mv[i]);
+      if (current !== minimum) {
+        if (isNaN(current) || current < minimum) {
+          console.error(msg);
+          break;
+        } else {
+          break;
+        }
+      }
+    }
+  }
+}
+checkDependency("bl_bridge", "1.2.5");
