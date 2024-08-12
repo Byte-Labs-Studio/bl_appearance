@@ -1,24 +1,10 @@
-import { TAppearance, TAppearanceZone, TMenuTypes } from "@typings/appearance"
+import { TAppearance, TAppearanceZone } from "@typings/appearance"
 import { openMenu } from "./menu"
-import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
+import { setPlayerPedAppearance } from "./appearance/setters"
 import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format, updatePed } from "@utils"
 import { QBBridge } from "./bridge/qb"
 import { ESXBridge } from "./bridge/esx"
 import { illeniumCompat } from "./compat/illenium"
-
-RegisterCommand('openMenu', async (_, args: string[]) => {
-    const type = args[0]
-    if (!type) {
-        exports.bl_appearance.InitialCreation()
-    } else {
-        const zone = type.toLowerCase() as TMenuTypes
-        openMenu({ type: zone, coords: [0, 0, 0, 0] })
-    }
-}, true)
-
-exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
-    await setPedAppearance(ped, appearance)
-})
 
 exports('SetPlayerPedAppearance', async (appearance: TAppearance | string) => {
     let resolvedAppearance: TAppearance;
@@ -46,7 +32,7 @@ exports('InitialCreation', async (cb?: Function) => {
     if (cb) cb()
 })
 
-on('bl_sprites:client:useZone', (zone: TAppearanceZone) => {
+on('bl_appearance:client:useZone', (zone: TAppearanceZone) => {
     openMenu(zone)
 })
 

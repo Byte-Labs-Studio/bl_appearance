@@ -1,7 +1,7 @@
 import { oxmysql } from '@overextended/oxmysql';
 import { triggerClientCallback } from '../utils';
-import { saveAppearance } from '../appearance';
 import { TAppearance } from '@typings/appearance';
+import { saveAppearance } from '../appearance/setters';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
@@ -17,7 +17,8 @@ const migrate = async (src: string) => {
             }) as TAppearance
             await delay(100);
             const response = await triggerClientCallback('bl_appearance:client:getAppearance', src) as TAppearance
-            await saveAppearance(src, element.citizenid, response)
+            const playerSrc = parseInt(src)
+            await saveAppearance(playerSrc, element.citizenid, response as TAppearance)
         }
     }
     console.log('Converted '+ response.length + ' appearances')

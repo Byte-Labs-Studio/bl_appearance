@@ -2,6 +2,8 @@ Config = {
     locale = 'en',
     openControl = 'E',
     previousClothing = 'qb', -- 'illenium' | 'qb' | 'esx' | 'fivem-appearance'
+
+    outfitItem = 'clothes', -- Item given to the player when they want to make outfit an item to use
 }
 
 exports('config', function()
