@@ -149,7 +149,9 @@ async function getSkin(src: number, frameworkId: string) {
     return JSON.parse(response);
 }
 onClientCallback('bl_appearance:server:getSkin', getSkin);
-exports('GetSkin', getSkin);
+exports('GetSkin', function(id) {
+    return getSkin(null, id)
+});
 
 export const saveAppearance = async (src: number, frameworkId: string, appearance: TAppearance) => {
     if (src && frameworkId) {
@@ -193,7 +195,9 @@ export const saveAppearance = async (src: number, frameworkId: string, appearanc
 	return result;
 }
 onClientCallback('bl_appearance:server:saveAppearance', saveAppearance);
-exports('SaveAppearance', saveAppearance);
+exports('SaveAppearance', function(id, appearance) {
+    return saveAppearance(null, id, appearance)
+});
 
 async function getClothes(src: number, frameworkId: string) {
     if (!frameworkId) {
@@ -207,7 +211,9 @@ async function getClothes(src: number, frameworkId: string) {
     return JSON.parse(response);
 }
 onClientCallback('bl_appearance:server:getClothes', getClothes);
-exports('GetClothes', getClothes);
+exports('GetClothes', function(id) {
+    return getClothes(null, id)
+});
 
 async function getTattoos(src: number, frameworkId: string) {
     if (!frameworkId) {
@@ -221,7 +227,9 @@ async function getTattoos(src: number, frameworkId: string) {
     return JSON.parse(response) || [];
 }
 onClientCallback('bl_appearance:server:getTattoos', getTattoos);
-exports('GetTattoos', getTattoos);
+exports('GetTattoos', function(id) {
+    return getTattoos(null, id)
+});
 
 async function getAppearance(src: number, frameworkId: string) {
     if (!frameworkId && !src) return null;
@@ -245,7 +253,9 @@ async function getAppearance(src: number, frameworkId: string) {
     return appearance;
 }
 onClientCallback('bl_appearance:server:getAppearance', getAppearance);
-exports('GetAppearance', getAppearance);
+exports('GetAppearance', function(id) {
+    return getAppearance(null, id)
+});
 
 onNet('bl_appearance:server:setroutingbucket', () => {
 	SetPlayerRoutingBucket(source.toString(), source)
