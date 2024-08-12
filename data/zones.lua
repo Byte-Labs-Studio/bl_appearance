@@ -148,11 +148,11 @@ local function setupZones()
                 if currentZone.type == 'barber' then
                     textui.showTextUI(prefix .. "Barber Shop", 'left')
                 elseif currentZone.type == 'tattoos' then
-                    textui.showTextUI(prefix .. "Tattoo Shop", 'left')
+                    textui.showTextUI(prefix .. "Tattoo Parlor", 'left')
                 elseif currentZone.type == 'clothing' then
                     textui.showTextUI(prefix .. "Clothing Store", 'left')
                 elseif currentZone.type == 'surgeon' then
-                    textui.showTextUI(prefix .. "Surgeon Shop", 'left')
+                    textui.showTextUI(prefix .. "Surgeon", 'left')
                 end
             end
 
@@ -191,7 +191,7 @@ local function createBlips()
             if v.type == 'barber' then
                 spriteId = 71
                 blipColor = 0
-                blipname = 'Barber'
+                blipname = 'Barber Shop'
             elseif v.type == 'clothing' then
                 spriteId = 73
                 blipColor = 0
