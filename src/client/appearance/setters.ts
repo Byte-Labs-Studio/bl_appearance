@@ -1,4 +1,4 @@
-import { TAppearance, THairColor, TClothes, TSkin, TValue } from "@typings/appearance";
+import { TAppearance, THairColor, TClothes, TSkin, TValue, THeadStructure } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
 import { requestModel, ped, updatePed, isPedFreemodeModel} from '@utils';
 import { TTattoo } from "@typings/tattoos";
@@ -83,6 +83,17 @@ export function setFaceFeature(pedHandle: number, data: TValue) {
     SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
 }
 exports('SetFaceFeature', setFaceFeature);
+
+export function setFaceFeatures(pedHandle: number, data: THeadStructure) {
+    if (!data) return console.warn('No data provided for setFaceFeatures')
+        
+
+    for (const feature in data) {
+        const value = data[feature]
+        setFaceFeature(pedHandle, value)
+    }
+}
+exports('SetFaceFeatures', setFaceFeatures);
 
 const isPositive = (val: number) => val >= 0 ? val : 0
 
@@ -190,10 +201,7 @@ export const setPedSkin = async (pedHandle: number, data: TSkin) => {
 
     if (headBlend) setHeadBlend(pedHandle, headBlend)
     
-    if (headStructure) for (const feature in headStructure) {
-        const value = headStructure[feature]
-        setFaceFeature(pedHandle, value)
-    }
+    if (headStructure) setFaceFeatures(pedHandle, headStructure)
 }
 exports('SetPedSkin', setPedSkin);
 
