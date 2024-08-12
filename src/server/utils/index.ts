@@ -35,4 +35,20 @@ export function onClientCallback(eventName: string, cb: (playerId: number, ...ar
       });
 }
 
-export const core = exports.bl_bridge.core()
+const bl_bridge = exports.bl_bridge
+
+export const core = bl_bridge.core()
+
+export const getPlayerData = (src: number) => {
+    return core.GetPlayer(src)
+}
+
+export const getFrameworkID = (src: number) => {
+    const player = core.GetPlayer(src)
+    if (!player) return null
+    return player.id
+}
+
+
+const bl_config = exports.bl_appearance.config()
+export const config = bl_config

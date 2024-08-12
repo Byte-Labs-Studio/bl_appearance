@@ -126,7 +126,7 @@ const OUTFITS_INIT = () => {
                     if (!success) return;
         
                     importedId = newId;
-                    return SendEvent(Send.grabOutfit, { id: importedId });
+                    return SendEvent(Send.fetchOutfit, { id: importedId });
                 })
                 .then((outfitData: TOutfitData | undefined) => {
                     if (!importedId || !outfitData) return;
@@ -237,10 +237,7 @@ const APPEARANCE_INIT = () => {
         },
 
         setEyeColor: (eyeColor: TValue) => {
-            SendEvent(Send.setHeadOverlay, {
-                eyeColor: eyeColor.value,
-                id: 'EyeColor'
-            });
+            SendEvent(Send.setHeadOverlay, eyeColor);
         },
 
         setHairColor: (hairColor: THairColor) => {

@@ -25,14 +25,15 @@ export const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 export const requestModel = async (model: string | number): Promise<number> => {
     let modelHash: number = typeof model === 'number' ? model : GetHashKey(model)
 
-    if (!IsModelValid(modelHash)) {
-        exports.bl_bridge.notify()({
-            title: 'Invalid model!',
-            type: 'error',
-            duration: 1000
-        })
+    if (!IsModelValid(modelHash) && !IsModelInCdimage(modelHash)) {
+        // exports.bl_bridge.notify()({
+        //     title: 'Invalid model!',
+        //     type: 'error',
+        //     duration: 1000
+        // })
 
-        throw new Error(`attempted to load invalid model '${model}'`);
+        console.warn(`attempted to load invalid model '${model}'`);
+        return 0;
     }
 
     if (HasModelLoaded(modelHash)) return modelHash
@@ -171,3 +172,8 @@ export function getJobInfo(): { name: string, isBoss: boolean } | null {
     const job = getPlayerData().job
     return job ? { name: job.name, isBoss: job.isBoss } : null
 }
+
+export function isPedFreemodeModel(ped: number) {
+    const model = GetEntityModel(ped)
+    return model === GetHashKey("mp_m_freemode_01") || model === GetHashKey("mp_f_freemode_01")
+}   

@@ -3,7 +3,8 @@ import HEAD_OVERLAYS from "@data/head"
 import FACE_FEATURES from "@data/face"
 import DRAWABLE_NAMES from "@data/drawables"
 import PROP_NAMES from "@data/props"
-import { ped, onServerCallback } from '@utils';
+import { ped, onServerCallback, updatePed, triggerServerCallback } from '@utils';
+import { TTattoo } from "@typings/tattoos"
 
 export function findModelIndex(target: number) {
     const config = exports.bl_appearance
@@ -12,12 +13,13 @@ export function findModelIndex(target: number) {
     return models.findIndex((model: string) => GetHashKey(model) === target)
 }
 
-export function getHair(pedHandle: number): THairData {
+export function getHairColor(pedHandle: number): THairData {
     return {
         color: GetPedHairColor(pedHandle),
         highlight: GetPedHairHighlightColor(pedHandle)
     }
 }
+exports('GetPedHairColor', getHairColor);
 
 export function getHeadBlendData(pedHandle: number) {
     // https://github.com/pedr0fontoura/fivem-appearance/blob/main/game/src/client/index.ts#L67
@@ -53,6 +55,7 @@ export function getHeadBlendData(pedHandle: number) {
         hasParent: Boolean(hasParent),
     };
 }
+exports('GetPedHeadBlend', getHeadBlendData);
 
 export function getHeadOverlay(pedHandle: number) {
     let totals: THeadOverlayTotal = {};
@@ -84,6 +87,7 @@ export function getHeadOverlay(pedHandle: number) {
 
     return [headData, totals];
 }
+exports('GetPedHeadOverlay', getHeadOverlay);
 
 export function getHeadStructure(pedHandle: number) {
     const pedModel = GetEntityModel(pedHandle)
@@ -102,6 +106,7 @@ export function getHeadStructure(pedHandle: number) {
 
     return faceStruct
 }
+exports('GetPedHeadStructure', getHeadStructure);
 
 export function getDrawables(pedHandle: number) {
     let drawables = {}
@@ -127,6 +132,7 @@ export function getDrawables(pedHandle: number) {
 
     return [drawables, totalDrawables]
 }
+exports('GetPedDrawables', getDrawables);
 
 export function getProps(pedHandle: number) {
     let props = {}
@@ -153,18 +159,19 @@ export function getProps(pedHandle: number) {
 
     return [props, totalProps]
 }
-
+exports('GetPedProps', getProps);
 
 export async function getAppearance(pedHandle: number): Promise<TAppearance> {
     const [headData, totals] = getHeadOverlay(pedHandle)
     const [drawables, drawTotal] = getDrawables(pedHandle)
     const [props, propTotal] = getProps(pedHandle)
     const model = GetEntityModel(pedHandle)
+    const tattoos = pedHandle == PlayerPedId() ? await getTattoos() : []
 
     return {
         modelIndex: findModelIndex(model),
         model: model,
-        hairColor: getHair(pedHandle),
+        hairColor: getHairColor(pedHandle),
         headBlend: getHeadBlendData(pedHandle),
         headOverlay: headData as THeadOverlay,
         headOverlayTotal: totals as THeadOverlayTotal,
@@ -173,12 +180,13 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
         props: props,
         drawTotal: drawTotal,
         propTotal: propTotal,
-        tattoos: []
+        tattoos: tattoos
     }
 }
-exports("GetAppearance", getAppearance)
+exports("GetPedAppearance", getAppearance)
 onServerCallback('bl_appearance:client:getAppearance', () => {
-    return getAppearance(ped || PlayerPedId())
+    updatePed(PlayerPedId())
+    return getAppearance(ped)
 });
 
 export function getPedClothes(pedHandle: number): TClothes {
@@ -198,7 +206,7 @@ export function getPedSkin(pedHandle: number): TSkin {
     return {
         headBlend: getHeadBlendData(pedHandle),
         headStructure: getHeadStructure(pedHandle),
-        hairColor: getHair(pedHandle),
+        hairColor: getHairColor(pedHandle),
         model: GetEntityModel(pedHandle)
     }
 }
@@ -272,6 +280,10 @@ export function getTattooData() {
     return tattooZones
 }
 
+export async function getTattoos(): Promise<TTattoo[]> {
+    return await triggerServerCallback('bl_appearance:server:getTattoos') || []
+}
+exports('GetPlayerTattoos', getTattoos);
 //migration
 
 onServerCallback('bl_appearance:client:migration:setAppearance', (data: {type: string, data: any}) => {

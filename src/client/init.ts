@@ -1,28 +1,18 @@
 import { TAppearance, TAppearanceZone } from "@typings/appearance"
 import { openMenu } from "./menu"
-import { setPedAppearance, setPlayerPedAppearance } from "./appearance/setters"
-import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format } from "@utils"
+import { setPlayerPedAppearance } from "./appearance/setters"
+import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format, updatePed } from "@utils"
 import { QBBridge } from "./bridge/qb"
 import { ESXBridge } from "./bridge/esx"
 import { illeniumCompat } from "./compat/illenium"
 
-RegisterCommand('openMenu', async () => {
-    exports.bl_appearance.InitialCreation()
-}, false)
-
-exports('SetPedAppearance', async (ped: number, appearance: TAppearance) => {
-    await setPedAppearance(ped, appearance)
-})
-
 exports('SetPlayerPedAppearance', async (appearance: TAppearance | string) => {
     let resolvedAppearance: TAppearance;
     
-    if (typeof appearance === 'string' && appearance) {
-        const frameworkID = appearance || await getFrameworkID();
+    if (!appearance || typeof appearance === 'string') {
+        const frameworkID: string = appearance || await getFrameworkID();
         resolvedAppearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID) as TAppearance;
-    } else if (typeof appearance === 'object') {
-        resolvedAppearance = appearance;
-    }
+    } else if (typeof appearance === 'object') resolvedAppearance = appearance;
     
     if (!resolvedAppearance) {
         throw new Error('No valid appearance found');
@@ -42,7 +32,7 @@ exports('InitialCreation', async (cb?: Function) => {
     if (cb) cb()
 })
 
-on('bl_sprites:client:useZone', (zone: TAppearanceZone) => {
+on('bl_appearance:client:useZone', (zone: TAppearanceZone) => {
     openMenu(zone)
 })
 
