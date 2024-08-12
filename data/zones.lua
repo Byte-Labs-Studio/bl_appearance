@@ -160,7 +160,7 @@ local function setupZones()
                 currentZone = nil
                 textui.hideTextUI()
             end
-        else 
+        else
             if GetResourceState('bl_sprites') == 'missing' then return end
             for _, v in pairs(stores) do
                 sprites[#sprites+1] = exports.bl_sprites:sprite({
