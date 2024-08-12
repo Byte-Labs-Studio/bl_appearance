@@ -6,10 +6,7 @@ import { oxmysql } from '@overextended/oxmysql';
 oxmysql.ready(async () => {
     // see if there is a table called appearance
     try {
-        const result = await oxmysql.query('SELECT 1 FROM appearance LIMIT 1');
-        if (!result || result.length === 0) {
-            throw new Error('No appearance table found');
-        }
+        await oxmysql.query('SELECT 1 FROM appearance LIMIT 1');
     } catch (error) {
         console.error('Error checking appearance table. Most likely the table does not exist.');
         // You can add additional error handling or recovery logic here if needed
