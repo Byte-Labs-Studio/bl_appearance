@@ -23,7 +23,7 @@ export enum Send {
     deleteOutfit = 'appearance:deleteOutfit',
     saveOutfit = 'appearance:saveOutfit',
     importOutfit = 'appearance:importOutfit',
-    grabOutfit = 'appearance:grabOutfit',
+    fetchOutfit = 'appearance:fetchOutfit',
 
     save = 'appearance:save',
     cancel = 'appearance:cancel',

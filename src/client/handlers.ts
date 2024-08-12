@@ -16,7 +16,7 @@ import { TAppearance, TToggleData, TValue } from '@typings/appearance';
 import { delay, getFrameworkID, triggerServerCallback, ped, updatePed } from '@utils';
 import { getAppearance, getTattooData } from './appearance/getters';
 import TOGGLE_INDEXES from '@data/toggles';
-import { Outfit } from '@typings/outfits';
+import { Outfit, TOutfitData } from '@typings/outfits';
 import { TTattoo } from '@typings/tattoos';
 
 RegisterNuiCallback(Receive.cancel, async (appearance: TAppearance, cb: Function) => {
@@ -151,24 +151,21 @@ RegisterNuiCallback(Receive.toggleItem, async (data: TToggleData, cb: Function) 
 );
 
 RegisterNuiCallback(Receive.saveOutfit, async (data: any, cb: Function) => {
-	const frameworkdId = getFrameworkID();
-	const result = await triggerServerCallback('bl_appearance:server:saveOutfit', frameworkdId, data);
+	const result = await triggerServerCallback('bl_appearance:server:saveOutfit', data);
 	cb(result);
 });
 
 RegisterNuiCallback(Receive.deleteOutfit, async ({id}, cb: Function) => {
-	const frameworkdId = getFrameworkID();
-	const result = await triggerServerCallback('bl_appearance:server:deleteOutfit', frameworkdId, id);
+	const result = await triggerServerCallback('bl_appearance:server:deleteOutfit', id);
 	cb(result);
 });
 
 RegisterNuiCallback(Receive.renameOutfit, async (data: any, cb: Function) => {
-	const frameworkdId = getFrameworkID();
-	const result = await triggerServerCallback('bl_appearance:server:renameOutfit', frameworkdId, data);
+	const result = await triggerServerCallback('bl_appearance:server:renameOutfit', data);
 	cb(result);
 });
 
-RegisterNuiCallback(Receive.useOutfit, async (outfit: Outfit, cb: Function) => {
+RegisterNuiCallback(Receive.useOutfit, async (outfit: TOutfitData, cb: Function) => {
 	setPedClothes(ped, outfit);
 	cb(1);
 });
@@ -179,16 +176,16 @@ RegisterNuiCallback(Receive.importOutfit, async ({ id, outfitName }, cb: Functio
 	cb(result);
 });
 
-RegisterNuiCallback(Receive.grabOutfit, async ({ id }, cb: Function) => {
-	const result = await triggerServerCallback('bl_appearance:server:grabOutfit', id);
+RegisterNuiCallback(Receive.fetchOutfit, async ({ id }, cb: Function) => {
+	const result = await triggerServerCallback('bl_appearance:server:fetchOutfit', id);
 	cb(result);
 });
 
-RegisterNuiCallback(Receive.itemOutfit, async (data: {outfit: Outfit, label: string}, cb: Function) => {
-	const result = await triggerServerCallback('bl_appearance:server:itemOutfit',data);
+RegisterNuiCallback(Receive.itemOutfit, async (data: {outfit: TOutfitData, label: string}, cb: Function) => {
+	const result = await triggerServerCallback('bl_appearance:server:itemOutfit', data);
 	cb(result);
 });
 
-onNet('bl_appearance:server:useOutfit', (outfit: Outfit) => {
+onNet('bl_appearance:server:useOutfiItem', (outfit: TOutfitData) => {
 	setPedClothes(ped, outfit);
 })

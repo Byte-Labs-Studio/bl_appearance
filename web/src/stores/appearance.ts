@@ -126,7 +126,7 @@ const OUTFITS_INIT = () => {
                     if (!success) return;
         
                     importedId = newId;
-                    return SendEvent(Send.grabOutfit, { id: importedId });
+                    return SendEvent(Send.fetchOutfit, { id: importedId });
                 })
                 .then((outfitData: TOutfitData | undefined) => {
                     if (!importedId || !outfitData) return;

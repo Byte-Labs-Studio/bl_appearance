@@ -1,10 +1,9 @@
-import { core, onClientCallback } from './utils';
+import { core, getFrameworkID, onClientCallback, config, getPlayerData } from './utils';
 import { oxmysql } from '@overextended/oxmysql';
 import { Outfit } from '@typings/outfits';
-import { saveAppearance } from './appearance';
 import { SkinDB } from '@typings/appearance';
 
-onClientCallback('bl_appearance:server:getOutfits', async (src, frameworkId) => {
+async function getOutfits(src: number, frameworkId: string) {
     const job = core.GetPlayer(src).job || { name: 'unknown', grade: { name: 'unknown' } }
 	let response = await oxmysql.prepare(
 		'SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)',
@@ -12,77 +11,83 @@ onClientCallback('bl_appearance:server:getOutfits', async (src, frameworkId) => 
 	);
 	if (!response) return [];
 
-	if (!Array.isArray(response)) {
-		response = [response];
-	}
+    if (!Array.isArray(response)) {
+        response = [response];
+    }
 
-	const outfits = response.map(
-		(outfit: { id: number; label: string; outfit: string; jobname?: string }) => {
-			return {
-				id: outfit.id,
-				label: outfit.label,
-				outfit: JSON.parse(outfit.outfit),
-				jobname: outfit.jobname,
-			};
-		}
-	);
+    const outfits = response.map(
+        (outfit: { id: number; label: string; outfit: string; jobname?: string }) => {
+            return {
+                id: outfit.id,
+                label: outfit.label,
+                outfit: JSON.parse(outfit.outfit),
+                jobname: outfit.jobname,
+            };
+        }
+    );
 
-	return outfits;
-});
+    return outfits;
+}
+onClientCallback('bl_appearance:server:getOutfits', getOutfits);
+exports('GetOutfits', getOutfits);
 
-onClientCallback('bl_appearance:server:renameOutfit', async (src, frameworkId, data) => {
-	const id = data.id;
-	const label = data.label;
+async function renameOutfit(src: number, data: { id: number; label: string }) {
+    const frameworkId = getFrameworkID(src);
+    const result = await oxmysql.update(
+        'UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?',
+        [data.label, frameworkId, data.id]
+    );
+    return result;
+}
+onClientCallback('bl_appearance:server:renameOutfit', renameOutfit);
+exports('RenameOutfit', renameOutfit);
 
-	const result = await oxmysql.update(
-		'UPDATE outfits SET label = ? WHERE player_id = ? AND id = ?',
-		[label, frameworkId, id]
-	);
-	return result;
-});
+async function deleteOutfit(src: number, id: number) {
+    const frameworkId = getFrameworkID(src);
+    const result = await oxmysql.update(
+        'DELETE FROM outfits WHERE player_id = ? AND id = ?',
+        [frameworkId, id]
+    );
+    return result > 0;
+}
+onClientCallback('bl_appearance:server:deleteOutfit', deleteOutfit);
+exports('DeleteOutfit', deleteOutfit);
 
-onClientCallback('bl_appearance:server:deleteOutfit', async (src, frameworkId, id) => {
-	const result = await oxmysql.update(
-		'DELETE FROM outfits WHERE player_id = ? AND id = ?',
-		[frameworkId, id]
-	);
-	return result > 0;
-});
-
-onClientCallback('bl_appearance:server:saveOutfit', async (src, frameworkId, data: Outfit) => {
-    let jobname = null
-    let jobrank = 0
+async function saveOutfit(src: number, data: Outfit) {
+    const frameworkId = getFrameworkID(src);
+    let jobname = null;
+    let jobrank = 0;
     if (data.job) {
         jobname = data.job.name;
         jobrank = data.job.rank;
     }
-	const id = await oxmysql.insert(
-		'INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)',
-		[frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank]
-	);
-	return id;
-});
+    const id = await oxmysql.insert(
+        'INSERT INTO outfits (player_id, label, outfit, jobname, jobrank) VALUES (?, ?, ?, ?, ?)',
+        [frameworkId, data.label, JSON.stringify(data.outfit), jobname, jobrank]
+    );
+    return id;
+}
+onClientCallback('bl_appearance:server:saveOutfit', saveOutfit);
+exports('SaveOutfit', saveOutfit);
 
-onClientCallback('bl_appearance:server:grabOutfit', async (src, id) => {
-	const response = await oxmysql.prepare(
-		'SELECT outfit FROM outfits WHERE id = ?',
-		[id]
-	);
-	return JSON.parse(response);
-});
 
-onClientCallback('bl_appearance:server:itemOutfit', async (src, data) => {
-	const player = core.GetPlayer(src)
-	player.addItem('cloth', 1, data)
-});
+async function fetchOutfit(_: number, id: number) {
+    const response = await oxmysql.prepare(
+        'SELECT outfit FROM outfits WHERE id = ?',
+        [id]
+    );
+    return JSON.parse(response);
+}
+onClientCallback('bl_appearance:server:fetchOutfit', fetchOutfit);
+exports('FetchOutfit', fetchOutfit);
 
-onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, outfitId, outfitName) => {
-    const [result] = await oxmysql.query(
+async function importOutfit(_: number, frameworkId: string, outfitId: number, outfitName: string) {
+    const result = await oxmysql.query(
         'SELECT label, outfit FROM outfits WHERE id = ?',
         [outfitId]
     );
 
-    if (!result) {
+    if (!result || typeof result !== 'object' || Object.keys(result).length === 0) {
         return { success: false, message: 'Outfit not found' };
     }
 
@@ -92,74 +97,111 @@ onClientCallback('bl_appearance:server:importOutfit', async (src, frameworkId, o
     );
 
     return { success: true, newId: newId };
-});
+}
+onClientCallback('bl_appearance:server:importOutfit', importOutfit);
+exports('ImportOutfit', importOutfit);
 
-onClientCallback('bl_appearance:server:saveSkin', async (src, frameworkId, skin) => {
-	const result = await oxmysql.update(
-		'UPDATE appearance SET skin = ? WHERE id = ?',
-		[JSON.stringify(skin), frameworkId]
-	);
-	return result;
-});
+async function saveSkin(src: number, skin: any) {
+    const frameworkId = getFrameworkID(src);
 
-onClientCallback('bl_appearance:server:saveClothes', async (src, frameworkId, clothes) => {
-		const result = await oxmysql.update(
-			'UPDATE appearance SET clothes = ? WHERE id = ?',
-			[JSON.stringify(clothes), frameworkId]
-		);
-		return result;
-	}
-);
+    const result = await oxmysql.update(
+        'UPDATE appearance SET skin = ? WHERE id = ?',
+        [JSON.stringify(skin), frameworkId]
+    );
+    return result;
+}
+onClientCallback('bl_appearance:server:saveSkin', saveSkin);
+exports('SaveSkin', saveSkin);
 
-onClientCallback('bl_appearance:server:saveAppearance', saveAppearance);
+async function saveClothes(src: number, clothes: any) {
+    const frameworkId = getFrameworkID(src);
 
-onClientCallback('bl_appearance:server:saveTattoos', async (src, frameworkId, tattoos) => {
-	const result = await oxmysql.update(
-		'UPDATE appearance SET tattoos = ? WHERE id = ?',
-		[JSON.stringify(tattoos), frameworkId]
-	);
-	return result;
-});
+    const result = await oxmysql.update(
+        'UPDATE appearance SET clothes = ? WHERE id = ?',
+        [JSON.stringify(clothes), frameworkId]
+    );
+    return result;
+}
+onClientCallback('bl_appearance:server:saveClothes', saveClothes);
+exports('SaveClothes', saveClothes);
 
-onClientCallback('bl_appearance:server:getSkin', async (src, frameworkId) => {
-	const response = await oxmysql.prepare(
-		'SELECT skin FROM appearance WHERE id = ?',
-		[frameworkId]
-	);
-	return JSON.parse(response);
-});
+async function saveTattoos(src: number, tattoos: any) {
+    const frameworkId = getFrameworkID(src);
+    
+    const result = await oxmysql.update(
+        'UPDATE appearance SET tattoos = ? WHERE id = ?',
+        [JSON.stringify(tattoos), frameworkId]
+    );
+    return result;
+}
+onClientCallback('bl_appearance:server:saveTattoos', saveTattoos);
+exports('SaveTattoos', saveTattoos);
 
-onClientCallback('bl_appearance:server:getClothes', async (src, frameworkId) => {
-	const response = await oxmysql.prepare(
-		'SELECT clothes FROM appearance WHERE id = ?',
-		[frameworkId]
-	);
-	return JSON.parse(response);
-});
+async function getSkin(src: number, frameworkId: string) {
+    if (!frameworkId) {
+        frameworkId = getFrameworkID(src);
+    }
 
-onClientCallback('bl_appearance:server:getTattoos', async (src, frameworkId) => {
-	const response = await oxmysql.prepare(
-		'SELECT tattoos FROM appearance WHERE id = ?',
-		[frameworkId]
-	);
-	return JSON.parse(response) || [];
-});
+    const response = await oxmysql.prepare(
+        'SELECT skin FROM appearance WHERE id = ?',
+        [frameworkId]
+    );
+    return JSON.parse(response);
+}
+onClientCallback('bl_appearance:server:getSkin', getSkin);
+exports('GetSkin', getSkin);
 
-onClientCallback('bl_appearance:server:getAppearance', async (src, frameworkId) => {
-	const response: SkinDB = await oxmysql.single(
-		'SELECT * FROM appearance WHERE id = ? LIMIT 1',
-		[frameworkId]
-	);
+async function getClothes(src: number, frameworkId: string) {
+    if (!frameworkId) {
+        frameworkId = getFrameworkID(source);
+    }
 
-	if (!response) return null;
-	let appearance = {
-		...JSON.parse(response.skin),
-		...JSON.parse(response.clothes),
-		...JSON.parse(response.tattoos),
-	}
-	appearance.id = response.id
-	return appearance;
-});
+    const response = await oxmysql.prepare(
+        'SELECT clothes FROM appearance WHERE id = ?',
+        [frameworkId]
+    );
+    return JSON.parse(response);
+}
+onClientCallback('bl_appearance:server:getClothes', getClothes);
+exports('GetClothes', getClothes);
+
+async function getTattoos(src: number, frameworkId: string) {
+    if (!frameworkId) {
+        frameworkId = getFrameworkID(src);
+    }
+
+    const response = await oxmysql.prepare(
+        'SELECT tattoos FROM appearance WHERE id = ?',
+        [frameworkId]
+    );
+    return JSON.parse(response) || [];
+}
+onClientCallback('bl_appearance:server:getTattoos', getTattoos);
+exports('GetTattoos', getTattoos);
+
+async function getAppearance(src: number, frameworkId: string) {
+    if (!frameworkId && !src) return null;
+    
+    if (!frameworkId) {
+        frameworkId = getFrameworkID(src);
+    }
+
+    const response: SkinDB = await oxmysql.single(
+        'SELECT * FROM appearance WHERE id = ? LIMIT 1',
+        [frameworkId]
+    );
+
+    if (!response) return null;
+    let appearance = {
+        ...JSON.parse(response.skin),
+        ...JSON.parse(response.clothes),
+        ...JSON.parse(response.tattoos),
+    }
+    appearance.id = response.id
+    return appearance;
+}
+onClientCallback('bl_appearance:server:getAppearance', getAppearance);
+exports('GetAppearance', getAppearance);
 
 onNet('bl_appearance:server:setroutingbucket', () => {
 	SetPlayerRoutingBucket(source.toString(), source)
@@ -177,8 +219,19 @@ RegisterCommand('migrate', async (source: number) => {
 	importedModule.default(source)
 }, false);
 
-core.RegisterUsableItem('cloth', async (source: number, slot: number, metadata: {outfit: Outfit, label: string}) => {
-	const player = core.GetPlayer(source)
-	if (player?.removeItem('cloth', 1, slot)) 
-		emitNet('bl_appearance:server:useOutfit', source, metadata.outfit)
+const outfitItem = config.outfitItem
+
+if (!outfitItem) {
+    console.warn('bl_appearance: No outfit item configured, please set it in config.lua')
+}
+
+onClientCallback('bl_appearance:server:itemOutfit', async (src, data) => {
+	const player = core.GetPlayer(src)
+	player.addItem(outfitItem, 1, data)
+});
+
+core.RegisterUsableItem(outfitItem, async (source: number, slot: number, metadata: {outfit: Outfit, label: string}) => {
+	const player = getPlayerData(source)
+	if (player?.removeItem(outfitItem, 1, slot)) 
+		emitNet('bl_appearance:server:useOutfitItem', source, metadata.outfit)
 })
