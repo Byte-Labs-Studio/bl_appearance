@@ -126,28 +126,59 @@ local stores = {
     }
 }
 
-local currentZone = nil
 local key = Config.openControl
+local textUi = Config.textUi
+local control = Config.openControl
+local textui = exports.bl_bridge:textui()
+local currentZone = nil
 local sprites = {}
 
 local function setupZones()
-    if GetResourceState('bl_sprites') == 'missing' then return end
     for _, v in pairs(stores) do
-        sprites[#sprites+1] = exports.bl_sprites:sprite({
-            coords = v.coords,
-            shape = 'hex',
-            key = key,
-            distance = 3.0,
-            onEnter = function()
+        
+        if textUi then
+            local point = lib.points.new({
+                coords = v.coords,
+                distance = 3.0,
+            })
+
+            function point:onEnter()
                 currentZone = v
-            end,
-            onExit = function()
-                currentZone = nil
+                local prefix = "[" .. control .. "] - "
+                if currentZone.type == 'barber' then
+                    textui.showTextUI(prefix .. "Barber Shop", 'left')
+                elseif currentZone.type == 'tattoos' then
+                    textui.showTextUI(prefix .. "Tattoo Parlor", 'left')
+                elseif currentZone.type == 'clothing' then
+                    textui.showTextUI(prefix .. "Clothing Store", 'left')
+                elseif currentZone.type == 'surgeon' then
+                    textui.showTextUI(prefix .. "Surgeon", 'left')
+                end
             end
-        })
+
+            function point:onExit()
+                currentZone = nil
+                textui.hideTextUI()
+            end
+        else
+            if GetResourceState('bl_sprites') == 'missing' then return end
+            for _, v in pairs(stores) do
+                sprites[#sprites+1] = exports.bl_sprites:sprite({
+                    coords = v.coords,
+                    shape = 'hex',
+                    key = key,
+                    distance = 3.0,
+                    onEnter = function()
+                        currentZone = v
+                    end,
+                    onExit = function()
+                        currentZone = nil
+                    end
+                })
+            end
+        end
     end
 end
-
 
 setupZones()
 
@@ -160,7 +191,7 @@ local function createBlips()
             if v.type == 'barber' then
                 spriteId = 71
                 blipColor = 0
-                blipname = 'Barber'
+                blipname = 'Barber Shop'
             elseif v.type == 'clothing' then
                 spriteId = 73
                 blipColor = 0
@@ -190,15 +221,17 @@ createBlips()
 
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
-         for _, blip in pairs(blips) do
-             RemoveBlip(blip)
-         end
+        for _, blip in pairs(blips) do
+            RemoveBlip(blip)
+        end
 
-         for _, sprite in pairs(sprites) do
-             sprite:removeSprite()
-         end
+        if not textUi then
+            for _, sprite in pairs(sprites) do
+                sprite:removeSprite()
+            end
+        end
     end
- end)
+end)
  
 
 RegisterCommand('+openAppearance', function()
