@@ -18,7 +18,7 @@ const migrate = async (src: string) => {
             await delay(100);
             const response = await triggerClientCallback('bl_appearance:client:getAppearance', src) as TAppearance
             const playerSrc = parseInt(src)
-            await saveAppearance(playerSrc, element.citizenid, response as TAppearance)
+            await saveAppearance(playerSrc, element.citizenid, response as TAppearance, true)
         }
     }
     console.log('Converted '+ response.length + ' appearances')
