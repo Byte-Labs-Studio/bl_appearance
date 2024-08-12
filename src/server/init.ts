@@ -8,7 +8,7 @@ oxmysql.ready(async () => {
     try {
         await oxmysql.query('SELECT 1 FROM appearance LIMIT 1');
     } catch (error) {
-        console.error('Error checking appearance table. Most likely the table does not exist.');
+        console.error('Error checking appearance table. Most likely the table does not exist: ', error);
         // You can add additional error handling or recovery logic here if needed
     }
 });
