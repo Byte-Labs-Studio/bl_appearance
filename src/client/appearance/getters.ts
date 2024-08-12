@@ -167,7 +167,7 @@ export async function getAppearance(pedHandle: number): Promise<TAppearance> {
     const [drawables, drawTotal] = getDrawables(pedHandle)
     const [props, propTotal] = getProps(pedHandle)
     const model = GetEntityModel(pedHandle)
-    const tattoos = await getTattoos()
+    const tattoos = pedHandle == PlayerPedId() ? await getTattoos() : []
 
     return {
         modelIndex: findModelIndex(model),
