@@ -2,7 +2,7 @@ import { Receive } from '@events';
 import {
 	resetToggles,
 	setDrawable,
-	SetFaceFeature,
+	setFaceFeature,
 	setHeadBlend,
 	setHeadOverlay,
 	setModel,
@@ -67,7 +67,7 @@ RegisterNuiCallback(Receive.getModelTattoos, async (_: any, cb: Function) => {
 });
 
 RegisterNuiCallback(Receive.setHeadStructure, async (data: TValue, cb: Function) => {
-	SetFaceFeature(ped, data);
+	setFaceFeature(ped, data);
 	cb(1);
 });
 

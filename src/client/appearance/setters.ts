@@ -4,12 +4,16 @@ import { requestModel, ped, updatePed, isPedFreemodeModel} from '@utils';
 import { TTattoo } from "@typings/tattoos";
 
 export function setDrawable(pedHandle: number, data: TValue) {
+    if (!data) return console.warn('No data provided for setDrawable')
+
     SetPedComponentVariation(pedHandle, data.index, data.value, data.texture, 0)
     return GetNumberOfPedTextureVariations(pedHandle, data.index, data.value)
 }
 exports('SetDrawable', setDrawable);
 
 export function setProp(pedHandle: number, data: TValue) {
+    if (!data) return console.warn('No data provided for setProp')
+
     if (data.value === -1) {
         ClearPedProp(pedHandle, data.index)
         return
@@ -23,7 +27,10 @@ exports('SetProp', setProp);
 const defMaleHash = GetHashKey("mp_m_freemode_01")
 
 export const setModel = async (pedHandle: number, data: TAppearance | TSkin | number | string): Promise<number> => {
-    if (data == null || data === undefined) return pedHandle;
+    if (data == null || data === undefined) {
+        console.warn('No data provided for setModel')
+        return pedHandle;
+    }
 
     let model: number;
     if (typeof data === 'string') {
@@ -70,14 +77,18 @@ export const setModel = async (pedHandle: number, data: TAppearance | TSkin | nu
 };
 exports('SetModel', setModel);
 
-export function SetFaceFeature(pedHandle: number, data: TValue) {
+export function setFaceFeature(pedHandle: number, data: TValue) {
+    if (!data) return console.warn('No data provided for setFaceFeature')
+
     SetPedFaceFeature(pedHandle, data.index, data.value + 0.0)
 }
-exports('SetFaceFeature', SetFaceFeature);
+exports('setFaceFeature', setFaceFeature);
 
 const isPositive = (val: number) => val >= 0 ? val : 0
 
 export function setHeadBlend(pedHandle: number, data) {
+    if (!data) return console.warn('No data provided for setHeadBlend')
+
     pedHandle = pedHandle || ped
 
     if (!isPedFreemodeModel(pedHandle)) return
@@ -98,6 +109,8 @@ export function setHeadBlend(pedHandle: number, data) {
 exports('SetHeadBlend', setHeadBlend);
 
 export function setHeadOverlay(pedHandle: number, data) {
+    if (!data) return console.warn('No data provided for setHeadOverlay')
+
     const index = data.index
 
     if (index === 13) {
@@ -143,6 +156,8 @@ export function resetToggles(data) {
 exports('SetPedClothes', setPedClothes);
 
 export function setPedClothes(pedHandle: number, data: TClothes) {
+    if (!data) return console.warn('No data provided for setPedClothes')
+
     const drawables = data.drawables
     const props = data.props
     const headOverlay = data.headOverlay
@@ -164,7 +179,9 @@ export function setPedClothes(pedHandle: number, data: TClothes) {
 exports('SetPedClothes', setPedClothes);
 
 export const setPedSkin = async (pedHandle: number, data: TSkin) => {
-    if (!data) return
+    if (!data) return console.warn('No data provided for setPedSkin')
+
+    if (!pedHandle) return console.warn('No pedHandle provided for setPedSkin')
 
     pedHandle = await setModel(pedHandle, data)
 
@@ -175,13 +192,13 @@ export const setPedSkin = async (pedHandle: number, data: TSkin) => {
     
     if (headStructure) for (const feature in headStructure) {
         const value = headStructure[feature]
-        SetFaceFeature(pedHandle, value)
+        setFaceFeature(pedHandle, value)
     }
 }
 exports('SetPedSkin', setPedSkin);
 
 export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
-    if (!data) return
+    if (!data) return console.warn('No data provided for setPedTattoos')
 
     ClearPedDecorationsLeaveScars(pedHandle)
 
@@ -197,7 +214,8 @@ export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
 exports('SetPedTattoos', setPedTattoos);
 
 export function setPedHairColors(pedHandle: number, data: THairColor) {
-    if (!data) return
+    if (!data) return console.warn('No data provided for setPedHairColors')
+
     const color = data.color
     const highlight = data.highlight
     SetPedHairColor(pedHandle, color, highlight)
@@ -205,6 +223,8 @@ export function setPedHairColors(pedHandle: number, data: THairColor) {
 exports('SetPedHairColors', setPedHairColors);
 
 export async function setPedAppearance(pedHandle: number, data: TAppearance) {
+    if (!data) return console.warn('No data provided for setPedAppearance')
+
     if (IsPedAPlayer(pedHandle)) {
         setPlayerPedAppearance(data)
         return
@@ -217,6 +237,7 @@ export async function setPedAppearance(pedHandle: number, data: TAppearance) {
 exports('SetPedAppearance', setPedAppearance);
 
 export async function setPlayerPedAppearance(data: TAppearance) {
+    if (!data) return console.warn('No data provided for setPlayerPedAppearance')
     // Since this function is usually called after scripts set their own model, we need to update the ped before we set the appearance
     updatePed(PlayerPedId())
     await setPedSkin(ped, data)
