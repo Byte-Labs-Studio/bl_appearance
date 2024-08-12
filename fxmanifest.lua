@@ -13,6 +13,7 @@ ui_page 'build/index.html'
 
 server_scripts {
     'data/config.lua',
+    'data/commands.lua',
     'dist/server/**/*.js'
 }
 
@@ -22,7 +23,12 @@ shared_scripts {
 }
 
 client_scripts {
-    'data/*',
+    'data/blacklist.lua',
+    'data/config.lua',
+    'data/menus.lua',
+    'data/models.lua',
+    'data/tattoos.lua',
+    'data/zones.lua',
     'dist/client/**/*.js'}
 
 files {
