@@ -52,6 +52,23 @@
         dispatch('change', value);
     }
 
+    function handleInput(event) {
+        const inputValue = Number(event.target.value);
+        if (isNaN(inputValue)) return;
+
+        if (inputValue < 0) {
+            value = none ? -1 : 0;
+        } else if (inputValue > total) {
+            value = total;
+        } else {
+            value = inputValue;
+        }
+
+        checkBlacklist();
+
+        dispatch('change', value);
+    }
+
     $: {
         if (blacklist) {
             checkBlacklist();
@@ -73,9 +90,7 @@
         type="number"
         class="w-full relative h-full"
         bind:value
-        on:input={()=>{
-            dispatch('change', value);
-        }}
+        on:input={handleInput}
     />
 
     {#if isBlacklisted}
