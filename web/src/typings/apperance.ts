@@ -139,7 +139,6 @@ export type TAppearance = {
 }
 
 export type TOutfitData  = {
-    headOverlay: THeadOverlay | TEyeColor
     drawables: TDrawables
     props: TProps
 }

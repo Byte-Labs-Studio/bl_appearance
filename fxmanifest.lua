@@ -9,10 +9,11 @@ description 'Customize your virtual persona with precision using the Byte Labs A
 repository 'https://github.com/Byte-Labs-Studio/bl_appearance'
 
 ui_page 'build/index.html'
---ui_page 'http://localhost:3001/' --for dev
+-- ui_page 'http://localhost:3000/' --for dev
 
 server_scripts {
     'data/config.lua',
+    'data/commands.lua',
     'dist/server/**/*.js'
 }
 
@@ -22,7 +23,12 @@ shared_scripts {
 }
 
 client_scripts {
-    'data/*',
+    'data/blacklist.lua',
+    'data/config.lua',
+    'data/menus.lua',
+    'data/models.lua',
+    'data/tattoos.lua',
+    'data/zones.lua',
     'dist/client/**/*.js'}
 
 files {

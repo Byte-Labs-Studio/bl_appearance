@@ -1,4 +1,4 @@
-import { TAppearance, TAppearanceZone } from "@typings/appearance"
+import { TAppearance, TAppearanceZone, TMenuTypes } from "@typings/appearance"
 import { openMenu } from "./menu"
 import { setPlayerPedAppearance } from "./appearance/setters"
 import { triggerServerCallback, getFrameworkID, Delay, bl_bridge, ped, delay, format, updatePed } from "@utils"
@@ -33,6 +33,10 @@ exports('InitialCreation', async (cb?: Function) => {
 })
 
 on('bl_appearance:client:useZone', (zone: TAppearanceZone) => {
+    openMenu(zone)
+})
+
+onNet('bl_appearance:client:open', (zone: TMenuTypes) => {
     openMenu(zone)
 })
 

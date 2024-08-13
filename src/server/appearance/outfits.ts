@@ -75,7 +75,7 @@ async function fetchOutfit(_: number, id: number) {
         'SELECT outfit FROM outfits WHERE id = ?',
         [id]
     );
-    return JSON.parse(response);
+    return JSON.parse(response[0]);
 }
 onClientCallback('bl_appearance:server:fetchOutfit', fetchOutfit);
 exports('FetchOutfit', fetchOutfit);
@@ -90,12 +90,14 @@ async function importOutfit(_: number, frameworkId: string, outfitId: number, ou
         return { success: false, message: 'Outfit not found' };
     }
 
+    const outfit = result[0].outfit;
+
     const newId = await oxmysql.insert(
         'INSERT INTO outfits (player_id, label, outfit) VALUES (?, ?, ?)',
-        [frameworkId, outfitName, result.outfit]
+        [frameworkId, outfitName, outfit]
     );
 
-    return { success: true, newId: newId };
+    return { success: true, id: newId, outfit: JSON.parse(outfit), label: outfitName };
 }
 onClientCallback('bl_appearance:server:importOutfit', importOutfit);
 exports('ImportOutfit', importOutfit);
