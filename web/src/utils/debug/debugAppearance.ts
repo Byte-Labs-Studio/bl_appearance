@@ -397,9 +397,9 @@ export const debugAppearance: TAppearance = {
             id: 'Chin_Bone_Width',
             value: 0,
         },
-        EyeBrow_Forward: {
+        EyeBrown_Forward: {
             index: 7,
-            id: 'EyeBrow_Forward',
+            id: 'EyeBrown_Forward',
             value: 0,
         },
         Lips_Thickness: {
@@ -427,9 +427,9 @@ export const debugAppearance: TAppearance = {
             id: 'Jaw_Bone_Back_Lenght',
             value: 0,
         },
-        EyeBrow_Height: {
+        EyeBrown_Height: {
             index: 6,
-            id: 'EyeBrow_Height',
+            id: 'EyeBrown_Height',
             value: 0,
         },
         Nose_Peak_Lenght: {
