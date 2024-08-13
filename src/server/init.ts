@@ -27,4 +27,4 @@ RegisterCommand('migrate', async (source: number) => {
 	const config = bl_appearance.config();
 	const importedModule = await import(`./migrate/${config.previousClothing === 'fivem-appearance' ? 'fivem' : config.previousClothing}.ts`)
 	importedModule.default(source)
-}, false);
+}, true);
