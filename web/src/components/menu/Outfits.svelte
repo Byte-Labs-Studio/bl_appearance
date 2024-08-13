@@ -1,7 +1,6 @@
 <script lang="ts">
     import Wrapper from '@components/micro/Wrapper.svelte';
     import Dropdown from '@components/micro/Dropdown.svelte';
-    import { Send } from '@enums/events';
     import Divider from '@components/micro/Divider.svelte';
     import { OUTFITS, LOCALE, JOBDATA } from '@stores/appearance';
     import IconCancel from '@components/icons/IconCancel.svelte';
@@ -10,7 +9,6 @@
     import IconPlus from '@components/icons/IconPlus.svelte';
     import IconImport from '@components/icons/IconImport.svelte';
 
-    $: outfits = $OUTFITS;
 
     let renameIndex: number = -1;
     let renameLabel: string = '';
@@ -25,7 +23,7 @@
     let importOutfitId: number;
 </script>
 
-{#each outfits as { label, outfit, id, jobname }, i}
+{#each $OUTFITS as { label, outfit, id, jobname }, i}
     <Wrapper {label}>
         <svelte:fragment slot="extra_primary">
             <Dropdown display="Options">
@@ -94,9 +92,9 @@
                         <button
                             on:click={() => {
                                 if (renameLabel.length > 0) {
-                                    outfits[i].label = renameLabel;
+                                    $OUTFITS[i].label = renameLabel;
                                     renameIndex = -1;
-                                    OUTFITS.edit(outfits[i]);
+                                    OUTFITS.edit($OUTFITS[i]);
                                 }
                             }}
                             class="btn h-full aspect-square p-[0.5vh]"

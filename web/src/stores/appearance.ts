@@ -100,9 +100,9 @@ const OUTFITS_INIT = () => {
         delete: (id: number) => {
             SendEvent(Send.deleteOutfit, { id }).then((success: boolean) => {
                 if (!success) return;
-                store.update(outfits =>
-                    outfits.filter(outfit => outfit.id !== id),
-                );
+                store.update(outfits => {
+                    return outfits.filter(outfit => outfit.id !== id)
+                });
             });
         },
 
@@ -129,28 +129,19 @@ const OUTFITS_INIT = () => {
 
             const outfitName = `Imported Outfit ${currentOutfits.length + 1}`;
 
-            let importedId: number | null = null;
             SendEvent(Send.importOutfit, { id, outfitName }).then(
-                ({ success, newId }: { success: boolean; newId: number }) => {
+                ({ success, id, outfit, label }: { success: boolean; id: number, outfit: TOutfitData, label: string }) => {
                     if (!success) return;
 
-                    importedId = newId;
+                    const newOutfit = {
+                        id: id,
+                        label: label,
+                        outfit: outfit,
+                    }
 
-                    SendEvent(Send.fetchOutfit, { id: importedId }).then(
-                        (outfitData: TOutfitData | undefined) => {
-                            if (!importedId || !outfitData) return;
-
-                            store.update(outfits => {
-                                outfits.push({
-                                    id: importedId,
-                                    label: outfitName,
-                                    outfit: outfitData,
-                                });
-
-                                return outfits;
-                            });
-                        },
-                    );
+                    store.update(outfits => {
+                        return [...outfits, newOutfit];
+                    });
                 },
             );
         },
