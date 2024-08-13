@@ -102,18 +102,18 @@
         </Wrapper>
     {/if}
 
-    {#if data.EyeBrow_Height}
+    {#if data.EyeBrown_Height}
         <Wrapper label={$LOCALE.EYEBROW_TITLE}>
             <svelte:fragment slot="primary-start">{$LOCALE.HEIGHT_SUBTITLE}</svelte:fragment>
 
             <svelte:fragment slot="primary">
                 <Slider
-                    bind:value={data.EyeBrow_Height.value}
+                    bind:value={data.EyeBrown_Height.value}
                     min={-1.0}
                     max={1.0}
                     step={0.01}
                     on:change={() =>
-                        APPEARANCE.setHeadStructure(data.EyeBrow_Height)}
+                        APPEARANCE.setHeadStructure(data.EyeBrown_Height)}
                 />
             </svelte:fragment>
 
@@ -121,12 +121,12 @@
 
             <svelte:fragment slot="secondary">
                 <Slider
-                    bind:value={data.EyeBrow_Forward.value}
+                    bind:value={data.EyeBrown_Forward.value}
                     min={-1.0}
                     max={1.0}
                     step={0.01}
                     on:change={() =>
-                        APPEARANCE.setHeadStructure(data.EyeBrow_Forward)}
+                        APPEARANCE.setHeadStructure(data.EyeBrown_Forward)}
                 />
             </svelte:fragment>
         </Wrapper>
@@ -343,8 +343,8 @@
         {/if}
 
         {#if headOverlay?.Blemishes?.overlayValue !== null}
-            <Wrapper label={$LOCALE.FACEDETAILS_TITLE}>
-                <svelte:fragment slot="primary-start">{$LOCALE.BLEMISHES_SUBTITLE}</svelte:fragment
+            <Wrapper label={$LOCALE.BLEMISHES_SUBTITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment
                 >
                 <svelte:fragment slot="primary">
                     <NumberStepper
@@ -356,23 +356,55 @@
                     />
                 </svelte:fragment>
 
-                <svelte:fragment slot="secondary-start">{$LOCALE.AGEING_SUBTITLE}</svelte:fragment>
+                <svelte:fragment slot="secondary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
 
                 <svelte:fragment slot="secondary">
+                    <Slider
+                        bind:value={headOverlay.Blemishes.overlayOpacity}
+                        min={0.0}
+                        max={1.0}
+                        step={0.01}
+                        on:change={() =>
+                            APPEARANCE.setHeadOverlay(headOverlay.Blemishes)}
+                    />
+                </svelte:fragment>
+            </Wrapper>
+        {/if}
+
+        {#if headOverlay?.Ageing?.overlayValue !== null}
+            <Wrapper label={$LOCALE.AGEING_SUBTITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment
+                >
+                <svelte:fragment slot="primary">
                     <NumberStepper
                         bind:value={headOverlay.Ageing.overlayValue}
                         total={headOverlayTotal.Ageing}
                         none={true}
                         on:change={() =>
-                            APPEARANCE.setHeadOverlay(headOverlay.Ageing)}
+                            APPEARANCE.setHeadOverlay(headOverlay.Blemishes)}
                     />
                 </svelte:fragment>
 
-                <svelte:fragment slot="tertiary-start"
-                    >{$LOCALE.COMPLEXION_SUBTITLE}</svelte:fragment
-                >
+                <svelte:fragment slot="secondary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
 
-                <svelte:fragment slot="tertiary">
+                <svelte:fragment slot="secondary">
+                    <Slider
+                        bind:value={headOverlay.Ageing.overlayOpacity}
+                        min={0.0}
+                        max={1.0}
+                        step={0.01}
+                        on:change={() =>
+                            APPEARANCE.setHeadOverlay(headOverlay.Ageing)}
+                    />
+                </svelte:fragment>
+            </Wrapper>
+        {/if}
+
+        {#if headOverlay?.Complexion?.overlayValue !== null}
+            <Wrapper label={$LOCALE.COMPLEXION_SUBTITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment
+                >
+                <svelte:fragment slot="primary">
                     <NumberStepper
                         bind:value={headOverlay.Complexion.overlayValue}
                         total={headOverlayTotal.Complexion}
@@ -382,11 +414,26 @@
                     />
                 </svelte:fragment>
 
-                <svelte:fragment slot="quaternary-start"
-                    >{$LOCALE.SUNDAMAGE_SUBTITLE}</svelte:fragment
-                >
+                <svelte:fragment slot="secondary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
 
-                <svelte:fragment slot="quaternary">
+                <svelte:fragment slot="secondary">
+                    <Slider
+                        bind:value={headOverlay.Complexion.overlayOpacity}
+                        min={0.0}
+                        max={1.0}
+                        step={0.01}
+                        on:change={() =>
+                            APPEARANCE.setHeadOverlay(headOverlay.Complexion)}
+                    />
+                </svelte:fragment>
+            </Wrapper>
+        {/if}
+
+        {#if headOverlay?.SunDamage?.overlayValue !== null}
+            <Wrapper label={$LOCALE.SUNDAMAGE_SUBTITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment
+                >
+                <svelte:fragment slot="primary">
                     <NumberStepper
                         bind:value={headOverlay.SunDamage.overlayValue}
                         total={headOverlayTotal.SunDamage}
@@ -396,35 +443,74 @@
                     />
                 </svelte:fragment>
 
-                <svelte:fragment slot="quinary-start"
-                    >{$LOCALE.MOLESFRECKLES_SUBTITLE}</svelte:fragment
-                >
+                <svelte:fragment slot="secondary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
 
-                <svelte:fragment slot="quinary">
+                <svelte:fragment slot="secondary">
+                    <Slider
+                        bind:value={headOverlay.SunDamage.overlayOpacity}
+                        min={0.0}
+                        max={1.0}
+                        step={0.01}
+                        on:change={() =>
+                            APPEARANCE.setHeadOverlay(headOverlay.SunDamage)}
+                    />
+                </svelte:fragment>
+            </Wrapper>
+        {/if}
+
+        {#if headOverlay?.MolesFreckles?.overlayValue !== null}
+            <Wrapper label={$LOCALE.MOLESFRECKLES_SUBTITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment
+                >
+                <svelte:fragment slot="primary">
                     <NumberStepper
                         bind:value={headOverlay.MolesFreckles.overlayValue}
                         total={headOverlayTotal.MolesFreckles}
                         none={true}
                         on:change={() =>
-                            APPEARANCE.setHeadOverlay(
-                                headOverlay.MolesFreckles,
-                            )}
+                            APPEARANCE.setHeadOverlay(headOverlay.MolesFreckles)}
                     />
                 </svelte:fragment>
 
-                <svelte:fragment slot="senary-start"
-                    >{$LOCALE.BODYBLEMISHES_SUBTITLE}</svelte:fragment
-                >
+                <svelte:fragment slot="secondary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
 
-                <svelte:fragment slot="senary">
+                <svelte:fragment slot="secondary">
+                    <Slider
+                        bind:value={headOverlay.MolesFreckles.overlayOpacity}
+                        min={0.0}
+                        max={1.0}
+                        step={0.01}
+                        on:change={() =>
+                            APPEARANCE.setHeadOverlay(headOverlay.MolesFreckles)}
+                    />
+                </svelte:fragment>
+            </Wrapper>
+        {/if}
+
+        {#if headOverlay?.BodyBlemishes?.overlayValue !== null}
+            <Wrapper label={$LOCALE.BODYBLEMISHES_SUBTITLE}>
+                <svelte:fragment slot="primary-start">{$LOCALE.DESIGN_SUBTITLE}</svelte:fragment
+                >
+                <svelte:fragment slot="primary">
                     <NumberStepper
                         bind:value={headOverlay.BodyBlemishes.overlayValue}
                         total={headOverlayTotal.BodyBlemishes}
                         none={true}
                         on:change={() =>
-                            APPEARANCE.setHeadOverlay(
-                                headOverlay.BodyBlemishes,
-                            )}
+                            APPEARANCE.setHeadOverlay(headOverlay.BodyBlemishes)}
+                    />
+                </svelte:fragment>
+
+                <svelte:fragment slot="secondary-start">{$LOCALE.OPACITY_SUBTITLE}</svelte:fragment>
+
+                <svelte:fragment slot="secondary">
+                    <Slider
+                        bind:value={headOverlay.BodyBlemishes.overlayOpacity}
+                        min={0.0}
+                        max={1.0}
+                        step={0.01}
+                        on:change={() =>
+                            APPEARANCE.setHeadOverlay(headOverlay.BodyBlemishes)}
                     />
                 </svelte:fragment>
             </Wrapper>
