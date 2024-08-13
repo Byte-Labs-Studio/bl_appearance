@@ -72,7 +72,9 @@ const OUTFITS_INIT = () => {
                     currentOutfits.push({
                         id: currentOutfits.length + 1,
                         label: label,
+                        // Just to make sure the outfit is object
                         outfit: JSON.parse(JSON.stringify(outfit)),
+                        jobname: job?.name || null,
                     });
                     store.set(currentOutfits);
                 },

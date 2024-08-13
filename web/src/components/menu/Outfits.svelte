@@ -24,7 +24,8 @@
 </script>
 
 {#each $OUTFITS as { label, outfit, id, jobname }, i}
-    <Wrapper {label}>
+
+    <Wrapper label={jobname ? `${label} | JOB` : label}>
         <svelte:fragment slot="extra_primary">
             <Dropdown display="Options">
                 <div
