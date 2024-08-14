@@ -102,17 +102,6 @@ export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], 
 }
 exports('OpenMenu', openMenu)
 
-RegisterCommand('appearance', async (_, args: string[]) => {
-    const type = args[0]
-    if (!type) {
-        exports.bl_appearance.InitialCreation()
-    } else {
-        const zone = type.toLowerCase() as TMenuTypes
-        openMenu(zone)
-    }
-}, true)
-
-
 function getBlacklist(zone: TAppearanceZone | string) {
     const {groupTypes, base} = config.blacklist()
 

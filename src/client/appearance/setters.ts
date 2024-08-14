@@ -182,7 +182,7 @@ export function setPedClothes(pedHandle: number, data: TClothes) {
         setProp(pedHandle, prop)
     }
 
-    for (const id in headOverlay) {
+    if (headOverlay) for (const id in headOverlay) {
         const overlay = headOverlay[id]
         setHeadOverlay(pedHandle, overlay)
     }
