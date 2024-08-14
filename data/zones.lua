@@ -127,61 +127,55 @@ local stores = {
 }
 
 local key = Config.openControl
-local textUi = Config.textUi
+local usingTextUi = Config.usingTextUi
 local control = Config.openControl
-local textui = exports.bl_bridge:textui()
 local currentZone = nil
 local sprites = {}
 
 local function setupZones()
-    if not textUi and GetResourceState('bl_sprites') == 'missing' then
-        return
-    end
-
     for _, v in pairs(stores) do
-        local point = lib.points.new({
-            coords = v.coords,
-            distance = 3.0,
-        })
+        
+        if usingTextUi then
+            local textui = exports.bl_bridge:textui()
+            local point = lib.points.new({
+                coords = v.coords,
+                distance = 3.0,
+            })
 
-        function point:onEnter()
-            currentZone = v
-            if textUi then
+            function point:onEnter()
+                currentZone = v
                 local prefix = "[" .. control .. "] - "
-                local displayText = ""
                 if currentZone.type == 'barber' then
-                    displayText = "Barber Shop"
+                    textui.showTextUI(prefix .. "Barber Shop", 'left')
                 elseif currentZone.type == 'tattoos' then
-                    displayText = "Tattoo Parlor"
+                    textui.showTextUI(prefix .. "Tattoo Parlor", 'left')
                 elseif currentZone.type == 'clothing' then
-                    displayText = "Clothing Store"
+                    textui.showTextUI(prefix .. "Clothing Store", 'left')
                 elseif currentZone.type == 'surgeon' then
-                    displayText = "Surgeon"
+                    textui.showTextUI(prefix .. "Surgeon", 'left')
                 end
-                textui.showTextUI(prefix .. displayText, 'left')
             end
-        end
 
-        function point:onExit()
-            currentZone = nil
-            if textUi then
+            function point:onExit()
+                currentZone = nil
                 textui.hideTextUI()
             end
-        end
-
-        if not textUi then
-            sprites[#sprites+1] = exports.bl_sprites:sprite({
-                coords = v.coords,
-                shape = 'hex',
-                key = key,
-                distance = 3.0,
-                onEnter = function()
-                    currentZone = v
-                end,
-                onExit = function()
-                    currentZone = nil
-                end
-            })
+        else
+            if GetResourceState('bl_sprites') == 'missing' then return end
+            for _, v in pairs(stores) do
+                sprites[#sprites+1] = exports.bl_sprites:sprite({
+                    coords = v.coords,
+                    shape = 'hex',
+                    key = key,
+                    distance = 3.0,
+                    onEnter = function()
+                        currentZone = v
+                    end,
+                    onExit = function()
+                        currentZone = nil
+                    end
+                })
+            end
         end
     end
 end
@@ -231,13 +225,14 @@ AddEventHandler('onResourceStop', function(resource)
             RemoveBlip(blip)
         end
 
-        if not textUi then
+        if not usingTextUi then
             for _, sprite in pairs(sprites) do
                 sprite:removeSprite()
             end
         end
     end
 end)
+ 
 
 RegisterCommand('+openAppearance', function()
     if not currentZone then return end
