@@ -1,6 +1,8 @@
 # Byte Labs - Appearance Menu
 An advanced appearance menu for FiveM.
 
+![preview](preview.png)
+
 ### You can see the preview of the appearance here [HERE](https://www.youtube.com/watch?v=CYUFJe7s8Xc)
 
 Website: [Byte Labs](https://byte-labs.net)
