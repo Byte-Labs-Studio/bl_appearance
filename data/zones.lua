@@ -127,9 +127,8 @@ local stores = {
 }
 
 local key = Config.openControl
-local textUi = Config.textUi
 local control = Config.openControl
-local textui = exports.bl_bridge:textui()
+local textUi = Config.textUi and exports.bl_bridge:textUi()
 local currentZone = nil
 local sprites = {}
 
@@ -158,14 +157,14 @@ local function setupZones()
                 elseif currentZone.type == 'surgeon' then
                     displayText = "Surgeon"
                 end
-                textui.showTextUI(prefix .. displayText, 'left')
+                textUi.showTextUI(prefix .. displayText, 'left')
             end
         end
 
         function point:onExit()
             currentZone = nil
             if textUi then
-                textui.hideTextUI()
+                textUi.hideTextUI()
             end
         end
 
