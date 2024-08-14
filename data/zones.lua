@@ -128,7 +128,7 @@ local stores = {
 
 local key = Config.openControl
 local control = Config.openControl
-local textUi = Config.textUi and exports.bl_bridge:textUi()
+local textUi = Config.textUi and exports.bl_bridge:textui()
 local currentZone = nil
 local sprites = {}
 
