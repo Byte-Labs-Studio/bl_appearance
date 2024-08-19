@@ -211,13 +211,12 @@ export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
     ClearPedDecorationsLeaveScars(pedHandle)
 
     for (let i = 0; i < data.length; i++) {
-        const tattooData = data[i].tattoo
+        const tattooData = data[i].tattoo;
         if (tattooData) {
             const collection = GetHashKey(tattooData.dlc)
             const tattoo = tattooData.hash
-            const tattooOpacity = tattooData.opacity || 0.1
-
-            for (let j = 1; j < Math.round(tattooOpacity * 10); j++) {
+            const tattooOpacity = Math.round((tattooData.opacity || 0.1) * 10)
+            for (let j = 1; j < tattooOpacity; j++) {
                 AddPedDecorationFromHashes(pedHandle, collection, tattoo);
             }
         }

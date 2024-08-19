@@ -70,6 +70,7 @@
         if (dlcWithTattoos !== -1) {
             newTattoo.dlcIndex = dlcWithTattoos;
             newTattoo.tattoo = options[0].dlcs[dlcWithTattoos].tattoos[0];
+            newTattoo.tattoo.opacity = 0.1
         }
 
         playerTattoos = [...playerTattoos, newTattoo];
