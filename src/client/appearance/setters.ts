@@ -215,7 +215,11 @@ export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
         if (tattooData) {
             const collection = GetHashKey(tattooData.dlc)
             const tattoo = tattooData.hash
-            AddPedDecorationFromHashes(pedHandle, collection, tattoo)
+            const tattooOpacity = tattooData.opacity || 0.1
+
+            for (let j = 1; j < Math.round(tattooOpacity * 10); j++) {
+                AddPedDecorationFromHashes(pedHandle, collection, tattoo);
+            }
         }
     }
 }

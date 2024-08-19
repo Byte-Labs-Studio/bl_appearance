@@ -1,6 +1,5 @@
 <script lang="ts">
     import { APPEARANCE, TATTOOS, LOCALE } from '@stores/appearance';
-    import { Send } from '@enums/events';
     import type { TDLCTattoo, TTattooEntry } from '@typings/apperance';
     import Wrapper from '@components/micro/Wrapper.svelte';
     import IconPlus from '@components/icons/IconPlus.svelte';
@@ -8,9 +7,9 @@
     import { slide } from 'svelte/transition';
     import Dropdown from '@components/micro/Dropdown.svelte';
     import Divider from '@components/micro/Divider.svelte';
+    import Slider from '@components/micro/Slider.svelte';
     import IconCancel from '@components/icons/IconCancel.svelte';
     import { randomID } from '@utils/misc';
-    import { SendEvent } from '@utils/eventsHandlers';
 
     let deleteOptionIndex: number = null;
 
@@ -128,6 +127,15 @@
 
         TATTOOS.setPlayerTattoos(playerTattoos);
     }
+
+    function changeOpacity(playerTattoosIndex: number, opacity: number) {
+        let playerTattoo = playerTattoos[playerTattoosIndex]
+
+        if (!playerTattoo) return;
+
+        playerTattoo.opacity = opacity
+        TATTOOS.setPlayerTattoos(playerTattoos);
+    }
 </script>
 
 {#each playerTattoos as { zoneIndex, dlcIndex, tattoo, id }, i (id)}
@@ -220,7 +228,7 @@
 
                         <div
                             transition:slide
-                            class="flex flex-col items-center justify-center w-full"
+                            class="flex flex-col items-center justify-center w-full mt-2"
                         >
                             <Dropdown
                                 on:click={() => {
@@ -250,6 +258,26 @@
                                 {/each}
                             </Dropdown>
                         </div>
+
+                        <div
+                        transition:slide
+                        class="flex flex-col items-center justify-center w-full mt-2"
+                    >
+                        <span
+                            class="opacity-75 w-full flex items-center justify-between gap-[0.5vh]"
+                        >
+                        <p>{$LOCALE.TATTOO_OPACITY}</p>
+                        </span>
+                        <Slider
+                            bind:value={tattoo.opacity}
+                            min={0.1}
+                            max={1.0}
+                            step={0.1}
+                            on:change={({ detail: opacity }) => {
+                                changeOpacity(i, opacity)
+                            }}
+                        />
+                    </div>
                     {/if}
                 </svelte:fragment>
 
