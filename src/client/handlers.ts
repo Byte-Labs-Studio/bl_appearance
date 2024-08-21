@@ -186,6 +186,6 @@ RegisterNuiCallback(Receive.itemOutfit, async (data: {outfit: TOutfitData, label
 	cb(result);
 });
 
-onNet('bl_appearance:server:useOutfiItem', (outfit: TOutfitData) => {
+onNet('bl_appearance:client:useOutfitItem', (outfit: TOutfitData) => {
 	setPedClothes(ped, outfit);
 })
