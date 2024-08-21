@@ -115,6 +115,6 @@ onClientCallback('bl_appearance:server:itemOutfit', async (src, data) => {
 
 core.RegisterUsableItem(outfitItem, async (source: number, slot: number, metadata: {outfit: Outfit, label: string}) => {
 	const player = getPlayerData(source)
-	if (player?.removeItem(outfitItem, 1, slot)) 
-		emitNet('bl_appearance:server:useOutfitItem', source, metadata.outfit)
+	if (player?.removeItem(outfitItem, 1, slot))
+		emitNet('bl_appearance:client:useOutfitItem', source, metadata.outfit)
 })

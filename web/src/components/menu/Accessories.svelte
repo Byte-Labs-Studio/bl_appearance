@@ -118,7 +118,7 @@
             <svelte:fragment slot="secondary">
                 {#key props.earrings.value}
                 <NumberStepper
-                    bind:value={props.earrings.value}
+                    bind:value={props.earrings.texture}
                     total={propTotal.earrings.textures}
                     none={true}
                     blacklist={blacklist.earrings.textures[props.earrings.value] ||
@@ -160,7 +160,7 @@
             <svelte:fragment slot="secondary">
                 {#key props.watches.value}
                 <NumberStepper
-                    bind:value={props.watches.value}
+                    bind:value={props.watches.texture}
                     total={propTotal.watches.textures}
                     none={true}
                     blacklist={blacklist.watches.textures[props.watches.value] ||
@@ -202,7 +202,7 @@
             <svelte:fragment slot="secondary">
                 {#key props.bracelets.value}
                 <NumberStepper
-                    bind:value={props.bracelets.value}
+                    bind:value={props.bracelets.texture}
                     total={propTotal.bracelets.textures}
                     none={true}
                     blacklist={blacklist.bracelets.textures[props.bracelets.value] ||
