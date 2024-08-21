@@ -108,8 +108,6 @@ if (!outfitItem) {
     console.warn('bl_appearance: No outfit item configured, please set it in config.lua')
 }
 
-console.log("bl_appearance: Outfit item configured as " ,outfitItem)
-
 onClientCallback('bl_appearance:server:itemOutfit', async (src, data) => {
 	const player = core.GetPlayer(src)
 	player.addItem(outfitItem, 1, data)
@@ -118,6 +116,5 @@ onClientCallback('bl_appearance:server:itemOutfit', async (src, data) => {
 core.RegisterUsableItem(outfitItem, async (source: number, slot: number, metadata: {outfit: Outfit, label: string}) => {
 	const player = getPlayerData(source)
 	if (player?.removeItem(outfitItem, 1, slot))
-        console.log("bl_appearance: Outfit item used by " ,source)
 		emitNet('bl_appearance:client:useOutfitItem', source, metadata.outfit)
 })

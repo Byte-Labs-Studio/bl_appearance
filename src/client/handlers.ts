@@ -13,7 +13,7 @@ import {
 } from './appearance/setters';
 import { closeMenu } from './menu';
 import { TAppearance, TToggleData, TValue } from '@typings/appearance';
-import { delay, getFrameworkID, triggerServerCallback, ped, updatePed } from '@utils';
+import { delay, getFrameworkID, triggerServerCallback, ped, updatePed, Delay } from '@utils';
 import { getAppearance, getTattooData } from './appearance/getters';
 import TOGGLE_INDEXES from '@data/toggles';
 import { TOutfitData } from '@typings/outfits';
@@ -186,6 +186,23 @@ RegisterNuiCallback(Receive.itemOutfit, async (data: {outfit: TOutfitData, label
 	cb(result);
 });
 
-onNet('bl_appearance:client:useOutfitItem', (outfit: TOutfitData) => {
+const animDict = 'missmic4'
+const anim = 'michael_tux_fidget'
+
+async function playOutfitEmote() {
+    // while not HasAnimDictLoaded(e.Dict) do RequestAnimDict(e.Dict) Wait(100) end
+
+    while (!HasAnimDictLoaded(animDict)) {
+        RequestAnimDict(animDict);
+        await Delay(100);
+    }
+
+    TaskPlayAnim(ped, animDict, anim, 3.0, 3.0, 1200, 51, 0.0, false, false, false);
+}
+
+
+onNet('bl_appearance:client:useOutfitItem', async (outfit: TOutfitData) => {
+    await playOutfitEmote()
 	setPedClothes(ped, outfit);
+    triggerServerCallback('bl_appearance:server:saveClothes', getFrameworkID(), outfit)
 })
