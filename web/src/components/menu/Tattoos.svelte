@@ -86,16 +86,14 @@
     }
 
     function changeZoneIndex(playerTattoosIndex: number, newZoneIndex: number) {
-        playerTattoos[playerTattoosIndex].zoneIndex = newZoneIndex;
-        playerTattoos[playerTattoosIndex].dlcIndex = 0;
+        let playerTattoo = playerTattoos[playerTattoosIndex];
+        playerTattoo.zoneIndex = newZoneIndex;
+        playerTattoo.dlcIndex = 0;
         
         const dlcTattoos = options[newZoneIndex].dlcs[0]?.tattoos;
 
-        if (dlcTattoos?.length > 0) {
-            playerTattoos[playerTattoosIndex].tattoo = dlcTattoos[0];
-        } else {
-            playerTattoos[playerTattoosIndex].tattoo = null;
-        }
+        playerTattoo.tattoo = dlcTattoos?.length > 0 ? dlcTattoos[0] : null
+        playerTattoo.opacity = 0.1;
 
         TATTOOS.setPlayerTattoos(playerTattoos);
     }
@@ -104,15 +102,11 @@
         let playerTattoo = playerTattoos[playerTattoosIndex];
         let { zoneIndex } = playerTattoo;
 
-        playerTattoos[playerTattoosIndex].dlcIndex = newDLCIndex;
+        playerTattoo.dlcIndex = newDLCIndex;
 
         const dlcTattoos = options[zoneIndex].dlcs[newDLCIndex]?.tattoos;
-
-        if (dlcTattoos?.length > 0) {
-            playerTattoos[playerTattoosIndex].tattoo = dlcTattoos[0];
-        } else {
-            playerTattoos[playerTattoosIndex].tattoo = null;
-        }
+        playerTattoo.tattoo = dlcTattoos?.length > 0 ? dlcTattoos[0] : null
+        playerTattoo.opacity = 0.1;
 
         TATTOOS.setPlayerTattoos(playerTattoos);
     }
@@ -124,7 +118,8 @@
         const tattoo = options[zoneIndex].dlcs[dlcIndex].tattoos[index];
         if (!tattoo) return;
 
-        playerTattoos[playerTattoosIndex].tattoo = tattoo;
+        playerTattoo.tattoo = tattoo;
+        playerTattoo.opacity = 0.1;
 
         TATTOOS.setPlayerTattoos(playerTattoos);
     }

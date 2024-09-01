@@ -129,19 +129,17 @@ export function setHeadOverlay(pedHandle: number, data) {
         return
     }
 
-    const value = data.overlayValue
-
     /* Hair color does not have an index, only an ID so we'll check for that */
     if (data.id === 'hairColor') {
         SetPedHairTint(pedHandle, data.hairColor, data.hairHighlight)
         return;
     }
 
+    const value = data.overlayValue
     SetPedHeadOverlay(pedHandle, index, value, data.overlayOpacity + 0.0)
     SetPedHeadOverlayColor(pedHandle, index, 1, data.firstColor, data.secondColor)
 }
 exports('SetPedHeadOverlay', setHeadOverlay);
-
 
 export function resetToggles(data) {
     const drawables = data.drawables
@@ -216,7 +214,7 @@ export function setPedTattoos(pedHandle: number, data: TTattoo[]) {
             const collection = GetHashKey(tattooData.dlc)
             const tattoo = tattooData.hash
             const tattooOpacity = Math.round((tattooData.opacity || 0.1) * 10)
-            for (let j = 1; j < tattooOpacity; j++) {
+            for (let j = 0; j < tattooOpacity; j++) {
                 AddPedDecorationFromHashes(pedHandle, collection, tattoo);
             }
         }
