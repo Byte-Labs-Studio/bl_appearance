@@ -10,10 +10,7 @@
     export let list: any = [];
     export let index: number = 0;
     export let value: string = list[index];
-    export let blacklist: string[] = null;
-
-    export let isBlacklisted: boolean = false;
-
+    export let blacklist: string[];
     export let display: string = '';
 
     $: total = list.length - 1;
@@ -68,7 +65,7 @@
         value={display}
     />
 
-    {#if isBlacklisted}
+    {#if blacklist.includes(display)}
         <div
             transition:scale
             class="absolute opacity-75 grid place-items-center h-[2vh] -translate-y-[3vh] animate-pulse"

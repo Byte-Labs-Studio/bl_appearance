@@ -48,7 +48,6 @@
             bind:index={currentPedIndex}
             list={$MODELS}
             blacklist={$BLACKLIST.models || null}
-            isBlacklisted = {$BLACKLIST.models.includes(currentPed)}
             on:change={() => {
                 currentPed = $MODELS[currentPedIndex];
                 APPEARANCE.setModel(currentPed);

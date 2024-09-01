@@ -25,9 +25,9 @@ import { get, type Writable, writable } from 'svelte/store';
 export const TABS: Writable<TTab[]> = writable<TTab[]>([]);
 export const LOCALE: Writable<{ [key: string]: string }> = writable<{
     [key: string]: string;
-}>(null);
+}>(undefined);
 
-export const SELECTED_TAB: Writable<TTab> = writable<TTab>(null);
+export const SELECTED_TAB: Writable<TTab> = writable<TTab>(undefined);
 
 export const IS_VALID: Writable<Blacklist> = writable<Blacklist>({
     models: true,
@@ -36,7 +36,7 @@ export const IS_VALID: Writable<Blacklist> = writable<Blacklist>({
 
 export const ALLOW_EXIT: Writable<boolean> = writable<boolean>(true);
 
-export const BLACKLIST: Writable<TBlacklist> = writable<TBlacklist>(null);
+export const BLACKLIST: Writable<TBlacklist> = writable<TBlacklist>(undefined);
 
 export const JOBDATA: Writable<TJOBDATA> = writable<TJOBDATA>({
     name: '',
@@ -44,18 +44,18 @@ export const JOBDATA: Writable<TJOBDATA> = writable<TJOBDATA>({
 });
 
 export const ORIGINAL_APPEARANCE: Writable<TAppearance> =
-    writable<TAppearance>(null);
+    writable<TAppearance>(undefined);
 
-export const MODELS: Writable<TModel[]> = writable<TModel[]>(null);
+export const MODELS: Writable<TModel[]> = writable<TModel[]>(undefined);
 
 const OUTFITS_INIT = () => {
-    const store: Writable<TOutfit[]> = writable<TOutfit[]>(null);
+    const store: Writable<TOutfit[]> = writable<TOutfit[]>(undefined);
     const methods = {
         get: () => get(store),
 
         set: (outfits: TOutfit[]) => store.set(outfits),
 
-        reset: () => store.set(null),
+        reset: () => store.set([]),
 
         save: (label: string, job?: { name: string; rank: number } | null) => {
             const appearance = APPEARANCE.get();
@@ -171,7 +171,7 @@ const OUTFITS_INIT = () => {
 export const OUTFITS = OUTFITS_INIT();
 
 const TATTOOS_INIT = () => {
-    const store: Writable<TZoneTattoo[]> = writable<TZoneTattoo[]>(null);
+    const store: Writable<TZoneTattoo[]> = writable<TZoneTattoo[]>(undefined);
     const methods = {
         get: () => get(store),
 
@@ -187,7 +187,7 @@ const TATTOOS_INIT = () => {
             });
         },
 
-        reset: () => store.set(null),
+        reset: () => store.set([]),
     };
 
     return {
@@ -199,11 +199,11 @@ const TATTOOS_INIT = () => {
 export const TATTOOS = TATTOOS_INIT();
 
 const APPEARANCE_INIT = () => {
-    const store: Writable<TAppearance> = writable<TAppearance>(null);
+    const store: Writable<TAppearance> = writable<TAppearance>(undefined);
     const methods = {
         get: () => get(store),
 
-        reset: () => store.set(null),
+        reset: () => store.set([]),
 
         cancel: () => {
             SendEvent(Send.cancel, get(ORIGINAL_APPEARANCE));
