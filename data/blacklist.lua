@@ -37,7 +37,14 @@ local BLACKLIST = {
 			-- add eveyrthign else you need such as the props etc
 		},
 	},
-    groups = {}
+}
+
+local ALLOWLIST = {
+	characters = {
+		-- ['QJY03813'] = {
+		--     "ig_isldj_00"
+	    -- }
+	}
 }
 
 -- ===========================================================================
@@ -135,5 +142,6 @@ exports("blacklist", function()
 	return {
         groupTypes = BLACKLIST,
         base = blaclistBase,
+        allowList = ALLOWLIST,
     }
 end)

@@ -21,7 +21,6 @@ export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], 
 
     let pedHandle = PlayerPedId()
     const configMenus = config.menus()
-
     const isString = typeof zone === 'string'
 
     const type = isString ? zone : zone.type
@@ -37,24 +36,9 @@ export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], 
 
     armour = GetPedArmour(pedHandle)
 
-    let outfits = []
-
-    const hasOutfitTab = tabs.includes('outfits')
-    if (hasOutfitTab) outfits = await triggerServerCallback<Outfit[]>('bl_appearance:server:getOutfits', frameworkdId) as Outfit[]
-
-    let models = []
-
-    const hasHeritageTab = tabs.includes('heritage')
-    if (hasHeritageTab) {
-        models = config.models()
-    }
-
-    const hasTattooTab = tabs.includes('tattoos')
-    let tattoos
-    if (hasTattooTab) {
-        tattoos = getTattooData()
-    }
-
+    const outfits = tabs.includes('outfits') && await triggerServerCallback<Outfit[]>('bl_appearance:server:getOutfits', frameworkdId) as Outfit[]
+    const models = tabs.includes('heritage') && getAllowlist(config.models())
+    const tattoos = tabs.includes('tattoos') && getTattooData()
     const blacklist = getBlacklist(zone)
 
     if (creation) {
@@ -71,6 +55,7 @@ export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], 
     const appearance = await getAppearance(pedHandle)
 
     startCamera()
+
 
     sendNUIEvent(Send.data, {
         tabs,
@@ -101,6 +86,21 @@ export async function openMenu(zone: TAppearanceZone | TAppearanceZone['type'], 
     return true
 }
 exports('OpenMenu', openMenu)
+
+function getAllowlist(models: string[]) {
+    const { allowList } = config.blacklist();
+    const playerData = getPlayerData();
+    const allowlistModels: string[] = allowList.characters[playerData.cid];
+    if (!allowlistModels) return models
+
+    models.forEach(model => {
+        if (!allowlistModels.includes(model)) {
+            allowlistModels.push(model);
+        }
+    });
+
+    return allowlistModels
+}
 
 function getBlacklist(zone: TAppearanceZone | string) {
     const {groupTypes, base} = config.blacklist()
