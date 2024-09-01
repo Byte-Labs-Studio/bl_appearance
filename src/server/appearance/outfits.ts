@@ -4,28 +4,35 @@ import { Outfit } from "@typings/outfits";
 
 async function getOutfits(src: number, frameworkId: string) {
     const job = core.GetPlayer(src).job || { name: 'unknown', grade: { name: 'unknown' } }
-	let response = await oxmysql.prepare(
-		'SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)',
-		[frameworkId, job.name, job.grade.name]
-	);
-	if (!response) return [];
 
-    if (!Array.isArray(response)) {
-        response = [response];
-    }
+    try {
+        let response = await oxmysql.prepare('SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)', [frameworkId, job.name, job.grade.name]);
 
-    const outfits = response.map(
-        (outfit: { id: number; label: string; outfit: string; jobname?: string }) => {
-            return {
-                id: outfit.id,
-                label: outfit.label,
-                outfit: JSON.parse(outfit.outfit),
-                jobname: outfit.jobname,
-            };
+        console.log(response)
+        if (!response || response.length === 0) {
+            return [];
         }
-    );
 
-    return outfits;
+        if (!Array.isArray(response)) response = [response];
+
+        const outfits = response.map(
+            (outfit: { id: number; label: string; outfit: string; jobname?: string }) => {
+                return {
+                    id: outfit.id,
+                    label: outfit.label,
+                    outfit: JSON.parse(outfit.outfit),
+                    jobname: outfit.jobname,
+                };
+            }
+        );
+
+        return outfits;
+
+    } catch (error) {
+        console.error('An error occurred while fetching outfits:', error);
+        // Handle the error, e.g., return a default value or rethrow the error
+        return [];
+    }
 }
 onClientCallback('bl_appearance:server:getOutfits', getOutfits);
 exports('GetOutfits', getOutfits);
@@ -109,12 +116,12 @@ if (!outfitItem) {
 }
 
 onClientCallback('bl_appearance:server:itemOutfit', async (src, data) => {
-	const player = core.GetPlayer(src)
-	player.addItem(outfitItem, 1, data)
+    const player = core.GetPlayer(src)
+    player.addItem(outfitItem, 1, data)
 });
 
-core.RegisterUsableItem(outfitItem, async (source: number, slot: number, metadata: {outfit: Outfit, label: string}) => {
-	const player = getPlayerData(source)
-	if (player?.removeItem(outfitItem, 1, slot))
-		emitNet('bl_appearance:client:useOutfitItem', source, metadata.outfit)
+core.RegisterUsableItem(outfitItem, async (source: number, slot: number, metadata: { outfit: Outfit, label: string }) => {
+    const player = getPlayerData(source)
+    if (player?.removeItem(outfitItem, 1, slot))
+        emitNet('bl_appearance:client:useOutfitItem', source, metadata.outfit)
 })
