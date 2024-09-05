@@ -4,7 +4,7 @@ game "gta5"
 lua54 'yes'
 
 author "Byte Labs"
-version '1.1.6'
+version '1.1.7.1'
 description 'Customize your virtual persona with precision using the Byte Labs Appearance Menu'
 repository 'https://github.com/Byte-Labs-Studio/bl_appearance'
 
