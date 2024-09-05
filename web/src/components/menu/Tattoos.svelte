@@ -1,6 +1,6 @@
 <script lang="ts">
     import { APPEARANCE, TATTOOS, LOCALE } from '@stores/appearance';
-    import type { TDLCTattoo, TTattooEntry } from '@typings/apperance';
+    import type { TDLCTattoo, TTattooEntry, TTattoo } from '@typings/apperance';
     import Wrapper from '@components/micro/Wrapper.svelte';
     import IconPlus from '@components/icons/IconPlus.svelte';
     import Stepper from '@components/micro/Stepper.svelte';
@@ -11,7 +11,7 @@
     import IconCancel from '@components/icons/IconCancel.svelte';
     import { randomID } from '@utils/misc';
 
-    let deleteOptionIndex: number = null;
+    let deleteOptionIndex: number | null = null;
 
     $: options = $TATTOOS || [];
 
@@ -55,25 +55,18 @@
     }
 
     function addTattooRow() {
-        const newTattoo = {
-            zoneIndex: 0,
-            dlcIndex: 0,
-            tattoo: null,
-            id: randomID(),
-        };
-        // get the first valid tattoo in the list
-        // get dlc with tattoos
         const dlcWithTattoos = options[0].dlcs.findIndex(
             dlc => dlc.tattoos.length > 0,
         );
+        if (dlcWithTattoos === -1) return
 
-        if (dlcWithTattoos !== -1) {
-            newTattoo.dlcIndex = dlcWithTattoos;
-            newTattoo.tattoo = options[0].dlcs[dlcWithTattoos].tattoos[0];
-            newTattoo.tattoo.opacity = 0.1
-        }
-
-        playerTattoos = [...playerTattoos, newTattoo];
+        playerTattoos = [...playerTattoos, {
+            zoneIndex: 0,
+            dlcIndex: dlcWithTattoos !== -1 ? dlcWithTattoos : 0,
+            tattoo: options[0].dlcs[dlcWithTattoos].tattoos[0],
+            opacity: 0.1,
+            id: randomID(),
+        }];
 
         TATTOOS.setPlayerTattoos(playerTattoos);
     }
@@ -92,7 +85,7 @@
         
         const dlcTattoos = options[newZoneIndex].dlcs[0]?.tattoos;
 
-        playerTattoo.tattoo = dlcTattoos?.length > 0 ? dlcTattoos[0] : null
+        if (dlcTattoos?.length) playerTattoo.tattoo = dlcTattoos[0]
         playerTattoo.opacity = 0.1;
 
         TATTOOS.setPlayerTattoos(playerTattoos);
@@ -105,7 +98,8 @@
         playerTattoo.dlcIndex = newDLCIndex;
 
         const dlcTattoos = options[zoneIndex].dlcs[newDLCIndex]?.tattoos;
-        playerTattoo.tattoo = dlcTattoos?.length > 0 ? dlcTattoos[0] : null
+
+        if (dlcTattoos?.length) playerTattoo.tattoo = dlcTattoos[0]
         playerTattoo.opacity = 0.1;
 
         TATTOOS.setPlayerTattoos(playerTattoos);
@@ -294,6 +288,7 @@
                                     class="btn w-full h-full"
                                     on:click={() => {
                                         setTimeout(() => {
+                                            if (!deleteOptionIndex) return
                                             removeTattooRow(deleteOptionIndex);
                                         }, 500);
                                     }}>{$LOCALE.CONFIRMREM_SUBTITLE}</button
