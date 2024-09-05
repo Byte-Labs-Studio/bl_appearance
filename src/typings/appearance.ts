@@ -21,7 +21,6 @@ interface THairData {
 // interface for head overlay data
 
 interface HeadOverlayData {
-    id: string;
     index: number;
     overlayValue?: number;
     colourinterface?: number;

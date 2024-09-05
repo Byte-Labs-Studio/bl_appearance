@@ -4,7 +4,7 @@
     import Slider from '@components/micro/Slider.svelte';
     import Wrapper from '@components/micro/Wrapper.svelte';
     import { APPEARANCE, LOCALE } from '@stores/appearance';
-    import type { TValue, THeadOverlay, TEyeColor } from '@typings/apperance';
+    import type { TValue, THeadOverlay } from '@typings/apperance';
 
     $: data = $APPEARANCE.headStructure;
     let eyeColor = ($APPEARANCE.headOverlay?.EyeColor as TValue) || null;

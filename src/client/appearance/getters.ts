@@ -67,14 +67,12 @@ export function getHeadOverlay(pedHandle: number) {
 
         if (overlay === "EyeColor") {
             headData[overlay] = {
-                id: overlay,
                 index: i,
                 overlayValue: GetPedEyeColor(pedHandle)
             };
         } else {
             const [_, overlayValue, colourType, firstColor, secondColor, overlayOpacity] = GetPedHeadOverlayData(pedHandle, i);
             headData[overlay] = {
-                id: overlay,
                 index: i,
                 overlayValue: overlayValue === 255 ? -1 : overlayValue,
                 colourType: colourType,
