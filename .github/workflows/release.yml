@@ -74,6 +74,7 @@ jobs:
       uses: 'marvinpinto/action-automatic-releases@latest'
       with:
         repo_token: '${{ secrets.GITHUB_TOKEN }}'
+        automatic_release_tag: "latest"
         title: ${{ github.ref_name }}
         prerelease: false
         files: bl_appearance.zip
