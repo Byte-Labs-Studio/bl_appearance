@@ -8,7 +8,6 @@ async function getOutfits(src: number, frameworkId: string) {
     try {
         let response = await oxmysql.prepare('SELECT * FROM outfits WHERE player_id = ? OR (jobname = ? AND jobrank <= ?)', [frameworkId, job.name, job.grade.name]);
 
-        console.log(response)
         if (!response || response.length === 0) {
             return [];
         }
