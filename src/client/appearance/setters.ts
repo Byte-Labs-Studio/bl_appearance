@@ -1,4 +1,4 @@
-import { TAppearance, THairColor, TClothes, TSkin, TValue, THeadStructure } from "@typings/appearance";
+import { TAppearance, THairColor, TClothes, TSkin, TValue, THeadStructure, HeadOverlayData } from "@typings/appearance";
 import TOGGLE_INDEXES from "@data/toggles"
 import { requestModel, ped, updatePed, isPedFreemodeModel} from '@utils';
 import { TTattoo } from "@typings/tattoos";
@@ -119,23 +119,22 @@ export function setHeadBlend(pedHandle: number, data) {
 }
 exports('SetPedHeadBlend', setHeadBlend);
 
-export function setHeadOverlay(pedHandle: number, data) {
+export function setHeadOverlay(pedHandle: number, data: HeadOverlayData & { id?: string, value?: number }) {
     if (!data) return console.warn('No data provided for setHeadOverlay')
 
     const index = data.index
+    const value = data.value || data.overlayValue
 
     if (index === 13) {
-        SetPedEyeColor(pedHandle, data.value)
+        SetPedEyeColor(pedHandle, value)
         return
     }
 
-    /* Hair color does not have an index, only an ID so we'll check for that */
     if (data.id === 'hairColor') {
         SetPedHairTint(pedHandle, data.hairColor, data.hairHighlight)
         return;
     }
 
-    const value = data.overlayValue
     SetPedHeadOverlay(pedHandle, index, value, data.overlayOpacity + 0.0)
     SetPedHeadOverlayColor(pedHandle, index, 1, data.firstColor, data.secondColor)
 }
@@ -181,7 +180,7 @@ export function setPedClothes(pedHandle: number, data: TClothes) {
     }
 
     if (headOverlay) for (const id in headOverlay) {
-        const overlay = headOverlay[id]
+        const overlay = {...headOverlay[id], id: id}
         setHeadOverlay(pedHandle, overlay)
     }
 }
