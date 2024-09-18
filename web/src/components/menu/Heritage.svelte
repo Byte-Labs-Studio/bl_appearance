@@ -103,11 +103,11 @@
         </svelte:fragment>
 
         <svelte:fragment slot="secondary-start">{$LOCALE.SKIN_TITLE}</svelte:fragment>
-        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
+        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 45</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
                 value={data.skinFirst || 0}
-                total={15}
+                total={45}
                 none={false}
                 on:change={e => updateParents('skinFirst', e.detail)}
             />
@@ -127,11 +127,11 @@
         </svelte:fragment>
 
         <svelte:fragment slot="secondary-start">{$LOCALE.SKIN_TITLE}</svelte:fragment>
-        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
+        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 45</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
                 value={data.skinSecond || 0}
-                total={15}
+                total={45}
                 none={false}
                 on:change={e => updateParents('skinSecond', e.detail)}
             />
@@ -151,11 +151,11 @@
         </svelte:fragment>
 
         <svelte:fragment slot="secondary-start">{$LOCALE.SKIN_TITLE}</svelte:fragment>
-        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 15</svelte:fragment>
+        <svelte:fragment slot="secondary-end">{$LOCALE.TOTAL_SUBTITLE}: 45</svelte:fragment>
         <svelte:fragment slot="secondary">
             <NumberStepper
                 value={data.skinThird || 0}
-                total={15}
+                total={45}
                 none={false}
                 on:change={e => updateParents('skinThird', e.detail)}
             />
