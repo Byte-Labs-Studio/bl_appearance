@@ -70,7 +70,7 @@ if (core == 'qb' || core == 'qbx' && GetResourceState(frameworkName) == 'started
 
 illeniumCompat();
 
-RegisterCommand('reloadskin', async () => {
+async function reloadSkin() {
     const frameworkID = await getFrameworkID()
     const health = GetEntityHealth(ped);
     const maxhealth = GetEntityMaxHealth(ped);
@@ -84,4 +84,7 @@ RegisterCommand('reloadskin', async () => {
     delay(1000) 
     SetEntityHealth(ped, health)
     SetPedArmour(ped, armor)
-}, false)
+}
+
+onNet('bl_appearance:client:reloadSkin', async () => reloadSkin)
+RegisterCommand('reloadskin', async () => reloadSkin, false)
