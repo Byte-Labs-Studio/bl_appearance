@@ -72,7 +72,6 @@ illeniumCompat();
 
 async function reloadSkin() {
     const frameworkID = await getFrameworkID();
-    const pedHandle = PlayerPedId();
     const health = GetEntityHealth(ped);
     const maxhealth = GetEntityMaxHealth(ped);
     const armor = GetPedArmour(ped);
@@ -87,8 +86,8 @@ async function reloadSkin() {
 
     SetEntityHealth(ped, health)
     SetPedArmour(ped, armor)
-    SetPlayerHealthRechargeMultiplier(pedHandle, 0.0);
-    SetPlayerHealthRechargeLimit(pedHandle, 0.0);
+    SetPlayerHealthRechargeMultiplier(ped, 0.0);
+    SetPlayerHealthRechargeLimit(ped, 0.0);
 }
 
 onNet('bl_appearance:client:reloadSkin', async () => reloadSkin)
