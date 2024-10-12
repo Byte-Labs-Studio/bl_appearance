@@ -133,7 +133,7 @@
     <Wrapper label={$LOCALE.NO_OUTFITS} />
 {/each}
 
-<div class="w-full h-fit grid place-items-centyer">
+<div class="w-full h-fit grid place-items-center">
     {#if isAdding || isJobAdding}
         <div transition:slide class="w-full h-full">
             <Wrapper label={$LOCALE.NEWOUTFIT_TITLE}>
