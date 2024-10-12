@@ -9,59 +9,22 @@
     import IconPlus from '@components/icons/IconPlus.svelte';
     import IconImport from '@components/icons/IconImport.svelte';
 
+
     let renameIndex: number = -1;
     let renameLabel: string = '';
+
     let deleteIndex: number = -1;
+
     let isAdding: boolean = false;
     let isJobAdding: boolean = false;
     let isImporting: boolean = false;
     let newOutfitLabel: string = '';
     let newOutfitJobRank: number = 0;
     let importOutfitId: number;
-
-    const handleRename = (index: number) => {
-        if (renameLabel.length > 0) {
-            $OUTFITS[index].label = renameLabel;
-            renameIndex = -1;
-            OUTFITS.edit($OUTFITS[index]);
-        }
-    };
-
-    const handleOutfitAction = (
-        action: string,
-        index: number,
-        outfit = null,
-    ) => {
-        switch (action) {
-            case 'use':
-                OUTFITS.use(outfit);
-                break;
-            case 'share':
-                OUTFITS.share(index);
-                break;
-            case 'item':
-                OUTFITS.item(outfit, renameLabel);
-                break;
-            case 'delete':
-                OUTFITS.delete(index);
-                break;
-        }
-    };
-
-    const resetNewOutfitFields = () => {
-        isAdding = false;
-        isJobAdding = false;
-        newOutfitLabel = '';
-        newOutfitJobRank = 0;
-    };
-
-    const resetImportFields = () => {
-        isImporting = false;
-        importOutfitId = null;
-    };
 </script>
 
 {#each $OUTFITS as { label, outfit, id, jobname }, i}
+
     <Wrapper label={jobname ? `${label} | JOB` : label}>
         <svelte:fragment slot="extra_primary">
             <Dropdown display="Options">
@@ -69,7 +32,9 @@
                     class="w-full flex items-center justify-center gap-[0.5vh] h-[3vh]"
                 >
                     <button
-                        on:click={() => handleOutfitAction('use', outfit)}
+                        on:click={() => {
+                            OUTFITS.use(outfit);
+                        }}
                         class="btn w-full">{$LOCALE.USE_TITLE}</button
                     >
                     <button
@@ -83,13 +48,17 @@
                     {#if !jobname}
                         <button
                             disabled={jobname != null && !$JOBDATA.isBoss}
-                            on:click={() => handleOutfitAction('share', id)}
+                            on:click={() => {
+                                OUTFITS.share(id);
+                            }}
                             class="btn w-full"
                             >{$LOCALE.SHAREOUTFIT_TITLE}</button
                         >
                     {/if}
                     <button
-                        on:click={() => handleOutfitAction('item', outfit)}
+                        on:click={() => {
+                            OUTFITS.item(outfit, label);
+                        }}
                         class="btn w-full">{$LOCALE.ITEMOUTFIT_TITLE}</button
                     >
                     <button
@@ -122,7 +91,13 @@
                             <IconCancel />
                         </button>
                         <button
-                            on:click={() => handleRename(i)}
+                            on:click={() => {
+                                if (renameLabel.length > 0) {
+                                    $OUTFITS[i].label = renameLabel;
+                                    renameIndex = -1;
+                                    OUTFITS.edit($OUTFITS[i]);
+                                }
+                            }}
                             class="btn h-full aspect-square p-[0.5vh]"
                         >
                             <IconCheck />
@@ -140,15 +115,18 @@
                             on:click={() => (deleteIndex = -1)}
                             >{$LOCALE.CANCEL_TITLE}</button
                         >
+
                         <button
                             class="btn w-full h-full"
-                            on:click={() => handleOutfitAction('delete', id)}
-                            >{$LOCALE.CONFIRMREM_SUBTITLE}</button
+                            on:click={() => {
+                                OUTFITS.delete(id);
+                            }}>{$LOCALE.CONFIRMREM_SUBTITLE}</button
                         >
                     </div>
                 {/if}
             </Dropdown>
         </svelte:fragment>
+
         <Divider />
     </Wrapper>
 {:else}
@@ -179,11 +157,17 @@
                             />
                         {/if}
                         <button
-                            on:click={resetNewOutfitFields}
+                            on:click={() => {
+                                isAdding = false;
+                                isJobAdding = false;
+                                newOutfitLabel = '';
+                                newOutfitJobRank = 0;
+                            }}
                             class="btn h-full aspect-square p-[0.5vh]"
                         >
                             <IconCancel />
                         </button>
+
                         <button
                             on:click={() => {
                                 if (newOutfitLabel.length > 0) {
@@ -196,7 +180,10 @@
                                               }
                                             : null,
                                     );
-                                    resetNewOutfitFields();
+                                    isAdding = false;
+                                    isJobAdding = false;
+                                    newOutfitLabel = '';
+                                    newOutfitJobRank = 0;
                                 }
                             }}
                             class="btn h-full aspect-square p-[0.5vh]"
@@ -221,7 +208,10 @@
                             bind:value={importOutfitId}
                         />
                         <button
-                            on:click={resetImportFields}
+                            on:click={() => {
+                                isImporting = false;
+                                importOutfitId = null;
+                            }}
                             class="btn h-full aspect-square p-[0.5vh]"
                         >
                             <IconCancel />
@@ -230,7 +220,8 @@
                             on:click={() => {
                                 if (importOutfitId > 0) {
                                     OUTFITS.import(importOutfitId);
-                                    resetImportFields();
+                                    isImporting = false;
+                                    importOutfitId = null;
                                 }
                             }}
                             class="btn h-full aspect-square p-[0.5vh]"
@@ -252,6 +243,7 @@
             <div class="h-[60%] aspect-square grid place-items-center">
                 <IconPlus />
             </div>
+
             <p>{$LOCALE.ADDOUTFIT_TITLE}</p>
         </button>
 
@@ -266,6 +258,7 @@
                 <div class="h-[60%] aspect-square grid place-items-center">
                     <IconPlus />
                 </div>
+
                 <p>{$LOCALE.ADDJOBOUTFIT}</p>
             </button>
         {/if}
@@ -280,6 +273,7 @@
             <div class="h-[60%] aspect-square grid place-items-center">
                 <IconImport />
             </div>
+
             <p>{$LOCALE.IMPORTOUTFIT_TITLE}</p>
         </button>
     {/if}
