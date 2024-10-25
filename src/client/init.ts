@@ -72,23 +72,23 @@ illeniumCompat();
 
 async function reloadSkin() {
     const frameworkID = await getFrameworkID();
-    const health = GetEntityHealth(ped);
+    const ped = PlayerPedId();
     const maxhealth = GetEntityMaxHealth(ped);
+
+    const health = GetEntityHealth(ped);
     const armor = GetPedArmour(ped);
 
-    const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID)
+    const appearance = await triggerServerCallback<TAppearance>('bl_appearance:server:getAppearance', frameworkID);
     if (!appearance) return;
-    await setPlayerPedAppearance(appearance)
+    await setPlayerPedAppearance(appearance);
 
-    SetPedMaxHealth(ped, maxhealth)
+    SetPedMaxHealth(ped, maxhealth);
+    await Delay(1000);
 
-    await delay(1000) 
+    SetEntityHealth(ped, health);
+    SetPedArmour(ped, armor);
 
-    SetEntityHealth(ped, health)
-    SetPedArmour(ped, armor)
-    SetPlayerHealthRechargeMultiplier(ped, 0.0);
-    SetPlayerHealthRechargeLimit(ped, 0.0);
 }
 
-onNet('bl_appearance:client:reloadSkin', async () => reloadSkin)
-RegisterCommand('reloadskin', async () => reloadSkin, false)
+onNet('bl_appearance:client:reloadSkin', async () => await reloadSkin());
+RegisterCommand('reloadskin', async () => await reloadSkin(), false);
