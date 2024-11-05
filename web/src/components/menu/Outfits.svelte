@@ -8,6 +8,7 @@
     import { slide } from 'svelte/transition';
     import IconPlus from '@components/icons/IconPlus.svelte';
     import IconImport from '@components/icons/IconImport.svelte';
+    import { TOutfitData } from '@typings/apperance';
 
     let renameIndex: number = -1;
     let renameLabel: string = '';
@@ -17,7 +18,7 @@
     let isImporting: boolean = false;
     let newOutfitLabel: string = '';
     let newOutfitJobRank: number = 0;
-    let importOutfitId: number;
+    let importOutfitId: number = 0;
 
     const handleRename = (index: number) => {
         if (renameLabel.length > 0) {
@@ -30,17 +31,21 @@
     const handleOutfitAction = (
         action: string,
         index: number,
-        outfit = null,
+        outfit: TOutfitData | null = null,
     ) => {
         switch (action) {
             case 'use':
-                OUTFITS.use(outfit);
+                if (outfit) {
+                    OUTFITS.use(outfit);
+                }
                 break;
             case 'share':
                 OUTFITS.share(index);
                 break;
             case 'item':
-                OUTFITS.item(outfit, renameLabel);
+                if (outfit) {
+                    OUTFITS.item(outfit, renameLabel);
+                }
                 break;
             case 'delete':
                 OUTFITS.delete(index);
@@ -57,7 +62,7 @@
 
     const resetImportFields = () => {
         isImporting = false;
-        importOutfitId = null;
+        importOutfitId = 0;
     };
 </script>
 
@@ -69,7 +74,7 @@
                     class="w-full flex items-center justify-center gap-[0.5vh] h-[3vh]"
                 >
                     <button
-                        on:click={() => handleOutfitAction('use', outfit)}
+                        on:click={() => handleOutfitAction('use', i, outfit)}
                         class="btn w-full">{$LOCALE.USE_TITLE}</button
                     >
                     <button
@@ -89,7 +94,7 @@
                         >
                     {/if}
                     <button
-                        on:click={() => handleOutfitAction('item', outfit)}
+                        on:click={() => handleOutfitAction('item', i)}
                         class="btn w-full">{$LOCALE.ITEMOUTFIT_TITLE}</button
                     >
                     <button
