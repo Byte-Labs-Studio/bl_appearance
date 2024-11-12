@@ -238,9 +238,12 @@ AddEventHandler('onResourceStop', function(resource)
     end
 end)
 
-RegisterCommand('+openAppearance', function()
-    if not currentZone then return end
-    TriggerEvent('bl_appearance:client:useZone', currentZone.type)
-end, false)
-
-RegisterKeyMapping('+openAppearance', 'Open Appearance', 'keyboard', key)
+lib.addKeybind({
+    name = 'Open Appearance',
+    description = 'Opens Appearance Menu.',
+    defaultKey = key,
+    onPressed = function(self)
+        if not currentZone then return end
+        TriggerEvent('bl_appearance:client:useZone', currentZone.type)
+    end
+})
