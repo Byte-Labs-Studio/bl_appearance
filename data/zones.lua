@@ -239,7 +239,7 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 lib.addKeybind({
-    name = 'Open Appearance',
+    name = 'OpenAppearance',
     description = 'Opens Appearance Menu.',
     defaultKey = key,
     onPressed = function(self)
