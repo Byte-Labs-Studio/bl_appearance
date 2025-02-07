@@ -32,6 +32,7 @@
         action: string,
         index: number,
         outfit: TOutfitData | null = null,
+        label?: string
     ) => {
         switch (action) {
             case 'use':
@@ -44,7 +45,7 @@
                 break;
             case 'item':
                 if (outfit) {
-                    OUTFITS.item(outfit, renameLabel);
+                    OUTFITS.item(outfit, (renameLabel !== '') ? renameLabel : label)
                 }
                 break;
             case 'delete':
@@ -94,7 +95,7 @@
                         >
                     {/if}
                     <button
-                        on:click={() => handleOutfitAction('item', i)}
+                        on:click={() => handleOutfitAction('item', i, outfit, label)}
                         class="btn w-full">{$LOCALE.ITEMOUTFIT_TITLE}</button
                     >
                     <button
